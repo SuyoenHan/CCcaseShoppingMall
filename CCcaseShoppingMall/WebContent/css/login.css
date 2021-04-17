@@ -1,1 +1,134 @@
 @charset "UTF-8";
+@charset "UTF-8";
+
+/* ========= 각 섹션별 테두리 잡기 시작 ========= */
+div#container{
+	border: solid 10px bule;
+	float: left;
+	margin: 0 auto;
+	margin-top:50px;
+	margin-left: 50px;
+	width: 90%;
+	align-content: center;
+}
+
+div#logo{
+	border: dotted 1px gray;
+	float: left;
+	width: 20%;
+	height: 120px;
+	margin-right: 5px;
+	margin-bottom:10px;
+}
+
+div#mainMenu{
+	border: dotted 1px gray;
+	float: left;
+	width: 58%;
+	height: 120px;
+	margin-right: 5px;
+	margin-bottom:10px;
+}
+
+div#login{
+	border: dotted 1px gray;
+	float: left;
+	width: 20%;
+	height: 120px;
+	margin-bottom:10px;
+}
+
+
+div#loginContents{
+	 border: solid 1px blue;
+	float: left;
+	width: 80%;
+	/* height: 500px; */
+	margin-right: 5px;
+	margin-bottom:10px;
+	
+}
+
+
+div#footer{
+	clear: both;
+	border: dotted 1px gray;
+	height: 400px;
+}
+/* ========= 각 섹션별 테두리 잡기 끝 ========= */
+
+div#logo > img {
+	border: solid 0px red;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+span.menuSection{
+	border: solid 0px blue;
+	background-color: #f2f2f2;
+	display: inline-block;
+	font-size: 11pt;
+	width: 110px;
+	height: 60px;
+	margin-top: 35px;
+	margin-left: 12px;
+	text-align: center;
+}
+
+
+span.loginSection{
+	border: solid 0px blue;
+	background-color: #f2f2f2;
+	display: inline-block;
+	font-size: 10pt;
+	width: 110px;
+	height: 30px;
+	margin-top: 18px;
+	margin-left: 15px;
+	text-align: center;
+}
+
+div.leftSection{
+	border-top: solid 1px #b3b3b3;
+	border-bottom: solid 1px #b3b3b3;
+	background-color: #f2f2f2;
+	text-align: center;
+	margin-top: 3px;	
+}
+
+div.footerSection{
+	border: solid 0px red;
+	display: inline-block;
+	margin-left:70px;
+	margin-top: 20px;
+	line-height: 150%;
+	font-size: 13pt;
+}
+
+button.footerNavigator{
+	border-radius: 50%;
+	background-color: #f2f2f2;
+	margin-left: 10px;
+	width: 90px;
+	height: 90px;
+}
+div.loginView{
+	text-align:center;
+	background-color:#f2f2f2;
+	/* border: solid 0px red; */
+	padding-top:200px;
+	height: 70%;
+	width: 30%;
+	margin: 0 auto;
+	
+}
+
+button.loginSubmit {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
