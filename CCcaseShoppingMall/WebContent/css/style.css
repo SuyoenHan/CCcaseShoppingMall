@@ -3,9 +3,11 @@
 /* ========= 각 섹션별 테두리 잡기 시작 ========= */
 div#container{
 	border: solid 0px red;
+	float: left;
 	margin: 0 auto;
 	margin-top:50px;
 	width: 90%;
+	align-content: center;
 }
 
 div#logo{
@@ -44,12 +46,13 @@ div#leftSide{
 }
 
 div#contents{
-	border: dotted 1px gray;
+	/* border: dotted 2px gray; */
 	float: left;
 	width: 58%;
-	height: 500px;
+	/* height: 500px; */
 	margin-right: 5px;
 	margin-bottom:10px;
+	
 }
 
 div#rightSide{
@@ -58,6 +61,7 @@ div#rightSide{
 	width: 20%;
 	height: 500px;
 	margin-bottom:10px;
+	
 }
 
 div#footer{
@@ -127,4 +131,66 @@ button.footerNavigator{
 	width: 90px;
 	height: 90px;
 }
+
+
+/* 32p 회사소개 CSS-승혜작성  */
+div.companyInfocel{
+
+	/* border:solid 2px gray;  */
+	width:60%;
+	height:250px;
+	padding:10px auto;
+	text-align: center;
+	margin:0px auto;
+	margin-bottom: 30px;
+	
+	}
+
+div#companyInfotext p{
+	line-height: 20px;
+	font-size: 12px;
+}	
+
+div#companyInfoImg{
+	border:solid 1px gray; 
+	width:100%;
+	height: 300px;
+}
+
+div#companyInfoVideo{
+	 width:490px;
+     height:300px;
+	 margin: 0px auto;
+}
+
+div#hashTag >span{
+	border:solid 1px gray;
+	display:inline-block;
+	height:30px;
+	text-align:left;
+	font-size:12px;
+	font-weight: bold;
+	line-height: 20px;
+	color:#ff3385;
+}
+
+div#companyLocation {
+	border:solid 1px gray;
+	width:200px;
+	height:180px;
+	padding:10px;
+	text-align: center;
+	font-size:11px;
+	margin-bottom: 100px;
+	
+}
+
+div#companyLocation>span {
+	font-weight: bold;
+	color: #336699;
+	font-size:12px;
+}
+
+/* 32p 회사소개 CSS-승혜작성 끝  */
+
 
