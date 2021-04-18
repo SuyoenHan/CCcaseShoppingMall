@@ -12,7 +12,7 @@
 		<div id="hardCase">하드케이스</div>
 		
 		<%-- 하드케이스 세부내용 --%>
-		<div id="case_detail"> 
+		<div class="case_detail"> 
 			<div id=hard_samsung class ="company_case">
 					<div class="company_case_detail">삼성</div>
 					<div> <span class="model">갤럭시 S21</span> <span class="modelCount">(30)</span> </div>  
@@ -30,10 +30,7 @@
 					
 		</div>
 		
-		<span class="border"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></span>
-		
-		
-		<div id="case_detail"> 
+		<div class="case_detail"> 
 			<div id=hard_apple class ="company_case">
 					<div class="company_case_detail">애플</div>
 					<div> <span class="model">아이폰 12 pro</span> <span class="modelCount">(30)</span> </div>  
@@ -52,10 +49,7 @@
 			</div>		
 		</div>
 		
-		<span class="border"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></span>
-		
-		
-		<div id="case_detail"> 
+		<div class="case_detail"> 
 			<div id=hard_Lg class ="company_case">
 					<div class="company_case_detail">애플</div>
 					<div> <span class="model">LG Wing</span> <span class="modelCount">(30)</span> </div>  
@@ -70,10 +64,7 @@
 			</div>		
 		</div>
 		
-		<span class="border"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></span>
-		
-		
-		<div id="case_detail"> 	
+		<div class="case_detail" style="border-right: none;"> 	
 			<div id=hard_Lg class ="company_case">
 					<div class="company_case_detail">기타</div>
 					<div> <span class="model">redmi 3s</span> <span class="modelCount">(30)</span> </div>  
@@ -82,9 +73,6 @@
 					<br><br><br><br><br><br><br><br><br><br>
 			</div>		
 		</div>
-		
-		
-		
 			
 	</div>
 </div> 
