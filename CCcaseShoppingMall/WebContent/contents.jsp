@@ -157,8 +157,7 @@ $(document).ready(function(){
 	// 5. 핸드폰 번호	
 	$("input#hp2").blur(function(){
 		
-			var regExp = /^[1-9][0-9]{3}$/i; 
-			// 첫번째 숫자는 0을 제외하고 나머지 3개는 0을 포함한 숫자만 오도록 검사해주는 정규표현식 객체 생성  
+			var regExp = /^[1-9][0-9]{3}$/i; // 첫번째 숫자는 0을 제외하고 나머지 3개는 0을 포함한 숫자만 오도록 검사해주는 정규표현식 객체 생성  
 		
 			var bool = regExp.test($(this).val());
 			
@@ -176,7 +175,7 @@ $(document).ready(function(){
 				$(this).parent().find(".error").hide();
 			}
 			
-		}); // 아이디가 hp2 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.	
+		}); // end of $("input#hp2").blur(function(){})----------------------------------------------
 		
 		
 		$("input#hp3").blur(function(){
@@ -200,9 +199,7 @@ $(document).ready(function(){
 				$(this).parent().find(".error").hide();
 			}
 			
-		}); // 아이디가 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.		
-	
-	
+		}); // end of $("input#hp3").blur(function(){})----------------------------------------------		
 		
 }); // end of $(document).ready(function(){})------------------
 
