@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+div.loginView{
+	text-align:center;
+	border: solid 0px red;
+	margin: 0 auto;
+	margin-left: 400px;
+	padding-top: 50px;
+	height: 600px;
+	width: 600px;
+}
+
+button.loginSubmit {
+	background-color: #666;
+	color: white;
+	padding: 14px 20px;
+	margin: 12px 0;
+	border: none;
+	cursor: pointer;
+	height:60px;
+	width:80%;
+}
+
+input.form-control{
+	height:50px;
+	width: 80%;
+	margin-top: 10px;
+}
+
+button.memberRegister{
+	background-color: #666;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width:80%;
+}
+
+button.idSearch{
+	background-color: #f2f2f2;
+	color: black;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width:40%;
+}
+
+button.pwdSearch{
+	background-color: #f2f2f2;
+	color: black;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width:40%;
+}
+
+input.idsearchInput{
+	height:50px;
+	width:50%;
+	margin:10px 20px;
+}
+
+div.idSearchForm{
+	background-color: #f2f2f2;
+	text-align:center;
+	border: solid 0px red; 
+	margin: 0 auto;
+	margin-left: 400px;
+	margin-top: 20px;
+	padding-top: 50px;
+	height: 500px;
+	width: 600px;
+}
+
+button.idSearchSubmit{
+	background-color: #666;
+	margin:20px 80px;
+	color: white;
+	padding: 20px 0px;
+	border: none;
+	cursor: pointer;
+	height:60px;
+	width:30%;
+	font-size: 18pt;
+}
+
+ul {
+    border: solid 0px red;
+ 	margin-top:100px;
+    list-style-type: none;
+    padding: 0 auto;
+}
+
+label.title{
+	display :inline-block;
+	width:180px;
+	font-size: 20pt;
+}
+
+li{
+   	width:80%;
+}
+   
+input.findinput{
+	height: 35px;
+	width: 50%;
+	margin-bottom: 10px;
+}
+ 
