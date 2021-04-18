@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String ctxPath= request.getContextPath();
+%>    
     
 <link rel="stylesheet" href="../../css/memberRegister.css" />
    
-
-
 <jsp:include page="../header.jsp" />
-<jsp:include page="../leftSide.jsp" />
 
 <div id="contents"> 
 	<div id="registerSuccessContainer"> 
 		<div>
-			<img src="../../images/member/check.png" alt="체크이미지" width="50" height="50"/>
+			<img src="<%= ctxPath%>/images/member/check.png" alt="체크이미지" width="50" height="50"/>
 		</div>
 		<div>
 			<span style="font-weight: bold; font-size: 17pt;">회원 가입을 축하드립니다!</span>
@@ -23,7 +23,7 @@
 				</tr>
 				<tr>
 					<td rowspan="3" id="tdImg">
-						<img src="../../images/member/profile.png" alt="프로필이미지" width="70" height="70" />
+						<img src="<%= ctxPath%>/images/member/profile.png" alt="프로필이미지" width="70" height="70" />
 					</td>
 					<td class="column">아이디</td>
 					<td>hongkd</td>
@@ -44,5 +44,4 @@
 	</div>
 </div>
 
-<jsp:include page="../rightSide.jsp" />
 <jsp:include page="../footer.jsp" />

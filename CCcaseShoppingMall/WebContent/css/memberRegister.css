@@ -3,6 +3,8 @@
 div#registerSuccessContainer{
 	border: solid 0px blue;
 	margin: 0 auto;
+	margin-left: 550px;
+	margin-bottom: 50px;
 	padding-top: 50px;
 	width: 40%;
 }
