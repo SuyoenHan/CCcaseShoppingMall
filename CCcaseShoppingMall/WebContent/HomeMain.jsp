@@ -32,7 +32,7 @@
 		
 		<div id="login">
 			<div>
-				<span class="loginSection" id="login">로그인</span>
+				<button type="button" onclick="location.href='login/login.jsp'">로그인</button>
 				<span class="loginSection" id="register">회원가입</span>
 			</div>
 			<div>
