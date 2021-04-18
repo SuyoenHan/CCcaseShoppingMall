@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+div#showall_contentsup{
+	background-color: #f2f2f2;
+}
+
+div#hardCase {
+	margin-left: 30px;
+	width: 130px;
+	background-color: #b3b3b3;
+	font-size: 20px;
+	padding-top: 8px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+div#case_detail {
+	border: solid 0px red;
+	display:inline-block;
+	width: 150px;
+	height: 400px;
+	margin-top : 15px;
+	margin-left: 30px;
+}
+
+
+div.company_case {
+	
+	border:solid 0px green;
+	margin-top: 16px;
+	text-align: left;
+	font-size: 13px;
+	line-height: 30px;
+	
+}
+
+
+div.company_case_detail {
+	background-color: white;
+	height: 25px;
+	padding:0px;
+	margin-bottom: 15px;
+	text-align: center;
+	font-size: 15px;
+	font-weight: bolder;
+}
+
+
+span.border{
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: -20px;
+	width: 1px;
+	border:solid 1px black;
+	height: 430px;
+}
+
+span.model {
+	display:inline-block;
+	width: 110px;
+}
+
+span.modelCount {
+	display:inline-block;
+	width: 30px;
+}
