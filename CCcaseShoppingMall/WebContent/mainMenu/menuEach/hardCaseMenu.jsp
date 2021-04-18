@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<jsp:include page="header.jsp"/>
-<jsp:include page="leftSide.jsp"/>
+<jsp:include page="../../header.jsp"/>
+<jsp:include page="../../leftSide.jsp"/>
 
-<link rel="stylesheet" href="css/mainMenu(Each).css" />
+<link rel="stylesheet" href="../../css/menuEach.css" />
 
 <%-- 세부메뉴 클릭시, 페이지 이동 후 화면 표기해주는 html작성 --%>
 <div id="contents">
@@ -77,5 +77,5 @@
 	</div>
 </div> 
 
-<jsp:include page="rightSide.jsp"/>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="../../rightSide.jsp"/>
+<jsp:include page="../../footer.jsp"/>

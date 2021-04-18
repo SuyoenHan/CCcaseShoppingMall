@@ -4,9 +4,9 @@
 	String ctxPath= request.getContextPath();
 %>    
     
-<link rel="stylesheet" href="../../css/memberRegister.css" />
+<link rel="stylesheet" href="../../css/register.css" />
    
-<jsp:include page="../header.jsp" />
+<jsp:include page="../../header.jsp" />
 
 <div id="contents"> 
 	<div id="registerSuccessContainer"> 
@@ -44,4 +44,4 @@
 	</div>
 </div>
 
-<jsp:include page="../footer.jsp" />
+<jsp:include page="../../footer.jsp" />

@@ -1,29 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<jsp:include page="header.jsp" />
 
-<style>
-   table#tblMemberRegister {
-          width: 70%;
-          border: hidden;          
-          margin: 10px;
-   }  
-   
-   table#tblMemberRegister #th {
-         height: 40px;
-         text-align: center;
-         font-size: 14pt;
-   }
-   
-   table#tblMemberRegister td {
-         line-height: 30px;
-         padding-top: 8px;
-         padding-bottom: 8px;
-   }
-   
-   
-</style>
+<link rel="stylesheet" href="../../css/register.css" />
+    
+<jsp:include page="../../header.jsp" />
 
 <div align="center">
    <form name="registerFrm">
@@ -81,8 +61,8 @@
              <input type="text" id="postcode" name="postcode" size="6" maxlength="5" placeholder="우편번호"/>&nbsp;&nbsp;
              <button type="button" id="btnZipSearch" style="background-color: rgb(224, 224, 224); border:none; height: 28px; border-radius: 5px;" >검색</button><br> 
              
-            <input type="text" id="address" name="address" size="40" placeholder="주소" /><br/>
-            <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />
+             <input type="text" id="address" name="address" size="40" placeholder="주소" /><br/>
+             <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />
          </td>
       </tr>
              
@@ -97,4 +77,4 @@
    </form>
  </div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../../footer.jsp" />

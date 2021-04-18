@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+/* hardCaseMenu.jsp css 시작 */
+
 div#showall_contentsup{
 	background-color: #f2f2f2;
 }
@@ -50,3 +52,5 @@ span.modelCount {
 	display:inline-block;
 	width: 30px;
 }
+
+/* hardCaseMenu.jsp css 끝 */
