@@ -180,8 +180,7 @@ $(document).ready(function(){
 		
 		$("input#hp3").blur(function(){
 			
-			var regExp = /^\d{4}$/i; 
-			// 숫자 4개만 오도록 검사해주는 정규표현식 객체 생성  
+			var regExp = /^\d{4}$/i; // 숫자 4개만 오도록 검사해주는 정규표현식 객체 생성  
 		
 			var bool = regExp.test($(this).val());
 			
@@ -205,14 +204,14 @@ $(document).ready(function(){
 
 function goRegister() {
 	
-	//// 최종적으로 필수입력사항에 모두 입력이 되었는지 검사한다. ////
+	// 최종적으로 필수입력사항에 모두 입력이 되었는지 검사
 	var bFlagRequiredInfo = false;
 	
 	$(".requiredInfo").each(function(index, item){
 		var data = $(item).val();
 		if(data == "") {
 			bFlagRequiredInfo = true;
-			alert("필수입력사항은 모두 입력하셔야 합니다.");
+			alert("필수입력사항을 모두 입력하셔야 합니다.");
 			return false; // break 라는 뜻이다.
 		}
 	});
@@ -225,7 +224,6 @@ function goRegister() {
 	else{
 		//가입하기 버튼을 클릭시 "아이디중복확인" 을 클릭했을 경우.
 	}
-	
 	
 	if(!bFlagRequiredInfo) {
 		var frm = document.registerFrm;
@@ -315,7 +313,7 @@ function goRegister() {
       <tr style="text-align: center;">
          <td colspan="2" style="line-height: 90px;">
             <button type="button" id="btnRegister" style="background-color: rgb(94, 94, 94); color: white; border:none; width: 100px; height: 40px;  border-radius: 5px;" onClick="goRegister();">회원가입</button> 
-        	<button type="button" id="btnRegister" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 5%; border-radius: 5px;" onClick="goRegister();">취소</button> 
+        	<button type="button" id="btnRegister" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 5%; border-radius: 5px;" onClick="goBack();">취소</button> 
          </td>
       </tr>
       </tbody>
