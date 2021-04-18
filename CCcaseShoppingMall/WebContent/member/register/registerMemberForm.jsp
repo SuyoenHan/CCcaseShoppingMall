@@ -57,15 +57,15 @@
       </tr>
       <tr>
          <td style="width: 20%; font-weight: bold;">주소</td>
-         <td style="width: 80%; text-align: left;">
+         <td style="width: 80%; text-align: left; line-height: 50px;">
              <input type="text" id="postcode" name="postcode" size="6" maxlength="5" placeholder="우편번호"/>&nbsp;&nbsp;
              <button type="button" id="btnZipSearch" style="background-color: rgb(224, 224, 224); border:none; height: 28px; border-radius: 5px;" >검색</button><br> 
              
-             <input type="text" id="address" name="address" size="40" placeholder="주소" /><br/>
+             <div style="margin-bottom: 10px;"><input type="text" id="address" name="address" size="40" placeholder="주소" /><br/></div>
              <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />
          </td>
       </tr>
-             
+            
       <tr style="text-align: center;">
          <td colspan="2" style="line-height: 90px;">
             <button type="button" id="btnRegister" style="background-color: rgb(94, 94, 94); color: white; border:none; width: 100px; height: 40px;  border-radius: 5px;" onClick="goRegister();">회원가입</button> 
