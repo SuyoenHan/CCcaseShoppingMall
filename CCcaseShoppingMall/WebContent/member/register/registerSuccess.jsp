@@ -10,7 +10,7 @@
 
 <div id="contents"> 
 	<div id="registerSuccessContainer"> 
-		<div>
+		<div>   
 			<img src="<%= ctxPath%>/images/member/check.png" alt="체크이미지" width="50" height="50"/>
 		</div>
 		<div>
