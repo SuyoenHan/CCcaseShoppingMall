@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String ctxPath= request.getContextPath();
-%>    
+%>       
     
 <link rel="stylesheet" href="../../css/register.css" />
    
