@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+/* companyInfo.jsp css 시작 */
+
 div.companyInfocel{
 
 	/* border:solid 2px gray;  */
@@ -56,3 +58,20 @@ div#companyLocation>span {
 	color: #336699;
 	font-size:12px;
 }
+
+/* companyInfo.jsp css 끝 */
+
+
+/* location.jsp css 시작 */
+
+#locationPage {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#btnLearnmore {
+	font-size: 15pt;
+	font-weight: bold;
+}
+
+/* location.jsp css 끝 */

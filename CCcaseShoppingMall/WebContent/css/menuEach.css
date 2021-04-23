@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+/* hardCaseMenu.jsp css 시작 */
+
+div#showall_contentsup{
+	background-color: #f2f2f2;
+}
+
+div#hardCase {
+	margin-left: 30px;
+	width: 130px;
+	background-color: #b3b3b3;
+	font-size: 20px;
+	padding-top: 8px;
+	text-align: center;
+}
+
+div.case_detail {
+	border: solid 0px red;
+	border-right: solid 1px #b3b3b3;
+	display:inline-block;
+	width: 160px;
+	height: 400px;
+	margin-top : 15px;
+	padding: 0px 10px 0px 20px;
+}
+
+div.company_case {
+	border:solid 0px green;
+	margin-top: 16px;
+	text-align: left;
+	font-size: 13px;
+	line-height: 30px;
+}
+
+div.company_case_detail {
+	background-color: white;
+	height: 25px;
+	padding:0px;
+	margin-bottom: 15px;
+	text-align: center;
+	font-size: 15px;
+	font-weight: bolder;
+}
+
+span.model {
+	display:inline-block;
+	width: 110px;
+}
+
+span.modelCount {
+	display:inline-block;
+	width: 30px;
+}
+
+/* hardCaseMenu.jsp css 끝 */

@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+/* loginForm.jsp  / idSearch.jsp / pwdSearch.jsp css 시작 */
+
 div.loginView{
 	text-align:center;
 	border: solid 0px red;
@@ -109,4 +111,5 @@ input.findinput{
 	width: 50%;
 	margin-bottom: 10px;
 }
- 
+
+/* loginForm.jsp  / idSearch.jsp / pwdSearch.jsp css 끝 */ 

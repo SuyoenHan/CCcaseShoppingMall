@@ -2,15 +2,15 @@
     pageEncoding="UTF-8"%>
 <%
 	String ctxPath= request.getContextPath();
-%>    
+%>       
     
-<link rel="stylesheet" href="../../css/memberRegister.css" />
+<link rel="stylesheet" href="../../css/register.css" />
    
-<jsp:include page="../header.jsp" />
+<jsp:include page="../../header.jsp" />
 
 <div id="contents"> 
 	<div id="registerSuccessContainer"> 
-		<div>
+		<div>   
 			<img src="<%= ctxPath%>/images/member/check.png" alt="체크이미지" width="50" height="50"/>
 		</div>
 		<div>
@@ -44,4 +44,4 @@
 	</div>
 </div>
 
-<jsp:include page="../footer.jsp" />
+<jsp:include page="../../footer.jsp" />
