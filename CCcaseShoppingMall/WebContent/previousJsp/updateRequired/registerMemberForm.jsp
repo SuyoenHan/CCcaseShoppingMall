@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="../../css/register.css" />
     
-<jsp:include page="../../header.jsp" />
+<jsp:include page="../../WEB-INF/header.jsp" />
 
 <div align="center">
    <form name="registerFrm">
@@ -77,4 +77,4 @@
    </form>
  </div>
 
-<jsp:include page="../../footer.jsp" />
+<jsp:include page="../../WEB-INF/footer.jsp" />

@@ -3,8 +3,8 @@
     
 <link rel="stylesheet" href="../../css/companyInfo.css" />
 
-<jsp:include page="../../header.jsp" />
-<jsp:include page="../../leftSide.jsp" /> 
+<jsp:include page="../../WEB-INF/header.jsp" />
+<jsp:include page="../../WEB-INF/leftSide.jsp" /> 
 
 <div id="contents"> 
 	
@@ -56,5 +56,4 @@
 	
 </div>
 
-<jsp:include page="../../rightSide.jsp" />
-<jsp:include page="../../footer.jsp" /> 
+<jsp:include page="../../WEB-INF/footer.jsp" /> 

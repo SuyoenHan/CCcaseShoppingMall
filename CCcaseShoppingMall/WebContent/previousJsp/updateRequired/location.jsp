@@ -7,8 +7,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<jsp:include page="../../header.jsp" />
-<jsp:include page="../../leftSide.jsp" /> 
+<jsp:include page="../../WEB-INF/header.jsp" />
+<jsp:include page="../../WEB-INF/leftSide.jsp" /> 
 
 <div id="contents">
 	 <div id="locationPage">
@@ -89,5 +89,4 @@
 	 </div>
 </div>
 
-<jsp:include page="../../rightSide.jsp" />
-<jsp:include page="../../footer.jsp" /> 
+<jsp:include page="../../WEB-INF/footer.jsp" /> 

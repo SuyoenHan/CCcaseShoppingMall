@@ -18,7 +18,7 @@
 	<div id="container">
 	
 		<div id="logo">
-			<img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="250" height="100" />
+			<img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="170" height="80" />
 		</div>
 		
 		<div id="mainMenu">

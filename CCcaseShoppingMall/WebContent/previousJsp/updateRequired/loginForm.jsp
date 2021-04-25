@@ -6,7 +6,7 @@
     
 <link rel="stylesheet" href="../../css/login.css" /> 
 
-<jsp:include page="../../header.jsp" />
+<jsp:include page="../../WEB-INF/header.jsp" />
 
 <div id="contents"> 
 	<div id="loginContents">
@@ -40,4 +40,4 @@
 	</div>
 </div>
 
-<jsp:include page="../../footer.jsp" />
+<jsp:include page="../../WEB-INF/footer.jsp" />
