@@ -89,6 +89,7 @@
 						<td>ㄷ</td>
 						<td>ㄹ</td>
 					</tr>
+					<tr class="faqDetail" calspan></tr>
 				</tbody>
 			
 			</table>
