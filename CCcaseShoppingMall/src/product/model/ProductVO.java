@@ -5,7 +5,7 @@ public class ProductVO {
 	private int  productid;  	//  제품번호
 	private String productname; //제품명
 	private String modelname;   //기종명
-	private MobilecompanyVO mobilevo;  // 핸드폰회사VO 
+	private MobileCompanyVO mobilevo;  // 핸드폰회사VO 
 	private CategoryVO categvo; // 카테고리VO 
 	
 	
@@ -63,13 +63,13 @@ public class ProductVO {
 
 
 
-	public MobilecompanyVO getMobilevo() {
+	public MobileCompanyVO getMobilevo() {
 		return mobilevo;
 	}
 
 
 
-	public void setMobilevo(MobilecompanyVO mobilevo) {
+	public void setMobilevo(MobileCompanyVO mobilevo) {
 		this.mobilevo = mobilevo;
 	}
 	

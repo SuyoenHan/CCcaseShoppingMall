@@ -1,10 +1,10 @@
 package product.model;
 
-public class MobilecompanyVO {
+public class MobileCompanyVO {
 	private int mnum;   //회사코드       
 	private String mname;   //회사명     
 	
-	public MobilecompanyVO() {}
+	public MobileCompanyVO() {}
 
 	public int getMnum() {
 		return mnum;
