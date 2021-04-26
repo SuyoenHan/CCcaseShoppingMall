@@ -1,5 +1,7 @@
 package board.model;
 
+import member.model.AdminVO;
+
 public class FaqVO {
 
 	private int faqno;         				 // faq 글번호

@@ -1,5 +1,7 @@
 package board.model;
 
+import member.model.AdminVO;
+
 public class NoticeVO {
 
 	public int 	noticeno; 					// 공지사항 번호
