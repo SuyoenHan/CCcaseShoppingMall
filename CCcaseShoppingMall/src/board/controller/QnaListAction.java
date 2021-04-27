@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import my.util.MyUtil;
+import my.util.Myutil;
 
 
 public class QnaListAction extends AbstractController {
@@ -120,7 +120,7 @@ public class QnaListAction extends AbstractController {
 
 			////////////////////////////////////////////////////////////
 			// *** 현재 페이지를 돌아갈 페이지( goBackURL)로 지정하기 *** //
-			String currentURL = MyUtil.getCurrentURL(request);
+			String currentURL = Myutil.getCurrentURL(request);
 			// 회원조회를 했을시 현재 그 페이지로 그대로 되돌아가기 위한 용도로 쓰인다.
 
 			currentURL = currentURL.replaceAll("&", " ");
