@@ -1,7 +1,11 @@
 package common.controller;
 
+<<<<<<< HEAD
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+=======
+import javax.servlet.http.*;
+>>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 
 import member.model.MemberVO;
 
@@ -24,6 +28,7 @@ public abstract class AbstractController implements InterCommand {
 	public void setViewPage(String viewPage) {
 		this.viewPage = viewPage;
 	}
+<<<<<<< HEAD
 
 	//  로그인 검사=> 로그인 했으면 true 를 리턴, 안했으면 false 리턴
 	public boolean checkLogin(HttpServletRequest request) {
@@ -35,6 +40,19 @@ public abstract class AbstractController implements InterCommand {
 			return true;
 		}
 		else {// 로그인 안한 경우
+=======
+	 
+	//  로그인 유무 검사
+	public boolean checkLogin(HttpServletRequest request) {
+		
+		HttpSession session= request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		if(loginuser !=null) {
+			return true;
+		}
+		else {
+>>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 			return false;
 		}
 	}

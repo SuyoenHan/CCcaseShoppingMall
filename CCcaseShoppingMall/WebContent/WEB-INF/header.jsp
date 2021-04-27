@@ -88,6 +88,11 @@ div.menuEachContainer:hover > button.menuEach{
 		location.href="<%= request.getContextPath()%>/login/logout.cc";
 		
 	}
+	function myProfile(userid){
+		
+		location.href="<%= request.getContextPath()%>/member/myProfile.cc?userid="+userid;
+
+	}
 
 </script>
 
@@ -165,11 +170,9 @@ div.menuEachContainer:hover > button.menuEach{
 		
 		<c:if test="${not empty sessionScope.loginuser}">
 				<button type="button" onclick="goLogOut();" >로그아웃</button>
-		</c:if>	
-		
 			<div>
 				<span class="loginSection" id="wishlist">장바구니</span>
-				<span class="loginSection" id="myPage">마이페이지</span>
+				<span class="loginSection" id="myPage"onclick="myProfile('${(sessionScope.loginuser).userid}');">마이페이지</span>
 			</div>
-			
+			</c:if>	
 		</div>	
