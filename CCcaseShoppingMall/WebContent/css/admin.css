@@ -78,17 +78,26 @@ span.menuSection{
 	text-align: center;
 }
 
+span.menuSection:hover{
+	cursor: pointer;
+}
+
 
 span.loginSection{
 	border: solid 0px blue;
 	background-color: #f2f2f2;
 	display: inline-block;
 	font-size: 10pt;
-	width: 70px;
+	width: 100px;
 	height: 30px;
 	margin-top: 18px;
+	padding-top:7px;
 	margin-left: 18px;
 	text-align: center;
+}
+
+span.loginSection:hover{
+	cursor: pointer;
 }
 
 div.leftSection{
