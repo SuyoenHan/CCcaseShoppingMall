@@ -94,7 +94,7 @@
 			<li><span class="myli">휴대폰 : </span>${fn:substring(mobile,0,3)}-${fn:substring(mobile,3,7)}-${fn:substring(mobile,7,11)}</li>
 			<li><span class="myli">우편번호 : </span>${mvo.postcode}</li>
 			<li><span class="myli">주소 : </span>${mvo.address}&nbsp;${mvo.detailaddress}&nbsp;${mvo.extraaddress}</li>
-			<li><span class="myli">총포인트 : </span>${mvo.totalpoint + '점'}</li>
+			<li><span class="myli">총포인트 : </span>${mvo.totalpoint}점</li>
 			<li><span class="myli">가입일자 : </span>${mvo.registerday}</li>
 			<li><span class="myli">탈퇴유무 : </span>
 					<c:choose>

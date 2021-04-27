@@ -8,9 +8,6 @@ import admin.model.AdminVO;
 import common.controller.AbstractController;
 import member.model.*;
 
-
-
-
 public class MemberOneDetailAction extends AbstractController {
 
 	@Override
