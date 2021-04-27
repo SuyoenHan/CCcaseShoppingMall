@@ -52,13 +52,13 @@
 		</tr>
 	</thead>
 
-	<tbody>
+<%-- 	<tbody>
 		<c:forEach var ="mvo" items="">
 			<tr>
 				
 			</tr>	
 		</c:forEach>
-	</tbody>
+	</tbody> --%>
 </table>
 
 	<div>

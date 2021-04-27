@@ -16,7 +16,7 @@ public interface InterMemberDAO {
 	boolean emailDuplicateCheck(String email) throws SQLException;
 	
 	MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException;
-
+	
 	
 	
 	

@@ -1,15 +1,14 @@
 package member.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.model.*;
 import common.controller.AbstractController;
-import member.model.*;
+
 
 public class MemberListAction extends AbstractController {
 
@@ -20,12 +19,12 @@ public class MemberListAction extends AbstractController {
 		
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 한다. == //
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		AdminVO loginuser = (AdminVO) session.getAttribute("loginuser");
 		
 		// 관리자(admin)로 로그인 했을 경우
-		if(loginuser != null && "admin".equals(loginuser.getUserid())) {
+		if(loginuser != null && loginuser.) {
 				
-			InterMemberDAO mdao = new MemberDAO();
+			InterAdminDAO adao = new AdminDAO();
 			
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
 			// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
@@ -64,14 +63,14 @@ public class MemberListAction extends AbstractController {
 			
 
 			// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select)
-			int totalPage = mdao.selectTotalPage(paraMap);
+			int totalPage = adao.selectTotalPage(paraMap);
 			
 			if( Integer.parseInt(currentShowPageNo)   > totalPage ) {
 				currentShowPageNo = "1";
 				paraMap.put("currentShowPageNo", currentShowPageNo);
 			}
 			
-			List<MemberVO> memberList = mdao.selectPagingMember(paraMap);
+			List<MemberVO> memberList = adao.selectPagingMember(paraMap);
 			request.setAttribute("memberList", memberList);
 			request.setAttribute("sizePerPage", sizePerPage);
 			
@@ -126,9 +125,20 @@ public class MemberListAction extends AbstractController {
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/memberList.jsp");
 		}
+		else {
+			String message = "로그인 후 이용 가능합니다.";
+			String loc = "javascript:history.back()";
+			
+	         request.setAttribute("message", message);
+	         request.setAttribute("loc", loc);
+	         
+	      //   super.setRedirect(false);
+	         super.setViewPage("/WEB-INF/msg.jsp");
+		}
 		
 	}
-		
-}
+
+}		
+
 
 
