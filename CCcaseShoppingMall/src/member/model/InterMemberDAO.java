@@ -14,7 +14,9 @@ public interface InterMemberDAO {
 	// email 중복검사 
 	boolean emailDuplicateCheck(String email) throws SQLException;
 	
+	//로그인처리
 	MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException;
-
+	//회원정보수정
+	int updateMember(MemberVO member)throws SQLException;
 	
 }

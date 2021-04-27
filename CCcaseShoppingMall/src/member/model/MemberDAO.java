@@ -234,5 +234,46 @@ public class MemberDAO implements InterMemberDAO{
 		return member;
 	
 	}
+	
+	// 회원정보 변경 
+		@Override
+		public int updateMember(MemberVO member) throws SQLException {
+			
+			int n = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = "update tbl_member set pwd = ? "
+						   + "                    , mobile = ? "
+						   + "                    , postcode = ? "
+						   + "                    , address = ? "
+						   + "                    , detailaddress = ? "
+						   + "                    , extraaddress = ? "
+						   + "where userid = ? "; 
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				
+				pstmt.setString(1, Sha256.encrypt(member.getPwd()) );
+				pstmt.setString(2, aes.encrypt(member.getMobile()) );
+				pstmt.setString(3, member.getPostcode() );
+				pstmt.setString(4, member.getAddress() );
+				pstmt.setString(5, member.getDetailaddress() );
+				pstmt.setString(6, member.getExtraaddress() );
+				pstmt.setString(7, member.getUserid() );
+							
+				n = pstmt.executeUpdate();
+				
+			} catch (GeneralSecurityException | UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			return n;	
+		}
+	
+
 
 }
