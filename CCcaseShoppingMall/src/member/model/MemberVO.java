@@ -11,16 +11,30 @@ public class MemberVO {
 	private String address;            // 주소
 	private String detailaddress;      // 상세주소
 	private String extraaddress;       //참고항목
-	private int totalpoint;            // 사용가능한 총포인트 
+	private int totalpoint;            //사용가능한 총포인트 
 	private String registerday;        //가입일자 
 	private String lastpwdchangedate;  // 마지막으로 암호를 변경한 날짜  
 	private int status;                // 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 	private int	idle;                  //  휴면유무      0: 활동중  /  1 : 휴면중 
 	private int fk_grade;              // 회원등급      0: 브라운회원등급  1: 실버회원등급  2: 골드회원등급
 	
+	private boolean requirePwdChange = false;
 	
+	public MemberVO() {}
 	
-	
+	public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+			String address, String detailaddress, String extraaddress) {
+		
+		this.userid = userid;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+		this.mobile = mobile;
+		this.postcode = postcode;
+		this.address = address;
+		this.detailaddress = detailaddress;
+		this.extraaddress = extraaddress;
+	}
 	public String getUserid() {
 		return userid;
 	}
@@ -140,6 +154,17 @@ public class MemberVO {
 	public void setFk_grade(int fk_grade) {
 		this.fk_grade = fk_grade;
 	}
+
+	public boolean isRequirePwdChange() {
+		return requirePwdChange;
+	}
+	
+	public void setRequirePwdChange(boolean requirePwdChange) {
+		this.requirePwdChange = requirePwdChange;
+	}
+	
+
+
 	
 	
 	
