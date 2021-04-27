@@ -16,17 +16,26 @@
 <style type="text/css">
 
    div#content{
-   		width:80%;
-   }
-	
+   		margin-left: 15%;
+   		margin-top: 5%;
+   		width:	80%;
+   }	
    tr.qnaInfo:hover {
         background-color: #e6ffe6;
         cursor: pointer;
+   }  
+   tr#menu{
+   		font-weight: bold;
+   		font-size: 18px;
+   		background-color: gray;
+   		height: 40px;
    }
-   
+   th{
+   		border: none;
+   }
    td{
    		width: 10%;
-   		height: 30px;
+   		height: 35px;
    		text-align: center;
    }
    
@@ -79,7 +88,7 @@
 	   
 	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
 	        <thead>
-	           <tr>	 
+	           <tr id="menu">	 
 	              <th>No.</th>
 	              <th>제목</th>
 	              <th>작성자</th>
@@ -101,23 +110,21 @@
 	    	</tbody>
 	    </table>
 
-	<form name="qnaFrm">
-	 	    
+	<form name="qnaFrm" style="margin-top: 5%;">
 	      <select id="searchType" name="searchType">
 		      <option value="qtitle">제목</option>
 		      <option value="fk_userid">작성자</option>
 	      </select>
 	      <input type="text"  id="searchWord"  name="searchWord" />
 	      
-	 
-	      <input type="text"  style="display: none;">
-	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
-	      
-	      <button type="button"  onclick="goWrite();" style="right: 10%;">글쓰기</button>
 
+		      <input type="text"  style="display: none;">
+		      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
+		      
+		      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
     </form>
 	    
-	    <div style="justify-content: center;">
+	    <div style="width:30%; margin: 0 auto;">
 	    	${requestScope.pageBar}
 	    </div>
 	    
