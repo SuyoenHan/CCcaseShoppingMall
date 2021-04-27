@@ -9,19 +9,19 @@ import javax.servlet.http.HttpSession;
 import admin.model.*;
 import common.controller.AbstractController;
 import member.model.*;
+import my.util.Myutil;
 
 public class MemberListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 한다. == //
 		HttpSession session = request.getSession();
-		AdminVO aloginuser = (AdminVO) session.getAttribute("aloginuser");
+		AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 		
 		// 관리자(admin)로 로그인 했을 경우
-	if(aloginuser == null )  { 
+		if(adminUser != null)  { 
 			
 			InterMemberDAO mdao = new MemberDAO();
 			
@@ -63,7 +63,7 @@ public class MemberListAction extends AbstractController {
 
 			// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select)
 			int totalPage = mdao.selectTotalPage(paraMap);
-			
+			// System.out.println(totalPage);
 			if( Integer.parseInt(currentShowPageNo)   > totalPage ) {
 				currentShowPageNo = "1";
 				paraMap.put("currentShowPageNo", currentShowPageNo);
@@ -102,9 +102,9 @@ public class MemberListAction extends AbstractController {
 			
 				if( pageNo == Integer.parseInt(currentShowPageNo)) {
 					pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>" +pageNo + "</span>&nbsp;";
-					}
+				}
 				else {
-				pageBar += "&nbsp;<a href='memberList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >" + pageNo + "</a>&nbsp;";
+					pageBar += "&nbsp;<a href='memberList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >" + pageNo + "</a>&nbsp;";
 				}
 				
 				loop++;
@@ -112,19 +112,25 @@ public class MemberListAction extends AbstractController {
 				pageNo++;	
 				
 			}// end of while()---------------------------------------------------
-			
+
 			// **** [다음][마지막] 만들기 **** //
 			if( pageNo <= totalPage ) {
+				
 				pageBar += "<a href='memberList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >[다음]</a>&nbsp;";
 				pageBar += "<a href='memberList.cc?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >[마지막]</a>&nbsp;";
 			}
 			
-			request.setAttribute("pageBar", pageBar);
+			 request.setAttribute("pageBar", pageBar);
 			
+			 String goBackURL= Myutil.getCurrentURL(request);
+			 goBackURL= goBackURL.replaceAll("&", " ");
+			 request.setAttribute("goBackURL", goBackURL);
+
+			 
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/admin/memberList.jsp");
 		}
-	else {
+		else {
 			String message = "로그인 후 이용 가능합니다.";
 			String loc = "javascript:history.back()";
 			

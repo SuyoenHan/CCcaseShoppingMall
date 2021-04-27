@@ -53,7 +53,7 @@
 		border: solid 0px red;
 		color: #fff;
 		font-weight: bold;
-		margin-top:40px;
+		margin-top:10px;
 		margin-right: 5px;
 	}
 	
@@ -68,7 +68,7 @@
 	img.pmoImg{
 		width: 30px;
 		height: 30px;
-		margin-top:15px;
+		margin-top:5px;
 		margin-right: 10px;
 	}
 	
@@ -164,9 +164,10 @@
 				<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
 				<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
 				<hr>
-				<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
-				<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
-				
+				<div>
+					<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
+					<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+				</div>
 				<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
 				<div style="float: left">
 					<c:if test="${pInfoMap.fk_snum == '0'}"><span class="best spec">BEST</span></c:if>
@@ -186,8 +187,10 @@
 				<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
 				<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
 				<hr>
-				<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
-				<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+				<div>
+					<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
+					<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+				</div>
 				<div style="float: left">
 					<c:if test="${pInfoMap.fk_snum == '0'}"><span class="best spec">BEST</span></c:if>
 					<c:if test="${pInfoMap.fk_snum == '1'}"><span class="new spec">NEW</span></c:if>

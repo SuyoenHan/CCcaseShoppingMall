@@ -84,7 +84,6 @@ public class ProductDAO implements InterProductDAO {
 					   " (select pimage1, fk_productid, price, salepercent, nvl(fk_snum,-1) as fk_snum from tbl_pdetail where pcolor='white') D " + 
 					   " on P.productid = D.fk_productid ";
 					   
-			
 			if(paraMap.get("modelName")!=null) {
 				sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
 			}
@@ -173,6 +172,41 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	} // end of public List<String> getModelName(String mnum, String cnum) throws SQLException {----
+
+	
+	// 제품 총페이지 개수 반환 메소드
+	@Override
+	public int selectTotalPage(Map<String, String> pageMap) throws SQLException {
+
+		int totalPage= 0;
+		
+		String sql= " select ceil(count(*)/?) from tbl_product ";
+		
+		if(pageMap.get("modelName")!=null) {
+			sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
+		}
+		else {
+			sql+=" where fk_mnum= ? and fk_cnum= ? ";
+		}
+		
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, Integer.parseInt(pageMap.get("sizePerPage")));
+		pstmt.setInt(2, Integer.parseInt(pageMap.get("mnum")));
+		pstmt.setInt(3, Integer.parseInt(pageMap.get("cnum")));
+		
+		if(pageMap.get("modelName")!=null) {
+			pstmt.setString(4, pageMap.get("modelName"));
+		}
+		
+		rs=pstmt.executeQuery();
+		
+		totalPage= rs.getInt(1);
+		
+		return totalPage;  // 총페이지 개수
+	}
+
+	
+	
 
 
 	// =========================== 한수연 끝 ======================================

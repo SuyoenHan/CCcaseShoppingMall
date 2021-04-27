@@ -15,23 +15,23 @@ public class MemberOneDetailAction extends AbstractController {
 		
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 한다. == //
 		HttpSession session = request.getSession();
-		AdminVO aloginuser = (AdminVO) session.getAttribute("loginuser");
+		AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 	
-		String adminId = request.getParameter("adminId");
 		// 관리자(admin)로 로그인 했을 경우
-		if(aloginuser == null) {
+
+		if(adminUser != null) {
 		
-		String userid = request.getParameter("userid");
-		InterMemberDAO mdao = new MemberDAO();
-		MemberVO mvo = mdao.memberOneDetail(userid);
-		
-		request.setAttribute("mvo", mvo);
-		
-		// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** //
-		String goBackURL = request.getParameter("goBackURL");
-		request.setAttribute("goBackURL", goBackURL);
-		// super.setRedirect(false);
-		super.setViewPage("/WEB-INF/admin/memberOneDetail.jsp");
+			String userid = request.getParameter("userid");
+			InterMemberDAO mdao = new MemberDAO();
+			MemberVO mvo = mdao.memberOneDetail(userid);
+			
+			request.setAttribute("mvo", mvo);
+			
+			// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** //
+			String goBackURL = request.getParameter("goBackURL");
+			request.setAttribute("goBackURL", goBackURL);
+			// super.setRedirect(false);
+			super.setViewPage("/WEB-INF/admin/memberOneDetail.jsp");
 		}
 		else {
 			// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우

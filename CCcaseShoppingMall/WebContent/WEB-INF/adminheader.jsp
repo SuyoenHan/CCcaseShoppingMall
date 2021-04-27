@@ -59,7 +59,7 @@
 		</div>
 		
 		<div id="mainMenu">
-			<span class="menuSection" id="registerProduct">상품등록</span>
+			<span class="menuSection" id="registerProduct" onclick="location.href='<%= ctxPath%>/admin/productRegister.cc';">상품등록</span>
 			<span class="menuSection" id="updateProduct">상품수정</span>
 			
 			<span class="menuSection" id="viewMember" onclick="location.href='<%= ctxPath%>/admin/memberList.cc';" >회원조회</span>
