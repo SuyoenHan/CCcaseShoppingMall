@@ -34,7 +34,6 @@
 	
 	<select id="sizePerPage" name="sizePerPage">
 		<option>페이지 보기설정</option> <%-- 첫화면/선택 안했을시 기본으로 보여지는 텍스트 --%>
-		<option>20</option> 
 		<option>10</option>
 		<option>5</option>
 		<option>3</option>
