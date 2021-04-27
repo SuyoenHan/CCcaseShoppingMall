@@ -190,11 +190,12 @@ public class ProductDAO implements InterProductDAO {
 		}
 		
 		pstmt=conn.prepareStatement(sql);
-		pstmt.setInt(1, Integer.parseInt(pageMap.get("mnum")));
-		pstmt.setInt(2, Integer.parseInt(pageMap.get("cnum")));
+		pstmt.setInt(1, Integer.parseInt(pageMap.get("sizePerPage")));
+		pstmt.setInt(2, Integer.parseInt(pageMap.get("mnum")));
+		pstmt.setInt(3, Integer.parseInt(pageMap.get("cnum")));
 		
 		if(pageMap.get("modelName")!=null) {
-			pstmt.setString(3, pageMap.get("modelName"));
+			pstmt.setString(4, pageMap.get("modelName"));
 		}
 		
 		rs=pstmt.executeQuery();
@@ -203,6 +204,9 @@ public class ProductDAO implements InterProductDAO {
 		
 		return totalPage;  // 총페이지 개수
 	}
+
+	
+	
 
 
 	// =========================== 한수연 끝 ======================================
