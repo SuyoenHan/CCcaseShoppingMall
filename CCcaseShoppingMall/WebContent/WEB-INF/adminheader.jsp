@@ -31,8 +31,7 @@
 		$("span#login").click(function(){
 			
 			location.href="<%= ctxPath %>/admin/adminlogin.cc";
-			
-			
+
 		});// end of $("span#login").click(function(){
 		
 			
@@ -44,9 +43,7 @@
 			
 		});// end of $("span#logout").click(function(){
 			
-		
-			
-			
+
 	});// end of $(document).ready(function(){
 
 
