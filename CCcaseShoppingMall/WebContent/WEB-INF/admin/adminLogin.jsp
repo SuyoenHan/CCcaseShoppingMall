@@ -41,7 +41,7 @@
 		 	}
 			
 			var frm = document.loginFrm;
-			frm.action = "<%= ctxPath%>/admin/adminlogin.cc";
+			frm.action = "<%= ctxPath%>/admin/loginresult.cc";
 			frm.method = "POST"
 			frm.submit();
 			
