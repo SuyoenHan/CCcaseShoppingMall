@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class QnaRegisterAction extends AbstractController {
+public class QnaWriteAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

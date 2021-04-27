@@ -76,7 +76,7 @@
 	
 	function goWrite(){
 		var frm = document.qnaFrm;
-		frm.action = "qnaRegister.cc";
+		frm.action = "qnaWrite.cc";
  		frm.method = "GET";
 		frm.submit();
 	}// end of goWrite()-----------------------------------------------------
