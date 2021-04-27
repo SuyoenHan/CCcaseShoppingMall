@@ -12,6 +12,14 @@
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 
+<style>
+
+	span {
+		cursor : pointer;
+	}
+
+</style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -43,7 +51,9 @@
 		<div id="mainMenu">
 			<span class="menuSection" id="registerProduct">상품등록</span>
 			<span class="menuSection" id="updateProduct">상품수정</span>
-			<span class="menuSection" id="viewMember">회원조회</span>
+			
+			<span class="menuSection" id="viewMember" onclick="location.href='<%= ctxPath%>/member/memberList.up';" >회원조회</span>
+			
 			<span class="menuSection" id="viewBoard">교환 및 환불관리</span>
 			<span class="menuSection" id="viewBoard">게시판관리</span>
 		</div>
