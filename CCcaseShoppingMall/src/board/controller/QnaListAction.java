@@ -100,7 +100,7 @@ public class QnaListAction extends AbstractController {
 			while(!(loop > blockSize || pageNo > totalPage)) {
 				
 				if( pageNo == Integer.parseInt(currentShowPageNo) ) {
-					pageBar += "&nbsp;<span style='border: solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</span>&nbsp;"; 						
+					pageBar += "&nbsp;<span style='color:gray; padding:2px 4px;'>"+pageNo+"</span>&nbsp;"; 						
 				}
 				else {
 					pageBar += "&nbsp;<a href='qnaList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 						
