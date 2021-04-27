@@ -7,6 +7,4 @@
 	
 	location.href="${requestScope.loc}";
 
-	self.close(); //팝업창 닫기
-	
 </script>
