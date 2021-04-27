@@ -1,8 +1,5 @@
 package board.model;
 
-import member.model.AdminVO;
-import member.model.MemberVO;
-
 public class QnaVO {
 	
 	private int qnano;             //qna순번
@@ -15,9 +12,6 @@ public class QnaVO {
 	private String qcontent;       // 글내용
 	private int qstatus;           // 공개여부  
 	private String qnapwd;         // 글 비밀번호
-	
-	public AdminVO adminVO;
-	public MemberVO memberVO;
 	
 
 	public int getQnano() {
@@ -98,22 +92,6 @@ public class QnaVO {
 	
 	public void setQnapwd(String qnapwd) {
 		this.qnapwd = qnapwd;
-	}
-	
-	public AdminVO getAdminVO() {
-		return adminVO;
-	}
-
-	public void setAdminVO(AdminVO adminVO) {
-		this.adminVO = adminVO;
-	}
-
-	public MemberVO getMemberVO() {
-		return memberVO;
-	}
-
-	public void setMemberVO(MemberVO memberVO) {
-		this.memberVO = memberVO;
 	}
 
 }
