@@ -153,4 +153,36 @@ public class QnaDAO implements InterQnaDAO {
 		}	
 		return totalPage;
 	}
+
+	// qna 글 작성하기
+	@Override
+	public int writeQna(QnaVO qna) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_qna(fk_userid, fk_productid, qemail, qtitle, qcontent, qstatus, qnapwd) "+
+								"values(?, ?, ?, ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, qna.getFk_userid());
+			pstmt.setString(2, qna.getFk_productid());
+			pstmt.setString(3, qna.getQemail());
+			pstmt.setString(4, qna.getQtitle());
+			pstmt.setString(5, qna.getQcontent());
+			pstmt.setString(6, qna.getQstatus());
+			pstmt.setString(7, qna.getQnapwd());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+		
+	}
 }
