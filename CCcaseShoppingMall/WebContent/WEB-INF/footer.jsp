@@ -42,4 +42,14 @@
 	</div>
 
 </body>
+
+<script type="text/javascript">
+	function func_height(){
+		var content_height= $("div#contents").height();
+		// header2.jsp의 하단에 표시된 div content의 height값
+		
+		$("div#leftSide").height(content_height);
+		// header2.jsp의 div sideinfo 의 height 값으로 설정하기
+	}
+</script>
 </html>
