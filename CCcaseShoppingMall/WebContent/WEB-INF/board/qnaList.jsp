@@ -16,8 +16,7 @@
 <style type="text/css">
 
    div#content{
-   	/*	clear:both;  */
-   		width: 70%;
+   		width:80%;
    }
 	
    tr.qnaInfo:hover {
@@ -26,7 +25,7 @@
    }
    
    td{
-   		width: 50px;
+   		width: 10%;
    		height: 30px;
    		text-align: center;
    }
