@@ -2,17 +2,31 @@ package board.model;
 
 public class QnaVO {
 	
-	private int qnano;             //qna순번
-	private String fk_userid;      //작성자
-	private int fk_productid;      // 제품번호
-	private String qtitle;         // 제목
-	private String qregisterdate;  // 등록일
-	private String qupdatedate;    // 수정일
-	private int qviewcount;        // 조회수
-	private String qcontent;       // 글내용
-	private int qstatus;           // 공개여부  
-	private String qnapwd;         // 글 비밀번호
+	private int qnano;            		//qna순번
+	private String fk_userid;     		//작성자
+	private String fk_productid;     // 제품번호
+	private String qtitle;         		// 제목
+	private String qregisterdate;  	// 등록일
+	private String qupdatedate;   	// 수정일
+	private int qviewcount;        	// 조회수
+	private String qcontent;      	   // 글내용
+	private String qemail;				// 이메일
+	private String qstatus;           	   // 공개여부  
+	private String qnapwd;           // 글 비밀번호
 	
+	public QnaVO() {}
+	
+	public QnaVO(String qtitle, String fk_userid, String qemail, String fk_productid, String qstatus, String qnapwd, String qcontent) {
+
+		this.qtitle = qtitle;
+		this.fk_userid = fk_userid;
+		this.qemail = qemail;
+		this.fk_productid =fk_productid;
+		this.qstatus = qstatus;
+		this.qnapwd = qnapwd;
+		this.qcontent = qcontent;
+		
+	}
 
 	public int getQnano() {
 		return qnano;
@@ -30,11 +44,11 @@ public class QnaVO {
 		this.fk_userid = fk_userid;
 	}
 	
-	public int getFk_productid() {
+	public String getFk_productid() {
 		return fk_productid;
 	}
 	
-	public void setFk_productid(int fk_productid) {
+	public void setFk_productid(String fk_productid) {
 		this.fk_productid = fk_productid;
 	}
 	
@@ -78,11 +92,11 @@ public class QnaVO {
 		this.qcontent = qcontent;
 	}
 	
-	public int getQstatus() {
+	public String getQstatus() {
 		return qstatus;
 	}
 	
-	public void setQstatus(int qstatus) {
+	public void setQstatus(String qstatus) {
 		this.qstatus = qstatus;
 	}
 	
@@ -94,4 +108,11 @@ public class QnaVO {
 		this.qnapwd = qnapwd;
 	}
 
+	public String getQemail() {
+		return qemail;
+	}
+
+	public void setQemail(String qemail) {
+		this.qemail = qemail;
+	}
 }

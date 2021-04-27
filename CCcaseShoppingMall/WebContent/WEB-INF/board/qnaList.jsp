@@ -76,7 +76,7 @@
 	
 	function goWrite(){
 		var frm = document.qnaFrm;
-		frm.action = "qnaRegister.cc";
+		frm.action = "qnaWrite.cc";
  		frm.method = "GET";
 		frm.submit();
 	}// end of goWrite()-----------------------------------------------------
@@ -115,13 +115,12 @@
 		      <option value="qtitle">제목</option>
 		      <option value="fk_userid">작성자</option>
 	      </select>
-	      <input type="text"  id="searchWord"  name="searchWord" />
 	      
-
-		      <input type="text"  style="display: none;">
-		      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
-		      
-		      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
+	      <input type="text"  id="searchWord"  name="searchWord" />
+	      <input type="text"  style="display: none;">
+	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
+	      
+	      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
     </form>
 	    
 	    <div style="width:30%; margin: 0 auto;">
