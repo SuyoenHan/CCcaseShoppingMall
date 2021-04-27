@@ -147,7 +147,7 @@
 			<input type="hidden" name="cnum" value="${cnum}" />
 			<input type="hidden" name="mnum" value="${mnum}" />
 			<select name="modelName" id="modelName">
-				<option value="all" selected>&nbsp;&nbsp;&nbsp;기종을 선택하세요</option>
+				<option value="%" selected>&nbsp;&nbsp;&nbsp;기종을 선택하세요</option>
 				<c:forEach var="modelName" items="${modelNameList}">
 					<option value="${modelName}">&nbsp;&nbsp;&nbsp;${modelName}</option>
 				</c:forEach>
