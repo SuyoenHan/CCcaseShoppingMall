@@ -7,6 +7,55 @@
 
 <jsp:include page="../adminheader.jsp" /> 
 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$("button#adminlogin").click(function(){ // 로그인 버튼 클릭했을때
+			
+			goLogin();
+			
+		});
+		
+		
+		// Function Declaration
+		function goLogin(){
+			
+			var adminId = $("input#adminId").val().trim();
+			var adminPwd = $("input#adminPwd").val().trim();
+			
+			if(adminId == ""){
+				alert("아이디를 입력해주세요");
+				$("input#loginUserid").val("");
+		 		$("input#loginUserid").focus();
+		 		return;
+			}
+			
+			if(loginPwd == "" ){
+		 		alert("암호를 입력해주세요");
+		 		$("input#loginPwd").val("");
+		 		$("input#loginPwd").focus();
+		 		return; 
+		 	}
+			
+			var frm = document.loginFrm;
+			frm.action = "<%= ctxPath%>/admin/adminlogin.cc";
+			frm.method = "GET"
+			frm.submit();
+			
+			
+			
+		}// end of function goLogin(){
+		
+		
+		
+		
+	});// end of $(document).ready(function(){
+
+</script>
+
+
+
 <div id="contents"> 
 	<div id="loginContents">
 		<div class="loginView" > 
@@ -14,12 +63,12 @@
 				<img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="250" height="100" />
 			</div>
 			
-		    <form method="post">
+		    <form method="post" name="loginFrm">
 			    <h3 style="text-align: center;"></h3>
 			    <div class="form-group">
-					<input type="text" class="form-control" placeholder="Username" name="userID" maxlength="20">
+					<input type="text" id="adminId" class="form-control" placeholder="adminId" name="adminID" maxlength="20">
 					<br>
-			    	<input type="password" class="form-control" placeholder="●●●●" name="userPassword" maxlength="20">
+			    	<input type="password" id="adminPwd" class="form-control" placeholder="●●●●" name="adminPwd" maxlength="20">
 				</div>
 				<br>
 					

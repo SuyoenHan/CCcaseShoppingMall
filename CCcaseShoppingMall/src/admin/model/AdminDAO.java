@@ -1,4 +1,4 @@
-package member.model;
+package admin.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
