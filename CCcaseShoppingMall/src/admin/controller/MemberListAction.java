@@ -22,7 +22,7 @@ public class MemberListAction extends AbstractController {
 		AdminVO aloginuser = (AdminVO) session.getAttribute("aloginuser");
 		
 		// 관리자(admin)로 로그인 했을 경우
-	if(aloginuser == null ) { 
+	if(aloginuser != null && adminId.equals(aloginuser.getAdminid()) )  { 
 			
 			InterMemberDAO mdao = new MemberDAO();
 			
@@ -126,7 +126,6 @@ public class MemberListAction extends AbstractController {
 			super.setViewPage("/WEB-INF/admin/memberList.jsp");
 		}
 	else {
-			
 			String message = "로그인 후 이용 가능합니다.";
 			String loc = "javascript:history.back()";
 			

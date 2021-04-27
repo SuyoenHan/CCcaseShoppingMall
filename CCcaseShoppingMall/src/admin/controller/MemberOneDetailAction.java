@@ -17,8 +17,9 @@ public class MemberOneDetailAction extends AbstractController {
 		HttpSession session = request.getSession();
 		AdminVO aloginuser = (AdminVO) session.getAttribute("loginuser");
 	
+		String adminId = request.getParameter("adminId");
 		// 관리자(admin)로 로그인 했을 경우
-		if(aloginuser == null ) {
+		if(aloginuser != null && adminId.equals(aloginuser.getAdminid()) ) {
 		
 		String userid = request.getParameter("userid");
 		InterMemberDAO mdao = new MemberDAO();
