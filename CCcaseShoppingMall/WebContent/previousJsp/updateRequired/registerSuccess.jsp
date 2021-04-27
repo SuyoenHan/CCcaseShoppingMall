@@ -4,7 +4,7 @@
 	String ctxPath= request.getContextPath();
 %>       
     
-<link rel="stylesheet" href="../../css/register.css" />
+<link rel="stylesheet" href="<%= ctxPath%>/css/register.css" />
    
 <jsp:include page="../../WEB-INF/header.jsp" />
 
@@ -26,15 +26,15 @@
 						<img src="<%= ctxPath%>/images/member/profile.png" alt="프로필이미지" width="70" height="70" />
 					</td>
 					<td class="column">아이디</td>
-					<td>hongkd</td>
+					<td>${sessionScope.userid}</td>
 				</tr>
 				<tr>
 					<td class="column">이름</td>
-					<td>홍길동</td>
+					<td>${sessionScope.name}</td>
 				</tr>
 				<tr>
 					<td class="column">이메일</td>
-					<td>hongkd@gmail.com</td>
+					<td>${sessionScope.email}</td>
 				</tr>
 			</table>
 		</div>
