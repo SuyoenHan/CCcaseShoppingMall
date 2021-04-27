@@ -80,6 +80,26 @@ public class ProductListAction extends AbstractController {
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/product/productList.jsp");
 
+		
+		/*
+		// ***** 제품 페이징바 구현
+		
+		String currentShowPageNo= "1";  // 현재 페이지번호
+		String sizePerPage= "15";  // 한페이지당 보여줄 개수
+		
+		Map<String,String> pageMap= new HashMap<>();
+		pageMap.put("currentShowPageNo", currentShowPageNo);
+		pageMap.put("sizePerPage", sizePerPage);
+		pageMap.put("cnum",cnum);
+		pageMap.put("mnum",mnum);
+		pageMap.put("modelName",modelName);
+
+		int totalPage = pdao.selectTotalPage(pageMap); // 총페이지 개수
+		
+		*/
+		
+		
+		
 		// =========================== 한수연 끝 ======================================
 		
 		

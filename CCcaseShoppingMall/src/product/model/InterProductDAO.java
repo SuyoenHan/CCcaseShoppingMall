@@ -19,6 +19,10 @@ public interface InterProductDAO {
 	
 	// mnum과 cnum이 주어진 경우, 이에 해당하는 기종명 반환 (중복되는 기종명은 1번만 사용)
 	List<String> getModelName(String mnum, String cnum) throws SQLException;
+
+	
+	// 제품 총페이지 개수 반환 메소드
+	int selectTotalPage(Map<String, String> pageMap) throws SQLException;
 	
 	
 	// =========================== 한수연 끝 ======================================

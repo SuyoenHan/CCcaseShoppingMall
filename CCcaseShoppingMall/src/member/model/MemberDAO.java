@@ -279,7 +279,7 @@ public class MemberDAO implements InterMemberDAO{
 			 
 			if(searchWord != null &&  !searchWord.trim().isEmpty()) {
 				 // 검색어를 입력해주는데 공백이 아닌 실제 검색어를 입력한 경우
-				 sql +=" and "+colname+" like '%'|| ? ||'%' ";  // 위치홀더 (=?) 테이블명 혹은 컬럼명은 안먹음. 오로지 데이터값만 보안처리를 위해 사용됨.
+				 sql +=" where "+colname+" like '%'|| ? ||'%' ";  // 위치홀더 (=?) 테이블명 혹은 컬럼명은 안먹음. 오로지 데이터값만 보안처리를 위해 사용됨.
 			 }
 			 // ==== 검색어가 있는 경우 끝 ==== //		     
 			 
@@ -343,6 +343,9 @@ public class MemberDAO implements InterMemberDAO{
 			 String colname = paraMap.get("searchType");
 			 String searchWord = paraMap.get("searchWord");
 			 
+			 // System.out.println(colname);
+			 // System.out.println(searchWord);
+			 
 			 if("email".equals(colname)) {
 				 // 검색대상이 email 인 경우
 				 searchWord = aes.encrypt(searchWord);
@@ -350,12 +353,12 @@ public class MemberDAO implements InterMemberDAO{
 			 
 			if(searchWord != null &&  !searchWord.trim().isEmpty()) {
 				 // 검색어를 입력해주는데 공백이 아닌 실제 검색어를 입력한 경우
-				 sql +=" and "+colname+" like '%'|| ? ||'%' ";  // 위치홀더 (=?) 테이블명 혹은 컬럼명은 안먹음. 오로지 데이터값만 보안처리를 위해 사용됨.
+				 sql +=" where "+colname+" like '%'|| ? ||'%' ";  // 위치홀더 (=?) 테이블명 혹은 컬럼명은 안먹음. 오로지 데이터값만 보안처리를 위해 사용됨.
 			 }
 			 // ==== 검색어가 있는 경우 끝 ==== //
 			 
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, paraMap.get("sizePerPage"));
+			 pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
 			 
 				if(searchWord != null &&  !searchWord.trim().isEmpty()) {
 					 // 검색어를 입력해주는데 공백이 아닌 실제 검색어를 입력한 경우
