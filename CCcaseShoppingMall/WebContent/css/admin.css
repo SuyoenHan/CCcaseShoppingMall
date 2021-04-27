@@ -122,4 +122,36 @@ button.footerNavigator{
 }
 
 
+/* adminLogin.jsp(로그인클릭시)에 대한 내용 시작 */
+
+div.loginView{
+	text-align:center;
+	border: solid 0px red;
+	margin: 0 auto;
+	margin-left: 400px;
+	padding-top: 50px;
+	height: 400px;
+	width: 600px;
+}
+
+button.loginSubmit {
+	background-color: #666;
+	color: white;
+	padding: 14px 20px;
+	margin: 12px 0;
+	border: none;
+	cursor: pointer;
+	height:60px;
+	width:80%;
+}
+
+input.form-control{
+	height:50px;
+	width: 80%;
+	margin-top: 10px;
+}
+
+/* adminLogin.jsp(로그인클릭시)에 대한 내용 끝 */
+
+
 

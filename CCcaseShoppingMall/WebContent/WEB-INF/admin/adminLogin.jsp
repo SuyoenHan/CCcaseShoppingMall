@@ -1,46 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<% String ctxPath = request.getContextPath(); %>
     
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<style type="text/css">
-	
-	div.container{
-		border:solid 0px red;
-		margin-top: 100px;
-		margin-left: 500px;
-		margin-bottom: 100px;
-	}
-	
-	input#email, #password{
-		width: 400px !important;
-		height: 100px !important;
-	}
-	
-	span#adminLogin{
-		border: solid 1px black;
-		width: 440px;
-	}
-	
-</style>
+<link rel="stylesheet" href="<%= ctxPath%>css/admin.css" /> 
 
 <jsp:include page="../adminheader.jsp" /> 
 
-<%-- bootstrap이용 --%>
-<div id="contents">
-	<div class="container">
-	    <form>
-    <div class="input-group">
-      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-      <input id="email" type="text" class="form-control" name="email" placeholder="Email">
-    </div>
-    <div class="input-group">
-      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-      <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-    </div>
-    <span class="input-group-addon" id="adminLogin">로그인</span>
-  </form>
+<div id="contents"> 
+	<div id="loginContents">
+		<div class="loginView" > 
+			<div id="loginlogo">
+				<img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="250" height="100" />
+			</div>
+			
+		    <form method="post">
+			    <h3 style="text-align: center;"></h3>
+			    <div class="form-group">
+					<input type="text" class="form-control" placeholder="Username" name="userID" maxlength="20">
+					<br>
+			    	<input type="password" class="form-control" placeholder="●●●●" name="userPassword" maxlength="20">
+				</div>
+				<br>
+					
+			    <button type="button" id="adminlogin" class="loginSubmit">로그인</button>
+
+			</form>
+		</div>
 	</div>
 </div>
 
