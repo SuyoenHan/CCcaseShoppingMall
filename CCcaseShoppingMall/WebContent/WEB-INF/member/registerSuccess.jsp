@@ -8,6 +8,17 @@
    
 <jsp:include page="../../WEB-INF/header.jsp" />
 
+<script type="text/javascript">
+
+	function() {
+		var frm = document.loginFrm; 
+		frm.action = "<%= ctxPath%>/login/login.cc";
+		frm.method = "post";
+		frm.submit();
+		
+	}// end of window.onload = function() {}----------------------
+
+</script>--
 <div id="contents"> 
 	<div id="registerSuccessContainer"> 
 		<div>   
@@ -26,22 +37,25 @@
 						<img src="<%= ctxPath%>/images/member/profile.png" alt="프로필이미지" width="70" height="70" />
 					</td>
 					<td class="column">아이디</td>
-					<td>${sessionScope.userid}</td>
+					<td>${userid}</td>
 				</tr>
 				<tr>
 					<td class="column">이름</td>
-					<td>${sessionScope.name}</td>
+					<td>${name}</td>
 				</tr>
 				<tr>
 					<td class="column">이메일</td>
-					<td>${sessionScope.email}</td>
+					<td>${email}</td>
 				</tr>
 			</table>
 		</div>
 		<div>
-			<button type="button">홈으로</button>
+			<button type="button"  onclick="location.href='/home.cc' >홈으로</button>
+				<form name="loginFrm">
+		<input type="hidden" name="userid" value="${requestScope.userid}" />
+		<input type="hidden" name="pwd"    value="${requestScope.pwd}" />
+	</form>
 		</div>
 	</div>
 </div>
-
 <jsp:include page="../../WEB-INF/footer.jsp" />
