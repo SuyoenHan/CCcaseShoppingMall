@@ -1,13 +1,12 @@
-package member.controller;
+package admin.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.model.*;
 import common.controller.AbstractController;
 import member.model.*;
 
@@ -16,15 +15,15 @@ public class MemberListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println("회원조회 전용 페이지");
+		String adminId = request.getParameter("adminid");
 		
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 한다. == //
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		AdminVO aloginuser = (AdminVO) session.getAttribute("aloginuser");
 		
 		// 관리자(admin)로 로그인 했을 경우
-		if(loginuser != null && "admin".equals(loginuser.getUserid())) {
-				
+	if(aloginuser != null && adminId.equals(aloginuser.getAdminid()) )  { 
+			
 			InterMemberDAO mdao = new MemberDAO();
 			
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
@@ -37,8 +36,8 @@ public class MemberListAction extends AbstractController {
 				currentShowPageNo = "1";
 			}
 			
-			if(sizePerPage == null	|| "페이지 보기설정".equals(sizePerPage) 
-			|| !("3".equals(sizePerPage) || "5".equals(sizePerPage) || "10".equals(sizePerPage) ) )  { // 사용자 임의로 보여지는 목록 개수를 조절하지 못하도록 막는 것
+			if(sizePerPage == null	|| 
+			!("3".equals(sizePerPage) || "5".equals(sizePerPage) || "10".equals(sizePerPage) ) )  { // 사용자 임의로 보여지는 목록 개수를 조절하지 못하도록 막는 것
 				sizePerPage = "10";
 			}
 			
@@ -96,8 +95,8 @@ public class MemberListAction extends AbstractController {
 			
 			// **** [맨처음][이전] 만들기 **** //
 			if(pageNo != 1) {
-				pageBar += "&nbsp;<a href='memberList.up?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a>&nbsp;"; 
-				pageBar += "&nbsp;<a href='memberList.up?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+ "' >[이전]</a>&nbsp;";
+				pageBar += "&nbsp;<a href='memberList.cc?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a>&nbsp;"; 
+				pageBar += "&nbsp;<a href='memberList.cc?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+ "' >[이전]</a>&nbsp;";
 			}
 			
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -106,7 +105,7 @@ public class MemberListAction extends AbstractController {
 					pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>" +pageNo + "</span>&nbsp;";
 					}
 				else {
-				pageBar += "&nbsp;<a href='memberList.up?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >" + pageNo + "</a>&nbsp;";
+				pageBar += "&nbsp;<a href='memberList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >" + pageNo + "</a>&nbsp;";
 				}
 				
 				loop++;
@@ -117,18 +116,29 @@ public class MemberListAction extends AbstractController {
 			
 			// **** [다음][마지막] 만들기 **** //
 			if( pageNo <= totalPage ) {
-				pageBar += "<a href='memberList.up?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >[다음]</a>&nbsp;";
-				pageBar += "<a href='memberList.up?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >[마지막]</a>&nbsp;";
+				pageBar += "<a href='memberList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >[다음]</a>&nbsp;";
+				pageBar += "<a href='memberList.cc?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"' >[마지막]</a>&nbsp;";
 			}
 			
 			request.setAttribute("pageBar", pageBar);
 			
 			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/member/memberList.jsp");
+			super.setViewPage("/WEB-INF/admin/memberList.jsp");
 		}
-		
+	else {
+			String message = "로그인 후 이용 가능합니다.";
+			String loc = "javascript:history.back()";
+			
+	         request.setAttribute("message", message);
+	         request.setAttribute("loc", loc);
+	         
+	      //   super.setRedirect(false);
+	         super.setViewPage("/WEB-INF/adminMsg.jsp");
+		}
+
 	}
-		
-}
+
+}		
+
 
 

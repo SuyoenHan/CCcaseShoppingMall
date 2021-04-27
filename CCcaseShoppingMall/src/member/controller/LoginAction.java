@@ -32,6 +32,7 @@ public class LoginAction extends AbstractController {
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
+
 		}
 		
 		else {
@@ -42,7 +43,7 @@ public class LoginAction extends AbstractController {
 			// ===> 클라이언트의 IP 주소를 알아오는 것   <=== //
 			String clientip = request.getRemoteAddr();
 			
-			System.out.println("확인용 clientip => " + clientip);
+			//System.out.println("확인용 clientip => " + clientip);
 			// 확인용 clientip => 127.0.0.1 
 			
 			Map<String, String> paraMap = new HashMap<>();
@@ -54,7 +55,7 @@ public class LoginAction extends AbstractController {
 
 
 			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/member/adminLogin.jsp");
+			super.setViewPage("/WEB-INF/login/loginForm.jsp");
 
 			MemberVO loginuser = mdao.selectOneMember(paraMap);
 			if(loginuser != null) {
@@ -108,7 +109,6 @@ public class LoginAction extends AbstractController {
 				//super.setRedirect(false);
 				super.setViewPage("/WEB-INF/msg.jsp");
 			}
-			
 			
 		}
 		
