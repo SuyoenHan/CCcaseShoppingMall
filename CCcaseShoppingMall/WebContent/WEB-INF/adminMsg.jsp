@@ -6,5 +6,8 @@
 	alert("${requestScope.message}");
 	
 	location.href="${requestScope.loc}";
-
+	
+	console.log("${sessionScope.adminUser}")
+	
+	
 </script>
