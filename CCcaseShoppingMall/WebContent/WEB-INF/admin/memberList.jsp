@@ -48,7 +48,7 @@
 				// console.log($(this).html());
 				var userid = $(this).children(".userid").text();
 				// alert(userid);
-				location.href="<%=ctxPath%>/admin/memberOneDetail.cc?userid="+userid +"&goBackURL=${requestScope.goBackURL}";   <%--- 공백을 또 그대로 넘겨받음--%>  
+				location.href="<%=ctxPath%>/admin/memberOneDetail.cc?userid="+userid +"&goBackURL=${requestScope.goBackURL}";   
 			});
 			
 		}); // end of $(document).ready(function(){}) -----------------------------------------------------
@@ -78,7 +78,6 @@
 	<button type="button" onclick="goSearch();" style="margin-right: 30px;">검색</button>
 	
 	<select id="sizePerPage" name="sizePerPage">
-		<option value="pageSetting">페이지 보기설정</option> <%-- 첫화면/선택 안했을시 기본으로 보여지는 텍스트 --%>
 		<option value="10">10</option>
 		<option value="5">5</option>
 		<option value="3">3</option>

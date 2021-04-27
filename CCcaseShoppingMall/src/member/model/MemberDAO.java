@@ -330,16 +330,97 @@ public class MemberDAO implements InterMemberDAO{
 	// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select)
 	@Override
 	public int selectTotalPage(Map<String, String> paraMap) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		 
+		int totalPage = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select ceil(count(*)/?) "+
+								 " from tbl_member ";
+			 
+			 // ==== 검색어가 있는 경우 시작 ==== //
+			 String colname = paraMap.get("searchType");
+			 String searchWord = paraMap.get("searchWord");
+			 
+			 if("email".equals(colname)) {
+				 // 검색대상이 email 인 경우
+				 searchWord = aes.encrypt(searchWord);
+			 }
+			 
+			if(searchWord != null &&  !searchWord.trim().isEmpty()) {
+				 // 검색어를 입력해주는데 공백이 아닌 실제 검색어를 입력한 경우
+				 sql +=" and "+colname+" like '%'|| ? ||'%' ";  // 위치홀더 (=?) 테이블명 혹은 컬럼명은 안먹음. 오로지 데이터값만 보안처리를 위해 사용됨.
+			 }
+			 // ==== 검색어가 있는 경우 끝 ==== //
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, paraMap.get("sizePerPage"));
+			 
+				if(searchWord != null &&  !searchWord.trim().isEmpty()) {
+					 // 검색어를 입력해주는데 공백이 아닌 실제 검색어를 입력한 경우
+					pstmt.setString(2, searchWord);
+				 }
+			 
+			rs = pstmt.executeQuery();
+			 
+			rs.next();
+			
+			totalPage = rs.getInt(1);
+		
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}	
+			
+		return totalPage;
 	}
 	
 	
 	// userid 값을 입력받아서 회원 1명에 대한 상세정보를 알아오기
 	@Override
 	public MemberVO memberOneDetail(String userid) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+			
+		MemberVO mvo = null;
+		
+		try {
+			conn = ds.getConnection();
+		
+			String sql = " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, "+
+								" totalpoint, to_char(registerday, 'yyyy-mm-dd') AS registerday, status, idle, fk_grade "+
+								" from tbl_member "+
+								" where userid = ? ";	
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				mvo = new MemberVO();
+				
+				mvo.setUserid(rs.getString(1));
+	            mvo.setName(rs.getString(2));
+	            mvo.setEmail(aes.decrypt(rs.getString(3)));	// 복호화
+	            mvo.setMobile(aes.decrypt(rs.getString(4)));	// 복호화
+	            mvo.setPostcode(rs.getString(5));
+	            mvo.setAddress(rs.getString(6));
+	            mvo.setDetailaddress(rs.getString(7));
+	            mvo.setExtraaddress(rs.getString(8));
+	            mvo.setTotalpoint(rs.getInt(9));
+	            mvo.setRegisterday(rs.getString(10));
+	            mvo.setStatus(rs.getInt(11));
+	            mvo.setIdle(rs.getInt(12));
+	            mvo.setFk_grade(rs.getInt(13));
+	        }
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return mvo;
 	}
 
 }

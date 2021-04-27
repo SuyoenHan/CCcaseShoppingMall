@@ -15,13 +15,14 @@ public class MemberListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String adminId = request.getParameter("adminid");
 		
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 한다. == //
 		HttpSession session = request.getSession();
-		AdminVO aloginuser = (AdminVO) session.getAttribute("admin");
+		AdminVO aloginuser = (AdminVO) session.getAttribute("aloginuser");
 		
 		// 관리자(admin)로 로그인 했을 경우
-		if(aloginuser == null) {
+	if(aloginuser == null ) { 
 			
 			InterMemberDAO mdao = new MemberDAO();
 			
@@ -35,8 +36,8 @@ public class MemberListAction extends AbstractController {
 				currentShowPageNo = "1";
 			}
 			
-			if(sizePerPage == null	|| "페이지 목록설정".equals(sizePerPage) 
-			|| !("3".equals(sizePerPage) || "5".equals(sizePerPage) || "10".equals(sizePerPage) ) )  { // 사용자 임의로 보여지는 목록 개수를 조절하지 못하도록 막는 것
+			if(sizePerPage == null	|| 
+			!("3".equals(sizePerPage) || "5".equals(sizePerPage) || "10".equals(sizePerPage) ) )  { // 사용자 임의로 보여지는 목록 개수를 조절하지 못하도록 막는 것
 				sizePerPage = "10";
 			}
 			
