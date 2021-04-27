@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.security.GeneralSecurityException;
 import java.sql.*;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.*;
@@ -233,6 +234,41 @@ public class MemberDAO implements InterMemberDAO{
 		
 		return member;
 	
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////김지우(회원조회)
+	// *** 페이징 처리를 한 모든 회원 또는 검색한 회원 목록 보여주기 *** //
+	@Override
+	public List<MemberVO> selectPagingMember(Map<String, String> paraMap) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select)
+	@Override
+	public int selectTotalPage(Map<String, String> paraMap) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	// userid 값을 입력받아서 회원 1명에 대한 상세정보를 알아오기
+	@Override
+	public MemberVO memberOneDetail(String userid) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
