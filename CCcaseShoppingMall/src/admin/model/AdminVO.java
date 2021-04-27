@@ -1,4 +1,4 @@
-package member.model;
+package admin.model;
 
 public class AdminVO {
 
@@ -6,6 +6,7 @@ public class AdminVO {
 	private String adminpwd;
 	private String adminname;
 	
+	public AdminVO() {}
 	
 	public String getAdminid() {
 		return adminid;

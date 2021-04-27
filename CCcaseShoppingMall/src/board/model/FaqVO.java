@@ -1,6 +1,6 @@
 package board.model;
 
-import member.model.AdminVO;
+import admin.model.AdminVO;
 
 public class FaqVO {
 

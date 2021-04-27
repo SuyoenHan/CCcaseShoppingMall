@@ -3,6 +3,9 @@
 <%
 	String ctxPath= request.getContextPath();
 %>
+
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,10 +72,22 @@ div.menuEachContainer:hover > button.menuEach{
 <script>
 
 	$(document).ready(function(){
-		
+	
+			
+			$("button#btnlogin").click(function(){
+				location.href="<%= ctxPath%>/login/loginform.cc";
+			});
+	
 	
 		
 	}); // $(documnet).ready(function(){--------------------------------
+	  // === 로그아웃 처리 함수 === //	
+	function goLogOut() {
+
+		// 로그아웃을 처리해주는 페이지로 이동
+		location.href="<%= request.getContextPath()%>/login/logout.cc";
+		
+	}
 
 </script>
 
@@ -140,12 +155,21 @@ div.menuEachContainer:hover > button.menuEach{
 		</div>
 
 		<div id="login">
+		<c:if test="${empty sessionScope.loginuser}">
+		
 			<div>
-				<span class="loginSection" id="login">로그인</span>
+				  <button type="button" id="btnlogin" >로그인</button>
 				<span class="loginSection" id="register">회원가입</span>
 			</div>
+		</c:if>
+		
+		<c:if test="${not empty sessionScope.loginuser}">
+				<button type="button" onclick="goLogOut();" >로그아웃</button>
+		</c:if>	
+		
 			<div>
 				<span class="loginSection" id="wishlist">장바구니</span>
 				<span class="loginSection" id="myPage">마이페이지</span>
 			</div>
+			
 		</div>	

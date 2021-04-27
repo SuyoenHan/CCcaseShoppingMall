@@ -4,8 +4,6 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../leftSide.jsp" />
 <div id="contents">
-	
-
 
 
 </div>

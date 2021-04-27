@@ -1,7 +1,6 @@
 package board.model;
 
 public class QnaVO {
-
 	
 	private int qnano;             //qna순번
 	private String fk_userid;      //작성자
@@ -14,6 +13,7 @@ public class QnaVO {
 	private int qstatus;           // 공개여부  
 	private String qnapwd;         // 글 비밀번호
 	
+
 	public int getQnano() {
 		return qnano;
 	}
@@ -93,6 +93,5 @@ public class QnaVO {
 	public void setQnapwd(String qnapwd) {
 		this.qnapwd = qnapwd;
 	}
-	
 
 }
