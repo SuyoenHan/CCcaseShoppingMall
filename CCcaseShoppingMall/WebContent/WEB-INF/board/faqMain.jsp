@@ -4,13 +4,14 @@
 	String ctxPath = request.getContextPath();
 %>
 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
 <style>
-
 
 	 tr.faqDetail {
 	 	 overflow: visible;
 	 	 border:solid 1px red;
-	 	/*  display: none;  */
+	 	  /*  display: none;   */ 
 	 }
 
 	div#contents ,table{
@@ -20,17 +21,20 @@
 	}
 
 	div#title{
-		border:solid 1px gray;
+	/* 	border:solid 1px gray; */
 		background-color: #ccc;
-		width:80%;
-		height:100px;
+		width:100%;
+		height:60px;
+		margin:10px auto;
+		padding:15px;
 		text-align: left;
-		font-size: 18pt;
+		font-size: 20pt;
 	}
 
 	
 	table , tr ,td{
 		border:solid 1px gray;
+		border-collapse: none;
 	}
 	
 	button.button{
@@ -45,17 +49,20 @@
 	
 
 </style>
+  
 
 <script type="text/javascript">
 
 	$(document).ready(function(){
 		
+		 $("tr.faqDetail").hide();
+		
 		func_height();//footer.jsp에 있음!
 		
-		$("button#faqwrite").click(function(){
+		$("input.faqwrite").click(function(){
 			//버튼(글쓰기)를 클릭하면
-			
-			location.href="<%=ctxPath%>/board/faqwrite.cc"
+			//alert("글쓰기 버튼 클릭");
+			location.href="<%=ctxPath%>/board/faqwrite.cc";
 			
 		});//end of $("button#faqwrite").click(function(){}); ------------------
 		
@@ -71,6 +78,17 @@
 			
 		});
 		
+		// 하나의 행을 누르면 정보를 보여준다.
+		$("tr.faqSimple").click(function(){
+			
+			 if($(".faqDetail").hide()){
+				 $(this).next(".faqDetail").show();
+				
+			}
+			
+			
+			
+		});
 		
 		
 		
@@ -78,21 +96,26 @@
 
 </script>
 
-
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 <jsp:include page="../header.jsp" />
 <jsp:include page="../leftSide.jsp" />
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
 <div id="contents">
 
-	<form action ="<%=ctxPath %>board/faqList.cc" name="faqList" method="GET">
 	
 		<div id="title"> 
 				커뮤니티
 		</div>
 			
-			<h2> FAQ </h2>
-			
-			<table>
+		<h2> FAQ </h2>
+		<div class="container">	
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>NO.</th>
@@ -103,7 +126,7 @@
 				</thead>
 				
 				<tbody>
-					<tr class="faqList">
+					<tr class="faqSimple">
 						<td class="faqno">ㄱ</td>
 						<td>ㄴ</td>
 						<td>ㄷ</td>
@@ -174,12 +197,11 @@
 			
 			</table>
 			
-			<button type="button" class="button faqwrite" name="faqwrite" style="float:right; margin:20px 300px;">글쓰기</button>
+			<input type="button" class="button faqwrite"  name="faqwrite" value="글쓰기"style="float:right; margin:20px 30px;" />
 			<!-- 페이징바 -->
 			<div ></div>
 	
-	</form>
-	
+	</div>
 </div>
 
 
