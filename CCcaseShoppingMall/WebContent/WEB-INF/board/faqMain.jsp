@@ -15,13 +15,14 @@
 
 	div#contents ,table{
 		color: #333;
-		width:100%;
+		width:80%;
+		
 	}
 
 	div#title{
 		border:solid 1px gray;
 		background-color: #ccc;
-		width:100%;
+		width:80%;
 		height:100px;
 		text-align: left;
 		font-size: 18pt;
@@ -33,8 +34,13 @@
 	}
 	
 	button.button{
-	 width:100px;
+	 width:80px;
 	 height:50px;
+	}
+	
+	thead th {
+	
+	background-color: #8c8c8c;
 	}
 	
 
@@ -44,10 +50,12 @@
 
 	$(document).ready(function(){
 		
+		func_height();//footer.jsp에 있음!
+		
 		$("button#faqwrite").click(function(){
 			//버튼(글쓰기)를 클릭하면
 			
-			location.href="<%=ctxPath%>/faqnotice/faqwrite.cc"
+			location.href="<%=ctxPath%>/board/faqwrite.cc"
 			
 		});//end of $("button#faqwrite").click(function(){}); ------------------
 		
@@ -166,7 +174,7 @@
 			
 			</table>
 			
-			<button type="button" class="button faqwrite" name="faqwrite" style="float:right; margin:20px 30px;">글쓰기</button>
+			<button type="button" class="button faqwrite" name="faqwrite" style="float:right; margin:20px 300px;">글쓰기</button>
 			<!-- 페이징바 -->
 			<div ></div>
 	
