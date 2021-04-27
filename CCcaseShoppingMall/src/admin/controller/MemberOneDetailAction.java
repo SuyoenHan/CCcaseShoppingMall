@@ -19,7 +19,7 @@ public class MemberOneDetailAction extends AbstractController {
 	
 		String adminId = request.getParameter("adminId");
 		// 관리자(admin)로 로그인 했을 경우
-		if(aloginuser != null && adminId.equals(aloginuser.getAdminid()) ) {
+		if(aloginuser == null) {
 		
 		String userid = request.getParameter("userid");
 		InterMemberDAO mdao = new MemberDAO();
