@@ -3,7 +3,7 @@
 
 <% String ctxPath = request.getContextPath(); %>
     
-<link rel="stylesheet" href="<%= ctxPath%>css/admin.css" /> 
+<link rel="stylesheet" href="<%= ctxPath%>/css/admin.css" /> 
 
 <jsp:include page="../adminheader.jsp" /> 
 
@@ -11,11 +11,13 @@
 
 	$(document).ready(function(){
 		
-		$("button#adminlogin").click(function(){ // 로그인 버튼 클릭했을때
+		// 로그인 버튼 클릭했을때
+		$("button#adminLogin").click(function(){ 
 			
 			goLogin();
 			
 		});
+		
 		
 		
 		// Function Declaration
@@ -26,21 +28,21 @@
 			
 			if(adminId == ""){
 				alert("아이디를 입력해주세요");
-				$("input#loginUserid").val("");
-		 		$("input#loginUserid").focus();
+				$("input#adminId").val("");
+		 		$("input#adminId").focus();
 		 		return;
 			}
 			
-			if(loginPwd == "" ){
+			if(adminPwd == "" ){
 		 		alert("암호를 입력해주세요");
-		 		$("input#loginPwd").val("");
-		 		$("input#loginPwd").focus();
+		 		$("input#adminPwd").val("");
+		 		$("input#adminPwd").focus();
 		 		return; 
 		 	}
 			
 			var frm = document.loginFrm;
 			frm.action = "<%= ctxPath%>/admin/adminlogin.cc";
-			frm.method = "GET"
+			frm.method = "POST"
 			frm.submit();
 			
 			
@@ -66,13 +68,13 @@
 		    <form method="post" name="loginFrm">
 			    <h3 style="text-align: center;"></h3>
 			    <div class="form-group">
-					<input type="text" id="adminId" class="form-control" placeholder="adminId" name="adminID" maxlength="20">
+					<input type="text" id="adminId" class="form-control" placeholder="adminId" name="adminId" maxlength="20">
 					<br>
 			    	<input type="password" id="adminPwd" class="form-control" placeholder="●●●●" name="adminPwd" maxlength="20">
 				</div>
 				<br>
 					
-			    <button type="button" id="adminlogin" class="loginSubmit">로그인</button>
+			    <button type="button" id="adminLogin" class="loginSubmit">로그인</button>
 
 			</form>
 		</div>
