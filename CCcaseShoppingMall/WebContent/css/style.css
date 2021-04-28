@@ -96,18 +96,10 @@ div#leftContainer{
 div.footerSection{
 	border: solid 0px red;
 	display: inline-block;
-	margin-left:70px;
-	margin-top: 20px;
+	margin-top: -10px;
+	margin-left: 70px;
 	line-height: 150%;
 	font-size: 13pt;
-}
-
-button.footerNavigator{
-	border-radius: 50%;
-	background-color: #f2f2f2;
-	margin-left: 10px;
-	width: 90px;
-	height: 90px;
 }
 
 
