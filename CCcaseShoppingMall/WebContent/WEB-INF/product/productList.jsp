@@ -155,7 +155,7 @@
 		</form>
 	</div>
 
-	<div style="border: solid 0px red; height: 1230px;">
+	<div style="border: solid 1px red;">
 	 	<%-- 상품 한줄에 4개씩 배치 --%>
 		<c:forEach var="pInfoMap" items="${pInfoList}" varStatus="status">
 			<c:if test="${status.count%4 ne 0}"> 
@@ -207,7 +207,7 @@
 	</div>
 	
 	<div style="height: 50px;" align="center">
-		<span style=" border: solid 0px red; font-size: 15pt;">${pageBar}</span>
+		<span style=" border: solid 1px blue; font-size: 15pt;">${pageBar}</span>
 	</div>
 	
 </div>
