@@ -10,7 +10,7 @@
 <style type="text/css">
 
   tr.memberInfo:hover {
-        background-color: #e6e6ff;
+        background-color: #ffb380;
         cursor: pointer;
    }
 
