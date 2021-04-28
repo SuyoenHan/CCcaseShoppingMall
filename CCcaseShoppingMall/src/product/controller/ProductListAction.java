@@ -114,7 +114,7 @@ public class ProductListAction extends AbstractController {
 			}
 			
 			loop++;
-			pageNo++;
+			pageNo++; 
 			
 		}// end of while-----------------------------
 		
