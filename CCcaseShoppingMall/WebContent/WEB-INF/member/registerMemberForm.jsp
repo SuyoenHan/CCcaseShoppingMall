@@ -109,7 +109,6 @@
 		}); // 아이디가 name 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다. 
 		
 		$("input#email").blur(function(){
-			
 	
 				var regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
 			
@@ -185,8 +184,6 @@
 	            oncomplete: function(data) {
 	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
 	                var addr = ''; // 주소 변수
 	                var extraAddr = ''; // 참고항목 변수
 
@@ -231,8 +228,13 @@
 
         ///// === 아이디중복검사하기 === /////
         $("button#btnIdCheck").click(function(){
+        	
+        	if ($('#userid').val() == '') {
+      	      alert('아이디를 입력해주세요.')
+      	      return;
+      	 	 }
         	b_flagIdDuplicateClick = true;
-   
+   			
         		// === jQuery 를 이용한 Ajax (JSON 을 사용함) 두번째 방법 === //
         	$.ajax({
         		url:"<%= ctxPath%>/member/idDuplicateCheck.cc",
@@ -265,30 +267,41 @@
 	}); // end of $(document).ready(function(){})------------------
 	
     function isExistEmailCheck() {
-		
+    
 		b_flagEmailDuplicateClick = true;
     	// "이메일중복확인"을  클릭했다 라고 표기를 해주는 것이다.
+	
+		if ($('#email').val() == '') {
+	  	      alert('이메일을 확인 해주세요.')
+	  	      return;
+	  	}
+		
+	
+			$.ajax({
+	    		url:"<%= ctxPath%>/member/emailDuplicateCheck.cc",
+	    		data:{"email":$("input#email").val()},
+	    		type:"post",
+	    		dataType:"json",   
+	    		success:function(json){
+	    		
+	    
+	    		 if(json.isExists) {
+	    				// 입력한 email 이 이미 사용중이라면 
+	    				$("span#emailCheckResult").html($("input#email").val()+" 은 중복된 email 이므로 사용불가 합니다.").css("color","red");
+	    				$("input#email").val("");
+	    			}
+	    			
+	    			else {
+	    				// 입력한 email 이 DB 테이블에 존재하지 않는 경우라면 
+	     				$("span#emailCheckResult").html("사용가능합니다").css("color","navy");
+	    			}
+	    		},
+	    		error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+	    	});
+	
     	
-		$.ajax({
-    		url:"<%= ctxPath%>/member/emailDuplicateCheck.cc",
-    		data:{"email":$("input#email").val()},
-    		type:"post",
-    		dataType:"json",   
-    		success:function(json){
-    			if(json.isExists) {
-    				// 입력한 email 이 이미 사용중이라면 
-    				$("span#emailCheckResult").html($("input#email").val()+" 은 중복된 email 이므로 사용불가 합니다.").css("color","red");
-    				$("input#email").val("");
-    			}
-    			else {
-    				// 입력한 email 이 DB 테이블에 존재하지 않는 경우라면 
-     				$("span#emailCheckResult").html("사용가능합니다").css("color","navy");
-    			}
-    		},
-    		error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-    	});	
     	
 	}// end of function isExistEmailCheck()---------------------------
 	

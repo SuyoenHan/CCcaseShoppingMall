@@ -50,6 +50,8 @@ public class MemberRegisterAction extends AbstractController {
 				
 				request.setAttribute("userid", userid);
 				request.setAttribute("pwd", pwd);
+				request.setAttribute("name", name);
+				request.setAttribute("email", email);
 
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/member/registerSuccess.jsp");
