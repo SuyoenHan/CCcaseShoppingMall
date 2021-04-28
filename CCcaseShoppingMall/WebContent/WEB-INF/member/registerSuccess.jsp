@@ -4,21 +4,19 @@
 	String ctxPath= request.getContextPath();
 %>       
     
-<link rel="stylesheet" href="<%= ctxPath%>/css/register.css" />
-   
-<jsp:include page="../../WEB-INF/header.jsp" />
-
+<link rel="stylesheet" href="<%= ctxPath%>/css/register.css"/>
 <script type="text/javascript">
 
-	function() {
-		var frm = document.loginFrm; 
-		frm.action = "<%= ctxPath%>/login/login.cc";
-		frm.method = "post";
-		frm.submit();
-		
-	}// end of window.onload = function() {}----------------------
+		function gohome() {
+			var frm = document.loginFrm; 
+			frm.action = "<%= ctxPath%>/login/login.cc";
+			frm.method = "post";
+			frm.submit();
+		}
+	
 
-</script>--
+</script>
+<jsp:include page="../../WEB-INF/header.jsp" />
 <div id="contents"> 
 	<div id="registerSuccessContainer"> 
 		<div>   
@@ -50,12 +48,14 @@
 			</table>
 		</div>
 		<div>
-			<button type="button"  onclick="location.href='/home.cc' >홈으로</button>
-				<form name="loginFrm">
+			<button type="button"  onclick="gohome();">홈으로</button>
+		</div>
+			<form name="loginFrm">
 		<input type="hidden" name="userid" value="${requestScope.userid}" />
 		<input type="hidden" name="pwd"    value="${requestScope.pwd}" />
-	</form>
-		</div>
+		</form>
+		
+		
 	</div>
 </div>
 <jsp:include page="../../WEB-INF/footer.jsp" />
