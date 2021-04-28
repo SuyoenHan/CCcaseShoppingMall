@@ -19,7 +19,7 @@ public class MemberRegisterAction extends AbstractController {
 		if("GET".equalsIgnoreCase(method)) { 
 			// 회원가입창을 띄운다
 			//super.setRedirect(false);
-			super.setViewPage("/previousJsp/updateRequired/registerMemberForm.jsp");
+			super.setViewPage("/WEB-INF/member/registerMemberForm.jsp");
 		}
 		
 		else {
@@ -52,7 +52,7 @@ public class MemberRegisterAction extends AbstractController {
 				request.setAttribute("pwd", pwd);
 
 			//	super.setRedirect(false);
-				super.setViewPage("/previousJsp/updateRequired/registerSuccess.jsp");
+				super.setViewPage("/WEB-INF/member/registerSuccess.jsp");
 			}
 			else {
 				String message = "회원가입 실패";

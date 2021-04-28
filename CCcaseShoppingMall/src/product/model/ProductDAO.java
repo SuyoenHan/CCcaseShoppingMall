@@ -65,10 +65,11 @@ public class ProductDAO implements InterProductDAO {
 	}// end of public int calCntByCompany(int mnum, int cnum) throws SQLException {------------------------
 
 	
-	// mnum과 cnum이 주어진 경우, 
-	// 이에 해당하는 제품번호, 제품명, 기종명, 대표이미지파일명, 제품정가, 할인판매가, 스펙번호 가져오기 (productDetailVO 정보는 하양색 기준으로..)
+	// mnum, cnum, modelName 이 주어진 경우, 
+	// 이에 해당하는 제품번호, 제품명, 기종명, 대표이미지파일명, 제품정가, 할인판매가, 스펙번호 가져오기 (productDetailVO 정보는 하얀색 기준으로..)
+	// modelName은 null값일 수도 있다
 	@Override
-	public List<Map<String,String>> getProductInfo(String mnum, String cnum) throws SQLException {
+	public List<Map<String,String>> getProductInfo(Map<String,String> paraMap) throws SQLException {
 
 		List<Map<String,String>> pInfoList= new ArrayList<>();
 		
@@ -76,17 +77,28 @@ public class ProductDAO implements InterProductDAO {
 			conn=ds.getConnection();
 			
 			String sql=" select productid, productname, modelname, pimage1, price " + 
-					   "      , price*(1-salepercent) as saleprice, fk_snum " + 
+					   "      , price*(1-salepercent) as saleprice, fk_snum, salepercent*100 as salepercent " + 
 					   " from " + 
 					   " (select productid, productname, modelname, fk_mnum, fk_cnum from tbl_product) P " + 
 					   " join " + 
 					   " (select pimage1, fk_productid, price, salepercent, nvl(fk_snum,-1) as fk_snum from tbl_pdetail where pcolor='white') D " + 
-					   " on P.productid = D.fk_productid " +
-					   " where fk_mnum= ? and fk_cnum= ? ";
+					   " on P.productid = D.fk_productid ";
+					   
+			if(paraMap.get("modelName")!=null) {
+				sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
+			}
+			else {
+				sql+=" where fk_mnum= ? and fk_cnum= ? ";
+			}
 			
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt(mnum));
-			pstmt.setInt(2, Integer.parseInt(cnum));
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("mnum")));
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("cnum")));
+			
+			if(paraMap.get("modelName")!=null) {
+				pstmt.setString(3, paraMap.get("modelName"));
+			}
+			
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -107,10 +119,11 @@ public class ProductDAO implements InterProductDAO {
 				pInfoMap.put("price", price);
 				pInfoMap.put("saleprice", saleprice);
 				
-				if(rs.getInt(7) != -1) { // fk_snum이 존재하는 경우 (== fk_snum이 null값인 경우 sql에서 -1로 변환) 
-					String fk_snum= String.valueOf(rs.getInt(7)); // fk_snum이 0이면 BEST 상품, 1이면 NEW 상품
-					pInfoMap.put("fk_snum", fk_snum);
-				}
+				String fk_snum= String.valueOf(rs.getInt(7)); // fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당없음
+				pInfoMap.put("fk_snum", fk_snum);
+				
+				String salepercent= String.valueOf(rs.getInt(8));
+				pInfoMap.put("salepercent", salepercent);
 				
 				pInfoList.add(pInfoMap);
 			}
@@ -119,16 +132,14 @@ public class ProductDAO implements InterProductDAO {
 			close();
 		}
 		
-		
 		return pInfoList;
 		
 		/* 
-		 	해당회사와 카테고리에 일치하는 제품이 하나도 없는 경우: pInfoList.size() == 0
-		 	해당회사와 카테고리에 일치하는 제품이 하나이상 있는 경우: pInfoList.size() > 0  
+		 	일치하는 제품이 하나도 없는 경우: pInfoList.size() == 0
+		 	일치하는 제품이 하나이상 있는 경우: pInfoList.size() > 0  
 		*/
 		
-	} // end of public List<Map<String,String>> getProductInfo(String mnum, String cnum) throws SQLException {------
-	
+	} // end of public List<Map<String,String>> getProductInfo(Map<String,String> paraMap) throws SQLException {-----
 	
 	
     // mnum과 cnum이 주어진 경우, 이에 해당하는 기종명 반환 (중복되는 기종명은 1번만 사용)
@@ -162,7 +173,42 @@ public class ProductDAO implements InterProductDAO {
 	
 	} // end of public List<String> getModelName(String mnum, String cnum) throws SQLException {----
 
+	
+	// 제품 총페이지 개수 반환 메소드
+	@Override
+	public int selectTotalPage(Map<String, String> pageMap) throws SQLException {
+
+		int totalPage= 0;
 		
+		String sql= " select ceil(count(*)/?) from tbl_product ";
+		
+		if(pageMap.get("modelName")!=null) {
+			sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
+		}
+		else {
+			sql+=" where fk_mnum= ? and fk_cnum= ? ";
+		}
+		
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, Integer.parseInt(pageMap.get("sizePerPage")));
+		pstmt.setInt(2, Integer.parseInt(pageMap.get("mnum")));
+		pstmt.setInt(3, Integer.parseInt(pageMap.get("cnum")));
+		
+		if(pageMap.get("modelName")!=null) {
+			pstmt.setString(4, pageMap.get("modelName"));
+		}
+		
+		rs=pstmt.executeQuery();
+		
+		totalPage= rs.getInt(1);
+		
+		return totalPage;  // 총페이지 개수
+	}
+
+	
+	
+
+
 	// =========================== 한수연 끝 ======================================
 
 	
