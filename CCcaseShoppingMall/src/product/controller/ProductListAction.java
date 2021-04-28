@@ -1,6 +1,5 @@
 package product.controller;
 
-import java.util.List;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,40 +18,34 @@ public class ProductListAction extends AbstractController {
 		
 		String mnum= request.getParameter("mnum");
 		String cnum= request.getParameter("cnum");
-		String modelName= request.getParameter("modelName");
+		String modelName= request.getParameter("modelName"); // null인 경우 존재
 		
 		Map<String,String> paraMap= new HashMap<>();
 		paraMap.put("mnum", mnum);
 		paraMap.put("cnum", cnum);
 		paraMap.put("modelName", modelName);
 		
-		
-		// mnum과 mnum에 해당하는 회사명 requestScope에 저장
 		InterMobileCompanyDAO mcdao= new MobileCompanyDAO();
-		String mname= mcdao.getMname(mnum);
+		String mname= mcdao.getMname(mnum); // mnum에 해당하는 mname 알아오는 메소드
 		
 		/*
 		 	mname==null 인 경우 mnum에 해당하는 회사명이 존재하지 않음
 		 	mname!=null 인 경우 mnum에 해당하는 회사명 존재
 		*/
-		request.setAttribute("mname", mname);
-		request.setAttribute("mnum", mnum);
 		
-		
-		// cnum과 cnum에 해당하는 카테고리명 requestScope에 저장
 		InterCategoryDAO cdao= new CategoryDAO();
-		String cname= cdao.getCname(cnum);
+		String cname= cdao.getCname(cnum); // cnum에 해당하는 cname 알아오는 메소드
+		
 		/*
 		 	cname==null 인 경우 cnum에 해당하는 카테고리명이 존재하지 않음
 		 	cname!=null 인 경우 cnum에 해당하는 카테고리명 존재
 	    */
+
+		request.setAttribute("mname", mname);
+		request.setAttribute("mnum", mnum);
 		request.setAttribute("cname", cname);
 		request.setAttribute("cnum", cnum);
-
-		
-		// select 태그 값 고정을 위해 modelName 넘겨주기
-		request.setAttribute("modelName", modelName);
-			
+		request.setAttribute("modelName", modelName); // select 태그 값 고정하기 위한 용도
 		
 		InterProductDAO pdao= new ProductDAO();
 

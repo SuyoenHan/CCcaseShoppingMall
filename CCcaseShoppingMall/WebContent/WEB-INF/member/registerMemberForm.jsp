@@ -6,7 +6,6 @@
 %>    
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
 <link rel="stylesheet" href="<%= ctxPath %>/css/register.css" />
     
@@ -21,12 +20,15 @@
 	// 가입하기 버튼을 클릭시 "아이디중복확인"
 	var b_flagEmailDuplicateClick = false;
 	// 가입하기 버튼을 클릭시 "이메일중복확인"
+	
 	$(document).ready(function(){
 		
 		$("span.error").hide();
-
-	
+		$("input#userid").focus();
+		
+		
 		$("input#userid").blur(function(){
+			$("span#idcheckResult").html("");
 			
 			var userid = $(this).val().trim();
 			if(userid == "") {
@@ -41,7 +43,43 @@
 				// 공백이 아닌 글자를 입력했을 경우
 				$("table#tblMemberRegister :input").prop("disabled",false);
 				$(this).parent().find(".error").hide();
+				
+		        ///// === 아이디중복검사하기 === /////
+		        $("button#btnIdCheck").click(function(){
+		        	b_flagIdDuplicateClick = true;
+		   
+		        		// === jQuery 를 이용한 Ajax (JSON 을 사용함) 두번째 방법 === //
+		        	$.ajax({
+		        		url:"<%= ctxPath%>/member/idDuplicateCheck.cc",
+		        		type:"post", // "get" 또는 "post" 를 지정할때는 method 가 아니라 type 이다. 
+		        		data:{"userid":$("input#userid").val()},
+		 
+		        		dataType:"json",
+		        		success:function(json){
+		        		        			
+			        		if(json.isExists) {
+			        			// 입력한 userid 가 이미 사용중이라면 
+			        			$("span#idcheckResult").html($("input#userid").val()+" 은 중복된 ID 이므로 사용불가 합니다.").css("color","red"); 
+			        			$("input#userid").val("");
+			        		}
+			        		else {
+			        			// 입력한 userid 가 DB 테이블에 존재하지 않는 경우라면 
+			        			$("span#idcheckResult").html("사용가능합니다").css("color","green");
+			        		}
+			        		
+		        		},
+		        		error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+		        		
+		        	});// end of $.ajax({})--------------------------------------
+		        	
+		        }); // end of $("img#idcheck").click(function(){})---------------	
+				
 			}
+			
+			
+			
 			
 		}); // 아이디가 userid 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.	
 		
@@ -90,6 +128,7 @@
 			}
 			
 		}); // 아이디가 pwdcheck 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.	
+		
 		$("input#name").blur(function(){
 			
 			var name = $(this).val().trim();
@@ -110,7 +149,7 @@
 		
 		$("input#email").blur(function(){
 			
-	
+				$("span#emailCheckResult").html("");
 				var regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
 			
 				var bool = regExp.test($(this).val());
@@ -122,15 +161,45 @@
 				
 					$(this).parent().find(".error").show();
 					$(this).focus();
+					$("button#emailCheckBt").prop("disabled",true);
 				}
 				else {
+					
+					$("button#emailCheckBt").prop("disabled",false);
 					// 이메일이 정규표현식에 맞는 경우
 					$("table#tblMemberRegister :input").prop("disabled",false);
 					$(this).parent().find(".error").hide();
-				}
-				
-			}); // 아이디가 email 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
-		
+					
+					 ///// === 이메일중복검사하기 === /////
+			        $("button#emailCheckBt").click(function(){
+						
+						b_flagEmailDuplicateClick = true;
+				    	// "이메일중복확인"을  클릭했다 라고 표기를 해주는 것이다.
+				    	
+						$.ajax({
+				    		url:"<%= ctxPath%>/member/emailDuplicateCheck.cc",
+				    		data:{"email":$("input#email").val()},
+				    		type:"post",
+				    		dataType:"json",   
+				    		success:function(json){
+				    			if(json.isExists) {
+				    				// 입력한 email 이 이미 사용중이라면 
+				    				$("span#emailCheckResult").html($("input#email").val()+" 은 중복된 email 이므로 사용불가 합니다.").css("color","red");
+				    				$("input#email").val("");
+				    				$("input#email").focus();
+				    			}
+				    			else {
+				    				// 입력한 email 이 DB 테이블에 존재하지 않는 경우라면 
+				     				$("span#emailCheckResult").html("사용가능합니다").css("color","navy");
+				    			}
+				    		},
+				    		error: function(request, status, error){
+								alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+							}
+				    	});
+			        });	
+			     }	
+		});
 			
 		$("input#hp2").blur(function(){
 			
@@ -229,68 +298,10 @@
 		});	
 
 
-        ///// === 아이디중복검사하기 === /////
-        $("button#btnIdCheck").click(function(){
-        	b_flagIdDuplicateClick = true;
-   
-        		// === jQuery 를 이용한 Ajax (JSON 을 사용함) 두번째 방법 === //
-        	$.ajax({
-        		url:"<%= ctxPath%>/member/idDuplicateCheck.cc",
-        		type:"post", // "get" 또는 "post" 를 지정할때는 method 가 아니라 type 이다. 
-        		data:{"userid":$("input#userid").val()},
- 
-        		dataType:"json",
-        		success:function(json){
-        		        			
-	        		if(json.isExists) {
-	        			// 입력한 userid 가 이미 사용중이라면 
-	        			$("span#idcheckResult").html($("input#userid").val()+" 은 중복된 ID 이므로 사용불가 합니다.").css("color","red"); 
-	        			$("input#userid").val("");
-	        		}
-	        		else {
-	        			// 입력한 userid 가 DB 테이블에 존재하지 않는 경우라면 
-	        			$("span#idcheckResult").html("사용가능합니다").css("color","green");
-	        		}
-	        		
-        		},
-        		error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-        		
-        	});// end of $.ajax({})--------------------------------------
-        	
-        }); // end of $("img#idcheck").click(function(){})---------------
-        
-    
+
 	}); // end of $(document).ready(function(){})------------------
 	
-    function isExistEmailCheck() {
-		
-		b_flagEmailDuplicateClick = true;
-    	// "이메일중복확인"을  클릭했다 라고 표기를 해주는 것이다.
-    	
-		$.ajax({
-    		url:"<%= ctxPath%>/member/emailDuplicateCheck.cc",
-    		data:{"email":$("input#email").val()},
-    		type:"post",
-    		dataType:"json",   
-    		success:function(json){
-    			if(json.isExists) {
-    				// 입력한 email 이 이미 사용중이라면 
-    				$("span#emailCheckResult").html($("input#email").val()+" 은 중복된 email 이므로 사용불가 합니다.").css("color","red");
-    				$("input#email").val("");
-    			}
-    			else {
-    				// 입력한 email 이 DB 테이블에 존재하지 않는 경우라면 
-     				$("span#emailCheckResult").html("사용가능합니다").css("color","navy");
-    			}
-    		},
-    		error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-    	});	
-    	
-	}// end of function isExistEmailCheck()---------------------------
+    
 	
 	// === Function declaration === //
 	
@@ -375,7 +386,7 @@
 		<tr>
 			<td style="width: 20%; font-weight: bold;">이메일&nbsp;<span class="star">*</span></td>
 			<td style="width: 80%; text-align: left;"><input type="text" name="email" id="email" class="requiredInfo" placeholder="abc@def.com" /> 
-			    <span style="display: inline-block; width: 100px; height:30px; border: solid 1px gray; padding-top:10px; border-radius: 5px; font-size: 10pt; text-align: center; margin: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</span> 
+			    <button type="button" id="emailCheckBt" style="display: inline-block; width: 100px; height:30px; border: solid 1px gray; padding-top:10px; border-radius: 5px; font-size: 10pt; text-align: center; margin: 10px; cursor: pointer;">이메일중복확인</button> 
 			    <span id="emailCheckResult"></span>
 			    <span class="error">이메일 형식에 맞지 않습니다.</span>
 			</td>
