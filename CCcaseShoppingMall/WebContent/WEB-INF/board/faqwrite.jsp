@@ -95,15 +95,24 @@
 		});//end of $("button.faqInsert").click(function(){})-------------------
 		
 <<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+>>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 		
 		
 		
 	}); //end of $(document).ready(function(){})-------------------------
+<<<<<<< HEAD
+
+
+=======
 
 =======
 	});
 
 >>>>>>> refs/heads/main
+>>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 </script>
 
 

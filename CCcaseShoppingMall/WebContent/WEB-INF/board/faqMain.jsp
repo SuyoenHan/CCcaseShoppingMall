@@ -11,13 +11,11 @@
  
 <style>
 
-	 tr.faqDetail {
-	 	 overflow: visible;
-	 	 border:solid 1px red;
-	 	  /*  display: none;   */ 
-	 }
+	 
 
-	div#contents ,table{
+	div#contents {
+		margin-left: 35px ;
+    	margin-right: 35px ;
 		color: #333;
 		width:80%;
 		
@@ -28,8 +26,8 @@
 		background-color: #ccc;
 		width:100%;
 		height:60px;
-		margin:10px auto;
 		padding:15px;
+		margin:10px auto;
 		text-align: left;
 		font-size: 20pt;
 	}
@@ -44,7 +42,16 @@
 	button.button{
 	 width:80px;
 	 height:40px;
-	 margin:10px auto;
+	 margin-left: 35px ;
+    
+	}
+	
+	.button:hover{
+		background-color: #666699;
+		color: white;
+		margin-top: 35px ;
+    	
+    	
 	}
 	
 	thead th {
@@ -52,20 +59,21 @@
 		background-color: #8c8c8c;
 	}
 	
-     /* table#faqDetail {
-     	width:100%;
-     	
-     } */
      
     .cal{
     	font-weight: bold;
+    	font-size:16px;
     	border: solid 1px gray;
+    	margin-left: 35px ;
+    	margin-right: 35px ;
     	line-height: 40px;
     	
     }
     .faqcontent{
     	background-color: #e6e6e6;
     	border: solid 1px gray; 
+    	margin-left: 35px ;
+    	margin-right: 35px ;
     	padding: 25px ;
     }
     
@@ -85,6 +93,10 @@
    	 background-color:  #aaa !important;
     }
     
+    #contents > div.container > table > tbody > tr.faqDetail {
+    	 
+    	background-color: white;
+    }
     
     
 </style>
@@ -94,25 +106,19 @@
 
 	$(document).ready(function(){
 		
+		var fnum =document.getElementsByName("fnum");
+		var fcount = 0;
+		
 		func_height();//footer.jsp에 있음!
 		
 		
-		
-		// 관리자로 로그인 되었을때만 보이도록 함.---아직 구현안함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		$("button.faqwrite").click(function(){
-			//버튼(글쓰기)를 클릭하면
-			//alert("글쓰기 버튼 클릭");
-			location.href="<%=ctxPath%>/board/faqwrite.cc";
-			
-		});//end of $("button#faqwrite").click(function(){}); ------------------
-		
-		
-		
-		
 		$("tr.faqDetail").css('display','none'); //안보이도록 한다.
-		// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
+		
+		
+		
 		$("tr.faqSimple").click(function(event){
 			
+			// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
 			var $faqDetail =$(this).next();
 			
 			var sDisplay = $faqDetail.css('display');
@@ -122,20 +128,37 @@
 				
 				$("tr.faqDetail").css('display','none'); // 전부 안보이도록 한다.
 				$faqDetail.css('display',''); // '' display  block을 사용한다는 말이다. 
-			
+				fcount=fcount++;
+				
 			}
 			else{
   				// display 상태가 보이는 것이라면
   				$faqDetail.css('display','none'); //안보여지도록 한다.
+  				
   			}
-  			
+			
 			
 		});
+			
+		<%--  //클릭하면 조회수가 올라가도록 한다. 어떻게.....??? ㅎ 
+		$.ajax({
+				url:"<%= request.getContextPath()%>/board/fcount.up",
+				type:"POST",
+				data:{"fcount":fcount
+             		 ,"fnum":fnum}, 
+				dataType:"json",
+				success:function(json){
+				$("td#fnum")
+				},
+				error: function(request, status, error){
+		           
+		        }
+					
+			});//end of $.ajax({})---------------------
+		 --%>
+		 
 		
-		
-		
-		
-		
+			
 		
 	});// end of $(document).ready(function(){})--------------
 
@@ -163,7 +186,7 @@
 
 			<table class="table table-hover">
 				<thead>
-					<tr>
+					<tr style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
 						<th>등록일자</th>
@@ -174,38 +197,36 @@
 				<tbody>
 				<c:forEach var="fvo" items="${requestScope.faqList}">
 					<tr class="faqSimple">
-						<td class="faqno">${fvo.faqno}</td>
-						<td>${fvo.ftitle}</td>
-						<td>${fvo.fregisterdate}</td>
-						<td>${fvo.number}</td>
+						<td class="faqno" name="faqno" id="faqno">${fvo.faqno}</td>
+						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
+						<td name="fregisterdate" id="fregisterdate">${fvo.fregisterdate}</td>
+						<td name="fnum" id="fnum"></td>
 					</tr>
 					<tr class="faqDetail">
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
-									<div class="cal">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
+									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
 									
-								<tr>
+								</tr>
 								<tr>
 									<div class="cal">작성자: &nbsp;&nbsp;${fvo.fk_adminid}</div>
-								<tr>
+								</tr>
 								<tr>
 								   <div class="cal">
 									<span >등록일:&nbsp;&nbsp;${fvo.fregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
 									<span >최근수정일:&nbsp;&nbsp;${fvo.fupdatedate}</span>
 									</div>
-								<tr>
+								</tr>
 								<tr>
 									<div class="cal">글내용</div>
 									<div class="faqcontent">${fvo.fcontent}</div>
 								     
-								<tr>
+								</tr>
 							</table>
 						
-							<button type="button" class="button faqList" name="faqList" style="align:left;">목록</button>
-							<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
-							<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
+							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
 						
 						</td>
 					 </tr>
@@ -214,9 +235,8 @@
 			
 			</table>
 			
-			<button type="button" class="button faqwrite"  name="faqwrite" value="글쓰기" style="float:right; " >글쓰기</button>
 			<!-- 페이징바 -->
-			<div ></div>
+			<div >${requestScope.pageBar}</div>
 	
 	</div>
 </div>
