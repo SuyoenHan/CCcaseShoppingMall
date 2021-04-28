@@ -22,6 +22,7 @@ public class QnaDetailAction extends AbstractController {
 		
 		String qtitle = request.getParameter("qtitle");
 		String qnano = request.getParameter("qnano");
+		
 		InterQnaDAO qdao = new QnaDAO();
 		QnaVO qvo = qdao.qnaDetail(qtitle, qnano);
 		

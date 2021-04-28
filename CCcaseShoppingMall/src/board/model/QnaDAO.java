@@ -163,28 +163,28 @@ public class QnaDAO implements InterQnaDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_qna (qnano, fk_userid, fk_productid, email, qtitle, qcontent, qstatus, qnapwd) "+
+			String sql = " insert into tbl_qna (qnano, qtitle, fk_userid, email, qcontent, qstatus, qnapwd, fk_productid ) "+
 								" values(seq_qna_qnano.nextval, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, qna.getFk_userid());
-			pstmt.setString(2, qna.getFk_productid());
+			pstmt.setString(1, qna.getQtitle());
+			pstmt.setString(2, qna.getFk_userid());
 			pstmt.setString(3, qna.getEmail());
-			pstmt.setString(4, qna.getQtitle());
-			pstmt.setString(5, qna.getQcontent());
-			pstmt.setString(6, qna.getQstatus());
-			pstmt.setString(7, qna.getQnapwd());
+			pstmt.setString(4, qna.getQcontent());			
+			pstmt.setString(5, qna.getQstatus());
+			pstmt.setString(6, qna.getQnapwd());
+			pstmt.setString(7, qna.getFk_productid());
 			
 			n = pstmt.executeUpdate();
 			
-		} catch (SQLException e) {
+			return n;
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}	
-		return n;
-		
+		return -1; // 데이터베이스 오류
 	}
 
 	// 제목(qtitle)으로 qna 글 불러오기

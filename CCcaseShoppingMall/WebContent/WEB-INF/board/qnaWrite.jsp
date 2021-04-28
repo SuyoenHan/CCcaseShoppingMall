@@ -8,6 +8,10 @@
 	String ctxPath = request.getContextPath();
 %>
 
+<!DOCTYPE jsp:include PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>QnA 글쓰기</title>
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
@@ -30,7 +34,7 @@
    }
    
   </style>
- 
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
  <script type="text/javascript">
 	
@@ -55,6 +59,9 @@
 	}// end of function setDisplay()--------------------------------------
 
 </script>
+</head>
+
+<body>
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
@@ -91,7 +98,7 @@
  				<label for="public">공개</label>&nbsp;&nbsp;
  				<input type="radio" id="qstatus2" name="qstatus" value="1" onclick="setDisplay()">
  				<label for="private">비공개</label>
- 				<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" maxlength="10"></div>
+ 				<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" name="qnapwd" maxlength="10"></div>
         	</td>
        	</tr>
 
@@ -99,9 +106,8 @@
             <td id="title">
                글내용
             </td>
-            
             <td>
-                <textarea name="qna_content" id="qcontent" cols="65" rows="15"></textarea>            
+                <textarea name="qcontent" id="qcontent" cols="65" rows="15"></textarea>            
             </td>        
         </tr>
 
@@ -115,5 +121,7 @@
     </table>    
     </form>
 </div>
+</body>
+</html>
 
 <jsp:include page="../../WEB-INF/footer.jsp" />
