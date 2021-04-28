@@ -94,16 +94,13 @@
 			
 		});//end of $("button.faqInsert").click(function(){})-------------------
 		
-<<<<<<< HEAD
+
 		
 		
 		
 	}); //end of $(document).ready(function(){})-------------------------
 
-=======
-	});
 
->>>>>>> refs/heads/main
 </script>
 
 
