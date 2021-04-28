@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -38,6 +40,48 @@ public class FaqDAO implements InterFaqDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	// 모든 faq select 해와서 목록에 보여주기
+	@Override
+	public List<FaqVO> faqAllView() throws SQLException {
+		
+		List<FaqVO> faqList = new ArrayList<>();
+		
+		try{
+			
+			conn= ds.getConnection();
+			
+			String sql = " select faqno, fk_adminid, ftitle,fregisterdate,fupdatedate,fviewcount,fcontent "+
+					     " from tbl_faq " +
+					     " order by fregisterdate desc";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				FaqVO fvo = new FaqVO();
+				fvo.setFaqno(rs.getInt(1));
+				fvo.setFk_adminid(rs.getString(2));
+				fvo.setFtitle(rs.getString(3));
+				fvo.setFregisterdate(rs.getString(4));
+				fvo.setFupdatedate(rs.getString(5));
+				fvo.setNumber(rs.getInt(6));
+				fvo.setFcontent(rs.getString(7));
+				
+				faqList.add(fvo);
+				
+			}
+			
+		}finally {
+			close();
+		}
+		
+		
+		return faqList;
 	}
 	
 	
