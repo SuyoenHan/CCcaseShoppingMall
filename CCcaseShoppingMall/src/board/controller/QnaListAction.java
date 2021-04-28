@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
+import member.model.MemberVO;
 import my.util.Myutil;
 
 
@@ -20,11 +21,10 @@ public class QnaListAction extends AbstractController {
 		// *** 로그인 했을 때만 QNA 글 조회가 가능하도록 한다.
 		HttpSession session = request.getSession();
 		
-		QnaVO loginuser = (QnaVO) session.getAttribute("loginuser");
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if( loginuser != null || loginuser == null) { // 로그인 했을 경우
-			// * 현재 페이지 확인 위해 로그인 되지 않은 경우에도 확인 가능하도록 구현
-			// 다른 페이지와 연결시 loginuser == null 삭제
+		if( loginuser != null ) { // 로그인 했을 경우
+
 			InterQnaDAO qdao = new QnaDAO();
 			
 			// 2.
@@ -135,7 +135,7 @@ public class QnaListAction extends AbstractController {
 //			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/qnaList.jsp");	
 		}
-/*		else {
+		else {
 			// 로그인을 안한 경우
 			String message = "회원만 접근이 가능합니다.";
 	        String loc = "javascript:history.back()";
@@ -145,9 +145,7 @@ public class QnaListAction extends AbstractController {
 	         
 	  //   super.setRedirect(false);
 	        super.setViewPage("/WEB-INF/msg.jsp");
-		}
-*/		
-
+		}	
 		
 	}
 

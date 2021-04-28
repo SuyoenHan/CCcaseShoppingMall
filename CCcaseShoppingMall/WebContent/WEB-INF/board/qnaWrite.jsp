@@ -9,7 +9,7 @@
 %>
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../leftSide.jsp"/>
+<jsp:include page="../communityLeftSide.jsp"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
@@ -64,12 +64,12 @@
         <tr>
             <td class="title">제목</td>
             <td>
-                <input name="qna_title" id="qtitle" type="text" size="70" maxlength="100" value=""/>
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value=""/>
             </td>        
         </tr>
         <tr>
             <td class="title">작성자</td>
-            <td><input type="text" id="fk_userid" size="70" value="${sessionScope.loginuser.userid}" readonly></td>
+            <td><input type="text" id="fk_userid" name="fk_userid" size="70" value="${sessionScope.loginuser.userid}" readonly></td>
         </tr>
          <tr>
             <td class="title">등록일</td>
@@ -77,11 +77,11 @@
         </tr>
 		<tr>
             <td class="title">이메일</td>
-            <td><input type="text" size="70" id="email" value="${sessionScope.loginuser.email}" readonly></td>
+            <td><input type="text" size="70" id="email" name="email" value="${sessionScope.loginuser.email}" readonly></td>
         </tr>
         <tr>
             <td class="title">제품아이디</td>
-            <td><input name="qna_productid"  id="fk_productid" type="text" size="70" maxlength="100" value=""/></td>
+            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value=""/></td>
         </tr>
         
         <tr>

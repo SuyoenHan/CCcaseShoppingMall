@@ -9,7 +9,7 @@
 %>
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../leftSide.jsp"/>
+<jsp:include page="../communityLeftSide.jsp"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
@@ -59,9 +59,10 @@
 		
 		// 특정 제목을 클릭하면 그 글의 상세정보를 보여주도록 한다.
 		$("tr.qnaInfo").click(function(){
-			// console.log($(this).html());
+			console.log($(this).html());
 			var qtitle = $(this).children(".qtitle").text();
-			location.href="<%= ctxPath%>/board/qnaDetail.cc?fk_userid="+fk_userid+"&goBackURL=${requestScope.goBackURL}";
+	//		alert(qtitle);
+			location.href="<%= ctxPath%>/board/qnaDetail.cc?qtitle="+qtitle+"&goBackURL=${requestScope.goBackURL}";
 		});
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
 	
@@ -100,7 +101,7 @@
 	    	<tbody>
 	    		<c:forEach var="qvo" items="${requestScope.qnaList}">
 	    			<tr class="qnaInfo">
-	    				<td>${qvo.qnano}</td>
+	    				<td >${qvo.qnano}</td>
 	    				<td class="qtitle">${qvo.qtitle}</td>
 	    				<td>${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>

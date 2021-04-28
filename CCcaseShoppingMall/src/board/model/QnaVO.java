@@ -1,5 +1,8 @@
 package board.model;
 
+import admin.model.AdminVO;
+import member.model.MemberVO;
+
 public class QnaVO {
 	
 	private int qnano;            		//qna순번
@@ -10,17 +13,20 @@ public class QnaVO {
 	private String qupdatedate;   	// 수정일
 	private int qviewcount;        	// 조회수
 	private String qcontent;      	   // 글내용
-	private String qemail;				// 이메일
+	private String email;				// 이메일
 	private String qstatus;           	   // 공개여부  
 	private String qnapwd;           // 글 비밀번호
 	
+	public MemberVO memberVO;
+	public AdminVO adminVO;
+	
 	public QnaVO() {}
 	
-	public QnaVO(String qtitle, String fk_userid, String qemail, String fk_productid, String qstatus, String qnapwd, String qcontent) {
+	public QnaVO(String qtitle, String fk_userid, String email, String fk_productid, String qstatus, String qnapwd, String qcontent) {
 
 		this.qtitle = qtitle;
 		this.fk_userid = fk_userid;
-		this.qemail = qemail;
+		this.email = email;
 		this.fk_productid =fk_productid;
 		this.qstatus = qstatus;
 		this.qnapwd = qnapwd;
@@ -108,11 +114,29 @@ public class QnaVO {
 		this.qnapwd = qnapwd;
 	}
 
-	public String getQemail() {
-		return qemail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setQemail(String qemail) {
-		this.qemail = qemail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
+	}
+
+	public AdminVO getAdminVO() {
+		return adminVO;
+	}
+
+	public void setAdminVO(AdminVO adminVO) {
+		this.adminVO = adminVO;
+	}
+	
+	
 }
