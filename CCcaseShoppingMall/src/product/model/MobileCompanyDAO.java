@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -78,4 +80,42 @@ public class MobileCompanyDAO implements InterMobileCompanyDAO {
 		
 	} // end of public String getMname(String mnum) throws SQLException {-----------------
 	// =========================== 한수연 끝 ======================================
+	
+	
+	// =========================== 백원빈 시작 ======================================
+	// 회사목록 조회
+	@Override
+	public List<MobileCompanyVO> selectCompany() throws SQLException {
+		
+		List<MobileCompanyVO> coList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " select mnum,mname "+
+						 " from tbl_mobilecompany ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MobileCompanyVO mvo = new MobileCompanyVO();
+				mvo.setMnum(rs.getInt(1));
+				mvo.setMname(rs.getString(2));
+				
+				coList.add(mvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return coList;
+	}
+	
+	
+	
+	// =========================== 백원빈 끝 ======================================
 }
