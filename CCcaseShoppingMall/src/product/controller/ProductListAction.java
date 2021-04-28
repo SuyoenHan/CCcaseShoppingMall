@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
+import my.util.Myutil;
 import product.model.*;
 
 public class ProductListAction extends AbstractController {
@@ -20,10 +21,6 @@ public class ProductListAction extends AbstractController {
 		String cnum= request.getParameter("cnum");
 		String modelName= request.getParameter("modelName"); // null인 경우 존재
 		
-		Map<String,String> paraMap= new HashMap<>();
-		paraMap.put("mnum", mnum);
-		paraMap.put("cnum", cnum);
-		paraMap.put("modelName", modelName);
 		
 		InterMobileCompanyDAO mcdao= new MobileCompanyDAO();
 		String mname= mcdao.getMname(mnum); // mnum에 해당하는 mname 알아오는 메소드
@@ -49,36 +46,25 @@ public class ProductListAction extends AbstractController {
 		
 		InterProductDAO pdao= new ProductDAO();
 
-		// mnum, cnum, modelName에 해당하는 필요한 제품 정보들을 map과 list에 담아서 requestScope에 저장 => modelName이 넘어오지 않은 경우는 ProductDAO에서 if절로 처리
-	    //                  (제품번호, 제품명, 기종명, 대표이미지파일명, 제품정가, 할인판매가, 스펙번호, 할인율 )
-		//List<Map<String,String>> pInfoList= pdao.getProductInfo(paraMap);
-	     
-		/* 
-	 		일치하는 제품이 하나도 없는 경우: pInfoList.size() == 0
-	 		일치하는 제품이 하나이상 있는 경우: pInfoList.size() > 0  
-		*/
-		
-		//request.setAttribute("pInfoList", pInfoList);		
-			
-
-		
 		// mnum과 cnum에 해당하는 기종명을 (중복되는 기종명은 1번만 사용) list에 담아서 requestScope에 저장
-		// List<String> modelNameList= pdao.getModelName(mnum, cnum);
+		List<String> modelNameList= pdao.getModelName(mnum, cnum);
+		
 		/* 
 	 		해당회사와 카테고리에 일치하는 기종명이 하나도 없는 경우: modelNameList.size() == 0
 	 		해당회사와 카테고리에 일치하는 기종명이 하나이상 있는 경우: modelNameList.size() > 0  
 		*/
-		//request.setAttribute("modelNameList", modelNameList);
 		
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/product/productList.jsp");
-
+		request.setAttribute("modelNameList", modelNameList);
 		
-/*		
-		// ***** 제품 페이징바 구현
 		
-		String currentShowPageNo= "1";  // 현재 페이지번호
-		String sizePerPage= "15";  // 한페이지당 보여줄 개수
+		// ********************* 제품 페이징바 구현
+		
+		String currentShowPageNo= request.getParameter("currentShowPageNo");  // 현재 페이지번호
+		String sizePerPage= "12";  // 한페이지당 보여줄 개수
+		
+		if(currentShowPageNo == null) {
+			currentShowPageNo="1";
+		}
 		
 		Map<String,String> pageMap= new HashMap<>();
 		pageMap.put("currentShowPageNo", currentShowPageNo);
@@ -89,22 +75,65 @@ public class ProductListAction extends AbstractController {
 
 		int totalPage = pdao.selectTotalPage(pageMap); // 총페이지 개수
 		
-		
 		// get방식으로 url 조작하는 경우의 수 고려
 		if(Integer.parseInt(currentShowPageNo) > totalPage) {
 			currentShowPageNo = "1";
 			pageMap.put("currentShowPageNo", currentShowPageNo);
 		}
 		
-		if(!"15".equals(sizePerPage)) {
-			sizePerPage="15";
+		if(!"12".equals(sizePerPage)) {
+			sizePerPage="12";
 			pageMap.put("sizePerPage", sizePerPage);
 		};
 		
+		// 한페이지에 보여줄 제품정보 메소드
+		List<Map<String,String>> pInfoList= pdao.selectPagingProduct(pageMap); 
+		request.setAttribute("pInfoList", pInfoList);
 		
-		List<Map<String,String>> memberList= pdao.selectPagingProduct(pageMap); 
-*/		
 		
+		String pageBar= "";
+		int blockSize= 5;  // 토막당 보여지는 페이지 개수
+		int loop=1;
+		int pageNo= ((Integer.parseInt(currentShowPageNo)-1)/blockSize) * blockSize + 1;  // 페이지바에서 처음으로 보여지는 번호 (1,6,11..)
+		
+		if(modelName==null) {
+			modelName="";
+		}
+		
+		if(pageNo != 1) {
+			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo=1&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[맨처음]</a>&nbsp;"; 
+			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[이전]</a>&nbsp;";
+		}
+		
+		while(!(loop>blockSize || pageNo > totalPage) ) {
+			if(pageNo == Integer.parseInt(currentShowPageNo)) {
+				pageBar += "&nbsp;<span style='padding:2px 4px; font-weight: bold; background-color: #ffff99;'>"+pageNo+"</span>&nbsp;";
+			}
+			else {
+				pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>"+pageNo+"</a>&nbsp;";
+			}
+			
+			loop++;
+			pageNo++;
+			
+		}// end of while-----------------------------
+		
+		if(pageNo <= totalPage) {
+			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[다음]</a>&nbsp";
+			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[마지막]</a>&nbsp";
+		}
+		
+		request.setAttribute("pageBar", pageBar);
+		
+		
+		// goBackURL 주소지정
+		String currentURL= Myutil.getCurrentURL(request);
+		currentURL= currentURL.replaceAll("&", " ");
+		
+		request.setAttribute("goBackURL", currentURL);
+		
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/product/productList.jsp");
 		
 		// =========================== 한수연 끝 ======================================
 		

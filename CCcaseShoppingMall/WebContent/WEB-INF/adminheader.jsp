@@ -16,9 +16,10 @@
 
 <style>
 
-	span {
+	span, img#logo {
 		cursor : pointer;
 	}
+	
 
 </style>
 
@@ -43,6 +44,16 @@
 			
 		});// end of $("span#logout").click(function(){
 			
+			
+		// 로고 클릭시 홈페이지로 이동
+		
+		$("img#logo").click(function(){
+		
+			location.href="<%= ctxPath %>/admin.cc"
+			
+		});//end of $("img#logo").click(function(){
+		
+			
 
 	});// end of $(document).ready(function(){
 
@@ -55,12 +66,12 @@
 	<div id="container">
 	
 		<div id="logo">
-			<img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="170" height="80" />
+			<img id="logo" src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="170" height="80" />
 		</div>
 		
 		<div id="mainMenu">
 			<span class="menuSection" id="registerProduct" onclick="location.href='<%= ctxPath%>/admin/productRegister.cc';">상품등록</span>
-			<span class="menuSection" id="updateProduct">상품수정</span>
+			<span class="menuSection" id="updateProduct" onclick="location.href='<%= ctxPath%>/admin/productmanage.cc'">상품관리</span>
 			
 			<span class="menuSection" id="viewMember" onclick="location.href='<%= ctxPath%>/admin/memberList.cc';" >회원조회</span>
 			
