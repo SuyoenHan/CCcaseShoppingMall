@@ -9,10 +9,36 @@
 
 <jsp:include page="../adminheader.jsp" />
 
+
+
 <style type="text/css">
+	
+	h4#infoIntro {
+		font-weight: bold;
+		text-align: center;
+	}	
+	
+	span.myli {
+		cursor: default;
+		display: inline-block;
+		width: 80px;
+	}
 
+	li {
+		list-style:  none;
+		line-height: 30px;
+	}
+	
+	div#mvoInfo {
+		padding: 20px 0px 30px 500px;
+	}
+	
+
+	
 </style>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 		
@@ -83,71 +109,56 @@
 </c:if>
 
 <c:if test="${not empty requestScope.mvo}">
-	<h3>${requestScope.mvo.name}님의 상세정보</h3>
+	<h4 id="infoIntro">${requestScope.mvo.name}님의 상세정보</h4>
 	<c:set var="mobile" value="${requestScope.mvo.mobile }"/>
 	
 	<div id="mvoInfo">
 		<ol>
-			<li><span class="myli">아이디 : </span>${mvo.userid}</li>
-			<li><span class="myli">회원명 : </span>${mvo.name}</li>
-			<li><span class="myli">이메일 : </span>${mvo.email}</li>
-			<li><span class="myli">휴대폰 : </span>${fn:substring(mobile,0,3)}-${fn:substring(mobile,3,7)}-${fn:substring(mobile,7,11)}</li>
-			<li><span class="myli">우편번호 : </span>${mvo.postcode}</li>
-			<li><span class="myli">주소 : </span>${mvo.address}&nbsp;${mvo.detailaddress}&nbsp;${mvo.extraaddress}</li>
-			<li><span class="myli">총포인트 : </span>${mvo.totalpoint}점</li>
-			<li><span class="myli">가입일자 : </span>${mvo.registerday}</li>
+			<li><span class="myli">아이디 : </span>&nbsp;${mvo.userid}</li> <%-- 아래 choose로 나타나는 텍스트 앞에 공백이 하나씩 생겨서 삭제하는 방법을 모르겠네요. 그냥 다른것들에 공백줘서 맞췄습니다. 수정 가능합니다. --%>
+			<li><span class="myli">회원명 : </span>&nbsp;${mvo.name}</li>
+			<li><span class="myli">이메일 : </span>&nbsp;${mvo.email}</li>
+			<li><span class="myli">휴대폰 : </span>&nbsp;${fn:substring(mobile,0,3)}-${fn:substring(mobile,3,7)}-${fn:substring(mobile,7,11)}</li>
+			<li><span class="myli">우편번호 : </span>&nbsp;${mvo.postcode}</li>
+			<li><span class="myli">주소 : </span>&nbsp;${mvo.address}&nbsp;${mvo.detailaddress}&nbsp;${mvo.extraaddress}</li>
+			<li><span class="myli">총포인트 : </span>&nbsp;${mvo.totalpoint}점</li>
+			<li><span class="myli">가입일자 : </span>&nbsp;${mvo.registerday}</li>
 			<li><span class="myli">탈퇴유무 : </span>
 					<c:choose>
-						<c:when test="${mvo.status eq '1'}">
-							사용가능(가입중)
-						</c:when>
-						<c:otherwise>
-							사용불능(탈퇴)
-						</c:otherwise>
+						<c:when test="${mvo.status eq '1'}">사용가능(가입중)</c:when>
+						<c:otherwise>사용불능(탈퇴)</c:otherwise>
 					</c:choose>	
 				</li>
 			<li><span class="myli">휴면유무 : </span>
 					<c:choose>
-						<c:when test="${mvo.idle eq '0'}">
-							활동계정
-						</c:when>
-						<c:otherwise>
-							휴면계정
-						</c:otherwise>
+						<c:when test="${mvo.idle eq '0'}">활동계정</c:when>
+						<c:otherwise>휴면계정</c:otherwise>
 					</c:choose>	
 			</li>
 			<li><span class="myli">등급 : </span>
 					<c:choose>
-						<c:when test="${mvo.fk_grade eq '0'}">
-							BROWN
-						</c:when>
-						<c:when test="${mvo.fk_grade eq '1'}">
-							SILVER
-						</c:when>
-						<c:otherwise>
-							GOLD
-						</c:otherwise>
+						<c:when test="${mvo.fk_grade eq '0'}">BROWN</c:when>
+						<c:when test="${mvo.fk_grade eq '1'}">SILVER</c:when>
+						<c:otherwise>GOLD</c:otherwise>
 					</c:choose>	
 			</li>
 		</ol>
 	</div>
 
 	<%-- ==== 휴대폰 SMS(문자) 보내기 ==== --%>
-   <div id="sms" align="left">
+   <div id="sms" align="center">
         <span id="smsTitle">&gt;&gt;휴대폰 SMS(문자) 보내기 내용 입력란&lt;&lt;</span>
         <div style="margin: 10px 0 20px 0">
            발송예약일&nbsp;<input type="date" id="reservedate" />&nbsp;<input type="time" id="reservetime" />
         </div>
-        <textarea rows="4" cols="40" id="smsContent"></textarea>
-        <button id="btnSend">전송</button>
+        <textarea rows="4" cols="40" id="smsContent"></textarea><br>
+        <button id="btnSend" class="btn btn-info" >전송</button>
         <div id="smsResult"></div>
    </div>
 	
 </c:if>
 
-	<div>
-		<button style="margin-top: 50px;" type="button" onclick="goMemberList()">회원목록</button>
-	   	&nbsp;&nbsp;
+	<div id="btnMbrList" align="right">
+		<button class="btn btn-primary" style="margin-top: 50px; margin-bottom: 20px;" type="button" onclick="goMemberList()">회원목록</button>
 	</div>
-
+	
 <jsp:include page="../footer.jsp" />

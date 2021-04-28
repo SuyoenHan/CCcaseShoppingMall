@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -32,22 +35,58 @@
 	}
 
 	
-	table , tr ,td{
+	table , tr {
 		border:solid 1px gray;
 		border-collapse: none;
+		line-height: 30px;
 	}
 	
 	button.button{
 	 width:80px;
-	 height:50px;
+	 height:40px;
+	 margin:10px auto;
 	}
 	
 	thead th {
 	
-	background-color: #8c8c8c;
+		background-color: #8c8c8c;
 	}
 	
-
+     /* table#faqDetail {
+     	width:100%;
+     	
+     } */
+     
+    .cal{
+    	font-weight: bold;
+    	border: solid 1px gray;
+    	line-height: 40px;
+    	
+    }
+    .faqcontent{
+    	background-color: #e6e6e6;
+    	border: solid 1px gray; 
+    	padding: 25px ;
+    }
+    
+    tr.faqSimple{
+       background-color: #eee;
+	   color: #444;
+	   cursor: pointer;
+	   padding: 18px;
+	   width: 50%;
+	   border: none;
+	   text-align: left;
+	   font-weight:bold;
+	   font-size: 15px;
+	   transition: 2s;
+    }
+    tr.faqSimple:hover{
+   	 background-color:  #aaa !important;
+    }
+    
+    
+    
 </style>
   
 
@@ -55,11 +94,12 @@
 
 	$(document).ready(function(){
 		
-		 $("tr.faqDetail").hide();
-		
 		func_height();//footer.jsp에 있음!
 		
-		$("input.faqwrite").click(function(){
+		
+		
+		// 관리자로 로그인 되었을때만 보이도록 함.---아직 구현안함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		$("button.faqwrite").click(function(){
 			//버튼(글쓰기)를 클릭하면
 			//alert("글쓰기 버튼 클릭");
 			location.href="<%=ctxPath%>/board/faqwrite.cc";
@@ -67,28 +107,33 @@
 		});//end of $("button#faqwrite").click(function(){}); ------------------
 		
 		
+		
+		
+		$("tr.faqDetail").css('display','none'); //안보이도록 한다.
 		// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
-		$("tr.faqList").click(function(){
-			// console.log($(this).html()); // ==>tr 나옴
-			var faqno = $(this).children(".faqno").text(); 
-			// alert(faqno); 
+		$("tr.faqSimple").click(function(event){
 			
+			var $faqDetail =$(this).next();
 			
-			//NO값을 받아와서 그 내용을 그대로 보여주도록함.(구현하기!!!)
+			var sDisplay = $faqDetail.css('display');
+			//console.log("확인용 sDisplay: "+ sDisplay);
+			
+			if( sDisplay == "none"){
+				
+				$("tr.faqDetail").css('display','none'); // 전부 안보이도록 한다.
+				$faqDetail.css('display',''); // '' display  block을 사용한다는 말이다. 
+			
+			}
+			else{
+  				// display 상태가 보이는 것이라면
+  				$faqDetail.css('display','none'); //안보여지도록 한다.
+  			}
+  			
 			
 		});
 		
-		// 하나의 행을 누르면 정보를 보여준다.
-		$("tr.faqSimple").click(function(){
-			
-			 if($(".faqDetail").hide()){
-				 $(this).next(".faqDetail").show();
-				
-			}
-			
-			
-			
-		});
+		
+		
 		
 		
 		
@@ -115,6 +160,7 @@
 			
 		<h2> FAQ </h2>
 		<div class="container">	
+
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -126,45 +172,34 @@
 				</thead>
 				
 				<tbody>
+				<c:forEach var="fvo" items="${requestScope.faqList}">
 					<tr class="faqSimple">
-						<td class="faqno">ㄱ</td>
-						<td>ㄴ</td>
-						<td>ㄷ</td>
-						<td>ㄹ</td>
+						<td class="faqno">${fvo.faqno}</td>
+						<td>${fvo.ftitle}</td>
+						<td>${fvo.fregisterdate}</td>
+						<td>${fvo.number}</td>
 					</tr>
 					<tr class="faqDetail">
 						<td colspan="4"> 
-							<table>
+							<table id="faqDetail">
 								<tr>
-									<td>제목</td>
-									<td colspan="2">제목명</td>
-								<tr>
-								<tr>
-									<td>작성자</td>
-									<td colspan="2">작성자명</td>
+									<div class="cal">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
+									
 								<tr>
 								<tr>
-									<td>등록일</td>
-									<td >최초등록일 </td>
-									<td> 최근수정일</td>
+									<div class="cal">작성자: &nbsp;&nbsp;${fvo.fk_adminid}</div>
 								<tr>
 								<tr>
-									<td colspan="3">
-										<span>글내용</span>
-										<div>요기가 글내용 들어오는곳입니다잉
-										auddlkakld
-										asdjaslkdmsad
-										asdnlaksdklasmd
-										asdklsalkdsalkd
-										asdkljaslkfjlkgklsdmf
-										dskjfnjelknsd,mna
-										faljsdhfowehonsdlvnwoehwenfjsnvinwjlenilsdhfiuweNFKJSDNFLHEIFNKJNF
-										KAJSFIUWehfjnsdkfnieheiwnlsnkldjsnliuhlagjnlkㅏㅇ머ㅣㅏㅁ너아ㅣㄴ머아ㅣㅓㅁ나ㅣ러ㅏㅣㄴ어라ㅣ먼아ㅣ러마ㅣㄴ어리ㅏㅓ
-										ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-										ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-										ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-										</div>
-								     </td>
+								   <div class="cal">
+									<span >등록일:&nbsp;&nbsp;${fvo.fregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+									<span >최근수정일:&nbsp;&nbsp;${fvo.fupdatedate}</span>
+									</div>
+								<tr>
+								<tr>
+									<div class="cal">글내용</div>
+									<div class="faqcontent">${fvo.fcontent}</div>
+								     
 								<tr>
 							</table>
 						
@@ -173,31 +208,13 @@
 							<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
 						
 						</td>
-						
-						
-						
-					</tr>
-					
-					<tr class="faqSimple">
-						<td class="faqno">ㄱ</td>
-						<td>ㄴ</td>
-						<td>ㄷ</td>
-						<td>ㄹ</td>
-					</tr>
-					<tr class="faqDetail">
-						<td colspan="4">
-						미ㅏ어ㅣ만리ㅏ머니ㅏㅇ러ㅣㅏㅁㄴㅇ림ㄴ래ㅑ주대ㅜ미ㅓ루ㅑㅐ져루ㅏㅓ누라ㅣㅓㄴㅁ우리ㅏㅇㅁ누라ㅣㅜ
-						미ㅏ어ㅣㅏㅁ너아ㅣㅁ너아ㅣㅁ너ㅣ암
-						ㅁ니ㅏ어미나ㅓ아ㅣㄴ머아ㅣㅁ넝
-						ㅁ나어미나ㅓ이ㅏㄴ머아ㅣㅁ너ㅏㅣ엄니ㅏㅓ이ㅏ
-						</td>
-					</tr>
-					
+					 </tr>
+					</c:forEach>
 				</tbody>
 			
 			</table>
 			
-			<input type="button" class="button faqwrite"  name="faqwrite" value="글쓰기"style="float:right; margin:20px 30px;" />
+			<button type="button" class="button faqwrite"  name="faqwrite" value="글쓰기" style="float:right; " >글쓰기</button>
 			<!-- 페이징바 -->
 			<div ></div>
 	

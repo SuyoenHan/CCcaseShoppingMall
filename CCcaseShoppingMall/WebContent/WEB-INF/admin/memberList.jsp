@@ -18,6 +18,23 @@
 		text-align: center;
 	}
 	
+	span#pagination {
+		background-color:#ff751a;
+		color:white;
+		margin-right:3px;
+		width:15px;
+		margin: 0 3px;
+		font-weight: bold;
+	}
+	
+	a {
+		font:bold;
+		color: #000;
+		text-align:center;
+		text-decoration:none;
+		font-weight: bold;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -85,7 +102,7 @@
 
 </form>
 
-<table id="memberTbl" class="table" style="width:80%; margin-top:20px;">
+<table id="memberTbl" class="table" style="align: center; width:80%; margin-top:20px;">
 	<thead>
 		<tr>
 			<th>아이디</th>
@@ -119,7 +136,7 @@
 	</tbody> 
 </table>
 
-	<div>
+	<div style="text-align:center; padding: 20px 0;">
 			${requestScope.pageBar}
 	</div>
 
