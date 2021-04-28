@@ -58,24 +58,24 @@ public class ProductListAction extends AbstractController {
 
 		// mnum, cnum, modelName에 해당하는 필요한 제품 정보들을 map과 list에 담아서 requestScope에 저장 => modelName이 넘어오지 않은 경우는 ProductDAO에서 if절로 처리
 	    //                  (제품번호, 제품명, 기종명, 대표이미지파일명, 제품정가, 할인판매가, 스펙번호, 할인율 )
-		List<Map<String,String>> pInfoList= pdao.getProductInfo(paraMap);
+		//List<Map<String,String>> pInfoList= pdao.getProductInfo(paraMap);
 	     
 		/* 
 	 		일치하는 제품이 하나도 없는 경우: pInfoList.size() == 0
 	 		일치하는 제품이 하나이상 있는 경우: pInfoList.size() > 0  
 		*/
 		
-		request.setAttribute("pInfoList", pInfoList);		
+		//request.setAttribute("pInfoList", pInfoList);		
 			
 
 		
 		// mnum과 cnum에 해당하는 기종명을 (중복되는 기종명은 1번만 사용) list에 담아서 requestScope에 저장
-		List<String> modelNameList= pdao.getModelName(mnum, cnum);
+		// List<String> modelNameList= pdao.getModelName(mnum, cnum);
 		/* 
 	 		해당회사와 카테고리에 일치하는 기종명이 하나도 없는 경우: modelNameList.size() == 0
 	 		해당회사와 카테고리에 일치하는 기종명이 하나이상 있는 경우: modelNameList.size() > 0  
 		*/
-		request.setAttribute("modelNameList", modelNameList);
+		//request.setAttribute("modelNameList", modelNameList);
 		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/product/productList.jsp");
@@ -115,11 +115,7 @@ public class ProductListAction extends AbstractController {
 		
 		// =========================== 한수연 끝 ======================================
 		
-		
-		
-		
-		
-		
+
 	}
 
 }
