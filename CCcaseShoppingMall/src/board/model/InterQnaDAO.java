@@ -15,6 +15,9 @@ public interface InterQnaDAO {
 	int writeQna(QnaVO qna) throws SQLException;
 
 	// 제목으로 qna 글 불러오기
-	QnaVO qnaDetail(String qtitle) throws SQLException;
+	QnaVO qnaDetail(String qtitle, String qnano) throws SQLException;
+	
+	// 조회수 증가시키기
+	void updateViewCount(int qnano);
 
 }

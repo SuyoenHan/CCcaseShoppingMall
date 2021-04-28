@@ -154,7 +154,7 @@ public class QnaDAO implements InterQnaDAO {
 		return totalPage;
 	}
 
-	// qna 글 작성하기
+	// qna 글 작성하기(tbl_qna에 insert)
 	@Override
 	public int writeQna(QnaVO qna) throws SQLException {
 
@@ -189,7 +189,7 @@ public class QnaDAO implements InterQnaDAO {
 
 	// 제목(qtitle)으로 qna 글 불러오기
 	@Override
-	public QnaVO qnaDetail(String qtitle) throws SQLException {
+	public QnaVO qnaDetail(String qtitle, String qnano) throws SQLException {
 		QnaVO qvo = null;
 		
 		try {
@@ -197,11 +197,12 @@ public class QnaDAO implements InterQnaDAO {
 			
 			String sql = " select qnano, qtitle, fk_userid, qregisterdate, email, fk_productid, qstatus, qcontent "
 							+ " from tbl_qna "
-							+ " where qtitle = ? " ;
+							+ " where qtitle = ? and qnano = ?" ;
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, qtitle);
+			pstmt.setString(2, qnano);
 			
 			rs = pstmt.executeQuery();
 			
@@ -223,4 +224,31 @@ public class QnaDAO implements InterQnaDAO {
 		}		
 		return qvo;
 	}
+
+	// 조회수 증가시키기
+	@Override
+	public void updateViewCount(int qnano) {
+		
+		try {
+			  conn = ds.getConnection();
+			  
+			  String sql = " update tbl_qna set qviewcount = qviewcount + 1 "
+				  	     	 + " where qnano = ? ";
+				  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, qnano);
+				  
+			  int n = pstmt.executeUpdate();
+				  
+			  if(n==1) {
+				  conn.commit();
+			  }
+			  
+		} catch (SQLException e) {
+			     e.printStackTrace();
+		} finally {
+			close();
+		}	
+		
+	}// end of public void updateViewCount(int qnano)---------------------------------
 }
