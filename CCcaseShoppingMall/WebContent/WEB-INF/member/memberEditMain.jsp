@@ -16,7 +16,6 @@
 
 <style>
 	div#MemberEdithome{
-		margin-top: 150px;
 		margin-left: 200px;
 		padding-left: 30px;
 		/* border: solid 1px red; */
@@ -62,15 +61,25 @@
 <script>
 	$(document).ready(function(){
 		
-		$("button#btnpwdCheck").click(function(){
-			var frm = document.editMainFrm;
-			frm.action = "<%= ctxPath%>/member/passwdCheck.cc";
-			frm.method = "POST";
-			frm.submit();
+		$("input#pwd").keyup(function(event){
+			if(event.keyCode == 13) {
+				pwdCheck();
+			}	
 		});
+		
+		$("button#btnpwdCheck").click(function(){
+			pwdCheck();
+		});
+		
+		
 	});
 
-
+	function pwdCheck() {
+		var frm = document.editMainFrm;
+		frm.action = "<%= ctxPath%>/member/passwdCheck.cc";
+		frm.method = "POST";
+		frm.submit();
+	}
 </script>
 
 

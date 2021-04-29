@@ -19,7 +19,7 @@ public class PasswdCheckAction extends AbstractController {
 		HttpSession session =  request.getSession();
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		System.out.println(loginuser);
+		//System.out.println(loginuser);
 		if(loginuser!=null){
 		
 			String userid = request.getParameter("userid");
@@ -34,6 +34,7 @@ public class PasswdCheckAction extends AbstractController {
 			boolean mvo = mdao.passwdcheck(paraMap);
 			
 			request.setAttribute("mvo", mvo);
+			
 			if(mvo==true) {
 			//super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/memberEdit.jsp");
