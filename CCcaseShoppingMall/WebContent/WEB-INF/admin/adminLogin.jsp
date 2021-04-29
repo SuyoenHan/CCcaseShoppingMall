@@ -18,6 +18,17 @@
 			
 		});
 		
+		// 비밀번호 입력칸에서 엔터를 쳤을때
+		$("input#adminPwd").keyup(function(event){
+			
+			if(event.keyCode==13){
+				goLogin();
+			}
+
+		});
+		
+		
+		
 		
 		
 		// Function Declaration

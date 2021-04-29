@@ -155,54 +155,61 @@
 		</form>
 	</div>
 
- 	<%-- 상품 한줄에 4개씩 배치 --%>
-	<c:forEach var="pInfoMap" items="${pInfoList}" varStatus="status">
-		<c:if test="${status.count%4 ne 0}"> 
-			<div class="productOuter" align="center">
-				<input type="hidden" value="${pInfoMap.productid}" />
-			    <div class="discountInfo">${pInfoMap.salepercent}%</div>
-				<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
-				<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
-				<hr>
-				<div>
-					<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
-					<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+	<div style="border: solid 1px red;">
+	 	<%-- 상품 한줄에 4개씩 배치 --%>
+		<c:forEach var="pInfoMap" items="${pInfoList}" varStatus="status">
+			<c:if test="${status.count%4 ne 0}"> 
+				<div class="productOuter" align="center">
+					<input type="hidden" value="${pInfoMap.productid}" />
+				    <div class="discountInfo">${pInfoMap.salepercent}%</div>
+					<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
+					<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
+					<hr>
+					<div>
+						<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+					</div>
+					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
+					<div style="float: left">
+						<c:if test="${pInfoMap.fk_snum == '0'}"><span class="best spec">BEST</span></c:if>
+						<c:if test="${pInfoMap.fk_snum == '1'}"><span class="new spec">NEW</span></c:if>	
+					</div>
+					<div style="float: right" class="hideIcon">
+						<img src="../images/product/cart.png" class="pmoImg"/>
+						<img src="../images/product/look.png" class="pmoImg"/>
+					</div>
 				</div>
-				<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
-				<div style="float: left">
-					<c:if test="${pInfoMap.fk_snum == '0'}"><span class="best spec">BEST</span></c:if>
-					<c:if test="${pInfoMap.fk_snum == '1'}"><span class="new spec">NEW</span></c:if>	
+			</c:if>
+			
+			<c:if test="${status.count%4 eq 0}">
+				<div class="productOuter" align="center">
+					<input type="hidden" value="${pInfoMap.productid}" />
+					<div class="discountInfo">${pInfoMap.salepercent}%</div>
+					<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
+					<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
+					<hr>
+					<div>
+						<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+					</div>
+					<div style="float: left">
+						<c:if test="${pInfoMap.fk_snum == '0'}"><span class="best spec">BEST</span></c:if>
+						<c:if test="${pInfoMap.fk_snum == '1'}"><span class="new spec">NEW</span></c:if>
+					</div>
+					<div style="float: right" class="hideIcon">
+						<img src="../images/product/cart.png" class="pmoImg"/>
+						<img src="../images/product/look.png" class="pmoImg"/>
+					</div>
 				</div>
-				<div style="float: right" class="hideIcon">
-					<img src="../images/product/cart.png" class="pmoImg"/>
-					<img src="../images/product/look.png" class="pmoImg"/>
-				</div>
-			</div>
-		</c:if>
-		
-		<c:if test="${status.count%4 eq 0}">
-			<div class="productOuter" align="center">
-				<input type="hidden" value="${pInfoMap.productid}" />
-				<div class="discountInfo">${pInfoMap.salepercent}%</div>
-				<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
-				<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
-				<hr>
-				<div>
-					<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
-					<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
-				</div>
-				<div style="float: left">
-					<c:if test="${pInfoMap.fk_snum == '0'}"><span class="best spec">BEST</span></c:if>
-					<c:if test="${pInfoMap.fk_snum == '1'}"><span class="new spec">NEW</span></c:if>
-				</div>
-				<div style="float: right" class="hideIcon">
-					<img src="../images/product/cart.png" class="pmoImg"/>
-					<img src="../images/product/look.png" class="pmoImg"/>
-				</div>
-			</div>
-			<div style="clear: both;"></div>  <%-- 줄바꿈 용도 --%>
-		</c:if>
-	</c:forEach>
+				<div style="clear: both;"></div>  <%-- 줄바꿈 용도 --%>
+			</c:if>
+		</c:forEach>
+	</div>
+	
+	<div style="height: 50px;" align="center">
+		<span style=" border: solid 1px blue; font-size: 15pt;">${pageBar}</span>
+	</div>
+	
 </div>
 <jsp:include page="../footer.jsp" />
 

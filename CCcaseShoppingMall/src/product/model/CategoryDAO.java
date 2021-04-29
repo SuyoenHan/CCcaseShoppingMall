@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -78,4 +79,37 @@ public class CategoryDAO implements InterCategoryDAO {
 		 */
 	}
 	// =========================== 한수연 끝 ======================================
+
+	// =========================== 백원빈 시작 ======================================
+	
+	// 카테고리 목록 조회해오기
+	@Override
+	public List<CategoryVO> selectCategory() throws SQLException {
+		
+		List<CategoryVO> categoryList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " select cnum,cname "+
+						 " from tbl_category ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CategoryVO cvo = new CategoryVO();
+				cvo.setCnum(rs.getInt(1));
+				cvo.setCname(rs.getString(2));
+				
+				categoryList.add(cvo);
+			}
+
+		} finally {
+			close();
+		}
+		return categoryList;
+	}
+	
+	// =========================== 백원빈 끝 ======================================
 }

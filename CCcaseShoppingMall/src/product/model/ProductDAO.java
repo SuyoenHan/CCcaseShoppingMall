@@ -65,83 +65,6 @@ public class ProductDAO implements InterProductDAO {
 	}// end of public int calCntByCompany(int mnum, int cnum) throws SQLException {------------------------
 
 	
-	// mnum, cnum, modelName 이 주어진 경우, 
-	// 이에 해당하는 제품번호, 제품명, 기종명, 대표이미지파일명, 제품정가, 할인판매가, 스펙번호 가져오기 (productDetailVO 정보는 하얀색 기준으로..)
-	// modelName은 null값일 수도 있다
-	@Override
-	public List<Map<String,String>> getProductInfo(Map<String,String> paraMap) throws SQLException {
-
-		List<Map<String,String>> pInfoList= new ArrayList<>();
-		
-		try {
-			conn=ds.getConnection();
-			
-			String sql=" select productid, productname, modelname, pimage1, price " + 
-					   "      , price*(1-salepercent) as saleprice, fk_snum, salepercent*100 as salepercent " + 
-					   " from " + 
-					   " (select productid, productname, modelname, fk_mnum, fk_cnum from tbl_product) P " + 
-					   " join " + 
-					   " (select pimage1, fk_productid, price, salepercent, nvl(fk_snum,-1) as fk_snum from tbl_pdetail where pcolor='white') D " + 
-					   " on P.productid = D.fk_productid ";
-					   
-			if(paraMap.get("modelName")!=null) {
-				sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
-			}
-			else {
-				sql+=" where fk_mnum= ? and fk_cnum= ? ";
-			}
-			
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt(paraMap.get("mnum")));
-			pstmt.setInt(2, Integer.parseInt(paraMap.get("cnum")));
-			
-			if(paraMap.get("modelName")!=null) {
-				pstmt.setString(3, paraMap.get("modelName"));
-			}
-			
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
-				Map<String,String> pInfoMap= new HashMap<>();
-				
-				String productid= rs.getString(1);
-				String productname= rs.getString(2);
-				String modelname= rs.getString(3);
-				String pimage1= rs.getString(4);
-				String price= String.valueOf(rs.getInt(5));
-				String saleprice= String.valueOf(rs.getInt(6));
-				
-				pInfoMap.put("productid", productid);
-				pInfoMap.put("productname", productname);
-				pInfoMap.put("modelname", modelname);
-				pInfoMap.put("pimage1", pimage1);
-				pInfoMap.put("price", price);
-				pInfoMap.put("saleprice", saleprice);
-				
-				String fk_snum= String.valueOf(rs.getInt(7)); // fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당없음
-				pInfoMap.put("fk_snum", fk_snum);
-				
-				String salepercent= String.valueOf(rs.getInt(8));
-				pInfoMap.put("salepercent", salepercent);
-				
-				pInfoList.add(pInfoMap);
-			}
-			
-		} finally {
-			close();
-		}
-		
-		return pInfoList;
-		
-		/* 
-		 	일치하는 제품이 하나도 없는 경우: pInfoList.size() == 0
-		 	일치하는 제품이 하나이상 있는 경우: pInfoList.size() > 0  
-		*/
-		
-	} // end of public List<Map<String,String>> getProductInfo(Map<String,String> paraMap) throws SQLException {-----
-	
-	
     // mnum과 cnum이 주어진 경우, 이에 해당하는 기종명 반환 (중복되는 기종명은 1번만 사용)
 	@Override
 	public List<String> getModelName(String mnum, String cnum) throws SQLException {
@@ -180,37 +103,118 @@ public class ProductDAO implements InterProductDAO {
 
 		int totalPage= 0;
 		
-		String sql= " select ceil(count(*)/?) from tbl_product ";
-		
-		if(pageMap.get("modelName")!=null) {
-			sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
+		try {
+			conn=ds.getConnection();
+			String sql= " select ceil(count(*)/?) from tbl_product ";
+			
+			if(pageMap.get("modelName")!=null  && pageMap.get("modelName")!="") {
+				sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
+			}
+			else {
+				sql+=" where fk_mnum= ? and fk_cnum= ? ";
+			}
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(pageMap.get("sizePerPage")));
+			pstmt.setInt(2, Integer.parseInt(pageMap.get("mnum")));
+			pstmt.setInt(3, Integer.parseInt(pageMap.get("cnum")));
+			
+			if(pageMap.get("modelName")!=null && pageMap.get("modelName")!="") {
+				pstmt.setString(4, pageMap.get("modelName"));
+			}
+			
+			rs=pstmt.executeQuery();
+			rs.next();
+			
+			totalPage= rs.getInt(1);
+			
+		} finally {
+			close();
 		}
-		else {
-			sql+=" where fk_mnum= ? and fk_cnum= ? ";
-		}
-		
-		pstmt=conn.prepareStatement(sql);
-		pstmt.setInt(1, Integer.parseInt(pageMap.get("sizePerPage")));
-		pstmt.setInt(2, Integer.parseInt(pageMap.get("mnum")));
-		pstmt.setInt(3, Integer.parseInt(pageMap.get("cnum")));
-		
-		if(pageMap.get("modelName")!=null) {
-			pstmt.setString(4, pageMap.get("modelName"));
-		}
-		
-		rs=pstmt.executeQuery();
-		
-		totalPage= rs.getInt(1);
 		
 		return totalPage;  // 총페이지 개수
-	}
+	}// end of public int selectTotalPage(Map<String, String> pageMap) throws SQLException {------
 
 	
+	// 한페이지에 보여줄 제품정보 메소드
+	@Override
+	public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{
+		
+		List<Map<String,String>> pInfoList= new ArrayList<>();
+		try {
+			conn=ds.getConnection();
+			String sql= " select productid, productname, modelname, pimage1, price, saleprice, salepercent "+
+						" from "+
+						" ( "+
+						"   select rownum as rno, productid, productname, modelname, pimage1, price, saleprice, salepercent "+
+						"   from " +
+						"   ( " +
+						"      select productid, productname, modelname, pimage1, price, price*(1-salepercent) as saleprice, salepercent*100 as salepercent "+
+						"      from tbl_product " ;
+						
+			
+			if(pageMap.get("modelName")!=null && pageMap.get("modelName")!="") {
+				sql+=" where fk_mnum= ? and fk_cnum= ? and modelname like ? ";
+			}
+			else {
+				sql+=" where fk_mnum= ? and fk_cnum= ? ";
+			}
+					
+			sql+= "      order by productid ) P "+
+				  " ) V " +
+				  " where rno between ? and ? ";
+			
+			pstmt= conn.prepareStatement(sql);
+			
+			int currentShowPageNo= Integer.parseInt(pageMap.get("currentShowPageNo"));
+			int sizePerPage= Integer.parseInt(pageMap.get("sizePerPage"));
+			
+			pstmt.setInt(1, Integer.parseInt(pageMap.get("mnum")));
+			pstmt.setInt(2, Integer.parseInt(pageMap.get("cnum")));
+			
+			if(pageMap.get("modelName")!=null && pageMap.get("modelName")!="") {
+				pstmt.setString(3, pageMap.get("modelName"));
+				pstmt.setInt(4,(currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				pstmt.setInt(5,(currentShowPageNo * sizePerPage));  
+			}
+			else {
+				pstmt.setInt(3,(currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				pstmt.setInt(4,(currentShowPageNo * sizePerPage));
+			}
 
+			rs= pstmt.executeQuery();
+			
+			while(rs.next()) {
+		
+				Map<String,String> pInfoMap= new HashMap<>();
+				
+				pInfoMap.put("productid", rs.getString(1));
+				pInfoMap.put("productname", rs.getString(2));
+				pInfoMap.put("modelname", rs.getString(3));
+				pInfoMap.put("pimage1", rs.getString(4));
+				pInfoMap.put("price",  String.valueOf(rs.getInt(5)));
+				pInfoMap.put("saleprice", String.valueOf(rs.getInt(6)));
+				pInfoMap.put("salepercent", String.valueOf(rs.getInt(7)));
+			
+				pInfoList.add(pInfoMap);
+			}
+			
+		}finally {
+			close();
+		}
+		
+		return pInfoList;
+		
+		/* 
+	 		일치하는 제품이 하나도 없는 경우: pInfoList.size() == 0
+	 		일치하는 제품이 하나이상 있는 경우: pInfoList.size() > 0  
+	   */
+		
+	} // end of public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{--------
+
+	
 
 	// =========================== 한수연 끝 ======================================
-
-	
 
 	
 	
