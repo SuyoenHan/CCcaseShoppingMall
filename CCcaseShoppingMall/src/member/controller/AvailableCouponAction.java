@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import member.model.*;
-import my.util.Myutil;
 
 public class AvailableCouponAction extends AbstractController {
 
@@ -16,19 +15,23 @@ public class AvailableCouponAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		HttpSession session = request.getSession();
-		MemberVO loginUser =  (MemberVO) session.getAttribute("loginUser");
+		MemberVO loginuser =  (MemberVO) session.getAttribute("loginuser");
 		
 		// 로그인된 계정으로 접속 했을 경우
-		if(loginUser != null ) {
+		if(loginuser != null ) {
 			
 			String userid = request.getParameter("userid");
 			
 			InterCouponDAO cdao = new CouponDAO();
 			
 			// 아이디를 가지고 해당 쿠폰 정보 조회해오기
-			List<CouponVO> cpList = cdao.getCouponList(userid);
+			CouponVO cvo = cdao.selectCouponByUserid(userid);
 			
-			request.setAttribute("cpList", cpList);
+			// 쿠폰 개수 조회하기
+			int cnt = cdao.countCouponQty("0");
+			
+			request.setAttribute("cpList", cvo);
+			request.setAttribute("cnt", cnt);
 			
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");

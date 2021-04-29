@@ -39,41 +39,83 @@ public class CouponDAO implements InterCouponDAO {
 	      }
 	   }
 
-		@Override
-		public List<CouponVO> getCouponList(String userid) throws SQLException {
+	// 아이디를 가지고 해당 쿠폰 정보 조회해오기
+	@Override
+	public CouponVO selectCouponByUserid(String userid) throws SQLException {
+		
+		CouponVO cvo = null;
+		
+		try {
 			
-			List<CouponVO> cpList = new ArrayList<>();
+			conn = ds.getConnection();
 			
-			try {
-				conn = ds.getConnection();
+			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
+							+ " from tbl_coupon "
+							+ " where fk_userid= ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				String cpno = rs.getString(1);
+				int cpstatus = rs.getInt(2);
+				int cpcontent = rs.getInt(3);
+				String cpname = rs.getString(4);
+				String cpdiscount = rs.getString(5);
+				String issuedate = rs.getString(6);
+				String expirationdate = rs.getString(7);
 				
-				String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
-								+ " from tbl_coupon "
-								+ " where fk_userid = ? ";
+				cvo = new CouponVO();
+				cvo.setCpno(cpno);
+				cvo.setCpstatus(cpstatus);
+				cvo.setCpcontent(cpcontent);
+				cvo.setCpname(cpname);
+				cvo.setCpdiscount(cpdiscount);
+				cvo.setIssuedate(issuedate);
+				cvo.setExpirationdate(expirationdate);
 				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setNString(1, userid);
-				
-				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					CouponVO cvo = new CouponVO();
-					cvo.setCpno(rs.getString(1));
-					cvo.setCpstatus(rs.getInt(2));
-					cvo.setCpcontent(rs.getInt(3));
-					cvo.setCpname(rs.getString(4));
-					cvo.setCpdiscount(rs.getString(5));
-					cvo.setIssuedate(rs.getString(6));
-					cvo.setExpirationdate(rs.getString(7));
-					
-					cpList.add(cvo);	
-				}
-				
-			} finally {
-				close();
-			}
-			return cpList;
-		}	   
+			}// end of if-----------------------------
+			
+		} finally {
+			close();
+		}
+		
+		return cvo;
+	}
+
+	// 쿠폰 개수 조회하기
+	@Override
+	public int countCouponQty(String cpstatus) throws SQLException {
+		
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(*) "
+							+ " from tbl_coupon "
+							+ " where cpstatus = ? ";
+			
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, cpstatus);
+			
+			 rs = pstmt.executeQuery();
+	          
+	         rs.next();
+			 
+	         cnt = rs.getInt(1);
+	         
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	}
+
+		
+	   
 	   
 }
 

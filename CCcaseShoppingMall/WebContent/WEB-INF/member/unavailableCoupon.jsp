@@ -11,8 +11,19 @@
 
 <style type="text/css">
 
+	button.btn {
+		border: none;
+		width: 150px;
+		padding: 10px 0;
+		font-weight: bold;
+		border-radius: 10px;
+	}
 
-
+	button:hover {
+		background-color: #4d4d4d;
+		color: white;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -34,13 +45,16 @@
 <h3>나의 쿠폰 조회</h3>
 <hr>
 
+<br><br><br><br><br>
+
 <div>
-	<button type="button" id="aval">사용가능 쿠폰(<span class="cnt"></span>)</button>
-	<button type="button" id="unAval">사용완료 쿠폰(<span class="cnt"></span>)</button>
+	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.cnt}</span>)</button>
+	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.cnt}</span>)</button>
 </div>
 
+<br>
 
-<table>
+<table id="memberTbl" class="table" style="align: center; width:80%; margin-top:20px;">
 	<thead>
 		<tr>
 			<th>쿠폰번호</th>
@@ -56,8 +70,8 @@
 	
 	<tbody>
 	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:if test="${requestScope.cpList.cpstatus eq '1' || requestScope.cpList.cpstatus eq '2'}"></c:if>
-		<c:forEach var="cvo" items="${requestScope.cpList}">
+	<c:if test="${requestScope.cvo.cpstatus eq '1' || requestScope.cvo.cpstatus eq '2'}">
+		<c:forEach var="cvo" items="${requestScope.cvo}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
 				<td>${cvo.cpno}</td>
 				<td>${cvo.cpcontent}</td>
@@ -69,6 +83,8 @@
 				<td>D-(${cvo.expirationdate}-${today})</td>
 			</tr>
 		</c:forEach>
+	</c:if>
+	<c:if test=""></c:if>
 	</tbody>
 </table>
 
