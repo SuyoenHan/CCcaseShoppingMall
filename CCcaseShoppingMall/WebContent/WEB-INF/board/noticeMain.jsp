@@ -155,7 +155,7 @@
 		$("button.faqList").click(function(){
 			//목록버튼 클릭했을 때
 			//alert("목록클릭!");
-			location.href="<%=ctxPath%>/board/faqList.cc";
+			location.href="<%=ctxPath%>/board/noticeList.cc";
 			
 		});
 		
@@ -182,7 +182,7 @@
 				커뮤니티
 		</div>
 			
-		<h2> FAQ </h2>
+		<h2> 공지사항 </h2>
 		<div class="container">	
 		  <form name="faqFrm">
 			<table class="table table-hover">
@@ -197,37 +197,37 @@
 				</thead>
 				
 				<tbody>
-				<c:forEach var="fvo" items="${requestScope.faqList}">
+				<c:forEach var="nvo" items="${requestScope.noticeList}">
 						<input type="hidden" name="sizePerPage" id="sizePerPage" value="7" />
 						<input type="text" style="display: none;"><%-- form으로 보낼 대상인 input태그가 1개뿐이라서 해줌 --%>
 					<tr class="faqSimple">
-						<td class="faqno" name="faqno" id="faqno">${nvo.faqno}</td>
-						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
-						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
-						<td name="fregisterdate" id="fregisterdate">${fvo.fregisterdate}</td>
-						<td name="fnum" id="fnum">${fvo.number}</td>
+						<td class="noticeno" name="noticeno" id="noticeno">${nvo.noticeno}</td>
+						<td name="ntitle" id="ntitle">${nvo.ntitle}</td>
+						<td name="fk_adminid" id="fk_adminid">${nvo.fk_adminid}</td>
+						<td name="nregisterdate" id="nregisterdate">${nvo.nregisterdate}</td>
+						<td name="nviewcount" id="nviewcount">${nvo.nviewcount}</td>
 					</tr>
 					
 					<tr class="faqDetail">
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
-									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
+									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${nvo.ntitle}</div>
 									
 								</tr>
 								<tr>
-									<div class="cal">작성자: &nbsp;&nbsp;${fvo.fk_adminid}</div>
+									<div class="cal">작성자: &nbsp;&nbsp;${nvo.fk_adminid}</div>
 								</tr>
 								<tr>
 								   <div class="cal">
-									<span >등록일:&nbsp;&nbsp;${fvo.fregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+									<span >등록일:&nbsp;&nbsp;${nvo.nregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최근수정일:&nbsp;&nbsp;${fvo.fupdatedate}</span>
+									<span >최근수정일:&nbsp;&nbsp;${nvo.nupdatedate}</span>
 									</div>
 								</tr>
 								<tr>
 									<div class="cal">글내용</div>
-									<div class="faqcontent">${fvo.fcontent}</div>
+									<div class="faqcontent">${nvo.ncontent}</div>
 								     
 								</tr>
 							</table>
