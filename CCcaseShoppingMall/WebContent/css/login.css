@@ -27,6 +27,7 @@ input.form-control{
 	height:50px;
 	width: 80%;
 	margin-top: 10px;
+	margin-left:60px;
 }
 
 button.memberRegister{
@@ -47,6 +48,7 @@ button.idSearch{
 	border: none;
 	cursor: pointer;
 	width:40%;
+
 }
 
 button.pwdSearch{
@@ -79,16 +81,36 @@ div.idSearchForm{
 
 button.idSearchSubmit{
 	background-color: #666;
-	margin:20px 80px;
+	margin:20px 90px;
 	color: white;
-	padding: 20px 0px;
 	border: none;
 	cursor: pointer;
-	height:60px;
+	height:50px;
 	width:30%;
 	font-size: 18pt;
-}
 
+}
+button.pwdSearchSubmit{
+	background-color: #666;
+	border:solid 3px red;
+	color: white;
+	border: none;
+	cursor: pointer;
+	height:50px;
+	width:20%;
+	font-size: 13pt;
+}
+button.emailCon{
+	background-color: #666;
+	margin:20px 90px;
+	color: white;
+	border: none;
+	cursor: pointer;
+	height:50px;
+	width:30%;
+	font-size: 18pt;
+	
+}
 ul {
     border: solid 0px red;
  	margin-top:100px;
@@ -99,7 +121,8 @@ ul {
 label.title{
 	display :inline-block;
 	width:180px;
-	font-size: 20pt;
+	font-size:14pt;
+
 }
 
 li{
@@ -109,6 +132,7 @@ li{
 input.findinput{
 	height: 35px;
 	width: 50%;
+	margin-top:10px;
 	margin-bottom: 10px;
 }
 

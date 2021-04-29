@@ -80,15 +80,19 @@
 				if(data == "") {
 					bFlagRequiredInfo = true;
 					alert("제목과 글내용을 입력하셔야 합니다.");
+					//$("span.error").show();
 					return false; // break 라는 뜻이다.
 				}
+				
 			});
 			
+			//var fcontent = $("textarea#fcontent").val();
+			//alert("fcontent=>"+fcontent);
 			
 			if(!bFlagRequiredInfo) { // 글제목 글내용 있을경우 List에 등록해준다.
 				var frm = document.faqwrite;
-				frm.action = "<%= ctxPath%>/board/faqList.cc";
-				frm.method = "post";
+				frm.action = "<%= ctxPath%>/board/faqwrite.cc";
+				frm.method = "POST";
 				frm.submit();
 			}
 			
@@ -131,18 +135,18 @@
 		<tr>
 			<td colspan="2" id="text">
 				<label for="story">글쓰기</label>
-				<textarea id="fcontent" name="fcontent" class="requiredInfo" rows="10" cols="10">
+				<textarea id="fcontent" name="fcontent" class="requiredInfo">
 				
 				</textarea>
-				
+				<span class="error">글쓰기란은 필수입력 사항입니다.</span>
 		     </td>
 		</tr>
 	</table>
-	</form>
+	
 	<button type="button" class="button faqList" name="faqList" style="align:left;">목록</button>
 	<button type="button" class="button faqInsert" name="faqInsert" style="align:right;">등록</button>
 	<button type="button" class="button faqCancel" name="faqCancel" style="align:right;">취소</button>
-
+</form>
 
 </div>
 

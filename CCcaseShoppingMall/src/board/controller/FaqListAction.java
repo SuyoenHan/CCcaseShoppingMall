@@ -66,8 +66,8 @@ public class FaqListAction extends AbstractController {
 			String faqno = request.getParameter("faqno");
 			
 			InterFaqDAO fdao2 = new FaqDAO();
-			
-			if(faqno != null) {
+			// System.out.println(faqno);
+			if(faqno!=null && ! "x".equals(faqno)) {
 				fdao2.updateViewCount(faqno);
 			}
 			else if (faqno == null) {
@@ -151,6 +151,11 @@ public class FaqListAction extends AbstractController {
 
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/faqMain.jsp");
+			
+			if(avo!=null) {
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/board/adminFaqMain.jsp");
+			}
 			
 		   }
 	     

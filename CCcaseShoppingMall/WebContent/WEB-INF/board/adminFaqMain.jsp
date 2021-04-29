@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
-<title>CCcase FAQ페이지 </title>
+<title>CCcase AdminFAQ페이지 </title>
     
 <%
 	String ctxPath = request.getContextPath();
@@ -154,6 +154,12 @@
 		});
 		 
 			
+			$("button.faqwrite").click(function(){
+				//버튼(글쓰기)를 클릭하면
+				//alert("글쓰기 버튼 클릭");
+				location.href="<%=ctxPath%>/board/faqwrite.cc";
+				
+			});//end of $("button#faqwrite").click(function(){}); ------------------
 			
 		
 	});// end of $(document).ready(function(){})--------------
@@ -162,8 +168,9 @@
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
-	<jsp:include page="../header.jsp" />
-	<jsp:include page="../communityLeftSide.jsp" />
+	<jsp:include page="../adminheader.jsp" />
+	<jsp:include page="../adminleftSide.jsp" />
+
 
 
 
@@ -177,7 +184,7 @@
 
 	
 		<div id="title"> 
-				커뮤니티
+				게시판관리
 		</div>
 			
 		<h2> FAQ </h2>
@@ -229,7 +236,8 @@
 							</table>
 						
 							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
-							
+							<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
+							<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
 							
 						</td>
 					 </tr>
@@ -239,7 +247,10 @@
 			   </table>
 			</form>
 			
-			
+			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
+			<c:if test="${not empty requestScope.avo}">
+			<button type="button" class="faqwrite"  id="faqwrite" name="faqwrite" value="글쓰기" style="float:right; " >글쓰기</button>
+			</c:if>
 			
 			<!-- 페이징바 -->
 			<div style="text-align:center; font-size:17px;">${requestScope.pageBar}</div>

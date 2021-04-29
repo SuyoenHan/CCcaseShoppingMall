@@ -33,6 +33,14 @@ public interface InterMemberDAO {
 
 	//회원정보수정
 	int updateMember(MemberVO member)throws SQLException;
+	//패스워드 확인
+	boolean passwdcheck(Map<String, String> paraMap)throws SQLException;
+	//아이디 찾기
+	String findUserid(Map<String, String> paraMap)throws SQLException;
+	//비밀번호 찾기
+	boolean isUserExist(Map<String, String> paraMap)throws SQLException;
+	//암호변경
+	int pwdUpdate(Map<String, String> paraMap)throws SQLException;
 
 	
 }
