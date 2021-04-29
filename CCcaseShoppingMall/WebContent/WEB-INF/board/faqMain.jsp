@@ -113,8 +113,6 @@
 
 	$(document).ready(function(){
 		
-		var fnum =document.getElementsByName("fnum");
-		
 		func_height();//footer.jsp에 있음!
 		
 		if("${faqno}"!="x"){
