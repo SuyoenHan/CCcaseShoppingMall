@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-    
-<title>CCcase FAQ페이지 </title>
+<title>CCcase 공지사항 </title>
+
     
 <%
 	String ctxPath = request.getContextPath();
@@ -114,38 +114,43 @@
 	$(document).ready(function(){
 		
 		var fnum =document.getElementsByName("fnum");
+		var fcount = 0;
 		
 		func_height();//footer.jsp에 있음!
 		
-		if("${faqno}"!="x"){
-
-			$("tr.faqDetail").each(function(index,item){
-				
-				if($(item).prop("id")=="${faqno}"){
-					$(item).css('display','');
-				}
-				else{
-					$(item).css('display','none');
-				}
-				
-			}); // end of each-------------------------
-		}
-		else{
-			$("tr.faqDetail").css('display','none'); //안보이도록 한다.
-		}
 		
+		$("tr.faqDetail").css('display','none'); //안보이도록 한다.
+		
+		
+		var count = 0;
 		$("tr.faqSimple").click(function(event){
+			count++;
 			
-			if($(this).next().css('display')=="none"){
-				location.href="<%=ctxPath%>/board/faqList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&faqno="+$(this).next().prop("id");			
+			
+			// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
+			var $faqDetail =$(this).next();
+			
+			var sDisplay = $faqDetail.css('display');
+			//console.log("확인용 sDisplay: "+ sDisplay);
+			
+			if( sDisplay == "none"){
+				
+				$("tr.faqDetail").css('display','none'); // 전부 안보이도록 한다.
+				$faqDetail.css('display',''); // '' display  block을 사용한다는 말이다. 
+				fcount=fcount++;
+				
 			}
 			else{
-				$(this).next().css('display','none');
-			}
+  				// display 상태가 보이는 것이라면
+  				$faqDetail.css('display','none'); //안보여지도록 한다.
+  				
+  			}
 			
+			
+			
+		});
 			
 		
-		});
 		
 		$("button.faqList").click(function(){
 			//목록버튼 클릭했을 때
@@ -155,25 +160,6 @@
 		});
 		
 		
-		<%--  //클릭하면 조회수가 올라가도록 한다. 어떻게.....??? ㅎ 
-		$.ajax({
-				url:"<%= request.getContextPath()%>/board/fcount.up",
-				type:"POST",
-				data:{"fcount":fcount
-             		 ,"fnum":fnum}, 
-				dataType:"json",
-				success:function(json){
-				$("td#fnum")
-				},
-				error: function(request, status, error){
-		           
-		        }
-					
-			});//end of $.ajax({})---------------------
-		 --%>
-		 
-		
-			
 		
 	});// end of $(document).ready(function(){})--------------
 
@@ -204,6 +190,7 @@
 					<tr style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
+						<th>작성자</th>
 						<th>등록일자</th>
 						<th>조회수</th>
 					</tr>
@@ -214,13 +201,14 @@
 						<input type="hidden" name="sizePerPage" id="sizePerPage" value="7" />
 						<input type="text" style="display: none;"><%-- form으로 보낼 대상인 input태그가 1개뿐이라서 해줌 --%>
 					<tr class="faqSimple">
-						<td class="faqno" name="faqno" id="faqno">${fvo.faqno}</td>
+						<td class="faqno" name="faqno" id="faqno">${nvo.faqno}</td>
+						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
 						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
 						<td name="fregisterdate" id="fregisterdate">${fvo.fregisterdate}</td>
 						<td name="fnum" id="fnum">${fvo.number}</td>
 					</tr>
 					
-					<tr class="faqDetail" id="${fvo.faqno}">
+					<tr class="faqDetail">
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>

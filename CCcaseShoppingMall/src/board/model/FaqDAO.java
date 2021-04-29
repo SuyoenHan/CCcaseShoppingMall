@@ -1,11 +1,14 @@
 package board.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -45,19 +48,35 @@ public class FaqDAO implements InterFaqDAO {
 
 	// 모든 faq select 해와서 목록에 보여주기
 	@Override
-	public List<FaqVO> faqAllView() throws SQLException {
+	public List<FaqVO> selectPagingFaq(Map<String, String> paraMap) throws SQLException {
 		
 		List<FaqVO> faqList = new ArrayList<>();
+		
 		
 		try{
 			
 			conn= ds.getConnection();
 			
-			String sql = " select faqno, fk_adminid, ftitle,fregisterdate,fupdatedate,fviewcount,fcontent "+
-					     " from tbl_faq " +
-					     " order by fregisterdate desc";
+			String sql = "select faqno, fk_adminid, ftitle,fregisterdate,fupdatedate,fviewcount,fcontent "+
+						 "from "+
+						  "( "+
+						  "    select rownum as rno, faqno, fk_adminid, ftitle,to_char(fregisterdate, 'yyyy-mm-dd') as fregisterdate ,fupdatedate,fviewcount,fcontent "+
+						  "    from "+
+						  "    ( "+
+						  "        select faqno, fk_adminid, ftitle,fregisterdate,fupdatedate,fviewcount,fcontent "+
+						  "        from  tbl_faq "+
+						 "        order by faqno desc  "+
+						 "    )V "+
+						 " )T "+
+						 "where rno between ? and ?";
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); //공식
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -82,6 +101,66 @@ public class FaqDAO implements InterFaqDAO {
 		
 		
 		return faqList;
+		
+	
+	}
+
+	// 페이징처리를 위해서 전체FAQ에 대한 총페이지 개수 알아오기(select)  
+	@Override
+	public int selectTotalPage(Map<String, String> paraMap) throws SQLException {
+		
+		 int totalPage = 0;
+	      
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select ceil( count(*)/? ) "+
+	  					   " from tbl_faq "+
+	  					   " order by faqno desc ";
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setString(1, paraMap.get("sizePerPage") );
+	          
+	          rs = pstmt.executeQuery();
+	          
+	          rs.next();
+	          
+	          totalPage = rs.getInt(1);
+	      
+	        
+	      }   finally {
+	         close();
+	      }
+	      
+	      return totalPage;
+	}
+
+	
+	//조회수 증가시키기
+	@Override
+	public void updateViewCount(String faqno) throws SQLException {
+
+		try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " update tbl_faq set fviewcount = fviewcount+1 "+
+	        		       " where faqno = ? ";
+	          
+	          pstmt = conn.prepareStatement(sql);	
+	          pstmt.setInt(1, Integer.parseInt(faqno));
+	          
+	          int n= pstmt.executeUpdate();
+	
+	          if(n==1) {
+				  conn.commit();
+			  }
+	        
+	    } catch (SQLException e) {
+			     e.printStackTrace();
+		}   finally {
+	         close();
+	    }
+	      
 	}
 	
 	

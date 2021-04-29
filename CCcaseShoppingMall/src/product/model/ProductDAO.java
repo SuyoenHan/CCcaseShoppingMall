@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 public class ProductDAO implements InterProductDAO {
 
 	private DataSource ds; // DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool) 이다.
-	private Connection conn; 
+	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
@@ -136,6 +136,7 @@ public class ProductDAO implements InterProductDAO {
 	}// end of public int selectTotalPage(Map<String, String> pageMap) throws SQLException {------
 
 	
+	
 	// 한페이지에 보여줄 제품정보 메소드
 	@Override
 	public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{
@@ -143,6 +144,7 @@ public class ProductDAO implements InterProductDAO {
 		List<Map<String,String>> pInfoList= new ArrayList<>();
 		try {
 			conn=ds.getConnection();
+			
 			String sql= " select productid, productname, modelname, pimage1, price, saleprice, salepercent "+
 						" from "+
 						" ( "+
@@ -184,6 +186,7 @@ public class ProductDAO implements InterProductDAO {
 
 			rs= pstmt.executeQuery();
 			
+			
 			while(rs.next()) {
 		
 				Map<String,String> pInfoMap= new HashMap<>();
@@ -195,7 +198,7 @@ public class ProductDAO implements InterProductDAO {
 				pInfoMap.put("price",  String.valueOf(rs.getInt(5)));
 				pInfoMap.put("saleprice", String.valueOf(rs.getInt(6)));
 				pInfoMap.put("salepercent", String.valueOf(rs.getInt(7)));
-			
+				
 				pInfoList.add(pInfoMap);
 			}
 			
