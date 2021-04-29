@@ -138,31 +138,29 @@ public class FaqDAO implements InterFaqDAO {
 	
 	//조회수 증가시키기
 	@Override
-	public FaqVO updateViewCount(String faqno) throws SQLException {
-		
-		FaqVO fvo = new FaqVO();
+	public void updateViewCount(String faqno) throws SQLException {
+
 		try {
 	          conn = ds.getConnection();
 	          
 	          String sql = " update tbl_faq set fviewcount = fviewcount+1 "+
 	        		       " where faqno = ? ";
 	          
-	          pstmt = conn.prepareStatement(sql);
-	          pstmt.setString(1, faqno );
+	          pstmt = conn.prepareStatement(sql);	
+	          pstmt.setInt(1, Integer.parseInt(faqno));
 	          
-	          int n = pstmt.executeUpdate();
-	          
+	          int n= pstmt.executeUpdate();
+	
 	          if(n==1) {
 				  conn.commit();
 			  }
 	        
-	      } catch (SQLException e) {
+	    } catch (SQLException e) {
 			     e.printStackTrace();
 		}   finally {
 	         close();
-	      }
+	    }
 	      
-		return fvo;
 	}
 	
 	
