@@ -95,14 +95,19 @@
 		});//end of $("button.faqInsert").click(function(){})-------------------
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 <<<<<<< HEAD
 >>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
+=======
+
+>>>>>>> refs/heads/SeungHye-J
 		
 		
 		
 	}); //end of $(document).ready(function(){})-------------------------
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -113,6 +118,9 @@
 
 >>>>>>> refs/heads/main
 >>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
+=======
+
+>>>>>>> refs/heads/SeungHye-J
 </script>
 
 
