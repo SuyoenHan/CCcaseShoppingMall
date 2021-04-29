@@ -161,7 +161,7 @@
 		});
 		 
 		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
-		$("button.faqEdit").click(function(){
+		<%-- $("button.faqEdit").click(function(){
 			 
 				var faqno= $(tr.faqSimple).next().prop("id");
 				 var url = "<%=ctxPath%>/board/faqwrite?;
@@ -171,7 +171,7 @@
 						      "lefe=350p, top=100px,width=800px, height=650px");
 				  
 			   });
-			
+			 --%>
 		
 		
 		//삭제버튼 클릭했을 때
