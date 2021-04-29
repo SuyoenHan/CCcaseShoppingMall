@@ -174,7 +174,7 @@ public class FaqDAO implements InterFaqDAO {
 	          conn = ds.getConnection();
 	          
 		
-	          String sql = " insert into tbl_notice ( faqno, fk_adminid, ftitle, fcontent ) "+
+	          String sql = " insert into tbl_faq ( faqno, fk_adminid, ftitle, fcontent ) "+
 	        		  	   " values( seq_faq_faqno.nextval , ? , ? , ? ) ";
 	          
 	          pstmt = conn.prepareStatement(sql);

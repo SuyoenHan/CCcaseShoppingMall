@@ -93,10 +93,10 @@ public class FaqwriteAction extends AbstractController {
 	   	    fvo.setFk_adminid(adminid);
 	   	    fvo.setFregisterdate(fregisterdate);
 	   	    fvo.setFcontent(fcontent);
-	   	   
+	   	   //  System.out.println(fcontent);
 	   	    
 	   	    InterFaqDAO fdao = new FaqDAO();
-	   	    
+	   	   
 	   	    int n = fdao.faqInsert(fvo);
 	   	 
 	   	    if(n==1) {

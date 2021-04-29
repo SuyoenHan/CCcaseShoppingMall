@@ -66,8 +66,8 @@ public class FaqListAction extends AbstractController {
 			String faqno = request.getParameter("faqno");
 			
 			InterFaqDAO fdao2 = new FaqDAO();
-			
-			if(faqno!=null || ! "x".equals(faqno)) {
+			// System.out.println(faqno);
+			if(faqno!=null && ! "x".equals(faqno)) {
 				fdao2.updateViewCount(faqno);
 			}
 			else if (faqno == null) {
