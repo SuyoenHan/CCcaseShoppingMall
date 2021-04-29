@@ -8,7 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <jsp:include page="../../WEB-INF/header.jsp" />
-<jsp:include page="../../WEB-INF/leftSide.jsp" />
+<jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 
 <style type="text/css">
 	div#mypage{

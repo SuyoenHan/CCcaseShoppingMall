@@ -1,30 +1,34 @@
 package member.controller;
 
+import java.util.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import member.model.*;
+import my.util.Myutil;
 
 public class AvailableCouponAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String userid = request.getParameter("userid");
-		
-		// == 해당계정으로 로그인 했을 때만 조회가 가능하도록 한다. == //
 		HttpSession session = request.getSession();
 		MemberVO loginUser =  (MemberVO) session.getAttribute("loginUser");
 		
 		// 로그인된 계정으로 접속 했을 경우
-		if(loginUser != null && !userid.equals(loginUser.getUserid()) ) {
+		if(loginUser != null ) {
 			
+			String userid = request.getParameter("userid");
 			
+			InterCouponDAO cdao = new CouponDAO();
 			
+			// 아이디를 가지고 해당 쿠폰 정보 조회해오기
+			List<CouponVO> cpList = cdao.getCouponList(userid);
 			
-			
+			request.setAttribute("cpList", cpList);
 			
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <% String ctxPath = request.getContextPath(); %>
 
@@ -42,6 +43,7 @@
 <table>
 	<thead>
 		<tr>
+			<th>쿠폰번호</th>
 			<th>구분</th>
 			<th>쿠폰명</th>
 			<th>최소사용 금액</th>
@@ -53,15 +55,18 @@
 	</thead>
 	
 	<tbody>
-		<c:forEach var="map" items="">
+	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
+	<c:if test="${requestScope.cpList.cpstatus eq '1' || requestScope.cpList.cpstatus eq '2'}"></c:if>
+		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
-				<td>cpcontent</td>
-				<td>cpname</td>
+				<td>${cvo.cpno}</td>
+				<td>${cvo.cpcontent}</td>
+				<td>${cvo.cpname}</td>
 				<td>5,000원</td>
-				<td>cpdiscount</td>
-				<td>issuedate</td>
-				<td>expirationdate</td><%-- 발행일로부터 14일 후 --%>
-				<td>expirationdate-sysdate</td>
+				<td>${cvo.cpdiscount}</td>
+				<td>${cvo.issudate}</td>
+				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
+				<td>D-(${cvo.expirationdate}-${today})</td>
 			</tr>
 		</c:forEach>
 	</tbody>

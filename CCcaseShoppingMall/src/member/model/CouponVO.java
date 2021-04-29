@@ -7,11 +7,24 @@ public class CouponVO {
 	private int cpstatus;						// 0 사용가능, 1 사용완료, 2 소멸
 	private int cpcontent;					// 0 무료배송, 1 할인쿠폰
 	private String cpname;					// 쿠폰명
-	private int cpdiscount;					// 할인율
+	private String cpdiscount;					// 할인율
 	private String issuedate;				// 발행일
 	private String expirationdate; 	// 만료일(발행일+14)
 	
 	public CouponVO() {}
+	
+	public CouponVO(String cpno, String fk_userid, int cpstatus, int cpcontent, String cpname, String cpdiscount, 
+								  String issuedate, String expirationdate) {
+		this.cpno = cpno;
+		this.fk_userid = fk_userid;
+		this.cpstatus = cpstatus;
+		this.cpcontent = cpcontent;
+		this.cpname = cpname;
+		this.cpdiscount = cpdiscount;
+		this.issuedate = issuedate;
+		this.expirationdate = expirationdate;
+		
+	}
 	
 	public String getCpno() {
 		return cpno;
@@ -53,11 +66,11 @@ public class CouponVO {
 		this.cpname = cpname;
 	}
 	
-	public int getCpdiscount() {
+	public String getCpdiscount() {
 		return cpdiscount;
 	}
 	
-	public void setCpdiscount(int cpdiscount) {
+	public void setCpdiscount(String cpdiscount) {
 		this.cpdiscount = cpdiscount;
 	}
 	
