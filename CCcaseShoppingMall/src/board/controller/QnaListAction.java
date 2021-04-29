@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
@@ -23,7 +24,9 @@ public class QnaListAction extends AbstractController {
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if( loginuser != null ) { // 로그인 했을 경우
+		AdminVO adminUser = (AdminVO)session.getAttribute("adminUser");
+		
+		if( loginuser != null || adminUser!=null ) { // 로그인 했을 경우
 
 			InterQnaDAO qdao = new QnaDAO();
 			
@@ -132,12 +135,17 @@ public class QnaListAction extends AbstractController {
 
 			request.setAttribute("goBackURL", currentURL);
 			
-//			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/board/qnaList.jsp");	
+			if(loginuser!=null) {
+				//super.setRedirect(false);
+				super.setViewPage("/WEB-INF/board/qnaList.jsp");
+			}
+			else if(adminUser != null) {
+				super.setViewPage("/WEB-INF/board/adminQnaList.jsp");
+			}
 		}
 		else {
 			// 로그인을 안한 경우
-			String message = "회원만 접근이 가능합니다.";
+			String message = "로그인 후 이용가능합니다.";
 	        String loc = "javascript:history.back()";
 	         
 	        request.setAttribute("message", message);

@@ -77,6 +77,8 @@
 			
 			<span class="menuSection" id="viewBoard">교환 및 환불관리</span>
 			<span class="menuSection" id="viewBoard" onclick="location.href='<%= ctxPath%>/board/faqList.cc';">게시판관리 </span>
+			
+			<span class="menuSection" id="qnaBoard" onclick="location.href='<%= ctxPath%>/board/qnaList.cc';">QNA관리 </span>
 		</div>
 		
 		<div id="login">
