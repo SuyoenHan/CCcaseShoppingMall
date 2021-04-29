@@ -1,7 +1,6 @@
 package board.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -161,6 +160,28 @@ public class FaqDAO implements InterFaqDAO {
 	         close();
 	    }
 	      
+	}
+
+
+	// 글쓰기 등록하기
+	
+	@Override
+	public int faqInsert(String ftitle, String adminid, String fcontent) throws SQLException {
+		int n =0 ;
+		
+		try {
+	          conn = ds.getConnection();
+	          
+		
+	          String sql = " insert into tbl_notice (noticeno,fk_adminid,ntitle,ncontent) "+
+	        		  	    " values(seq_notice_noticeno.nextval,'',' ',' ')";
+		
+		} catch (SQLException e) {
+			     e.printStackTrace();
+		}   finally {
+	         close();
+	    }
+		return n;
 	}
 	
 	

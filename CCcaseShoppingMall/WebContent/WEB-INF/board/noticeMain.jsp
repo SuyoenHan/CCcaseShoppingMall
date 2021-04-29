@@ -114,42 +114,39 @@
 	$(document).ready(function(){
 		
 		var fnum =document.getElementsByName("fnum");
-		var fcount = 0;
 		
 		func_height();//footer.jsp에 있음!
 		
 		
-		$("tr.faqDetail").css('display','none'); //안보이도록 한다.
+		if("${noticeno}"!="x"){
+			
+			$("tr.faqDetail").each(function(index,item){
+				
+				if($(item).prop("id")=="${noticeno}"){
+					$(item).css('display','');
+				}
+				else{
+					$(item).css('display','none');
+				}
+				
+			}); // end of each-------------------------
+		}
+		else{
+		
+			$("tr.faqDetail").css('display','none'); //안보이도록 한다.
+		}
 		
 		
-		var count = 0;
 		$("tr.faqSimple").click(function(event){
-			count++;
 			
-			
-			// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
-			var $faqDetail =$(this).next();
-			
-			var sDisplay = $faqDetail.css('display');
-			//console.log("확인용 sDisplay: "+ sDisplay);
-			
-			if( sDisplay == "none"){
-				
-				$("tr.faqDetail").css('display','none'); // 전부 안보이도록 한다.
-				$faqDetail.css('display',''); // '' display  block을 사용한다는 말이다. 
-				fcount=fcount++;
-				
+			if($(this).next().css('display')=="none"){
+				location.href="<%=ctxPath%>/board/noticeList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&noticeno="+$(this).next().prop("id");			
 			}
 			else{
-  				// display 상태가 보이는 것이라면
-  				$faqDetail.css('display','none'); //안보여지도록 한다.
-  				
-  			}
-			
-			
+				$(this).next().css('display','none');
+			}
 			
 		});
-			
 		
 		
 		$("button.faqList").click(function(){
@@ -158,6 +155,13 @@
 			location.href="<%=ctxPath%>/board/noticeList.cc";
 			
 		});
+		
+		$("button.noticeWrite").click(function(){
+			//버튼(글쓰기)를 클릭하면
+			//alert("글쓰기 버튼 클릭");
+			location.href="<%=ctxPath%>/board/noticewrite.cc";
+			
+		});//end of $("button#noticeWrite").click(function(){}); ------------------
 		
 		
 		
@@ -208,7 +212,7 @@
 						<td name="nviewcount" id="nviewcount">${nvo.nviewcount}</td>
 					</tr>
 					
-					<tr class="faqDetail">
+					<tr class="faqDetail" id="${nvo.noticeno}">
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
@@ -241,6 +245,12 @@
 			
 			   </table>
 			</form>
+			
+			
+			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
+			<c:if test="${not empty requestScope.avo}">
+			<button type="button" class="noticeWrite"  id="noticeWrite" name="noticeWrite" value="글쓰기" style="float:right; " >글쓰기</button>
+			</c:if>
 			<!-- 페이징바 -->
 			<div style="text-align:center; font-size:17px;">${requestScope.pageBar}</div>
 	

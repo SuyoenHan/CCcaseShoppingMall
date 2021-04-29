@@ -143,7 +143,6 @@
 				$(this).next().css('display','none');
 			}
 			
-			
 		
 		});
 		
@@ -153,26 +152,14 @@
 			location.href="<%=ctxPath%>/board/faqList.cc";
 			
 		});
-		
-		
-		<%--  //클릭하면 조회수가 올라가도록 한다. 어떻게.....??? ㅎ 
-		$.ajax({
-				url:"<%= request.getContextPath()%>/board/fcount.up",
-				type:"POST",
-				data:{"fcount":fcount
-             		 ,"fnum":fnum}, 
-				dataType:"json",
-				success:function(json){
-				$("td#fnum")
-				},
-				error: function(request, status, error){
-		           
-		        }
-					
-			});//end of $.ajax({})---------------------
-		 --%>
 		 
-		
+			
+			$("button.faqwrite").click(function(){
+				//버튼(글쓰기)를 클릭하면
+				//alert("글쓰기 버튼 클릭");
+				location.href="<%=ctxPath%>/board/faqwrite.cc";
+				
+			});//end of $("button#faqwrite").click(function(){}); ------------------
 			
 		
 	});// end of $(document).ready(function(){})--------------
@@ -180,8 +167,16 @@
 </script>
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
-<jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp" />
+<c:if test="${not empty requestScope.avo}">
+	<jsp:include page="../adminheader.jsp" />
+	<jsp:include page="../adminleftSide.jsp" />
+</c:if>
+
+<c:if test="${ empty requestScope.avo}">
+	<jsp:include page="../header.jsp" />
+	<jsp:include page="../communityLeftSide.jsp" />
+</c:if>
+
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -245,7 +240,8 @@
 							</table>
 						
 							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
-						
+							
+							
 						</td>
 					 </tr>
 					</c:forEach>
@@ -253,6 +249,12 @@
 			
 			   </table>
 			</form>
+			
+			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
+			<c:if test="${not empty requestScope.avo}">
+			<button type="button" class="faqwrite"  id="faqwrite" name="faqwrite" value="글쓰기" style="float:right; " >글쓰기</button>
+			</c:if>
+			
 			<!-- 페이징바 -->
 			<div style="text-align:center; font-size:17px;">${requestScope.pageBar}</div>
 	

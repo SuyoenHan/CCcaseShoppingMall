@@ -1,6 +1,6 @@
 package board.controller;
 
-import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 import my.util.Myutil;
@@ -18,7 +19,18 @@ public class FaqListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			
 		
+			HttpSession session = request.getSession();
+			AdminVO avo = (AdminVO)session.getAttribute("adminUser");
+			request.setAttribute("avo", avo);
+			
+			String method = request.getMethod();
+			
+		   if("GET".equalsIgnoreCase(method)) { //get 방식일때
+			 
+			//페이징 처리된 모든 FAQ 를 조회해준다.
+			
 			InterFaqDAO fdao = new FaqDAO();
 			
 			String currentShowPageNo =request.getParameter("currentShowPageNo");
@@ -140,6 +152,8 @@ public class FaqListAction extends AbstractController {
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/faqMain.jsp");
 			
+		   }
+	     
 			
 			
 	

@@ -87,10 +87,6 @@ public class NoticeDAO implements InterNoticeDAO {
 				nvo.setNviewcount(rs.getInt(6));
 				nvo.setNcontent(rs.getString(7));
 				
-				
-				
-				
-				
 				noticeList.add(nvo);
 				
 			}
@@ -130,6 +126,33 @@ public class NoticeDAO implements InterNoticeDAO {
 	      }
 	      
 	      return totalPage;
+	}
+
+
+	//조회수 증가시키기
+	@Override
+	public void updateViewCount(String noticeno) throws SQLException {
+		try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " update tbl_notice set nviewcount = nviewcount+1 "+
+	        		       " where noticeno = ? ";
+	          
+	          pstmt = conn.prepareStatement(sql);	
+	          pstmt.setInt(1, Integer.parseInt(noticeno));
+	          
+	          int n= pstmt.executeUpdate();
+	
+	          if(n==1) {
+				  conn.commit();
+			  }
+	        
+	    } catch (SQLException e) {
+			     e.printStackTrace();
+		}   finally {
+	         close();
+	    }
+		
 	}
 
 

@@ -30,6 +30,8 @@ public class NoticeListAction extends AbstractController {
 			sizePerPage="7"; // null ,7을 제외한 나머지는 모두 5개만 뜸. url get방식으로 장난칠 수 없게 만들어 준 것이다.
 		}
 		
+		request.setAttribute("currentShowPageNo", currentShowPageNo);
+		request.setAttribute("sizePerPage", sizePerPage);
 		
 		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자 아닌 문자를 입력한 경우 또는 
         //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
@@ -42,6 +44,24 @@ public class NoticeListAction extends AbstractController {
 		Map<String,String> paraMap =new HashMap<>();
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		paraMap.put("sizePerPage", sizePerPage);
+		
+		
+		//조회수 증가시키기
+		String noticeno = request.getParameter("noticeno");
+		
+		InterNoticeDAO ndao2 = new NoticeDAO();
+		
+		if(noticeno != null) {
+			ndao2.updateViewCount(noticeno);
+		}
+		else if (noticeno == null) {
+			noticeno="x";
+		}
+		// System.out.println(noticeno);
+		
+		request.setAttribute("noticeno", noticeno);
+		
+		
 		
 		
 		// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select) 

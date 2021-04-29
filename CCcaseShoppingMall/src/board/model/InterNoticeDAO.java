@@ -10,6 +10,9 @@ public interface InterNoticeDAO {
 	List<NoticeVO> selectPagingNotice(Map<String, String> paraMap) throws SQLException;
 
 	// 페이징처리를 위해서 전체 공지사항에 대한 총페이지 개수 알아오기(select)  
-	int selectTotalPage(Map<String, String> paraMap) throws SQLException; 
+	int selectTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	//조회수 증가시키기
+	void updateViewCount(String noticeno) throws SQLException; 
 
 }
