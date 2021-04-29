@@ -8,10 +8,11 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<!DOCTYPE jsp:include PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<title>QnA 글쓰기</title>
+<meta charset="UTF-8">
+<title>QnA 수정하기</title>
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
@@ -42,8 +43,6 @@
 		 
 		 $("#qnaPwd").hide();// 비공개글일 때만 글비번 보여주기
 		 
-		 document.getElementById("qregisterdate").valueAsDate = new Date();// 입력일 현재 날짜로 설정
-
 	 });
  
 	 // Function declaration
@@ -65,41 +64,35 @@
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
-    <form action="qnaWriteEnd.jsp" method="post" name="qnaWriteForm">
+    <form action="qnaEditEnd.jsp" method="post" name="qnaEditForm">
     <table style="width: 700px; border-color: lightgray;">
 
         <tr>
             <td class="title">제목</td>
             <td>
-                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value=""/>
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value="${requestScope.qvo.qtitle}"/>
             </td>        
         </tr>
-        <tr>
+		<tr>
             <td class="title">작성자</td>
-            <td><input type="text" id="fk_userid" name="fk_userid" size="70" value="${sessionScope.loginuser.userid}" readonly></td>
+            <td><input type="text" id="fk_userid" name="fk_userid" size="70" value="${requestScope.qvo.fk_userid}" readonly></td>
         </tr>
          <tr>
             <td class="title">등록일</td>
-            <td><input type="date" id="qregisterdate" size="70"  value="currentDate" readonly></td>
+            <td><input type="text" id="qregisterdate" name="qregisterdate" size="70" value="${requestScope.qvo.qregisterdate}" readonly></td>
         </tr>
 		<tr>
             <td class="title">이메일</td>
-            <td><input type="text" size="70" id="email" name="email" value="${sessionScope.loginuser.email}" readonly></td>
+            <td><input type="text" id="email" name="email" size="70" value="${requestScope.qvo.email}" readonly></td>
         </tr>
         <tr>
             <td class="title">제품아이디</td>
-            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value=""/></td>
+            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value="${requestScope.qvo.fk_productid}"/></td>
         </tr>
         
         <tr>
         	<td id="title">공개여부</td>
-        	<td>
-        		<input type="radio" id="qstatus1" name="qstatus" value="0" checked="checked">
- 				<label for="public">공개</label>&nbsp;&nbsp;
- 				<input type="radio" id="qstatus2" name="qstatus" value="1" onclick="setDisplay()">
- 				<label for="private">비공개</label>
- 				<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" name="qnapwd" maxlength="10"></div>
-        	</td>
+        	<td><input type="text" id="qtatus" name="qstatus" size="70" value="${requestScope.qvo.qstatus}" readonly></td>
        	</tr>
 
         <tr>
@@ -107,7 +100,7 @@
                글내용
             </td>
             <td>
-                <textarea name="qcontent" id="qcontent" cols="65" rows="15"></textarea>            
+                <textarea name="qcontent" id="qcontent" cols="65" rows="15" >${requestScope.qvo.qcontent}</textarea>            
             </td>        
         </tr>
 

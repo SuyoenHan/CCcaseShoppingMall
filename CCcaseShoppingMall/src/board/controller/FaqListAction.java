@@ -1,6 +1,6 @@
 package board.controller;
 
-import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 import my.util.Myutil;
@@ -18,20 +19,34 @@ public class FaqListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			
 		
+			HttpSession session = request.getSession();
+			AdminVO avo = (AdminVO)session.getAttribute("adminUser");
+			request.setAttribute("avo", avo);
+			
+			String method = request.getMethod();
+			
+		   if("GET".equalsIgnoreCase(method)) { //get 방식일때
+			 
+			//페이징 처리된 모든 FAQ 를 조회해준다.
+			
 			InterFaqDAO fdao = new FaqDAO();
 			
 			String currentShowPageNo =request.getParameter("currentShowPageNo");
 			// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
 			String sizePerPage = request.getParameter("sizePerPage");
 			// 한 페이지당 화면상에 보여줄 회원의 개수
+			
 			if(currentShowPageNo == null) {
 				currentShowPageNo = "1";
 			}
-			if(sizePerPage == null  || !"7".equals(sizePerPage) ) {
-				sizePerPage="7"; // null ,5을 제외한 나머지는 모두 5개만 뜸. url get방식으로 장난칠 수 없게 만들어 준 것이다.
+			if(sizePerPage==null || !"7".equals(sizePerPage) ) {
+				sizePerPage="7"; // null ,7을 제외한 나머지는 모두 7개만 뜸. url get방식으로 장난칠 수 없게 만들어 준 것이다.
 			}
 			
+			request.setAttribute("currentShowPageNo", currentShowPageNo);
+			request.setAttribute("sizePerPage", sizePerPage);
 			
 			// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자 아닌 문자를 입력한 경우 또는 
 	        //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
@@ -44,6 +59,25 @@ public class FaqListAction extends AbstractController {
 			Map<String,String> paraMap =new HashMap<>();
 			paraMap.put("currentShowPageNo", currentShowPageNo);
 			paraMap.put("sizePerPage", sizePerPage);
+			
+			
+			
+			//조회수 증가시키기
+			String faqno = request.getParameter("faqno");
+			
+			InterFaqDAO fdao2 = new FaqDAO();
+			
+			if(faqno != null) {
+				fdao2.updateViewCount(faqno);
+			}
+			else if (faqno == null) {
+				faqno="x";
+			}
+			// System.out.println(faqno);
+			
+			request.setAttribute("faqno", faqno);
+			
+			
 			
 			
 			// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select) 
@@ -81,7 +115,7 @@ public class FaqListAction extends AbstractController {
 					pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>"+ pageNo + "</span>&nbsp;";    
 				}
 				else {
-					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"&sizePerPage="+sizePerPage+"'> "+ pageNo + "</a>&nbsp;";    
+					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"&sizePerPage="+sizePerPage+"&faqno="+faqno+"'> "+ pageNo + "</a>&nbsp;";    
 				}
 				loop++;
 				
@@ -110,22 +144,16 @@ public class FaqListAction extends AbstractController {
 			
 			request.setAttribute("goBackURL", currentURL);
 			
+			//////////////////////////////////////////////////////
 			
-			//조회수 증가시키기
-			String faqno = request.getParameter("faqno");
-			
-			InterFaqDAO fdao2 = new FaqDAO();
-			FaqVO fvo2 = fdao2.updateViewCount(faqno);
-			
-			
+						
 			request.setAttribute("pageBar", pageBar);
-			request.setAttribute("fvo2", fvo2);
-			
-			
-			
+
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/faqMain.jsp");
 			
+		   }
+	     
 			
 			
 	

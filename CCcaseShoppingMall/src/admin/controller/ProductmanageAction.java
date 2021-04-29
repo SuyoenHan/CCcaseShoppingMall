@@ -1,11 +1,14 @@
 package admin.controller;
 
+import java.util.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import admin.model.*;
 import common.controller.AbstractController;
+import product.model.*;
 
 public class ProductmanageAction extends AbstractController {
 
@@ -29,6 +32,11 @@ public class ProductmanageAction extends AbstractController {
 		}
 		
 		else {
+			
+			InterProductDetailDAO pddao = new ProductDetailDAO();
+			List<Map<String,String>> proList = pddao.selectProInfo();
+			
+			request.setAttribute("proList", proList);
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/admin/productManage.jsp");

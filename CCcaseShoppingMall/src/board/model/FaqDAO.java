@@ -1,7 +1,6 @@
 package board.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -138,31 +137,51 @@ public class FaqDAO implements InterFaqDAO {
 	
 	//조회수 증가시키기
 	@Override
-	public FaqVO updateViewCount(String faqno) throws SQLException {
-		
-		FaqVO fvo = new FaqVO();
+	public void updateViewCount(String faqno) throws SQLException {
+
 		try {
 	          conn = ds.getConnection();
 	          
 	          String sql = " update tbl_faq set fviewcount = fviewcount+1 "+
 	        		       " where faqno = ? ";
 	          
-	          pstmt = conn.prepareStatement(sql);
-	          pstmt.setString(1, faqno );
+	          pstmt = conn.prepareStatement(sql);	
+	          pstmt.setInt(1, Integer.parseInt(faqno));
 	          
-	          int n = pstmt.executeUpdate();
-	          
+	          int n= pstmt.executeUpdate();
+	
 	          if(n==1) {
 				  conn.commit();
 			  }
 	        
-	      } catch (SQLException e) {
+	    } catch (SQLException e) {
 			     e.printStackTrace();
 		}   finally {
 	         close();
-	      }
+	    }
 	      
-		return fvo;
+	}
+
+
+	// 글쓰기 등록하기
+	
+	@Override
+	public int faqInsert(String ftitle, String adminid, String fcontent) throws SQLException {
+		int n =0 ;
+		
+		try {
+	          conn = ds.getConnection();
+	          
+		
+	          String sql = " insert into tbl_notice (noticeno,fk_adminid,ntitle,ncontent) "+
+	        		  	    " values(seq_notice_noticeno.nextval,'',' ',' ')";
+		
+		} catch (SQLException e) {
+			     e.printStackTrace();
+		}   finally {
+	         close();
+	    }
+		return n;
 	}
 	
 	
