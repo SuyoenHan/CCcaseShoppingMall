@@ -71,6 +71,7 @@ public class ProductListAction extends AbstractController {
 		pageMap.put("sizePerPage", sizePerPage);
 		pageMap.put("cnum",cnum);
 		pageMap.put("mnum",mnum);
+		
 		pageMap.put("modelName",modelName);
 
 		int totalPage = pdao.selectTotalPage(pageMap); // 총페이지 개수
