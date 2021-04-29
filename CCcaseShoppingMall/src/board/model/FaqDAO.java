@@ -163,19 +163,31 @@ public class FaqDAO implements InterFaqDAO {
 	}
 
 
-	// 글쓰기 등록하기
 	
+
+	// 글쓰기 등록하기
 	@Override
-	public int faqInsert(String ftitle, String adminid, String fcontent) throws SQLException {
+	public int faqInsert(FaqVO fvo) throws SQLException {
 		int n =0 ;
 		
 		try {
 	          conn = ds.getConnection();
 	          
 		
-	          String sql = " insert into tbl_notice (noticeno,fk_adminid,ntitle,ncontent) "+
-	        		  	    " values(seq_notice_noticeno.nextval,'',' ',' ')";
-		
+	          String sql = " insert into tbl_notice ( faqno, fk_adminid, ftitle, fcontent ) "+
+	        		  	   " values( seq_faq_faqno.nextval , ? , ? , ? ) ";
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setString(1, fvo.getFk_adminid());
+	          pstmt.setString(2, fvo.getFtitle());
+	          pstmt.setString(3, fvo.getFcontent());
+	          
+	          n = pstmt.executeUpdate();
+	          
+	          if(n==1) {
+				  conn.commit();
+			  }
+	          
 		} catch (SQLException e) {
 			     e.printStackTrace();
 		}   finally {

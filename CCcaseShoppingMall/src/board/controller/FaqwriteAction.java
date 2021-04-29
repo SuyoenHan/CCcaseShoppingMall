@@ -2,6 +2,7 @@ package board.controller;
 
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,10 +88,30 @@ public class FaqwriteAction extends AbstractController {
 	   	    String fregisterdate = request.getParameter("fregisterdate");
 	   	    String fcontent = request.getParameter("fcontent");
 	   	    
+	   	    FaqVO fvo = new FaqVO();
+	   	    fvo.setFtitle(ftitle);
+	   	    fvo.setFk_adminid(adminid);
+	   	    fvo.setFregisterdate(fregisterdate);
+	   	    fvo.setFcontent(fcontent);
+	   	   
 	   	    
 	   	    InterFaqDAO fdao = new FaqDAO();
-	   	    int n = fdao.faqInsert(ftitle,adminid,fcontent);
+	   	    
+	   	    int n = fdao.faqInsert(fvo);
 	   	 
+	   	    if(n==1) {
+	   	    	
+	   	    	
+	   	    	String message = "FAQ 글쓰기 성공!.";
+				String loc = "/WEB-INF/board/faqList.jsp";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+	   	    }
+	   	    
 		
 		}
 		else {//GET 방식일때
@@ -102,7 +123,7 @@ public class FaqwriteAction extends AbstractController {
 				super.setViewPage("/WEB-INF/board/faqwrite.jsp");
 			}
 			else {
-				String message = "dfdfdf";
+				String message = "FAQ 글쓰기는 관리자만 접근이 가능합니다.";
 				String loc = "javascript:location.back()";
 				
 				request.setAttribute("message", message);

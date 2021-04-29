@@ -14,7 +14,9 @@ public interface InterFaqDAO {
 	void updateViewCount(String faqno)throws SQLException;
 
 
-	int faqInsert(String ftitle, String adminid, String fcontent)throws SQLException; 
+	int faqInsert(FaqVO fvo) throws SQLException;
+
+	
 
 	
 }
