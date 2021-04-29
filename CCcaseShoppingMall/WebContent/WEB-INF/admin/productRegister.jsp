@@ -13,9 +13,9 @@
 	}
 	
 	div#contents {
-		border:solid 0px red;
+		border:solid 1px red;
 		width: 1000px;
-		height: 850px;
+		font-size: 15pt;
 	}
 	
 	div#menuname{
@@ -23,7 +23,7 @@
 	}
 	
 	div#proRegister{
-		font-size: 20px;
+		font-size: 10pt;
 		line-height: 40px;
 	}
 	
@@ -51,37 +51,15 @@
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.css" />
+
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.css" />
 <script type="text/javascript">
 	
 	$(document).ready(function(){
 			
 		// 로그인버튼을 클릭했을경우
 		$("button#register").click(function(){
-			
-			
-		// 스피너처리
-		<%--
-		$("input#pqty").spinner({
-			
-			spin:function(event,ui){ //ui는 input태그를 가리킨다
-				
-				if(ui.value>100){
-					$(this).spinner("value",100);
-					return false;
-				}
-				
-				else if(ui.value<1){
-					$(this).spinner("value",1);
-					return false;
-				}
-				
-			}
-			
-		});// end of $("input#spinnerPqty").spinner({
-		--%>		
-				
 			
 			var loginflag = false;
 				
@@ -121,7 +99,7 @@
 		<div id="proRegister">
 					
 			<div id="info1"> 
-				<label class="registerInfo" for="specNo">1. 스펙번호 <span style="color:red; font-size:10pt;"></span></label>
+				<label class="registerInfo" for="specNo">1. 스펙번호 </label>
 				<select id="specNo" name="fk_snum">
 					<option value="">선택하세요</option>
 					<c:forEach var="map" items="${requestScope.specList}">
@@ -192,33 +170,23 @@
 			
 			<div id="info11"> 
 				<label class="registerInfo" for="pqty">11. 재고량</label>
-	 	   <%-- <input  name="pqty" id="pqty" value="1" style="width:30px; height:20px;" /> --%>
 				<input type="number" name="pqty" id="pqty" min="0" value="1" step="1" style="width:50px; height:30px;" /> 
 			</div>
 			
-			<div id="info12"> 
-				<label class="registerInfo" for="plusimage1">12. 대표이미지파일명</label>
-				<input type="file" name="pimage1" id="pimage1" placeholder="파일을 등록하세요" /> 
+			<div id="info12" style="border:solid 1px red;"> 
+				<label class="registerInfo" for="plusimage1" style="border:solid 1px green;">12. 대표이미지파일명<span style="color:red; font-size:10pt;">(필수)</span></label>
+				<input type="file" name="pimage1" id="pimage1" style="border:solid 1px blue;" /> 
 			</div>
 			
-			<div id="info13"> 
-				<label class="registerInfo" for="plusimage1">13. 추가이미지1</label>
-				<input type="file" name="plusimage1" id="plusimage1" placeholder="파일을 등록하세요" /> 
+			<div id="info13" style="border:solid 1px red;"> 
+				<label class="registerInfo" for="imgPlus1">13. 추가이미지1<span style="color:red; font-size:10pt;">(필수)</span></label>
+				<input type="file" name="imgPlus1" id="imgPlus1" /> 
 			</div>
+			
 			
 			<div id="info14"> 
-				<label class="registerInfo" for="plusimage2">14. 추가이미지2</label>
-				<input type="file" name="plusimage2" id="plusimage2" placeholder="파일을 등록하세요" /> 
-			</div>
-			
-			<div id="info15"> 
-				<label class="registerInfo" for="plusimage3">15. 추가이미지3</label>
-				<input type="file" name="plusimage3" id="plusimage3" placeholder="파일을 등록하세요" /> 
-			</div>
-			
-			<div id="info16"> 
-				<label class="registerInfo" for="proname">16. 제품설명<br><br></label>
-				<textarea name="proname" id="proname" rows="5" cols="25" placeholder="간단히 설명하세요" maxlength="100"></textarea>
+				<label class="registerInfo" for="pcontent">14. 제품설명<br><br></label>
+				<textarea name="pcontent" id="pcontent" rows="5" cols="25" placeholder="간단히 설명하세요" maxlength="100"></textarea>
 			</div>
 			
 		</div>

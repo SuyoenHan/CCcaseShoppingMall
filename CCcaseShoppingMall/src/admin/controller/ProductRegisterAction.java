@@ -19,9 +19,7 @@ public class ProductRegisterAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		
-		
+
 		HttpSession session = request.getSession();
 		AdminVO avo = (AdminVO)session.getAttribute("adminUser");
 		
@@ -41,7 +39,7 @@ public class ProductRegisterAction extends AbstractController {
 			
 			String method = request.getMethod();
 			
-			if(!"POST".equalsIgnoreCase(method)) {
+			if(!"POST".equalsIgnoreCase(method)) { //GET방식
 				
 				// 카테고리 목록 조회해오기
 				InterCategoryDAO cdao = new CategoryDAO();
@@ -65,15 +63,13 @@ public class ProductRegisterAction extends AbstractController {
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/admin/productRegister.jsp");
 					
-			} else {
+			} else { // POST방식
 				
 				MultipartRequest mtrRequest = null;
 				session = request.getSession();
 				ServletContext svlCtx =  request.getServletContext();
 				
 				String imagesDir = svlCtx.getRealPath("/images");
-				// System.out.println(imagesDir);
-				imagesDir = "C:\\Users\\BAEK\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\jquery-ui-1.11.4.custom\\images";
 				
 				try {
 					mtrRequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
@@ -85,10 +81,89 @@ public class ProductRegisterAction extends AbstractController {
 	                return; // 종료
 				}
 				
-			}
-			
-			
-			
+				
+				String fk_snum = mtrRequest.getParameter("fk_snum");         	// 스펙번호(제품상세테이블)
+				String fk_cnum = mtrRequest.getParameter("fk_cnum"); 		 	// 카테고리번호(제품테이블)
+				String fk_mnum = mtrRequest.getParameter("fk_mnum"); 		 	// 회사번호(제품테이블)
+				String productname = mtrRequest.getParameter("productname"); 	// 제품명(제품테이블,제품상세테이블)
+				String modelname = mtrRequest.getParameter("modelname"); 	 	// 기종명(제품테이블,제품상세테이블)
+				String pcolor = mtrRequest.getParameter("pcolor");              // 색상(제품상세테이블)
+				String price = mtrRequest.getParameter("price");         	 	// 제품가격(제품테이블)
+				String salepercent = mtrRequest.getParameter("salepercent"); 	// 할인율(제품테이블)
+				String pinputdate = mtrRequest.getParameter("pinputdate"); 	 	// 입고일자(제품상세테이블)
+				String doption = mtrRequest.getParameter("doption"); 		 	// 배송조건(제품상세테이블)
+				String pqty = mtrRequest.getParameter("pqty"); 				    // 재고량(제품상세테이블)
+				String pimage1 = mtrRequest.getFilesystemName("pimage1");       // 제품대표이미지(제품테이블)
+				String imgPlus1 = mtrRequest.getFilesystemName("imgPlus1"); // 제품추가이미지(이미지추가테이블)
+				String pcontent = mtrRequest.getParameter("pcontent"); 			// 제품설명란(제품상세테이블)
+				// 크로스 사이트 스크립트 공격 방지
+				pcontent = pcontent.replaceAll("<", "&lt;");
+	            pcontent = pcontent.replaceAll(">", "&gt;");
+	            pcontent = pcontent.replaceAll("\r\n", "<br>");
+	            
+	            Map<String,String> promap = new HashMap<>();
+	            Map<String,String> pdetailmap = new HashMap<>();
+	            Map<String,String> plusimgmap = new HashMap<>();
+	            
+	            // 제품테이블의 DAO로 전달하기 위한 promap
+	            promap.put("fk_cnum", fk_cnum);
+	            promap.put("fk_mnum", fk_mnum);
+	            promap.put("productname", productname);
+	            promap.put("modelname", modelname);
+	            promap.put("price", price);
+	            promap.put("salepercent", salepercent);
+	            promap.put("pimage1", pimage1);
+	            
+	            InterProductDAO pdao = new ProductDAO();
+	            
+	            // 제품테이블에 insert작업 + 제품번호(primary) 알아오기.
+	            String getfkproductid = pdao.insertProduct(promap);
+	            
+
+	            // 제품상세테이블의 DAO로 전달하기 위한 pdetailmap
+	            pdetailmap.put("fk_snum", fk_snum);
+	            pdetailmap.put("pinputdate", pinputdate);
+	            pdetailmap.put("doption", doption);
+	            pdetailmap.put("pqty", pqty);
+	            pdetailmap.put("pcontent", pcontent);
+	            pdetailmap.put("productname", productname);
+	            pdetailmap.put("modelname", modelname);
+	            pdetailmap.put("fk_productid",getfkproductid);
+	            pdetailmap.put("pcolor", pcolor);
+	            
+	            
+	            InterProductDetailDAO pddao = new ProductDetailDAO();
+	            // 제품상세테이블로 insert하기 + 제품상세번호(primary)알아오기
+	            String getpnum = pddao.insertProductDetail(pdetailmap);
+	            
+
+	            // 제품추가이미지테이블로 전달하기위한 plusimgmap
+	            plusimgmap.put("imgPlus1", imgPlus1);
+	            plusimgmap.put("getpnum", getpnum);
+
+	            // 제품추가이미지테이블로 insert하기
+	            InterImageFileDAO ifiledao = new ImageFileDAO();
+	            int n = ifiledao.insertPlusImage(plusimgmap);
+	            
+	            String message = "";
+	            String loc = "";
+	            if(n==1) {
+	            	
+	            	message = "제품등록에 성공하셨습니다.";
+	            	loc = request.getContextPath()+"/admin.cc";
+	            }
+	            else {
+	            	message = "제품등록에 실패하셨습니다.";
+	            	loc = request.getContextPath()+"admin/productRegister.cc";
+	            }
+	           
+	            request.setAttribute("message", message);
+	            request.setAttribute("loc", loc);
+	            
+	            super.setViewPage("/WEB-INF/adminMsg.jsp");
+	            
+			}// post방식 끝
+
 			
 		}
 		
