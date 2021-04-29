@@ -11,21 +11,23 @@
 <style type="text/css">
 
 
+
 </style>
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		$("button#aval").click(function(){
-			javascript:history.go(0);
-		});
+		$(document).ready(function(){
+
+			$("button#aval").click(function(){
+				location.href="<%= ctxPath%>/member/availableCoupon.cc"; <%-- 사용가능 쿠폰으로 이동--%>
+			});
+			
+			$("button#unAval").click(function(){
+				javascript:history.go(0);
+			});
 		
-		$("button#unAval").click(function(){
-			location.href="<%= ctxPath%>/member/unavailableCoupon.cc"; <%-- 사용완료 쿠폰으로 이동--%>
 		});
-		
-	});	
-	
+
 </script>
 
 <h3>나의 쿠폰 조회</h3>
@@ -35,6 +37,7 @@
 	<button type="button" id="aval">사용가능 쿠폰(<span class="cnt"></span>)</button>
 	<button type="button" id="unAval">사용완료 쿠폰(<span class="cnt"></span>)</button>
 </div>
+
 
 <table>
 	<thead>
@@ -63,7 +66,6 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+
 <jsp:include page="../../WEB-INF/footer.jsp" />
-
-
-
