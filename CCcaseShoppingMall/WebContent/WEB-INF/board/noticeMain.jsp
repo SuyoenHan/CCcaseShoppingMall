@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-    
-<title>CCcase FAQ페이지 </title>
+<title>CCcase 공지사항 </title>
+
     
 <%
 	String ctxPath = request.getContextPath();
@@ -122,11 +122,9 @@
 		$("tr.faqDetail").css('display','none'); //안보이도록 한다.
 		
 		
-		
+		var count = 0;
 		$("tr.faqSimple").click(function(event){
-			
-			
-			//조회수를 받아오기 위해 해당 faqno를 가져온다.
+			count++;
 			
 			
 			// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
@@ -139,13 +137,13 @@
 				
 				$("tr.faqDetail").css('display','none'); // 전부 안보이도록 한다.
 				$faqDetail.css('display',''); // '' display  block을 사용한다는 말이다. 
+				fcount=fcount++;
 				
 			}
 			else{
   				// display 상태가 보이는 것이라면
   				$faqDetail.css('display','none'); //안보여지도록 한다.
-  				var faqno = $(this).children(".faqno").text();
-				location.href="<%= ctxPath%>/board/faqList.cc";
+  				
   			}
 			
 			
@@ -162,25 +160,6 @@
 		});
 		
 		
-		<%--  //클릭하면 조회수가 올라가도록 한다. 어떻게.....??? ㅎ 
-		$.ajax({
-				url:"<%= request.getContextPath()%>/board/fcount.up",
-				type:"POST",
-				data:{"fcount":fcount
-             		 ,"fnum":fnum}, 
-				dataType:"json",
-				success:function(json){
-				$("td#fnum")
-				},
-				error: function(request, status, error){
-		           
-		        }
-					
-			});//end of $.ajax({})---------------------
-		 --%>
-		 
-		
-			
 		
 	});// end of $(document).ready(function(){})--------------
 
@@ -211,6 +190,7 @@
 					<tr style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
+						<th>작성자</th>
 						<th>등록일자</th>
 						<th>조회수</th>
 					</tr>
@@ -221,7 +201,8 @@
 						<input type="hidden" name="sizePerPage" id="sizePerPage" value="7" />
 						<input type="text" style="display: none;"><%-- form으로 보낼 대상인 input태그가 1개뿐이라서 해줌 --%>
 					<tr class="faqSimple">
-						<td class="faqno" name="faqno" id="faqno">${fvo.faqno}</td>
+						<td class="faqno" name="faqno" id="faqno">${nvo.faqno}</td>
+						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
 						<td name="ftitle" id="ftitle">${fvo.ftitle}</td>
 						<td name="fregisterdate" id="fregisterdate">${fvo.fregisterdate}</td>
 						<td name="fnum" id="fnum">${fvo.number}</td>

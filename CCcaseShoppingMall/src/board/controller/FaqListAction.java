@@ -1,7 +1,9 @@
 package board.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import my.util.MyUtil;
 import my.util.Myutil;
 
 
@@ -21,10 +22,17 @@ public class FaqListAction extends AbstractController {
 			InterFaqDAO fdao = new FaqDAO();
 			
 			String currentShowPageNo =request.getParameter("currentShowPageNo");
-			
+			// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
+			String sizePerPage = request.getParameter("sizePerPage");
+			// 한 페이지당 화면상에 보여줄 회원의 개수
 			if(currentShowPageNo == null) {
 				currentShowPageNo = "1";
 			}
+			if(sizePerPage == null  || !"7".equals(sizePerPage) ) {
+				sizePerPage="7"; // null ,5을 제외한 나머지는 모두 5개만 뜸. url get방식으로 장난칠 수 없게 만들어 준 것이다.
+			}
+			
+			
 			// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자 아닌 문자를 입력한 경우 또는 
 	        //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
 			try { //사용자가 장난치는경우 INT값을 넘기는 경우 1페이지10개로 나타나게 해준다.
@@ -33,16 +41,26 @@ public class FaqListAction extends AbstractController {
 				currentShowPageNo ="1";
 			}
 			
-			int totalPage =fdao.selectTotalPage(currentShowPageNo);
+			Map<String,String> paraMap =new HashMap<>();
+			paraMap.put("currentShowPageNo", currentShowPageNo);
+			paraMap.put("sizePerPage", sizePerPage);
+			
+			
+			// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select) 
+			int totalPage =fdao.selectTotalPage(paraMap);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 				//ex)21페이지가 끝인데 30을 쳤을 경우 무조건 "1"을 주겠다는 말임. 이것을DB에 보낸다는말.
 				currentShowPageNo= "1";
-				
+				paraMap.put("currentShowPageNo", currentShowPageNo);
 			}
 			
-			request.setAttribute("currentShowPageNo", currentShowPageNo);
 			
+			List<FaqVO> faqList = fdao.selectPagingFaq(paraMap);
+			
+			request.setAttribute("faqList", faqList);
+			
+			// ==페이지바 만들기 ==
 			String pageBar = "";
 			
 			int blockSize = 5;
@@ -63,7 +81,7 @@ public class FaqListAction extends AbstractController {
 					pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>"+ pageNo + "</span>&nbsp;";    
 				}
 				else {
-					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"'> "+ pageNo + "</a>&nbsp;";    
+					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"&sizePerPage="+sizePerPage+"'> "+ pageNo + "</a>&nbsp;";    
 				}
 				loop++;
 				
@@ -76,29 +94,40 @@ public class FaqListAction extends AbstractController {
 			
 			}//end of while------------------------------
 			
-			if( pageNo <= totalPage ) {
-				pageBar += "&nbsp;<a href='memberList.up?currentShowPageNo="+ pageNo +"'>[다음]</a>&nbsp;";    
-				pageBar += "&nbsp;<a href='memberList.up?currentShowPageNo="+ totalPage +"'>[마지막]</a>&nbsp;";    
-			}
+			/*
+			 * if( pageNo <= totalPage ) { pageBar +=
+			 * "&nbsp;<a href='memberList.up?currentShowPageNo="+ pageNo
+			 * +"'>[다음]</a>&nbsp;"; pageBar +=
+			 * "&nbsp;<a href='memberList.up?currentShowPageNo="+ totalPage
+			 * +"'>[마지막]</a>&nbsp;"; }
+			 */
 			
-			request.setAttribute("pageBar", pageBar);
 			
-			
+		  //  *** 현재페이지를 돌아갈 페이지(goBack)로 주소 지정하기 *** //
 			String currentURL = Myutil.getCurrentURL(request);
 			
-			currentURL = currentURL.replaceAll("&", " "); 
+			currentURL = currentURL.replaceAll("&", " ");
 			
 			request.setAttribute("goBackURL", currentURL);
 			
-			super.setViewPage("/WEB-INF/board/faqList.jsp");
+			
+			//조회수 증가시키기
+			String faqno = request.getParameter("faqno");
+			
+			InterFaqDAO fdao2 = new FaqDAO();
+			FaqVO fvo2 = fdao2.updateViewCount(faqno);
 			
 			
-			List<FaqVO> faqList = fdao.faqAllView();
+			request.setAttribute("pageBar", pageBar);
+			request.setAttribute("fvo2", fvo2);
 			
-			request.setAttribute("faqList", faqList);
+			
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/faqMain.jsp");
+			
+			
+			
 	
 		
 	}
