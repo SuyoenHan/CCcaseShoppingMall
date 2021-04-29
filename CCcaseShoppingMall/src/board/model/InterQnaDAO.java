@@ -17,6 +17,8 @@ public interface InterQnaDAO {
 	// qna 글 삭제하기
 	int deleteQna(int qnano) throws SQLException; 
 	
+	// qna 글 수정하기
+	
 	// 제목으로 qna 글 불러오기
 	QnaVO qnaDetail(String qtitle, String qnano) throws SQLException;
 	
