@@ -117,7 +117,7 @@
 	// === 마이페이스 이동 함수 ===
 	function myProfile(userid){
 		
-		location.href="<%= request.getContextPath()%>/member/myProfile.cc?userid="+userid;
+		location.href="<%= request.getContextPath()%>/member/memberEditMain.cc?userid="+userid;
 	}
 
 </script>

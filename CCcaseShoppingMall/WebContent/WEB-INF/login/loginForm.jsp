@@ -27,7 +27,12 @@
 		$("button#register").click(function(){
 			location.href="<%= ctxPath %>/member/memberRegister.cc";
 		});
-		
+		$("button#idFind").click(function(){
+			location.href="<%= request.getContextPath()%>/login/idFind.cc";
+		});
+		$("button#pwdFind").click(function(){
+			location.href="<%= request.getContextPath()%>/login/pwdFind.cc";
+		});
 	});// end of $(document).ready()--------------------------------------
 
 	
@@ -83,8 +88,8 @@
 				 
 				<br>
 				<div id="search">
-					<button type="button" class="idSearch">아이디찾기</button>
-					<button type="button" class="pwdSearch">비밀번호 찾기</button>
+					<button type="button" class="idSearch"id="idFind" >아이디찾기</button>
+					<button type="button" class="pwdSearch" id="pwdFind">비밀번호 찾기</button>
 				</div>
 			</form>
 		</div>
