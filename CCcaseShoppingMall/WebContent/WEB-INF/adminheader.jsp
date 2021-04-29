@@ -76,7 +76,7 @@
 			<span class="menuSection" id="viewMember" onclick="location.href='<%= ctxPath%>/admin/memberList.cc';" >회원조회</span>
 			
 			<span class="menuSection" id="viewBoard">교환 및 환불관리</span>
-			<span class="menuSection" id="viewBoard">게시판관리</span>
+			<span class="menuSection" id="viewBoard" onclick="location.href='<%= ctxPath%>/board/faqList.cc';">게시판관리 </span>
 		</div>
 		
 		<div id="login">

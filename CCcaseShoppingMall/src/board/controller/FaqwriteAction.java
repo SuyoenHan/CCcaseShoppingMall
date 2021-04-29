@@ -1,20 +1,25 @@
 package board.controller;
 
-import java.sql.SQLException;
+
+
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import admin.model.AdminVO;
+import board.model.*;
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
+
 
 public class FaqwriteAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
+		
+		
 		/*
 		 * String name = request.getParameter("name"); String userid =
 		 * request.getParameter("userid"); String pwd = request.getParameter("pwd");
@@ -69,10 +74,46 @@ public class FaqwriteAction extends AbstractController {
 		 * super.setRedirect(true);
 		 * super.setViewPage(request.getContextPath()+"/error.up"); }
 		 */
+		
+		HttpSession session = request.getSession();
+		AdminVO avo = (AdminVO)session.getAttribute("adminUser");
+		
+		String method = request.getMethod();
+		
+		if(!"GET".equalsIgnoreCase(method)) { //POST 방식일때
+		
+			String ftitle = request.getParameter("ftitle");
+	   	    String adminid = request.getParameter("adminid");
+	   	    String fregisterdate = request.getParameter("fregisterdate");
+	   	    String fcontent = request.getParameter("fcontent");
+	   	    
+	   	    
+	   	    InterFaqDAO fdao = new FaqDAO();
+	   	    int n = fdao.faqInsert(ftitle,adminid,fcontent);
+	   	 
+		
+		}
+		else {//GET 방식일때
+			if(avo!=null) {
+				
+				request.setAttribute("avo", avo);
+				System.out.println(avo.getAdminid());
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/board/faqwrite.jsp");
+			}
+			else {
+				String message = "dfdfdf";
+				String loc = "javascript:location.back()";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+			}
 
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/board/faqwrite.jsp");
-
+		}
+	
 	}
 
 }

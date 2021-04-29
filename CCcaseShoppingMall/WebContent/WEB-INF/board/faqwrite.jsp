@@ -6,8 +6,8 @@
 	String ctxPath = request.getContextPath();
 %>
     
-<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
-<jsp:include page="../header.jsp" />
+<link rel="stylesheet" href="<%=ctxPath%>/css/admin.css" />
+<jsp:include page="../adminheader.jsp" />
 <jsp:include page="../leftSide.jsp" />
 
 
@@ -94,33 +94,12 @@
 			
 		});//end of $("button.faqInsert").click(function(){})-------------------
 		
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
->>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
-=======
-
->>>>>>> refs/heads/SeungHye-J
 		
 		
 		
 	}); //end of $(document).ready(function(){})-------------------------
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-
-=======
-
-=======
-	});
-
->>>>>>> refs/heads/main
->>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
-=======
-
->>>>>>> refs/heads/SeungHye-J
 </script>
 
 
@@ -141,8 +120,7 @@
 		
 		<tr>
 			<td>작성자(default)</td>
-			<c:set var="adminid" value="${sessionScope.adminUser.userId}" />
-			<td><input type="text" id="adminid" name="adminid" value="${adminid}"/></td>
+			<td><input type="text" id="adminid" name="adminid" value="${avo.adminid}" readonly="readonly" /></td>
 		</tr>
 		
 		<tr>
