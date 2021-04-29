@@ -39,6 +39,20 @@
 	// Function Declaration
 	function goQnaList() {
 		location.href = "/CCcaseShoppingMall/"+goBackURL;
+	}// function goQnaList()----------------------------------------------------
+	
+	function goReply(){
+		
+	}// function goReply()------------------------------------------------------
+	
+	function goEdit(){
+		
+	}
+	
+	function goDelete(){
+	        if(confirm("정말로 삭제하시겠습니까?")==true){
+	            location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
+	        }
 	}
 
 </script>
@@ -90,7 +104,12 @@
 </div>
 <div style="display:inline-block;">
 	<button style="margin-top: 50px;" type="button" onclick="goReply()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button>
-	<button style="margin-top: 50px;" type="button" onclick="goEdit()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">수정</button>
-	<button style="margin-top: 50px;" type="button" onclick="goDelete()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
+	<c:if test="${sessionScope.loginuser.userid !=null }">
+		<c:if test="${sessionScope.loginuser.userid == requestScope.qvo.fk_userid}">
+			<button style="margin-top: 50px;" type="button" onclick="goEdit()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">수정</button>
+			<button style="margin-top: 50px;" type="button" onclick="goDelete();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
+		</c:if>
+	</c:if>
 </div>
+
  <jsp:include page="../footer.jsp" />

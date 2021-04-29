@@ -16,7 +16,7 @@
 <style type="text/css">
 
    div#content{
-   		margin-left: 15%;
+   		margin-left: 17%;
    		margin-top: 5%;
    		width:	80%;
    }	
@@ -59,10 +59,11 @@
 		
 		// 특정 제목을 클릭하면 그 글의 상세정보를 보여주도록 한다.
 		$("tr.qnaInfo").click(function(){
-			console.log($(this).html());
+	//		console.log($(this).html());
 			var qtitle = $(this).children(".qtitle").text();
 	//		alert(qtitle);
-			location.href="<%= ctxPath%>/board/qnaDetail.cc?qtitle="+qtitle+"&goBackURL=${requestScope.goBackURL}";
+			var qnano = $(this).children(".qnano").text();
+			location.href="<%= ctxPath%>/board/qnaDetail.cc?qtitle="+qtitle+"&qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
 		});
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
 	
@@ -101,16 +102,17 @@
 	    	<tbody>
 	    		<c:forEach var="qvo" items="${requestScope.qnaList}">
 	    			<tr class="qnaInfo">
-	    				<td >${qvo.qnano}</td>
+	    				<td class="qnano">${qvo.qnano}</td>
 	    				<td class="qtitle">${qvo.qtitle}</td>
 	    				<td>${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>
-	    				<td>${qvo.qviewcount}</td>
+	    				<td class="qviewcount">${qvo.qviewcount}</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>
 	    </table>
-
+	   
+			
 	<form name="qnaFrm" style="margin-top: 5%;">
 	      <select id="searchType" name="searchType">
 		      <option value="qtitle">제목</option>

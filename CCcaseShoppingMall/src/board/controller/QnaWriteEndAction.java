@@ -23,7 +23,7 @@ public class QnaWriteEndAction extends AbstractController {
 			String email = request.getParameter("email"); 
 			String fk_productid = request.getParameter("fk_productid");
 			String qstatus = request.getParameter("qstatus"); 
-			String qnapwd = request.getParameter("qnapwd"); 
+			String qnapwd = request.getParameter("qnapwd");
 			String qcontent = request.getParameter("qcontent");
 			
 			QnaVO qna = new QnaVO(qtitle, fk_userid, email, fk_productid, qstatus, qnapwd, qcontent);
@@ -38,7 +38,7 @@ public class QnaWriteEndAction extends AbstractController {
 
 				if(n==1) {
 					message = "글쓰기 성공";
-					loc = request.getContextPath()+"/qnaList.cc";  // 글 목록으로 이동한다.
+					loc = request.getContextPath()+"/board/qnaList.cc";  // 글 목록으로 이동한다.
 				}
 				else {
 					message = "글쓰기 실패";

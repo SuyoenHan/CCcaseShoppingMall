@@ -21,12 +21,20 @@ public class QnaDetailAction extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String qtitle = request.getParameter("qtitle");
+		String qnano = request.getParameter("qnano");
+		
 		InterQnaDAO qdao = new QnaDAO();
-		QnaVO qvo = qdao.qnaDetail(qtitle);
-
+		QnaVO qvo = qdao.qnaDetail(qtitle, qnano);
+		
 		request.setAttribute("qvo", qvo);
 		
 		if( loginuser != null) { // 로그인했으면
+			
+			// 로그인 유저와 작성자 아이디가 다르면 조회수 증가
+			if( !qvo.getFk_userid().equals(loginuser.getUserid()) ) {
+				qdao.updateViewCount(qvo.getQnano());
+			}
+			
 /*
 			// 비공개 QNA 글 열람 자격 검사
 			if("1".equals(qvo.getQstatus()) ) { // 비공개 글이라면
