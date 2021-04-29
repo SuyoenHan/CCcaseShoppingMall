@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
@@ -19,6 +20,7 @@ public class QnaDetailAction extends AbstractController {
 				
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 		
 		String qtitle = request.getParameter("qtitle");
 		String qnano = request.getParameter("qnano");
