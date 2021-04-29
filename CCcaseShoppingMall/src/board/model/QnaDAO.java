@@ -187,6 +187,33 @@ public class QnaDAO implements InterQnaDAO {
 		return -1; // 데이터베이스 오류
 	}
 
+	// qna 글 삭제하기
+	@Override
+	public int deleteQna(int qnano) throws SQLException{
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_qna "
+							+ " where qnano = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qnano);
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				  conn.commit();
+			  }
+			
+			return n;
+		} finally {
+			close();
+		}
+	}
+	
 	// 제목(qtitle)으로 qna 글 불러오기
 	@Override
 	public QnaVO qnaDetail(String qtitle, String qnano) throws SQLException {
@@ -227,7 +254,7 @@ public class QnaDAO implements InterQnaDAO {
 
 	// 조회수 증가시키기
 	@Override
-	public void updateViewCount(int qnano) {
+	public void updateViewCount(int qnano) throws SQLException {
 		
 		try {
 			  conn = ds.getConnection();
@@ -244,11 +271,12 @@ public class QnaDAO implements InterQnaDAO {
 				  conn.commit();
 			  }
 			  
-		} catch (SQLException e) {
-			     e.printStackTrace();
 		} finally {
 			close();
 		}	
 		
 	}// end of public void updateViewCount(int qnano)---------------------------------
+
+
+
 }
