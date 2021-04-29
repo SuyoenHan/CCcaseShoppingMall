@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  <%
+	String ctxPath = request.getContextPath();
+    //     /MyMVC
+%>    
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -56,12 +60,16 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-function passwdCheck() {
-	
-	 alert("성공");
-	 }
-   
-}// end of goEdit(event)------------------
+	$(document).ready(function(){
+		
+		$("button#btnpwdCheck").click(function(){
+			var frm = document.editMainFrm;
+			frm.action = "<%= ctxPath%>/member/passwdCheck.cc";
+			frm.method = "POST";
+			frm.submit();
+		});
+	});
+
 
 </script>
 
@@ -83,13 +91,12 @@ function passwdCheck() {
          <tr>
             <td style="width: 50px; font-weight: bold; text-align:left;">비밀번호&nbsp;</td>
             <td style="width: 50px; text-align: left;">
-            <input type="hidden" name="pwd" value="${sessionScope.loginuser.pwd}"/>
            <input type="password" name="pwd" id="pwd" placeholder="●●●●" required />
             </td>
          </tr>
             <tr>
             <td colspan="2">
-               <button type="button" id="btnpwdCheck" style="background-color:#5B5B5B; margin-left: 50%; margin-top: 4%; width: 60px; height: 30px;" onClick="passwdCheck();"><span style=" color: white; font-color:white; font-size: 10pt;">확인</span></button>
+               <button type="button" id="btnpwdCheck" style="background-color:#5B5B5B; margin-left: 50%; margin-top: 4%; width: 60px; height: 30px;"><span style=" color: white; font-color:white; font-size: 10pt;">확인</span></button>
             	 <button type="button" id="back" style="margin-left: 3%; margin-top: 4%; width: 60px; height: 30px;" onClick="javascript:history.back();"><span style=" font-size: 10pt;">취소</span></button>
             </td>
          </tr>

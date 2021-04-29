@@ -477,7 +477,7 @@ public class MemberDAO implements InterMemberDAO{
 			 
 			 String sql = " select userid,pwd "
 			 		    + " from tbl_member "
-			 		    + " where userid = ? pwd=?";
+			 		    + " where userid = ? and pwd=?";
 			 
 			 pstmt = conn.prepareStatement(sql); 
 			 
