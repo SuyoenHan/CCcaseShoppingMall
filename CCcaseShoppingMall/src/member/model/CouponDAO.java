@@ -95,45 +95,7 @@ public class CouponDAO implements InterCouponDAO {
 		return ucnt;
 	}
 
-/*	
-	@Override
-	public List<CouponVO> selectCouponList(String userid) throws SQLException {
-		
-		List<CouponVO> cpList = new ArrayList<>();
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
-							+ " from tbl_coupon "
-							+ " where fk_userid = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				CouponVO cvo = new CouponVO();
-				cvo.setCpno(rs.getString(1));
-				cvo.setCpstatus(rs.getInt(2));
-				cvo.setCpcontent(rs.getInt(3));
-				cvo.setCpname(rs.getString(4));
-				cvo.setCpdiscount(rs.getString(5));
-				cvo.setIssuedate(rs.getString(6));
-				cvo.setExpirationdate(rs.getString(7));
-				
-				cpList.add(cvo);
-			}
-			
-		} finally {
-			close();
-		}
-		
-		return cpList;
-	}
-*/
-	
+
 	
 	@Override
 	public List<CouponVO> selectCouponList(Map<String, String> paraMap) throws SQLException {
