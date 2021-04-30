@@ -5,10 +5,8 @@
 
 <style type="text/css">
 	
-	
-	
 	.myShopping {
-		background-color: #002fa7;
+		background-color: navy;
 		color: white;
 		text-align: center;
 		padding: 15px 0;

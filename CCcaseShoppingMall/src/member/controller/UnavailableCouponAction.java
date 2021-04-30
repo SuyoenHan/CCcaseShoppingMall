@@ -1,5 +1,7 @@
 package member.controller;
 
+import java.util.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,18 +22,22 @@ public class UnavailableCouponAction extends AbstractController {
 			// 로그인된 계정으로 접속 했을 경우
 			if(loginuser != null) {
 				
-				String userid = request.getParameter("userid");
+				String userid = loginuser.getUserid();
 				
 				InterCouponDAO cdao = new CouponDAO();
 				
 				// 아이디를 가지고 해당 쿠폰 정보 조회해오기
-				CouponVO cvo = cdao.selectCouponByUserid(userid);
+				List<CouponVO> cpList = cdao.selectCouponList(userid);
 				
-				// 쿠폰 개수 조회하기
-				int cnt = cdao.countCouponQty("1");
+				// 사용가능쿠폰 개수 조회하기
+				int acnt = cdao.countAvalCpQty("0");
 				
-				request.setAttribute("cpList", cvo);
-				request.setAttribute("cnt", cnt);
+				// 사용불가쿠폰 개수 조회하기
+				int ucnt = cdao.countUnavalCpQty("1");
+				
+				request.setAttribute("cpList", cpList);
+				request.setAttribute("acnt", acnt);
+				request.setAttribute("ucnt", ucnt);
 				
 				// super.setRedirect(false);
 				super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");

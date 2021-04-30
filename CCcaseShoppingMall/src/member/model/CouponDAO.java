@@ -38,58 +38,11 @@ public class CouponDAO implements InterCouponDAO {
 	         e.printStackTrace();
 	      }
 	   }
-
-	// 아이디를 가지고 해당 쿠폰 정보 조회해오기
+	
+	// 사용가능 쿠폰 개수
 	@Override
-	public CouponVO selectCouponByUserid(String userid) throws SQLException {
-		
-		CouponVO cvo = null;
-		
-		try {
-			
-			conn = ds.getConnection();
-			
-			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
-							+ " from tbl_coupon "
-							+ " where fk_userid= ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				String cpno = rs.getString(1);
-				int cpstatus = rs.getInt(2);
-				int cpcontent = rs.getInt(3);
-				String cpname = rs.getString(4);
-				String cpdiscount = rs.getString(5);
-				String issuedate = rs.getString(6);
-				String expirationdate = rs.getString(7);
-				
-				cvo = new CouponVO();
-				cvo.setCpno(cpno);
-				cvo.setCpstatus(cpstatus);
-				cvo.setCpcontent(cpcontent);
-				cvo.setCpname(cpname);
-				cvo.setCpdiscount(cpdiscount);
-				cvo.setIssuedate(issuedate);
-				cvo.setExpirationdate(expirationdate);
-				
-			}// end of if-----------------------------
-			
-		} finally {
-			close();
-		}
-		
-		return cvo;
-	}
-
-	// 쿠폰 개수 조회하기
-	@Override
-	public int countCouponQty(String cpstatus) throws SQLException {
-		
-		int cnt = 0;
+	public int countAvalCpQty(String string) throws SQLException {
+		int acnt = 0;
 		
 		try {
 			conn = ds.getConnection();
@@ -99,21 +52,124 @@ public class CouponDAO implements InterCouponDAO {
 							+ " where cpstatus = ? ";
 			
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, cpstatus);
+			 pstmt.setString(1, "0");
 			
 			 rs = pstmt.executeQuery();
 	          
 	         rs.next();
 			 
-	         cnt = rs.getInt(1);
+	         acnt = rs.getInt(1);
 	         
 		} finally {
 			close();
 		}
 		
-		return cnt;
+		return acnt;
 	}
 
+	// 사용불가 쿠폰 개수
+	@Override
+	public int countUnavalCpQty(String string) throws SQLException {
+		int ucnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(*) "
+							+ " from tbl_coupon "
+							+ " where cpstatus = ? ";
+			
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, "1");
+			
+			 rs = pstmt.executeQuery();
+	          
+	         rs.next();
+			 
+	         ucnt = rs.getInt(1);
+	         
+		} finally {
+			close();
+		}
+		
+		return ucnt;
+	}
+
+	@Override
+	public List<CouponVO> selectCouponList(String userid) throws SQLException {
+		
+		List<CouponVO> cpList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
+							+ " from tbl_coupon "
+							+ " where fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CouponVO cvo = new CouponVO();
+				cvo.setCpno(rs.getString(1));
+				cvo.setCpstatus(rs.getInt(2));
+				cvo.setCpcontent(rs.getInt(3));
+				cvo.setCpname(rs.getString(4));
+				cvo.setCpdiscount(rs.getString(5));
+				cvo.setIssuedate(rs.getString(6));
+				cvo.setExpirationdate(rs.getString(7));
+				
+				cpList.add(cvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return cpList;
+	}
+
+	@Override
+	public List<CouponVO> selectCouponList(Map<String, String> paraMap) throws SQLException {
+		List<CouponVO> cpList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			int currentShowPageNo = Integer.parseInt( paraMap.get("currentShowPageNo") );
+	        int sizePerPage = 10; // 한 페이지당 화면상에 보여줄 제품의 개수는 10 으로 한다.
+			
+	        
+	        
+	        
+	        
+	        rs = pstmt.executeQuery();
+	        
+	        while(rs.next()) {
+				CouponVO cvo = new CouponVO();
+				cvo.setCpno(rs.getString(1));
+				cvo.setCpstatus(rs.getInt(2));
+				cvo.setCpcontent(rs.getInt(3));
+				cvo.setCpname(rs.getString(4));
+				cvo.setCpdiscount(rs.getString(5));
+				cvo.setIssuedate(rs.getString(6));
+				cvo.setExpirationdate(rs.getString(7));
+				
+				cpList.add(cvo);
+			}
+	        
+		} finally {
+			close();
+		}
+
+	}
 		
 	   
 	   

@@ -49,8 +49,8 @@
 <br><br><br><br><br>
 
 <div>
-	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.cnt}</span>)</button>
-	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt"></span>)</button>
+	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.acnt}</span>)</button>
+	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.ucnt}</span>)</button>
 </div>
 
 <br>

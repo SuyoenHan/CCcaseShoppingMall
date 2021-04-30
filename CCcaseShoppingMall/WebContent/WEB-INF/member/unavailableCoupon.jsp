@@ -48,8 +48,8 @@
 <br><br><br><br><br>
 
 <div>
-	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.cnt}</span>)</button>
-	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.cnt}</span>)</button>
+	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.acnt}</span>)</button>
+	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.ucnt}</span>)</button>
 </div>
 
 <br>
@@ -70,8 +70,8 @@
 	
 	<tbody>
 	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:if test="${requestScope.cvo.cpstatus eq '1' || requestScope.cvo.cpstatus eq '2'}">
-		<c:forEach var="cvo" items="${requestScope.cvo}">
+	<c:if test="${requestScope.cpList.cpstatus eq '1' || requestScope.cpList.cpstatus eq '2'}">
+		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
 				<td>${cvo.cpno}</td>
 				<td>${cvo.cpcontent}</td>
@@ -80,11 +80,10 @@
 				<td>${cvo.cpdiscount}</td>
 				<td>${cvo.issudate}</td>
 				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
-				<td>D-(${cvo.expirationdate}-${today})</td>
+				<td>D-13</td>
 			</tr>
 		</c:forEach>
 	</c:if>
-	<c:if test=""></c:if>
 	</tbody>
 </table>
 
