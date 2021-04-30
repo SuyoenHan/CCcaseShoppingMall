@@ -69,8 +69,7 @@
 	$(document).ready(function(){
 		func_height();//footer.jsp에 있음!
 		
-		$("#fregisterdate").datepicker();
-		$("#fregisterdate").datepicker('setDate', new Date);
+		
 		
 		//1. 목록버튼 클릭  => faqList 메인목록으로 돌아간다.
 		$("button.faqList").click(function(){
@@ -146,7 +145,7 @@
 		
 		<tr>
 			<td>등록일(default)</td>
-			<td><input type="text" id="fregisterdate" name="fregisterdate" value="${Date}" /></td>
+			<td><input type="text" id="fregisterdate" name="fregisterdate" value="" /></td>
 		</tr>
 		
 		<tr>

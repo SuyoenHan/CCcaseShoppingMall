@@ -56,7 +56,6 @@
 	.button:hover{
 		background-color: #666699;
 		color: white;
-		margin-top: 35px ;
     	
     	
 	}
@@ -163,11 +162,18 @@
 		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
 		 $("button.faqEdit").click(function(){
 			 
-			 //로그인된 유저와 faq userid가 같을 경우 팝업창 //아닐경우 alert창
-			 
+			//로그인된 유저와 faq userid가 같을 경우 팝업창 //아닐경우 alert창
+			
+			
+			//  ${avo.adminid}  ==> 로그인한 아이디
+			// 글작성자 아이디는 어떻게 받아와야하는지 모르겠다..>!!!
+			
+			
 			 
 			// 나의정보 수정하기 팝업창 띄우기
-			 var url = "<%=ctxPath%>/board/faqwrite.cc?faqno="+$(this).next().prop("id");
+			var faqno = $(this).parent().parent().prop("id");
+			//alert("faqno"+faqno);
+			var url = "<%=ctxPath%>/board/faqEdit.cc?faqno="+faqno;
 			 
 			  	
 			  window.open(url, "faqEdit",
@@ -249,17 +255,17 @@
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
-									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
+									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; <span>${fvo.ftitle}</span></div>
 									
 								</tr>
 								<tr>
-									<div class="cal">작성자: &nbsp;&nbsp;${fvo.fk_adminid}</div>
+									<div class="cal" id="writer" name="writer">작성자: &nbsp;&nbsp;<span id="writer" name="writer">${fvo.fk_adminid}</span></div>
 								</tr>
 								<tr>
 								   <div class="cal">
-									<span >등록일:&nbsp;&nbsp;${fvo.fregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최근수정일:&nbsp;&nbsp;${fvo.fupdatedate}</span>
+									<span >등록일:&nbsp;&nbsp;<span>${fvo.fregisterdate}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span >최근수정일:&nbsp;&nbsp;<span>${fvo.fupdatedate}</span></span>
 									</div>
 								</tr>
 								<tr>
@@ -267,12 +273,12 @@
 									<div class="faqcontent">${fvo.fcontent}</div>
 								     
 								</tr>
-							</table>
-						
-							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
-							<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
-							<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
 							
+								<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
+								<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
+								<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
+								
+							</table>
 						</td>
 					 </tr>
 					</c:forEach>
