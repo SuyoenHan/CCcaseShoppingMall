@@ -65,7 +65,7 @@
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
-    <form action="qnaWriteEnd.jsp" method="post" name="qnaWriteForm">
+    <form action="qnaWriteEnd.cc" method="post" name="qnaWriteForm">
     <table style="width: 700px; border-color: lightgray;">
 
         <tr>
