@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="../header.jsp" /> 
 <jsp:include page="../communityLeftSide.jsp"/>
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
 <style type="text/css">
 
@@ -41,12 +42,8 @@
 		location.href = "/CCcaseShoppingMall/"+goBackURL;
 	}// function goQnaList()----------------------------------------------------
 	
-	function goReply(){
-		
-	}// function goReply()------------------------------------------------------
-	
 	function goEdit(){
-		location.href="qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
+		location.href= "qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
 	}
 	
 	function goDelete(){

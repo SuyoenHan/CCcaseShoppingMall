@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html>
+<head>
 
 <%
 	String ctxPath = request.getContextPath();
 %>
 
-<!DOCTYPE jsp:include PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
 <title>QnA 글쓰기</title>
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
@@ -107,7 +105,7 @@
                글내용
             </td>
             <td>
-                <textarea name="qcontent" id="qcontent" cols="65" rows="15"></textarea>            
+                <textarea name="qcontent" id="qcontent" cols="72" rows="15"></textarea>            
             </td>        
         </tr>
 

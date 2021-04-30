@@ -214,9 +214,39 @@ public class QnaDAO implements InterQnaDAO {
 		}
 	}
 	
-	// 제목(qtitle)으로 qna 글 불러오기
+	// qna 글 수정하기
 	@Override
-	public QnaVO qnaDetail(String qtitle, String qnano) throws SQLException {
+	public int editQna(QnaVO qna) throws SQLException,NumberFormatException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna set "
+							+ " qtitle=?, qcontent=?, fk_productid=? "
+							+ " where qnano = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, qna.getQtitle());
+			pstmt.setString(2, qna.getQcontent());			
+			pstmt.setString(3, qna.getFk_productid());
+			pstmt.setInt(4, qna.getQnano());
+			
+			n = pstmt.executeUpdate();
+			
+			return n;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}	
+		return -1; // 데이터베이스 오류
+	}
+
+	// 글번호(qnano)로 qna 글 불러오기
+	@Override
+	public QnaVO qnaDetail(String qnano) throws SQLException {
 		QnaVO qvo = null;
 		
 		try {
@@ -224,12 +254,11 @@ public class QnaDAO implements InterQnaDAO {
 			
 			String sql = " select qnano, qtitle, fk_userid, qregisterdate, email, fk_productid, qstatus, qcontent "
 							+ " from tbl_qna "
-							+ " where qtitle = ? and qnano = ?" ;
+							+ " where qnano = ?" ;
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, qtitle);
-			pstmt.setString(2, qnano);
+			pstmt.setString(1, qnano);
 			
 			rs = pstmt.executeQuery();
 			
@@ -276,6 +305,8 @@ public class QnaDAO implements InterQnaDAO {
 		}	
 		
 	}// end of public void updateViewCount(int qnano)---------------------------------
+
+
 
 
 

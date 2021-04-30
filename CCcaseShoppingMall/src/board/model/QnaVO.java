@@ -34,6 +34,14 @@ public class QnaVO {
 		
 	}
 
+	public QnaVO(int qnano, String qtitle, String fk_productid, String qcontent) {
+		
+		this.qnano = qnano;
+		this.qtitle = qtitle;
+		this.fk_productid =fk_productid;
+		this.qcontent = qcontent;
+	}
+
 	public int getQnano() {
 		return qnano;
 	}

@@ -4,13 +4,10 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import board.model.InterQnaDAO;
 import board.model.QnaDAO;
-import board.model.QnaVO;
 import common.controller.AbstractController;
-import member.model.MemberVO;
 
 public class QnaDeleteAction extends AbstractController {
 
