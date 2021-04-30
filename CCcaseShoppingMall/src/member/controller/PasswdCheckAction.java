@@ -39,7 +39,6 @@ public class PasswdCheckAction extends AbstractController {
 			//super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/memberEdit.jsp");
 			
-			return;
 			}
 			else {
 				// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우 

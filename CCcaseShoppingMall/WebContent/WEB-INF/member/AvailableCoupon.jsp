@@ -75,10 +75,8 @@
 		</tr>
 	</thead>
 	
+	
 	<tbody>
-	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:set var="cpstatus" value="${requestScope.cpList.cpstatus}"/>
-	<c:if test="${cpstatus eq '0'}">
 		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
 				<td>${cvo.cpno}</td>
@@ -86,12 +84,11 @@
 				<td>${cvo.cpname}</td>
 				<td>5,000원</td>
 				<td>${cvo.cpdiscount}</td>
-				<td>${cvo.issudate}</td>
+				<td>${cvo.issuedate}</td>
 				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
 				<td>D-(${cvo.expirationdate}-${today})</td>
 			</tr>
 		</c:forEach>
-	</c:if>
 	</tbody>
 </table>
 <jsp:include page="../../WEB-INF/footer.jsp" />

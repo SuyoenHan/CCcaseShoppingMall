@@ -52,7 +52,7 @@ public class CouponDAO implements InterCouponDAO {
 							+ " where cpstatus = ? ";
 			
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, "0");
+			 pstmt.setInt(1, 0);
 			
 			 rs = pstmt.executeQuery();
 	          
@@ -80,7 +80,7 @@ public class CouponDAO implements InterCouponDAO {
 							+ " where cpstatus = ? ";
 			
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, "1");
+			 pstmt.setInt(1, 1);
 			
 			 rs = pstmt.executeQuery();
 	          
@@ -111,20 +111,28 @@ public class CouponDAO implements InterCouponDAO {
 							+ " from "
 							+ " ( "
 							+ " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
-							+ " from tbl_coupon "
-							+ " where fk_userid = ? "
-							+ " order by issuedate "
-							+ " ) V "
-							+ " ) T"
-							+ " where rno between ? and ? ";
+							+ " from tbl_coupon ";
+			
+			if("1".equals(paraMap.get("cpstatus"))) { // 사용완료 및 소멸 쿠폰목록 조회
+				sql+= " where fk_userid = ? and (cpstatus= ? or cpstatus=2 ) ";
+			}
+			else { // 사용가능 쿠폰목록 조회
+				sql+=" where fk_userid = ? and cpstatus= ? ";
+			}
+			
+			sql+= " order by issuedate "
+				+ " ) V "
+				+ " ) T "
+				+ " where rno between ? and ? ";
 			
 			int currentShowPageNo = Integer.parseInt( paraMap.get("currentShowPageNo") );
 	        int sizePerPage = 10; // 한 페이지당 화면상에 보여줄 제품의 개수는 10 으로 한다.
 			
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, paraMap.get("userid"));
-	        pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); //공식
-			pstmt.setInt(3, (currentShowPageNo * sizePerPage) );
+	        pstmt.setInt(2, Integer.parseInt(paraMap.get("cpstatus")));
+	        pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); //공식
+			pstmt.setInt(4, (currentShowPageNo * sizePerPage) );
 	        
 	        rs = pstmt.executeQuery();
 	        
