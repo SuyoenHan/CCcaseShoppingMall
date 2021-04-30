@@ -19,7 +19,7 @@ public class PasswdCheckAction extends AbstractController {
 		HttpSession session =  request.getSession();
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		System.out.println(loginuser);
+		//System.out.println(loginuser);
 		if(loginuser!=null){
 		
 			String userid = request.getParameter("userid");
@@ -34,9 +34,24 @@ public class PasswdCheckAction extends AbstractController {
 			boolean mvo = mdao.passwdcheck(paraMap);
 			
 			request.setAttribute("mvo", mvo);
-			System.out.println("mvo 확인 "+mvo);
+			
+			if(mvo==true) {
 			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/member/memberOneDetail.jsp");
+			super.setViewPage("/WEB-INF/member/memberEdit.jsp");
+			
+			return;
+			}
+			else {
+				// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우 
+				String message = "비밀번호가 틀립니다!";
+		         String loc = "javascript:history.back()";
+		         
+		         request.setAttribute("message", message);
+		         request.setAttribute("loc", loc);
+		         
+		      //   super.setRedirect(false);
+		         super.setViewPage("/WEB-INF/msg.jsp");
+			}
 		}
 		else {
 			// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우 
