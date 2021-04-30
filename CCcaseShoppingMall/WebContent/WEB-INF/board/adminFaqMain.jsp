@@ -117,6 +117,8 @@
 		
 		func_height();//footer.jsp에 있음!
 		
+		
+	   // faqDetail 감추기 ,보이기
 		if("${faqno}"!="x"){
 
 			$("tr.faqDetail").each(function(index,item){
@@ -134,6 +136,8 @@
 			$("tr.faqDetail").css('display','none'); //안보이도록 한다.
 		}
 		
+		
+		//클릭시 클릭한 faqno 조회수 증가
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
@@ -146,20 +150,50 @@
 		
 		});
 		
+		
+		
+		//목록버튼 클릭했을 때
 		$("button.faqList").click(function(){
-			//목록버튼 클릭했을 때
+			
 			//alert("목록클릭!");
 			location.href="<%=ctxPath%>/board/faqList.cc";
 			
 		});
 		 
+		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
+		 $("button.faqEdit").click(function(){
+			 
+			 //로그인된 유저와 faq userid가 같을 경우 팝업창 //아닐경우 alert창
+			 
+			 
+			// 나의정보 수정하기 팝업창 띄우기
+			 var url = "<%=ctxPath%>/board/faqwrite.cc?faqno="+$(this).next().prop("id");
+			 
+			  	
+			  window.open(url, "faqEdit",
+					           "lefe=350p, top=100px,width=700px, height=450px");
+				  
+	     });
+				  
+			  
 			
-			$("button.faqwrite").click(function(){
-				//버튼(글쓰기)를 클릭하면
-				//alert("글쓰기 버튼 클릭");
-				location.href="<%=ctxPath%>/board/faqwrite.cc";
-				
-			});//end of $("button#faqwrite").click(function(){}); ------------------
+		
+		
+		//삭제버튼 클릭했을 때
+		$("button.faqDel").click(function(){
+			
+			//alert("목록클릭!");
+			location.href="<%=ctxPath%>/board/faqList.cc";
+			
+		});
+		
+			
+		$("button.faqwrite").click(function(){
+			//버튼(글쓰기)를 클릭하면
+			//alert("글쓰기 버튼 클릭");
+			location.href="<%=ctxPath%>/board/faqwrite.cc";
+			
+		});//end of $("button#faqwrite").click(function(){}); ------------------
 			
 		
 	});// end of $(document).ready(function(){})--------------
