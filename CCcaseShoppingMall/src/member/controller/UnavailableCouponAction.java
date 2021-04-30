@@ -21,13 +21,29 @@ public class UnavailableCouponAction extends AbstractController {
 			
 			// 로그인된 계정으로 접속 했을 경우
 			if(loginuser != null) {
+				String currentShowPageNo = request.getParameter("currentShowPageNo");
+				
+				if(currentShowPageNo == null) {
+					currentShowPageNo = "1";
+				}
+				
+				try {
+					Integer.parseInt(currentShowPageNo);
+				} catch (NumberFormatException e) {
+						currentShowPageNo = "1";
+				}
 				
 				String userid = loginuser.getUserid();
 				
 				InterCouponDAO cdao = new CouponDAO();
 				
+				Map<String, String> paraMap = new HashMap<>();
+				paraMap.put("userid", userid);
+				paraMap.put("currentShowPageNo", currentShowPageNo);
+				
 				// 아이디를 가지고 해당 쿠폰 정보 조회해오기
-				List<CouponVO> cpList = cdao.selectCouponList(userid);
+				List<CouponVO> cpList = cdao.selectCouponList(paraMap);
+				
 				
 				// 사용가능쿠폰 개수 조회하기
 				int acnt = cdao.countAvalCpQty("0");
