@@ -1,5 +1,7 @@
 package product.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.*;
 
@@ -491,7 +493,39 @@ public class ProductDAO implements InterProductDAO {
 		
 		return gijongList;
 	}
+	
+	// totalPage 알아오기
+	@Override
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+		
+		
+		int totalPage=0;
+		
+		try {
+			conn= ds.getConnection();
+			String sql= " select ceil(count(*)/?) " + 
+					    " from tbl_pdetail ";
+			
+		
+			pstmt= conn.prepareStatement(sql); // int로 안바꿔도 오라클에서 호환사용된다.
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			totalPage= rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+		
+		
+	}
 	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
+
+	
 
 
 	

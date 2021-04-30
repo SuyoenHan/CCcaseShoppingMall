@@ -98,7 +98,7 @@ public class ProductRegisterAction extends AbstractController {
 					mtrRequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 				} catch (IOException e) {
 					request.setAttribute("message", "업로드 되어질 경로가 잘못되었거나 또는 최대용량 10MB를 초과했으므로 파일업로드 실패함!!");
-	                request.setAttribute("loc", request.getContextPath()+"/shop/admin/productRegister.up");
+	                request.setAttribute("loc", request.getContextPath()+"/admin/productRegister.cc");
 	                
 	                super.setViewPage("/WEB-INF/adminMsg.jsp");
 	                return; // 종료

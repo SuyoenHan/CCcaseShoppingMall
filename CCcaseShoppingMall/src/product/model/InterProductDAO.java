@@ -44,6 +44,9 @@ public interface InterProductDAO {
 	// 기종명 조회해오기(select)
 	List<String> getgijongname() throws SQLException;
 	
+	// totalPage 알아오기
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+	
 	
 	
 	

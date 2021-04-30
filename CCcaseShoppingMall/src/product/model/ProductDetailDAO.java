@@ -50,14 +50,21 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	///////////////////////
 	// 전체제품 조회해오기
 	@Override
-	public List<Map<String, String>> selectProInfo() throws SQLException {
+	public List<Map<String, String>> selectProInfo(Map<String, String> paraMap) throws SQLException {
 		
 		List<Map<String, String>> proList = new ArrayList<>();
 		
 		try {
 			
 			conn = ds.getConnection();
-			String sql = "select D.pnum, mname, productname, modelname, pcolor, price, ((1-salepercent)*price) as saleprice, pqty, to_char(pinputdate,'yyyy-mm-dd'), doption\n"+
+			String sql = 
+					" select pnum, mname, productname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
+					" from " + 
+					" ( " + 
+					" select rownum as rno, pnum, mname, productname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
+					" from " + 
+					" ( "+
+					"select D.pnum, mname, productname, modelname, pcolor, price, ((1-salepercent)*price) as saleprice, pqty, to_char(pinputdate,'yyyy-mm-dd') as pinputdate,  doption\n"+
 					"from\n"+
 					"(\n"+
 					"select *\n"+
@@ -92,9 +99,17 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 					"select *\n"+
 					"from tbl_imagefile\n"+
 					") I\n"+
-					"on D.pnum = I.fk_pnum";
+					"on D.pnum = I.fk_pnum"+
+					" ) V " +
+			        " )T " +
+			        " where rno between ? and ? ";
+			
+			int currentShowPageNo= Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage= Integer.parseInt(paraMap.get("sizePerPage"));
 			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,(currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+			pstmt.setInt(2,(currentShowPageNo * sizePerPage));
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

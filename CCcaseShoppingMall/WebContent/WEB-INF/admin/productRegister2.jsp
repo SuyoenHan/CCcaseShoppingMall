@@ -32,6 +32,7 @@
 	td#info15{
 		width: 500px;
 	}
+	
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
@@ -120,7 +121,7 @@
 				<tbody>
 					<tr> 
 						<td id="info1"><label class="Infoname" for="fk_snum">1. 제품스펙</label></td>
-						<td >
+						<td>
 							<select id="fk_snum" name="fk_snum">
 								<option value="">선택하세요</option>
 								<c:forEach var="map" items="${requestScope.specList}">
@@ -209,12 +210,12 @@
 					</tr>
 					<tr> 
 						<td id="info13"><label class="Infoname" for="imgPlus1">13. 추가이미지1<span style="color:red; font-size:10pt;">(필수)</span></label></td>
-						<td ><input type="file" name="pimage1" id="pimage1" class="pilsu" /></td>
+						<td><input type="file" name="imgPlus1" id="imgPlus1" class="pilsu" /></td>
 						<td style="border:solid 1px red;"><button>+</button><button>-</button></td>			
 					</tr>
 					<tr> 
 						<td id="info14"><label class="Infoname" for="pcontent">14. 제품설명<br><br></label></td>
-						<td><textarea name="pcontent" id="pcontent" rows="5" cols="25" placeholder="간단히 설명하세요" maxlength="100"></textarea></td>				
+						<td colspan="2"><textarea name="pcontent" id="pcontent" rows="5" cols="40" placeholder="간단히 설명하세요" maxlength="100"></textarea></td>				
 					</tr>																										
 				</tbody>
 			</table>

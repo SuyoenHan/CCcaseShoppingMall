@@ -20,7 +20,29 @@
 	}
 </style>
 
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+	
+		$("select#sizePerPage").val("${requestScope.sizePerPage}");
+		
+		
+		var frm = document.search;
 
+		
+		$("select#sizePerPage").bind("change",function(){
+			
+			frm.action="<%= request.getContextPath() %>/admin/productmanage.cc";
+			frm.submit();
+					
+			
+		});
+
+		
+	});
+	
+	
+</script>
 
 <div id="contents">
 	
@@ -64,9 +86,17 @@
 		</tbody>
 	
 	</table>	
-
-
-
+	<form name="search">
+	
+		<select name="sizePerPage" id="sizePerPage">
+			<option value="10">10</option>
+			<option value="5">5</option>
+			<option value="3">3</option>
+		</select>
+	</form>
+	
+	<div>${requestScope.pageBar}</div>
+	
 </div>
 
 
