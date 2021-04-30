@@ -111,7 +111,7 @@
 			<div id="info2"> 
 				<label class="registerInfo" for="cname">2. 카테고리명 <span style="color:red; font-size:10pt;">(필수)</span></label>
 				<select id="cname" name="fk_cnum" class="pilsu">
-					<option value="">선택하세요</option>
+					<option value="null">선택하세요</option>
 					<c:forEach var="cList" items="${requestScope.categoryList}">
 						<option value="${cList.cnum}">${cList.cname}</option>
 					</c:forEach>
@@ -175,12 +175,12 @@
 			
 			<div id="info12" style="border:solid 1px red;"> 
 				<label class="registerInfo" for="plusimage1" style="border:solid 1px green;">12. 대표이미지파일명<span style="color:red; font-size:10pt;">(필수)</span></label>
-				<input type="file" name="pimage1" id="pimage1" style="border:solid 1px blue;" /> 
+				<input type="file" name="pimage1" id="pimage1" class="pilsu" style="border:solid 1px blue;" /> 
 			</div>
 			
 			<div id="info13" style="border:solid 1px red;"> 
 				<label class="registerInfo" for="imgPlus1">13. 추가이미지1<span style="color:red; font-size:10pt;">(필수)</span></label>
-				<input type="file" name="imgPlus1" id="imgPlus1" /> 
+				<input type="file" name="imgPlus1" id="imgPlus1" class="pilsu" /> 
 			</div>
 			
 			

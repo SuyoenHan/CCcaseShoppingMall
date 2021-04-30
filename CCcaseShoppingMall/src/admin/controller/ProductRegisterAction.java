@@ -59,9 +59,32 @@ public class ProductRegisterAction extends AbstractController {
 				
 				request.setAttribute("companyList", companyList);
 				
+				// 기종명 조회해오기
+				InterProductDAO pdao = new ProductDAO();
+				List<String> gijongList = pdao.getgijongname();
 				
+
+				if(gijongList.size()>0) {
+					request.setAttribute("gijongList", gijongList);
+				}
+				
+				// 색상 드롭박스 만들어주기
+				List<String> colorList = new ArrayList<>();
+				colorList.add("red");
+				colorList.add("orange");
+				colorList.add("yellow");
+				colorList.add("green");
+				colorList.add("blue");
+				colorList.add("navy");
+				colorList.add("purple");
+				colorList.add("white");
+				colorList.add("black");
+				
+				request.setAttribute("colorList", colorList);
+				
+		
 				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/admin/productRegister.jsp");
+				super.setViewPage("/WEB-INF/admin/productRegister2.jsp");
 					
 			} else { // POST방식
 				
@@ -75,7 +98,7 @@ public class ProductRegisterAction extends AbstractController {
 					mtrRequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 				} catch (IOException e) {
 					request.setAttribute("message", "업로드 되어질 경로가 잘못되었거나 또는 최대용량 10MB를 초과했으므로 파일업로드 실패함!!");
-	                request.setAttribute("loc", request.getContextPath()+"/shop/admin/productRegister.up");
+	                request.setAttribute("loc", request.getContextPath()+"/admin/productRegister.cc");
 	                
 	                super.setViewPage("/WEB-INF/adminMsg.jsp");
 	                return; // 종료
@@ -154,7 +177,7 @@ public class ProductRegisterAction extends AbstractController {
 	            }
 	            else {
 	            	message = "제품등록에 실패하셨습니다.";
-	            	loc = request.getContextPath()+"admin/productRegister.cc";
+	            	loc = request.getContextPath()+"admin/productRegister2.cc";
 	            }
 	           
 	            request.setAttribute("message", message);
