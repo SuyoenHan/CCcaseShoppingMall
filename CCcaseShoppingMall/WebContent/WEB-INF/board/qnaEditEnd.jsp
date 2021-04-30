@@ -3,8 +3,10 @@
 <%@ page import="board.model.QnaDAO"  %>
 
 <%
-		int qnano = Integer.parseInt(request.getParameter("qnano"));
+		String qnano = request.getParameter("qnano");
 		session.setAttribute("qnano", qnano);
+		
+		qnano = (String)session.getAttribute("qnano");
 		
 		response.sendRedirect("qnaList.jsp");
 %>

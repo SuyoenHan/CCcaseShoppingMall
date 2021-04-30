@@ -13,8 +13,6 @@
  
 <style>
 
-	 
-
 	div#contents {
 		margin-left: 35px ;
     	margin-right: 35px ;

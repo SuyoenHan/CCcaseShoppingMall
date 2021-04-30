@@ -10,36 +10,35 @@ import board.model.QnaDAO;
 import board.model.QnaVO;
 import common.controller.AbstractController;
 
-public class QnaEditEndAction extends AbstractController {
+public class AdminQnaReplyAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		String method = request.getMethod();
 		
 		if("POST".equalsIgnoreCase(method)) {
 			// **** POST 방식으로 넘어온 것이라면 **** //
 			
-			String qtitle = request.getParameter("qtitle"); 
-			String fk_productid = request.getParameter("fk_productid");
-			String qcontent = request.getParameter("qcontent");
+			String fk_adminid = request.getParameter("fk_adminid"); 
+			String cmtcontent = request.getParameter("cmtcontent");
 			
-			QnaVO qna = new QnaVO(qtitle, fk_productid, qcontent);
+			QnaVO qna = new QnaVO(fk_adminid, cmtcontent);
 			
 			InterQnaDAO qdao = new QnaDAO();
-
+			
 			try {
-				int n = qdao.editQna(qna);
+				int n = qdao.replyQna(qna);
 				
 				String message = "";
 				String loc = "";
-				if(n==1) {
 
-					message = "글 수정 성공";
-					loc = request.getContextPath()+"/board/qnaDetail.cc";  // 글 목록으로 이동한다.
+				if(n==1) {
+					message = "글쓰기 성공";
+					loc = request.getContextPath()+"/board/qnaList.cc";  // 글 목록으로 이동한다.
 				}
 				else {
-					message = "글 수정 실패";
+					message = "글쓰기 실패";
 					loc = "javascript:history.back()";  // 이전페이지로 이동
 				}
 				
@@ -65,6 +64,7 @@ public class QnaEditEndAction extends AbstractController {
 			
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
+		
 	}
 
 }

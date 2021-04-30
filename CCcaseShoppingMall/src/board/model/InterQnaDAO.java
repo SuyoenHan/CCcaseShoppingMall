@@ -14,6 +14,9 @@ public interface InterQnaDAO {
 	// qna 글 작성하기
 	int writeQna(QnaVO qna) throws SQLException;
 
+	// qna 답글 작성하기
+	int replyQna(QnaVO qna) throws SQLException;
+	
 	// qna 글 삭제하기
 	int deleteQna(int qnano) throws SQLException; 
 	
@@ -25,5 +28,7 @@ public interface InterQnaDAO {
 	
 	// 조회수 증가시키기
 	void updateViewCount(int qnano) throws SQLException;
+
+	
 
 }

@@ -187,6 +187,35 @@ public class QnaDAO implements InterQnaDAO {
 		return -1; // 데이터베이스 오류
 	}
 
+	// qna 답글 작성하기(tbl_qnacmt에 insert)
+	@Override
+	public int replyQna(QnaVO qna) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_qnacmt (cmtno, fk_qnano, fk_adminid, cmtcontent) "+
+								" values(seq_qnacmt_cmtno.nextval, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qna.getQnano());
+			pstmt.setString(2, qna.getFk_adminid());
+			pstmt.setString(3, qna.getCmtcontent());
+
+			n = pstmt.executeUpdate();
+			
+			return n;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}	
+		return -1; // 데이터베이스 오류
+	}
+	
 	// qna 글 삭제하기
 	@Override
 	public int deleteQna(int qnano) throws SQLException{

@@ -64,15 +64,10 @@ public class QnaDetailAction extends AbstractController {
 			
 		}
 			else {
-				// 로그인을 안 했으면
-				String message = "글을 보려면 먼저 로그인을 하세요!";
-				String loc = "javascript:history.back()";
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				
-			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
+				// 로그인을 안 했으면 누구의 글을 봐도 조회수 증가
+				qdao.updateViewCount(qvo.getQnano());				
+		
+				super.setViewPage("/WEB-INF/board/qnaDetail.jsp");
 			}
 	}
 
