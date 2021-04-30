@@ -13,10 +13,16 @@ public interface InterFaqDAO {
 	//조회수 증가시키고 가져오기
 	void updateViewCount(String faqno)throws SQLException;
 
-
+	//FAQ 글쓰기 insert 해주기
 	int faqInsert(FaqVO fvo) throws SQLException;
 
 	
+	//FAQ 글내용 수정을 위해 하나의 FAQ를 select해오기
+	FaqVO faqEditOneView(String faqno) throws SQLException;
+
+	//FAQ 글내용 수정하기(UPDATE)
+	int faqEditUpdate(FaqVO fvo) throws SQLException;
+
 
 	
 }
