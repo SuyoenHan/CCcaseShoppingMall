@@ -70,15 +70,17 @@ public class ProductRegisterAction extends AbstractController {
 				
 				// 색상 드롭박스 만들어주기
 				List<String> colorList = new ArrayList<>();
-				colorList.add("red");
-				colorList.add("orange");
-				colorList.add("yellow");
-				colorList.add("green");
-				colorList.add("blue");
-				colorList.add("navy");
-				colorList.add("purple");
-				colorList.add("white");
-				colorList.add("black");
+				colorList.add("RED");
+				colorList.add("ORANGE");
+				colorList.add("YELLOW");
+				colorList.add("GREEN");
+				colorList.add("BLUE");
+				colorList.add("NAVY");
+				colorList.add("PURPLE");
+				colorList.add("WHITE");
+				colorList.add("BLACK");
+				colorList.add("PINK");
+				colorList.add("GRAY");
 				
 				request.setAttribute("colorList", colorList);
 				
@@ -104,10 +106,13 @@ public class ProductRegisterAction extends AbstractController {
 	                return; // 종료
 				}
 				
-				
 				String fk_snum = mtrRequest.getParameter("fk_snum");         	// 스펙번호(제품상세테이블)
 				String fk_cnum = mtrRequest.getParameter("fk_cnum"); 		 	// 카테고리번호(제품테이블)
 				String fk_mnum = mtrRequest.getParameter("fk_mnum"); 		 	// 회사번호(제품테이블)
+				
+				// 이용자가 입력받은 회사코드를 가지고 회사명을 가지고 오기
+				InterMobileCompanyDAO codao = new MobileCompanyDAO();
+				String mname = codao.getMname(fk_mnum);
 				String productname = mtrRequest.getParameter("productname"); 	// 제품명(제품테이블,제품상세테이블)
 				String modelname = mtrRequest.getParameter("modelname"); 	 	// 기종명(제품테이블,제품상세테이블)
 				String pcolor = mtrRequest.getParameter("pcolor");              // 색상(제품상세테이블)
@@ -131,11 +136,12 @@ public class ProductRegisterAction extends AbstractController {
 	            // 제품테이블의 DAO로 전달하기 위한 promap
 	            promap.put("fk_cnum", fk_cnum);
 	            promap.put("fk_mnum", fk_mnum);
-	            promap.put("productname", productname);
+	            promap.put("productname", productname.toUpperCase());
 	            promap.put("modelname", modelname);
 	            promap.put("price", price);
 	            promap.put("salepercent", salepercent);
 	            promap.put("pimage1", pimage1);
+	            
 	            
 	            InterProductDAO pdao = new ProductDAO();
 	            
@@ -149,10 +155,11 @@ public class ProductRegisterAction extends AbstractController {
 	            pdetailmap.put("doption", doption);
 	            pdetailmap.put("pqty", pqty);
 	            pdetailmap.put("pcontent", pcontent);
-	            pdetailmap.put("productname", productname);
+	            pdetailmap.put("productname", productname.toUpperCase());
 	            pdetailmap.put("modelname", modelname);
 	            pdetailmap.put("fk_productid",getfkproductid);
 	            pdetailmap.put("pcolor", pcolor);
+	            pdetailmap.put("mname", mname);
 	            
 	            
 	            InterProductDetailDAO pddao = new ProductDetailDAO();

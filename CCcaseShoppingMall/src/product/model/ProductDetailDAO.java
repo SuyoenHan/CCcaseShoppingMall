@@ -57,67 +57,102 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		try {
 			
 			conn = ds.getConnection();
-			String sql = 
-					" select pnum, mname, productname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
-					" from " + 
-					" ( " + 
-					" select rownum as rno, pnum, mname, productname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
-					" from " + 
-					" ( "+
-					"select D.pnum, mname, productname, modelname, pcolor, price, ((1-salepercent)*price) as saleprice, pqty, to_char(pinputdate,'yyyy-mm-dd') as pinputdate,  doption\n"+
-					"from\n"+
-					"(\n"+
-					"select *\n"+
-					"from tbl_product\n"+
-					")P\n"+
-					"join\n"+
-					"(\n"+
-					"select *\n"+
-					"from tbl_category\n"+
-					")C\n"+
-					"on P.fk_cnum = C.cnum\n"+
-					"join\n"+
-					"(\n"+
-					"select *\n"+
-					"from tbl_mobilecompany\n"+
-					")M\n"+
-					"on P.fk_mnum = M.mnum\n"+
-					"join\n"+
-					"(\n"+
-					"select *\n"+
-					"from tbl_pdetail\n"+
-					")D\n"+
-					"on P.productid = D.fk_productid\n"+
-					"join\n"+
-					"(\n"+
-					"select *\n"+
-					"from tbl_spec\n"+
-					") S\n"+
-					"on D.fk_snum = S.snum\n"+
-					"join\n"+
-					"(\n"+
-					"select *\n"+
-					"from tbl_imagefile\n"+
-					") I\n"+
-					"on D.pnum = I.fk_pnum"+
-					" ) V " +
-			        " )T " +
-			        " where rno between ? and ? ";
+			String sql =" select pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
+						" from " + 
+						" ( " + 
+							" select rownum as rno, pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
+							" from " + 
+							" ( "+
+								" select D.pnum, mname, pname, modelname, pcolor, price, ((1-salepercent)*price) as saleprice, pqty, to_char(pinputdate,'yyyy-mm-dd') as pinputdate,  doption "+
+								" from "+
+								" ( "+
+								" select * "+
+								" from tbl_product "+
+								" ) P "+
+								" join "+
+								" ( "+
+								" select * "+
+								" from tbl_category "+
+								" ) C "+
+								" on P.fk_cnum = C.cnum "+
+								" join "+
+								" ( "+
+								" select * "+
+								" from tbl_mobilecompany "+
+								" ) M "+
+								" on P.fk_mnum = M.mnum "+
+								" join "+
+								" ( "+
+								" select * "+
+								" from tbl_pdetail "+
+								" ) D "+
+								" on P.productid = D.fk_productid "+
+								" join "+
+								" ( "+
+								" select * "+
+								" from tbl_spec "+
+								" ) S "+
+								" on D.fk_snum = S.snum "+
+								" join "+
+								" ( "+
+								" select * "+
+								" from tbl_imagefile "+
+								" ) I "+
+								" on D.pnum = I.fk_pnum" +
+								" ) V " ;
+								
+			String colname = paraMap.get("searchType");
+			// jsp에서 받아오는 searchType의 value값 
+			// pnum(상품번호 => 2000-2-15-2(mnum-cnum-seq_product_productid-seq_pdetail_pnum)     
+			// mpmoname(상품명=> LG-아아아케이스-LGV50(mname-productname-modelname)
+			// pcolor(색상=> yellow-(pcolor))
+			
+
+			String searchWord = paraMap.get("searchWord");					
+
+			if(searchWord!= null && !searchWord.trim().isEmpty()) {
+				
+				if("pnum".equalsIgnoreCase(colname)) {
+					sql+= " where "+colname+" like '%'||?||'%' ";
+				}
+				else if("pcolor".equalsIgnoreCase(colname)) {
+					sql+= " where "+colname+" like '%'||?||'%' ";
+				}
+				else if("pname".equalsIgnoreCase(colname)){
+					sql += " where "+colname+" like '%'||?||'%' ";
+				}
+				
+			}
+								
+			sql +=	" ) T " +
+					" where rno between ? and ? ";
 			
 			int currentShowPageNo= Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage= Integer.parseInt(paraMap.get("sizePerPage"));
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,(currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
-			pstmt.setInt(2,(currentShowPageNo * sizePerPage));
+			
+			// 검색어가 있는 경우
+			if(searchWord!= null && !searchWord.trim().isEmpty()) {
+
+				pstmt.setString(1, searchWord);
+				pstmt.setInt(2,(currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				pstmt.setInt(3,(currentShowPageNo * sizePerPage));
+				
+			}
+			else { // 검색어가 없는 경우
+				pstmt.setInt(1,(currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				pstmt.setInt(2,(currentShowPageNo * sizePerPage));
+			}
 			rs = pstmt.executeQuery();
+			
 			
 			while(rs.next()) {
 				
 				Map<String, String> promap = new HashMap<>();
 				
 				promap.put("pnum", String.valueOf(rs.getString(1)));
-				promap.put("productname", rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4));
+				promap.put("pname", rs.getString(3));
 				promap.put("pcolor", rs.getString(5));
 				promap.put("originalprice", String.valueOf(rs.getInt(6)));
 				promap.put("saleprice", String.valueOf(rs.getInt(7)));
@@ -154,7 +189,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pdetailmap.get("fk_productid"));
 			pstmt.setString(2, pdetailmap.get("fk_productid"));
-			pstmt.setString(3, pdetailmap.get("productname")+pdetailmap.get("modelname")+pdetailmap.get("pcolor"));
+			pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("productname")+"-"+pdetailmap.get("modelname"));
 			pstmt.setString(4, pdetailmap.get("pcolor"));
 			pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
 			pstmt.setInt(6, Integer.parseInt(pdetailmap.get("fk_snum")));
