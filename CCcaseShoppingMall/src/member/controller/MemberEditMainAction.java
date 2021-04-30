@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
-public class MyProfileAction extends AbstractController {
+public class MemberEditMainAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -23,7 +23,7 @@ public class MyProfileAction extends AbstractController {
 				if(loginuser.getUserid().equals(userid)) {
 					//로그인한 사용자가 자신의 정보를 수정하는 경우
 				      //   super.setRedirect(false);
-					super.setViewPage("/WEB-INF/member/myProfile.jsp");
+					super.setViewPage("/WEB-INF/member/memberEditMain.jsp");
 					
 				}
 				else {

@@ -215,7 +215,6 @@ public class ProductDAO implements InterProductDAO {
 		
 	} // end of public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{--------
 
-
 	// mnum, cnum이 주어진 경우, 모델그룹별 개수 반환
 	@Override
 	public List<Map<String,String>> getCntByModel (String mnum, String cnum) throws SQLException{
@@ -256,11 +255,211 @@ public class ProductDAO implements InterProductDAO {
 		
 	}
 
-	
-
 	// =========================== 한수연 끝 ======================================
 
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	////////////////////////////////// 백원빈 시작 /////////////////////////////////////////////
+	// product테이블에 insert하는 메소드
+	@Override
+	public String insertProduct(Map<String, String> promap) throws SQLException {
+		
+		String getSequence = null;
+		String getfkproductid = null;
+
+		try {
+			
+			conn = ds.getConnection();
+			String sql = "insert into tbl_product(productid,productname,modelname,fk_mnum,fk_cnum,price,salepercent,pimage1)\n"+
+					     "values(?||'-'||?||'-'||seq_product_productid.nextval, ?, ?,?,?,?,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, promap.get("fk_mnum"));
+			pstmt.setString(2, promap.get("fk_cnum"));
+			pstmt.setString(3, promap.get("productname"));
+			pstmt.setString(4, promap.get("modelname"));
+			pstmt.setInt(5, Integer.parseInt(promap.get("fk_mnum")));
+			pstmt.setInt(6, Integer.parseInt(promap.get("fk_cnum")));
+			pstmt.setInt(7, Integer.parseInt(promap.get("price")));
+			pstmt.setDouble(8, Double.parseDouble(promap.get("salepercent")));
+			pstmt.setString(9, promap.get("pimage1"));
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				
+				sql = " select seq_product_productid.currval "+
+					  " from dual ";
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					getSequence = rs.getString(1);
+					
+					sql = " select productid "+
+						  " from tbl_product "+
+						  " where productid=?||'-'||?||'-'||? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, promap.get("fk_mnum"));
+					pstmt.setString(2, promap.get("fk_cnum"));
+					pstmt.setString(3, getSequence);
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						getfkproductid=rs.getString(1);
+					}
+				}
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return getfkproductid;
+	}
+	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
 }

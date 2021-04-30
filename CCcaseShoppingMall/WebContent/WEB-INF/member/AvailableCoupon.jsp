@@ -10,7 +10,21 @@
 <jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 
 <style type="text/css">
-
+	
+	
+	button.btn {
+		border: none;
+		width: 150px;
+		padding: 10px 0;
+		font-weight: bold;
+		border-radius: 10px;
+		margin-right: 10px;
+	}
+	
+	button.btn:hover {
+		background-color: #4d4d4d;
+		color: white;
+	}
 
 </style>
 
@@ -28,16 +42,20 @@
 	});	
 	
 </script>
+<br>
+<h3 style="font-weight: bold; color: navy;">나의 쿠폰 조회</h3>
+<hr style="background-color:black; height:2px;">
 
-<h3>나의 쿠폰 조회</h3>
-<hr>
+<br><br><br><br><br>
 
 <div>
-	<button type="button" id="aval">사용가능 쿠폰(<span class="cnt"></span>)</button>
-	<button type="button" id="unAval">사용완료 쿠폰(<span class="cnt"></span>)</button>
+	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.acnt}</span>)</button>
+	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.ucnt}</span>)</button>
 </div>
 
-<table>
+<br>
+
+<table id="memberTbl" class="table" style="align: center; width:80%; margin-top:20px;">
 	<thead>
 		<tr>
 			<th>쿠폰번호</th>
@@ -53,7 +71,8 @@
 	
 	<tbody>
 	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:if test="${requestScope.cpList.cpstatus eq '0'}">
+	<c:set var="cpstatus" value="requestScope.cpList.cpstatus"/>
+	<c:if test="${cpstatus eq '0'}">
 		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
 				<td>${cvo.cpno}</td>

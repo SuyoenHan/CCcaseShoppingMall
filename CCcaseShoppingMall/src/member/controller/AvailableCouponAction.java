@@ -1,6 +1,8 @@
 package member.controller;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import member.model.*;
-import my.util.Myutil;
 
 public class AvailableCouponAction extends AbstractController {
 
@@ -16,19 +17,44 @@ public class AvailableCouponAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		HttpSession session = request.getSession();
-		MemberVO loginUser =  (MemberVO) session.getAttribute("loginUser");
+		MemberVO loginuser =  (MemberVO) session.getAttribute("loginuser");
 		
 		// 로그인된 계정으로 접속 했을 경우
-		if(loginUser != null ) {
+		if(loginuser != null ) {
 			
-			String userid = request.getParameter("userid");
+			String currentShowPageNo = request.getParameter("currentShowPageNo");
+			
+			if(currentShowPageNo == null) {
+				currentShowPageNo = "1";
+			}
+			
+			try {
+				Integer.parseInt(currentShowPageNo);
+			} catch (NumberFormatException e) {
+					currentShowPageNo = "1";
+			}
+			
+			String userid = loginuser.getUserid();
 			
 			InterCouponDAO cdao = new CouponDAO();
 			
+			Map<String, String> paraMap = new HashMap<>();
+			paraMap.put("userid", userid);
+			paraMap.put("currentShowPageNo", currentShowPageNo);
+			
 			// 아이디를 가지고 해당 쿠폰 정보 조회해오기
-			List<CouponVO> cpList = cdao.getCouponList(userid);
+			List<CouponVO> cpList = cdao.selectCouponList(paraMap);
+			
+			
+			// 사용가능쿠폰 개수 조회하기
+			int acnt = cdao.countAvalCpQty("0");
+			
+			// 사용불가쿠폰 개수 조회하기
+			int ucnt = cdao.countUnavalCpQty("1");
 			
 			request.setAttribute("cpList", cpList);
+			request.setAttribute("acnt", acnt);
+			request.setAttribute("ucnt", ucnt);
 			
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");

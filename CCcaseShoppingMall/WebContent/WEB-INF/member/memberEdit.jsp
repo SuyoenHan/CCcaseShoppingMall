@@ -5,15 +5,39 @@
     //     /MyMVC 
 %>    
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
-<link rel="stylesheet" href="<%= ctxPath %>/css/register.css" />
     
 <jsp:include page="../../WEB-INF/header.jsp" />
-
+<jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<style>
+
+	div#divEidtFrm{
+	border: solid 0px blue;
+	width: 50%;
+	height:80%;
+	margin-left: 230px;
+	/* padding-bottom: 500px; */
+	padding-bottom: 300px;
+	}
+	table#tblMemberEdit{
+		border: solid 0px red;
+		height:600px;
+		line-height:25px;
+	}
+	button#btnEdit{
+		margin: 0px 50px 12px 0px;
+	
+	}
+	span#delete{
+	 text-align:right;
+	  padding-left:470px;
+		
+	}
+</style>
 
 <script type="text/javascript">
 	
@@ -265,11 +289,10 @@
 	
 </script>
 
-<div class="row" id="divRegisterFrm">
+<div class="row" id="divEidtFrm">
 	<div class="col-md-12" align="center">
 	<form name="editFrm">
-	
-	<table id="tblMemberRegister">
+	<table id="tblMemberEdit">
 		<thead>
 	      <tr>
          <th colspan="2" id="th"> <h2>회원정보수정</h2> <hr></th>
@@ -332,18 +355,28 @@
 		<tr>
 			<td style="width: 20%; font-weight: bold;">주소</td>
 			<td style="width: 80%; text-align: left;">
-			   <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-			   <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
-			   <span class="error">주소를 입력하세요</span>
+			   <input type="text" id="address" name="address" size="40" placeholder="주소" /><br>
+			   <input type="text" style="margin-top: 5px;"id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />
+			   <input type="text" style="margin-top: 5px;id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
+			   <span class="error">주소를 입력하세요</span><br>
+			   
 			</td>
+			
 		</tr>
-		    <tr style="text-align: center;">
+	
+		
+		 <tr style="text-align: center;">
          <td colspan="2" style="line-height: 30px;">
-            <button type="button" id="btnRegister" style="background-color: rgb(94, 94, 94); color: white; border:none; width: 100px; height: 40px;  border-radius: 5px;" onClick="goEdit();">확인</button>  
-         	<button type="button" id="btnRegister" style="background-color: rgb(94, 94, 94); color: white; border:none; width: 100px; height: 40px;  border-radius: 5px;" onClick="javascript:history.back();">취소</button> 
+         <hr>
+          <span id=delete ><a>회원탈퇴</a></span>
+            <button type="button" id="btnEdit" style="background-color: rgb(94, 94, 94); color: white; border:none; width: 100px; height: 40px;  border-radius: 5px;" onClick="goEdit();">확인</button>  
+         	<button type="button" id="btnback" style="background-color: #E0E0E0; color: black; border:none; width: 100px; height: 40px;  border-radius: 5px;" onClick="javascript:history.back();">취소</button> 
          </td>
       </tr>
-	
+      <tr>
+		
+		</tr>
+		
 		</tbody>
 	</table>
 	</form>

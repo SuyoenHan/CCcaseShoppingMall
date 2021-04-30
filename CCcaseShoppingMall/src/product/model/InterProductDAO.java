@@ -19,9 +19,42 @@ public interface InterProductDAO {
 	// 한페이지에 보여줄 제품정보 메소드
 	List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException;
 
+
 	// mnum, cnum이 주어진 경우, 모델그룹별 개수 반환
 	List<Map<String,String>> getCntByModel (String mnum, String cnum) throws SQLException;
+
+	
 	
 	// =========================== 한수연 끝 ======================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// =========================== 백원빈 시작 ======================================
+	// product테이블에 insert하는 메소드
+	String insertProduct(Map<String, String> promap) throws SQLException;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// =========================== 백원빈 끝 ======================================
 	
 }

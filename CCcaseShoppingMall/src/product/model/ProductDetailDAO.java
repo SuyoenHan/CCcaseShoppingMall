@@ -47,6 +47,8 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	
 	//////////////////백원빈 작업시작//////////////////
 	
+	///////////////////////
+	// 전체제품 조회해오기
 	@Override
 	public List<Map<String, String>> selectProInfo() throws SQLException {
 		
@@ -119,7 +121,72 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 
 		return proList;
 	}
+	
+	////////////////////////////////////////////////
+	// 제품상세테이블로 insert하기 + 제품상세번호(primary)알아오기
+	@Override
+	public String insertProductDetail(Map<String, String> pdetailmap) throws SQLException {
+		
+		String getSequence = null;
+		String getpnum = null;
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " insert into tbl_pdetail(pnum,fk_productid,pname,pcolor,pqty,fk_snum,pcontent,pinputdate,doption) "+
+						 " values(?||'-'||seq_pdetail_pnum.nextval,?,?,?,?,?,?,?,?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pdetailmap.get("fk_productid"));
+			pstmt.setString(2, pdetailmap.get("fk_productid"));
+			pstmt.setString(3, pdetailmap.get("productname")+pdetailmap.get("modelname")+pdetailmap.get("pcolor"));
+			pstmt.setString(4, pdetailmap.get("pcolor"));
+			pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
+			pstmt.setInt(6, Integer.parseInt(pdetailmap.get("fk_snum")));
+			pstmt.setString(7, pdetailmap.get("pcontent"));
+			pstmt.setString(8, pdetailmap.get("pinputdate"));
+			pstmt.setInt(9, Integer.parseInt(pdetailmap.get("doption")));
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				
+				sql = " select seq_pdetail_pnum.currval "+
+					  " from dual ";
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					getSequence = rs.getString(1);
+					
+					sql = " select pnum "+
+						  " from tbl_pdetail "+
+						  " where pnum=?||'-'||? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, pdetailmap.get("fk_productid"));
+					pstmt.setString(2, getSequence);
+
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						getpnum=rs.getString(1);
+					}
+				}
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return getpnum;
+	}
 	//////////////////백원빈 작업끝//////////////////
+
+
+	
 	
 	
 	
