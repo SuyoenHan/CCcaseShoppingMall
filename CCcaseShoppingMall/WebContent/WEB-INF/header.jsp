@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>HomeMain 화면</title>
+<title>CCcase Shop</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
 <style type="text/css">
@@ -25,7 +25,7 @@
 	}
 	
 	div.menuEachContainer{
-		border: solid 0px red;
+		border: solid 1px red;
 		display: inline-block;
 		height: 150px;
 		width: 140px;
@@ -103,12 +103,17 @@
 				location.href="<%= ctxPath%>/member/memberRegister.cc";
 			});
 			
-			$("button.menuEach").click(function(){
+			$("button.case").click(function(){
 				
 				var selectMenu= $(this).val();
 				location.href="<%= ctxPath%>/modelList.cc?cnum="+selectMenu;
 				
 			}); // end of $("button.menuEach").click(function(){------------
+			
+				
+			$("button#commu").click(function(){
+				location.href="<%=ctxPath%>/board/faqList.cc";
+			});
 			
 			
 		
@@ -143,13 +148,13 @@
 		<div id="mainMenu">
 		
 			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 260px;">
-	  		 	<button class="menuEach">전체메뉴</button>
+	  		 	<img src="<%= ctxPath%>"/>
 		  		<div class="menuSort">
 		  			여긴아직~~
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
-	  		 	<button class="menuEach" name="hardCase" value="1">하드케이스</button>
+	  		 	<button class="menuEach case" id="hardCase" value="1">하드케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=1" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${sessionScope.paraMap.hardSamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=1" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.hardAppCnt}개</a>
@@ -157,7 +162,7 @@
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 560px;">
-		  		<button class="menuEach" name="jellyCase" value="2">젤리케이스</button>
+		  		<button class="menuEach case" id="jellyCase" value="2">젤리케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=2" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${paraMap.jellySamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=2" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.jellyAppCnt}개</a>
@@ -165,7 +170,7 @@
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 710px;">
-	  		 	<button class="menuEach" name="bumperCase" value="3">범퍼케이스</button>
+	  		 	<button class="menuEach case" id="bumperCase" value="3">범퍼케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=3" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${paraMap.bumpSamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=3" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.bumpAppCnt}개</a>
@@ -181,7 +186,7 @@
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 1010px;">
-	  		 	<button class="menuEach">커뮤니티</button>
+	  		 	<button class="menuEach" id="commu">커뮤니티</button>
 		  		<div class="menuSort">
 		  			<a href="<%=ctxPath%>/board/faqList.cc" class="dropMenu">FAQ</a>
 		  			<a href="<%=ctxPath%>/board/qnaList.cc" class="dropMenu">Q&A</a>

@@ -19,18 +19,17 @@ public class ModelListAction extends AbstractController {
 		InterCategoryDAO cdao= new CategoryDAO();
 		String cname= cdao.getCname(cnum);
 		request.setAttribute("cname", cname);
+		request.setAttribute("cnum", cnum);
 		
-		// 카테고리별 + 회사별 케이스 모델 기종명  
+		// 카테고리별 + 회사별 케이스 모델 기종명 및 케이스 개수
 		InterProductDAO pdao= new ProductDAO();
-		List<String> modelSam= pdao.getModelName("1000", cnum); // 카테고리명에 해당하는 삼성 케이스 모델 종류
-		List<String> modelApp= pdao.getModelName("2000", cnum); // 카테고리명에 해당하는 애플 케이스 모델 종류
-		List<String> modelLg= pdao.getModelName("3000", cnum); // 카테고리명에 해당하는 Lg 케이스 모델 종류
+		List<Map<String,String>> cntSamList= pdao.getCntByModel("1000", cnum); // 삼성 하드케이스 모델기종명 및 케이스 개수
+		List<Map<String,String>> cntAppList= pdao.getCntByModel("2000", cnum); // 애플 하드케이스 모델기종명 및 케이스 개수
+		List<Map<String,String>> cntLgList= pdao.getCntByModel("3000", cnum); // Lg 하드케이스 모델기종명 및 케이스 개수
 		
-		request.setAttribute("modelSam", modelSam);
-		request.setAttribute("modelApp", modelApp);
-		request.setAttribute("modelLg", modelLg);
-		
-		
+		request.setAttribute("cntSamList", cntSamList);
+		request.setAttribute("cntAppList", cntAppList);
+		request.setAttribute("cntLgList", cntLgList);
 		
 		
 		
