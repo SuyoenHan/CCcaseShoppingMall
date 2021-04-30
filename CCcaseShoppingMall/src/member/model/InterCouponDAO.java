@@ -13,6 +13,12 @@ public interface InterCouponDAO {
 	
 	// 아이디를 가지고 해당 쿠폰 정보 조회해오기
 	List<CouponVO> selectCouponList(Map<String, String> paraMap) throws SQLException;
+
+	
+	
+	
+	
+	
 	
 	
 	

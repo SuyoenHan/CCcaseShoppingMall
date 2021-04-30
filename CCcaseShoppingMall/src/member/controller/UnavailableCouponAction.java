@@ -35,6 +35,7 @@ public class UnavailableCouponAction extends AbstractController {
 				
 				String userid = loginuser.getUserid();
 				
+				
 				InterCouponDAO cdao = new CouponDAO();
 				
 				Map<String, String> paraMap = new HashMap<>();
@@ -55,6 +56,9 @@ public class UnavailableCouponAction extends AbstractController {
 				request.setAttribute("cpList", cpList);
 				request.setAttribute("acnt", acnt);
 				request.setAttribute("ucnt", ucnt);
+				
+				
+				
 				
 				// super.setRedirect(false);
 				super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");

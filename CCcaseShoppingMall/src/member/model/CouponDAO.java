@@ -104,10 +104,10 @@ public class CouponDAO implements InterCouponDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
+			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate, remain "
 							+ " from "
 							+ " ( "
-							+ " select rownum as rno, cpno, cpstatus, cpcontent, cpname, cpdiscount, to_char(issuedate, 'yyyy-mm-dd') as issuedate, to_char(expirationdate, 'yyyy-mm-dd') as expirationdate "
+							+ " select rownum as rno, cpno, cpstatus, cpcontent, cpname, cpdiscount, to_char(issuedate, 'yyyy-mm-dd') as issuedate, to_char(expirationdate, 'yyyy-mm-dd') as expirationdate, trunc(expirationdate-sysdate) as remain "
 							+ " from "
 							+ " ( "
 							+ " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
@@ -137,7 +137,8 @@ public class CouponDAO implements InterCouponDAO {
 	        rs = pstmt.executeQuery();
 	        
 	        while(rs.next()) {
-				CouponVO cvo = new CouponVO();
+				
+	        	CouponVO cvo = new CouponVO();
 				cvo.setCpno(rs.getString("cpno"));
 				cvo.setCpstatus(rs.getInt("cpstatus"));
 				cvo.setCpcontent(rs.getInt("cpcontent"));
@@ -145,8 +146,10 @@ public class CouponDAO implements InterCouponDAO {
 				cvo.setCpdiscount(rs.getString("cpdiscount"));
 				cvo.setIssuedate(rs.getString("issuedate"));
 				cvo.setExpirationdate(rs.getString("expirationdate"));
+				cvo.setRemaindate(rs.getString("remain"));
 				
 				cpList.add(cvo);
+				
 			}
 	        
 		} finally {
@@ -155,7 +158,11 @@ public class CouponDAO implements InterCouponDAO {
 		
 		return cpList;
 	}
-		
+
+	
+
+	
+
 	   
 	   
 }
