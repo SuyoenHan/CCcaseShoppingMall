@@ -45,6 +45,7 @@
 	button.button{
 	 width:80px;
 	 height:50px;
+	 margin:20px 0px 10px 20px;
 	}
 	
 	.error{
@@ -66,30 +67,39 @@
 
 
 	$(document).ready(function(){
+		func_height();//footer.jsp에 있음!
 		
+		$("#fregisterdate").datepicker();
+		$("#fregisterdate").datepicker('setDate', new Date);
 		
-		
-		$("button.faqInsert").click(function(){
-			//등록 버튼을 눌렀을때
+		//1. 목록버튼 클릭  => faqList 메인목록으로 돌아간다.
+		$("button.faqList").click(function(){
+			//alert("목록클릭!");
+			location.href="<%=ctxPath%>/board/faqList.cc";
 			
-			//글제목과 글내용 있는지 유효성 검사해줌.
+		});
+		
+		//2. 등록버튼을 눌렀을때 
+		$("button.faqInsert").click(function(){
+			
+			//==글제목과 글내용 있는지  검사한다 ==
 			var bFlagRequiredInfo = false;
 			
 			$(".requiredInfo").each(function(index, item){
 				var data = $(item).val().trim();
 				if(data == "") {
 					bFlagRequiredInfo = true;
-					alert("제목과 글내용을 입력하셔야 합니다.");
-					//$("span.error").show();
+					alert("제목과 글내용은 필수입력사항 입니다.");
+					$("input#ftitle").focus();
 					return false; // break 라는 뜻이다.
 				}
 				
 			});
+			//==유효성 검사 끝 ==
 			
-			//var fcontent = $("textarea#fcontent").val();
-			//alert("fcontent=>"+fcontent);
 			
-			if(!bFlagRequiredInfo) { // 글제목 글내용 있을경우 List에 등록해준다.
+			// 글제목 글내용 있을경우 FaqList에 POST방식으로 등록해준다.
+			if(!bFlagRequiredInfo) { 
 				var frm = document.faqwrite;
 				frm.action = "<%= ctxPath%>/board/faqwrite.cc";
 				frm.method = "POST";
@@ -98,7 +108,14 @@
 			
 		});//end of $("button.faqInsert").click(function(){})-------------------
 		
-
+	
+		//3. 취소버튼 클릭  => alert창 faqList 메인목록으로 돌아간다.
+		$("button.faqCancel").click(function(){
+			alert("FAQ 작성을 취소하셨습니다.");
+			location.href="<%=ctxPath%>/board/faqList.cc";
+			
+		});
+		
 		
 		
 		
@@ -118,7 +135,7 @@
 			<td>제목</td>
 			<td>
 				<input type="text" id="ftitle" class="requiredInfo" name="ftitle" />
-				<span class="error">제목은 필수입력 사항입니다.</span>
+				
 			</td>
 		</tr>
 		
@@ -129,23 +146,23 @@
 		
 		<tr>
 			<td>등록일(default)</td>
-			<td><input type="text" id="fregisterdate" name="fregisterdate" /></td>
+			<td><input type="text" id="fregisterdate" name="fregisterdate" value="${Date}" /></td>
 		</tr>
 		
 		<tr>
 			<td colspan="2" id="text">
 				<label for="story">글쓰기</label>
-				<textarea id="fcontent" name="fcontent" class="requiredInfo">
+				<textarea id="fcontent" name="fcontent" class="requiredInfo" >
 				
 				</textarea>
-				<span class="error">글쓰기란은 필수입력 사항입니다.</span>
+				
 		     </td>
 		</tr>
 	</table>
 	
 	<button type="button" class="button faqList" name="faqList" style="align:left;">목록</button>
 	<button type="button" class="button faqInsert" name="faqInsert" style="align:right;">등록</button>
-	<button type="button" class="button faqCancel" name="faqCancel" style="align:right;">취소</button>
+	<button type="button" class="button faqCancel" name="faqCancel" style="align:right; ">취소</button>
 </form>
 
 </div>

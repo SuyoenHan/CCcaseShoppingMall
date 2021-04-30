@@ -215,10 +215,45 @@ public class ProductDAO implements InterProductDAO {
 		
 	} // end of public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{--------
 
+	// mnum, cnum이 주어진 경우, 모델그룹별 개수 반환
+	@Override
+	public List<Map<String,String>> getCntByModel (String mnum, String cnum) throws SQLException{
 
+		List<Map<String,String>> cntList= new ArrayList<>();
+		
+		try {
+			conn=ds.getConnection();
+			String sql= " select modelname, nvl(count(*),0) from tbl_product "+
+						" where fk_mnum= ? and fk_cnum= ? "+
+						" group by modelName ";
+					
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(mnum));
+			pstmt.setInt(2, Integer.parseInt(cnum));
+			
+			rs=pstmt.executeQuery();
 
+			while(rs.next()) {
+				
+				Map<String,String> cntMap= new HashMap<>();
+				cntMap.put("modelName", rs.getString(1));
+				cntMap.put("cnt", String.valueOf(rs.getInt(2)));
+				
+				cntList.add(cntMap);
+			}
+			
+		} finally {
+			close();
+		}
 
-	
+		return cntList;
+		
+		/* 
+ 			제품이 하나도 없는 경우: cntList.size() == 0
+ 			제품이 하나이상 있는 경우: cntList.size() > 0  
+		 */
+		
+	}
 
 	// =========================== 한수연 끝 ======================================
 
@@ -363,42 +398,7 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	////////////////////////////////// 백원빈 시작 /////////////////////////////////////////////
 	// product테이블에 insert하는 메소드
