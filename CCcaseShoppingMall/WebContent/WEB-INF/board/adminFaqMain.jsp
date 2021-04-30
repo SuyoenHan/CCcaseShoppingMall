@@ -161,17 +161,22 @@
 		});
 		 
 		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
-		<%-- $("button.faqEdit").click(function(){
+		 $("button.faqEdit").click(function(){
 			 
-				var faqno= $(tr.faqSimple).next().prop("id");
-				 var url = "<%=ctxPath%>/board/faqwrite?;
-				 
-				  	
-				  window.open(url, "editPopup",
-						      "lefe=350p, top=100px,width=800px, height=650px");
+			 //로그인된 유저와 faq userid가 같을 경우 팝업창 //아닐경우 alert창
+			 
+			 
+			// 나의정보 수정하기 팝업창 띄우기
+			 var url = "<%=ctxPath%>/board/faqwrite.cc?faqno="+$(this).next().prop("id");
+			 
+			  	
+			  window.open(url, "faqEdit",
+					           "lefe=350p, top=100px,width=700px, height=450px");
 				  
-			   });
-			 --%>
+	     });
+				  
+			  
+			
 		
 		
 		//삭제버튼 클릭했을 때
