@@ -154,7 +154,7 @@ public class QnaDAO implements InterQnaDAO {
 		return totalPage;
 	}
 
-	// qna 글 작성하기
+	// qna 글 작성하기(tbl_qna에 insert)
 	@Override
 	public int writeQna(QnaVO qna) throws SQLException {
 
@@ -163,26 +163,120 @@ public class QnaDAO implements InterQnaDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "insert into tbl_qna(fk_userid, fk_productid, qemail, qtitle, qcontent, qstatus, qnapwd) "+
-								"values(?, ?, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_qna (qnano, qtitle, fk_userid, email, qcontent, qstatus, qnapwd, fk_productid ) "+
+								" values(seq_qna_qnano.nextval, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, qna.getFk_userid());
-			pstmt.setString(2, qna.getFk_productid());
-			pstmt.setString(3, qna.getQemail());
-			pstmt.setString(4, qna.getQtitle());
-			pstmt.setString(5, qna.getQcontent());
-			pstmt.setString(6, qna.getQstatus());
-			pstmt.setString(7, qna.getQnapwd());
+			pstmt.setString(1, qna.getQtitle());
+			pstmt.setString(2, qna.getFk_userid());
+			pstmt.setString(3, qna.getEmail());
+			pstmt.setString(4, qna.getQcontent());			
+			pstmt.setString(5, qna.getQstatus());
+			pstmt.setString(6, qna.getQnapwd());
+			pstmt.setString(7, qna.getFk_productid());
 			
 			n = pstmt.executeUpdate();
 			
+			return n;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}	
+		return -1; // 데이터베이스 오류
+	}
+
+	// qna 글 삭제하기
+	@Override
+	public int deleteQna(int qnano) throws SQLException{
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_qna "
+							+ " where qnano = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qnano);
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				  conn.commit();
+			  }
+			
+			return n;
 		} finally {
 			close();
 		}
-		
-		return n;
-		
 	}
+	
+	// 제목(qtitle)으로 qna 글 불러오기
+	@Override
+	public QnaVO qnaDetail(String qtitle, String qnano) throws SQLException {
+		QnaVO qvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select qnano, qtitle, fk_userid, qregisterdate, email, fk_productid, qstatus, qcontent "
+							+ " from tbl_qna "
+							+ " where qtitle = ? and qnano = ?" ;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, qtitle);
+			pstmt.setString(2, qnano);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				qvo = new QnaVO();
+				
+				qvo.setQnano(rs.getInt(1));
+				qvo.setQtitle(rs.getString(2));
+				qvo.setFk_userid(rs.getString(3));
+				qvo.setQregisterdate(rs.getString(4));
+				qvo.setEmail(rs.getString(5));
+				qvo.setFk_productid(rs.getString(6));
+				qvo.setQstatus(rs.getString(7));
+				qvo.setQcontent(rs.getString(8));
+			}
+		} finally {
+			close();
+		}		
+		return qvo;
+	}
+
+	// 조회수 증가시키기
+	@Override
+	public void updateViewCount(int qnano) throws SQLException {
+		
+		try {
+			  conn = ds.getConnection();
+			  
+			  String sql = " update tbl_qna set qviewcount = qviewcount + 1 "
+				  	     	 + " where qnano = ? ";
+				  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, qnano);
+				  
+			  int n = pstmt.executeUpdate();
+				  
+			  if(n==1) {
+				  conn.commit();
+			  }
+			  
+		} finally {
+			close();
+		}	
+		
+	}// end of public void updateViewCount(int qnano)---------------------------------
+
+
+
 }

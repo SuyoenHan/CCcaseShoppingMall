@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <jsp:include page="../adminheader.jsp" />    
 
 <style>
@@ -38,18 +40,27 @@
 		</thead>
 		
 		<tbody>
-			<tr> 
-				<td>나나나나나나</td>
-				<td colspan="2">나나나나나나나나나나나나나나나나나나</td>
-				<td>나나나나나나</td>
-				<td>나나나나나나</td>
-				<td>나나나나나나</td>
-				<td>나나나나나나</td>
-				<td>나나나나나나</td>
-				<td>나나나나나나</td>
-				<td>나나나나나나</td>
-				
-			</tr>
+			<c:forEach var="proMap" items="${requestScope.proList}">
+				<tr>
+					<td>${proMap.pnum}</td>
+					<td colspan="2">${proMap.productname}</td>
+					<td>${proMap.pcolor}</td>
+					<td>${proMap.originalprice}원</td>
+					<td>${proMap.saleprice}원</td>
+					<td>${proMap.pqty}개</td>
+					<td>${proMap.pinputdate}</td>
+					<td>
+						 <c:choose> 
+							<c:when test="${proMap.doption eq '0'}">무료</c:when> 
+						 </c:choose>
+						 <c:choose> 
+							<c:when test="${proMap.doption eq '1'}">유료</c:when> 
+						 </c:choose>
+					</td> 
+					<td><button type="button">더보기</button></td>
+				</tr>	
+			</c:forEach>	
+			
 		</tbody>
 	
 	</table>	

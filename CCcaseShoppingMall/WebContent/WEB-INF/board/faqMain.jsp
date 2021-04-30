@@ -114,45 +114,37 @@
 	$(document).ready(function(){
 		
 		var fnum =document.getElementsByName("fnum");
-		var fcount = 0;
 		
 		func_height();//footer.jsp에 있음!
 		
-		
-		$("tr.faqDetail").css('display','none'); //안보이도록 한다.
-		
-		
+		if("${faqno}"!="x"){
+
+			$("tr.faqDetail").each(function(index,item){
+				
+				if($(item).prop("id")=="${faqno}"){
+					$(item).css('display','');
+				}
+				else{
+					$(item).css('display','none');
+				}
+				
+			}); // end of each-------------------------
+		}
+		else{
+			$("tr.faqDetail").css('display','none'); //안보이도록 한다.
+		}
 		
 		$("tr.faqSimple").click(function(event){
 			
-			
-			//조회수를 받아오기 위해 해당 faqno를 가져온다.
-			
-			
-			// 특정 게시물을 클릭하면 내용물이 보여지도록 한다.
-			var $faqDetail =$(this).next();
-			
-			var sDisplay = $faqDetail.css('display');
-			//console.log("확인용 sDisplay: "+ sDisplay);
-			
-			if( sDisplay == "none"){
-				
-				$("tr.faqDetail").css('display','none'); // 전부 안보이도록 한다.
-				$faqDetail.css('display',''); // '' display  block을 사용한다는 말이다. 
-				
+			if($(this).next().css('display')=="none"){
+				location.href="<%=ctxPath%>/board/faqList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&faqno="+$(this).next().prop("id");			
 			}
 			else{
-  				// display 상태가 보이는 것이라면
-  				$faqDetail.css('display','none'); //안보여지도록 한다.
-  				var faqno = $(this).children(".faqno").text();
-				location.href="<%= ctxPath%>/board/faqList.cc";
-  			}
-			
-			
-			
-		});
+				$(this).next().css('display','none');
+			}
 			
 		
+		});
 		
 		$("button.faqList").click(function(){
 			//목록버튼 클릭했을 때
@@ -160,26 +152,8 @@
 			location.href="<%=ctxPath%>/board/faqList.cc";
 			
 		});
-		
-		
-		<%--  //클릭하면 조회수가 올라가도록 한다. 어떻게.....??? ㅎ 
-		$.ajax({
-				url:"<%= request.getContextPath()%>/board/fcount.up",
-				type:"POST",
-				data:{"fcount":fcount
-             		 ,"fnum":fnum}, 
-				dataType:"json",
-				success:function(json){
-				$("td#fnum")
-				},
-				error: function(request, status, error){
-		           
-		        }
-					
-			});//end of $.ajax({})---------------------
-		 --%>
 		 
-		
+			
 			
 		
 	});// end of $(document).ready(function(){})--------------
@@ -187,8 +161,11 @@
 </script>
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
-<jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp" />
+
+	<jsp:include page="../header.jsp" />
+	<jsp:include page="../communityLeftSide.jsp" />
+
+
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -227,7 +204,7 @@
 						<td name="fnum" id="fnum">${fvo.number}</td>
 					</tr>
 					
-					<tr class="faqDetail">
+					<tr class="faqDetail" id="${fvo.faqno}">
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
@@ -252,7 +229,8 @@
 							</table>
 						
 							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
-						
+							
+							
 						</td>
 					 </tr>
 					</c:forEach>
@@ -260,6 +238,9 @@
 			
 			   </table>
 			</form>
+			
+			
+			
 			<!-- 페이징바 -->
 			<div style="text-align:center; font-size:17px;">${requestScope.pageBar}</div>
 	

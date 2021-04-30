@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 public class ProductDAO implements InterProductDAO {
 
 	private DataSource ds; // DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool) 이다.
-	private Connection conn; 
+	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
@@ -136,6 +136,7 @@ public class ProductDAO implements InterProductDAO {
 	}// end of public int selectTotalPage(Map<String, String> pageMap) throws SQLException {------
 
 	
+	
 	// 한페이지에 보여줄 제품정보 메소드
 	@Override
 	public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{
@@ -143,6 +144,7 @@ public class ProductDAO implements InterProductDAO {
 		List<Map<String,String>> pInfoList= new ArrayList<>();
 		try {
 			conn=ds.getConnection();
+			
 			String sql= " select productid, productname, modelname, pimage1, price, saleprice, salepercent "+
 						" from "+
 						" ( "+
@@ -184,6 +186,7 @@ public class ProductDAO implements InterProductDAO {
 
 			rs= pstmt.executeQuery();
 			
+			
 			while(rs.next()) {
 		
 				Map<String,String> pInfoMap= new HashMap<>();
@@ -195,7 +198,7 @@ public class ProductDAO implements InterProductDAO {
 				pInfoMap.put("price",  String.valueOf(rs.getInt(5)));
 				pInfoMap.put("saleprice", String.valueOf(rs.getInt(6)));
 				pInfoMap.put("salepercent", String.valueOf(rs.getInt(7)));
-			
+				
 				pInfoList.add(pInfoMap);
 			}
 			
@@ -212,6 +215,9 @@ public class ProductDAO implements InterProductDAO {
 		
 	} // end of public List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException{--------
 
+
+
+
 	
 
 	// =========================== 한수연 끝 ======================================
@@ -219,4 +225,241 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////// 백원빈 시작 /////////////////////////////////////////////
+	// product테이블에 insert하는 메소드
+	@Override
+	public String insertProduct(Map<String, String> promap) throws SQLException {
+		
+		String getSequence = null;
+		String getfkproductid = null;
+
+		try {
+			
+			conn = ds.getConnection();
+			String sql = "insert into tbl_product(productid,productname,modelname,fk_mnum,fk_cnum,price,salepercent,pimage1)\n"+
+					     "values(?||'-'||?||'-'||seq_product_productid.nextval, ?, ?,?,?,?,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, promap.get("fk_mnum"));
+			pstmt.setString(2, promap.get("fk_cnum"));
+			pstmt.setString(3, promap.get("productname"));
+			pstmt.setString(4, promap.get("modelname"));
+			pstmt.setInt(5, Integer.parseInt(promap.get("fk_mnum")));
+			pstmt.setInt(6, Integer.parseInt(promap.get("fk_cnum")));
+			pstmt.setInt(7, Integer.parseInt(promap.get("price")));
+			pstmt.setDouble(8, Double.parseDouble(promap.get("salepercent")));
+			pstmt.setString(9, promap.get("pimage1"));
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				
+				sql = " select seq_product_productid.currval "+
+					  " from dual ";
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					getSequence = rs.getString(1);
+					
+					sql = " select productid "+
+						  " from tbl_product "+
+						  " where productid=?||'-'||?||'-'||? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, promap.get("fk_mnum"));
+					pstmt.setString(2, promap.get("fk_cnum"));
+					pstmt.setString(3, getSequence);
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						getfkproductid=rs.getString(1);
+					}
+				}
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return getfkproductid;
+	}
+	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
 }

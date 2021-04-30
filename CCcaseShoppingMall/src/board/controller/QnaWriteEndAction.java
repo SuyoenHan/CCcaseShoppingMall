@@ -20,13 +20,13 @@ public class QnaWriteEndAction extends AbstractController {
 			
 			String qtitle = request.getParameter("qtitle"); 
 			String fk_userid = request.getParameter("fk_userid"); 
-			String qemail = request.getParameter("qemail"); 
+			String email = request.getParameter("email"); 
 			String fk_productid = request.getParameter("fk_productid");
 			String qstatus = request.getParameter("qstatus"); 
-			String qnapwd = request.getParameter("qnapwd"); 
+			String qnapwd = request.getParameter("qnapwd");
 			String qcontent = request.getParameter("qcontent");
 			
-			QnaVO qna = new QnaVO(qtitle, fk_userid, qemail, fk_productid, qstatus, qnapwd, qcontent);
+			QnaVO qna = new QnaVO(qtitle, fk_userid, email, fk_productid, qstatus, qnapwd, qcontent);
 			
 			InterQnaDAO qdao = new QnaDAO();
 			
@@ -35,10 +35,10 @@ public class QnaWriteEndAction extends AbstractController {
 				
 				String message = "";
 				String loc = "";
-				
+
 				if(n==1) {
 					message = "글쓰기 성공";
-					loc = request.getContextPath()+"/qnaList.cc";  // 글 목록으로 이동한다.
+					loc = request.getContextPath()+"/board/qnaList.cc";  // 글 목록으로 이동한다.
 				}
 				else {
 					message = "글쓰기 실패";
@@ -57,7 +57,16 @@ public class QnaWriteEndAction extends AbstractController {
 				super.setRedirect(true);
 				super.setViewPage(request.getContextPath()+"/error.cc");
 			}
+		}// end of if("POST".equalsIgnoreCase(method))-----------------------------
+		else {
+			String message = "비정상적인 경로를 통해 들어왔습니다.!!";
+			String loc = "javascript:history.back()";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			
+			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-	}// end of if("POST".equalsIgnoreCase(method))-----------------------------
+	}
 }
 

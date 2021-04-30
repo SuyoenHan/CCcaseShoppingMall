@@ -5,38 +5,49 @@
 
 <style type="text/css">
 	
-	#container {
-		align: center;
-	}
-	
 	.myShopping {
-		width: 40px;
-		border-radius: 20px;
-	}
-
-	#myProfileOpt {
-		width: 40px;
-		border-radius: 20px;	
+		background-color: navy;
+		color: white;
+		text-align: center;
+		padding: 15px 0;
+		font-wieght: bold;
 	}
 	
-	#myProfileOpt:hover {
+	.lside {
+		text-align : center;
+		background-color: #f2f2f2;
+	}
+	
+	#myProfileOpt {
+		display: inline-block;
+		border: none;
+		cursor: pointer;
+		padding: 15px 0;
+		align:center;
+		text-decoration: none;
+		
+	}
+	
+	.lside:hover {
 		background-color: #99ccff;
 		color: white;
+		text-decoration: none;
+		text-align: center;
+		font-weight: bold;
 	}
 	
 </style>
 
 <div id="leftSide">
 
-	<div id="container">
+	<div id="leftContainer">
 			
-		<div class="myShopping" >나의 쇼핑 내역</div>
-		<div class="myProfileOpt" id="myOrderList">주문 내역 조회</div>
-		<div class="myProfileOpt" id="myInfoEdit">회원 정보 수정</div>
-		<div class="myProfileOpt" id="myPoint">적립금 내역</div>
-		<div class="myProfileOpt" id="myCoupon">쿠폰 조회</div>
-		<div class="myProfileOpt" id="myFavList">관심상품 조회</div>
-		<div class="myProfileOpt" id="myPost">게시물 관리</div>
-		
+		<div class="myShopping">나의 쇼핑 내역</div>
+		<div class="lside"><a href="" id="myProfileOpt">주문&nbsp;내역&nbsp;조회</a></div>
+		<div class="lside"><a href="" id="myProfileOpt">회원&nbsp;정보&nbsp;수정</a></div>
+		<div class="lside"><a href="" id="myProfileOpt">적립금&nbsp;내역</a></div>
+		<div class="lside"><a href="<%= ctxPath%>/member/availableCoupon.cc" id="myProfileOpt">쿠폰&nbsp;조회</a></div>
+		<div class="lside"><a href="" id="myProfileOpt">관심상품&nbsp;조회</a></div>
+		<div class="lside"><a href="" id="myProfileOpt" class="waveEffect">게시물&nbsp;관리</a></div>
 	</div>
 </div>

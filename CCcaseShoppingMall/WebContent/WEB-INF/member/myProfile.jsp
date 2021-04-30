@@ -8,7 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <jsp:include page="../../WEB-INF/header.jsp" />
-<jsp:include page="../../WEB-INF/leftSide.jsp" />
+<jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 
 <style type="text/css">
 	div#mypage{
@@ -44,6 +44,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
 	function memberEdit(userid) {
 
 		// 로그아웃을 처리해주는 페이지로 이동

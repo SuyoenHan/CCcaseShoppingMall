@@ -10,7 +10,13 @@ public interface InterFaqDAO {
 
 	int selectTotalPage(Map<String, String> paraMap) throws SQLException;// 페이징처리를 위해서 전체FAQ에 대한 총페이지 개수 알아오기(select)  
 
-	FaqVO updateViewCount(String faqno)throws SQLException; //조회수 증가시키기
+	//조회수 증가시키고 가져오기
+	void updateViewCount(String faqno)throws SQLException;
+
+
+	int faqInsert(FaqVO fvo) throws SQLException;
+
+	
 
 	
 }

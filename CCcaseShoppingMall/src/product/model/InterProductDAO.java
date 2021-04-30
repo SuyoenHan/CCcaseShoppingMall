@@ -20,7 +20,41 @@ public interface InterProductDAO {
 	List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException;
 
 	
+
+	
+
+	
 	
 	// =========================== 한수연 끝 ======================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// =========================== 백원빈 시작 ======================================
+	// product테이블에 insert하는 메소드
+	String insertProduct(Map<String, String> promap) throws SQLException;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// =========================== 백원빈 끝 ======================================
 	
 }

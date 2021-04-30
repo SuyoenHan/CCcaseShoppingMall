@@ -103,6 +103,14 @@
 				location.href="<%= ctxPath%>/member/memberRegister.cc";
 			});
 			
+			$("button.menuEach").click(function(){
+				
+				var selectMenu= $(this).val();
+				location.href="<%= ctxPath%>/modelList.cc?cnum="+selectMenu;
+				
+			}); // end of $("button.menuEach").click(function(){------------
+			
+			
 		
 	}); // $(documnet).ready(function(){--------------------------------
 	
@@ -117,7 +125,7 @@
 	// === 마이페이스 이동 함수 ===
 	function myProfile(userid){
 		
-		location.href="<%= request.getContextPath()%>/member/myProfile.cc?userid="+userid;
+		location.href="<%= request.getContextPath()%>/member/memberEditMain.cc?userid="+userid;
 	}
 
 </script>
@@ -141,7 +149,7 @@
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
-	  		 	<button class="menuEach">하드케이스</button>
+	  		 	<button class="menuEach" name="hardCase" value="1">하드케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=1" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${sessionScope.paraMap.hardSamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=1" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.hardAppCnt}개</a>
@@ -149,7 +157,7 @@
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 560px;">
-		  		<button class="menuEach">젤리케이스</button>
+		  		<button class="menuEach" name="jellyCase" value="2">젤리케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=2" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${paraMap.jellySamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=2" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.jellyAppCnt}개</a>
@@ -157,7 +165,7 @@
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 710px;">
-	  		 	<button class="menuEach">범퍼케이스</button>
+	  		 	<button class="menuEach" name="bumperCase" value="3">범퍼케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=3" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${paraMap.bumpSamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=3" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.bumpAppCnt}개</a>
