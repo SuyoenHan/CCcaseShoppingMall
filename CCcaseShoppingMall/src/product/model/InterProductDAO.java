@@ -41,6 +41,9 @@ public interface InterProductDAO {
 	// product테이블에 insert하는 메소드
 	String insertProduct(Map<String, String> promap) throws SQLException;
 	
+	// 기종명 조회해오기(select)
+	List<String> getgijongname() throws SQLException;
+	
 	
 	
 	

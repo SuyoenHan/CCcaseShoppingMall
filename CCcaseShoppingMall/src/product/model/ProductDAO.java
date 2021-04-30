@@ -461,5 +461,38 @@ public class ProductDAO implements InterProductDAO {
 		
 		return getfkproductid;
 	}
+	
+	// 기종명 조회해오기(select)
+	@Override
+	public List<String> getgijongname() throws SQLException {
+		
+		List<String> gijongList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			// 중복을 제거하는 distinct이용
+			String sql = "select distinct modelname "+
+						 "from tbl_product ";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+
+				gijongList.add(rs.getString(1));
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return gijongList;
+	}
 	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
+
+
+	
 }
