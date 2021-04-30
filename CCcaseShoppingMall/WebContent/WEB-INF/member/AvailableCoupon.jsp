@@ -31,15 +31,21 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
 		$("button#aval").click(function(){
-			javascript:history.go(0);
-		});
+			location.reload();
+		})
 		
 		$("button#unAval").click(function(){
 			location.href="<%= ctxPath%>/member/unavailableCoupon.cc"; <%-- 사용완료 쿠폰으로 이동--%>
 		});
 		
-	});	
+		
+	});	 // end of $(document).ready(function(){})---------------------------------------
+	
+	
+	
+	
 	
 </script>
 <br>
@@ -71,7 +77,7 @@
 	
 	<tbody>
 	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:set var="cpstatus" value="requestScope.cpList.cpstatus"/>
+	<c:set var="cpstatus" value="${requestScope.cpList.cpstatus}"/>
 	<c:if test="${cpstatus eq '0'}">
 		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
