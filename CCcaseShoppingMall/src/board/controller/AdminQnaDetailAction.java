@@ -24,7 +24,6 @@ public class AdminQnaDetailAction extends AbstractController {
 				HttpSession session = request.getSession();
 				AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 				
-				String qtitle = request.getParameter("qtitle");
 				String qnano = request.getParameter("qnano");
 				
 				InterQnaDAO qdao = new QnaDAO();
