@@ -42,7 +42,7 @@ public class QnaDeleteAction extends AbstractController {
 		}catch(SQLException e) {
 			e.printStackTrace();
 			
-			super.setRedirect(true);
+//			super.setRedirect(false);
 			super.setViewPage(request.getContextPath()+"/error.cc");
 		}
 

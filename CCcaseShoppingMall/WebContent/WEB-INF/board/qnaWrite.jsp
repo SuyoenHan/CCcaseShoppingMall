@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>    
 
 <%
 	String ctxPath = request.getContextPath();
 %>
-<!DOCTYPE html>
+
+<!DOCTYPE jsp:include PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>QnA 글쓰기</title>
@@ -61,7 +62,7 @@
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
-    <form action="qnaWriteEnd.jsp" method="post" name="qnaWriteForm">
+    <form action="qnaWriteEnd.cc" method="post" name="qnaWriteForm">
     <table style="width: 700px; border-color: lightgray;">
 
         <tr>
