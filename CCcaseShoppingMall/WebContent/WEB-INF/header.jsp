@@ -148,7 +148,7 @@
 		<div id="mainMenu">
 		
 			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 260px;">
-	  		 	<img src="<%= ctxPath%>"/>
+	  		 	전체메뉴
 		  		<div class="menuSort">
 		  			여긴아직~~
 		  		</div>

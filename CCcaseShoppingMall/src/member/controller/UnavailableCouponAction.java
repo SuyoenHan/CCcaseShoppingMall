@@ -40,6 +40,7 @@ public class UnavailableCouponAction extends AbstractController {
 				Map<String, String> paraMap = new HashMap<>();
 				paraMap.put("userid", userid);
 				paraMap.put("currentShowPageNo", currentShowPageNo);
+				paraMap.put("cpstatus", "1"); // 사용불가능 쿠폰 목록을 보기 위함 (소멸쿠폰은 2번이다 => CouponDAO에서 처리함)
 				
 				// 아이디를 가지고 해당 쿠폰 정보 조회해오기
 				List<CouponVO> cpList = cdao.selectCouponList(paraMap);

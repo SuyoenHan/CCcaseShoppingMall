@@ -31,7 +31,7 @@
 		$(document).ready(function(){
 
 			$("button#aval").click(function(){
-				location.href="<%= ctxPath%>/member/availableCoupon.cc"; <%-- 사용가능 쿠폰으로 이동--%>
+				location.href="<%= ctxPath%>/member/availableCoupon.cc"; 	<%-- 사용가능 쿠폰으로 이동--%> 
 			});
 			
 			$("button#unAval").click(function(){
@@ -69,8 +69,6 @@
 	</thead>
 	
 	<tbody>
-	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:if test="${requestScope.cpList.cpstatus eq '1' || requestScope.cpList.cpstatus eq '2'}">
 		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
 				<td>${cvo.cpno}</td>
@@ -83,7 +81,6 @@
 				<td>D-13</td>
 			</tr>
 		</c:forEach>
-	</c:if>
 	</tbody>
 </table>
 
