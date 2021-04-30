@@ -6,12 +6,8 @@
 %>    
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-    
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-    
 <jsp:include page="../../WEB-INF/header.jsp" />
+<jsp:include page="../../WEB-INF/member/myPageHeader.jsp"/>
 <jsp:include page="../../WEB-INF/leftSide.jsp" />
 
 <style>
@@ -51,6 +47,11 @@
          padding-bottom: 8px;
       
    }
+   div#mycheck{
+   		margin-top: 20px;
+		padding-left: 30px;
+		/* border: solid 1px red; */
+   }
    
    
    
@@ -59,37 +60,43 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
 	$(document).ready(function(){
-		
-		$("input#pwd").keyup(function(event){
-			if(event.keyCode == 13) {
-				pwdCheck();
-			}	
-		});
-		
+		/* func_height(); */
 		$("button#btnpwdCheck").click(function(){
 			pwdCheck();
 		});
 		
-		
+ 		$("input#checkpwd").keyup(function(event){
+			if(event.keyCode == 13) {
+				pwdCheck();
+			}	
+		});
 	});
-
+	
 	function pwdCheck() {
 		var frm = document.editMainFrm;
 		frm.action = "<%= ctxPath%>/member/passwdCheck.cc";
 		frm.method = "POST";
 		frm.submit();
 	}
+
+
 </script>
 
 
 <div id="MemberEditMain">
 	<div id="MemberEdithome">
-		<h2>회원정보확인</h2>
-		<h4><span style="color:navy; font-weight: bold;">${sessionScope.loginuser.name}</span> 님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.</h4>
-		<hr>
+		
 		<div id="myprofileInfo">
-  <form name="editMainFrm">
+			<div id="mycheck">
+				<span style="font-size:25pt; font-weight: bold;"> 회원정보확인</span><br>
+				<span style="font-size:15pt; color:navy; font-weight: bold;">${sessionScope.loginuser.name}</span>
+				<span style="font-size:15pt;">님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.</span>
+	  		<hr>
+  		</div>
+  		
+  		<form name="editMainFrm" method="post">
 		<table id="tblMemberEditMain">
          <tr>
             <td style="width: 50px; font-weight: bold; text-align: left;">아이디&nbsp;</td>
@@ -100,7 +107,7 @@
          <tr>
             <td style="width: 50px; font-weight: bold; text-align:left;">비밀번호&nbsp;</td>
             <td style="width: 50px; text-align: left;">
-           <input type="password" name="pwd" id="pwd" placeholder="●●●●" required />
+           <input type="password" name="pwd" id="checkpwd" placeholder="●●●●" required />
             </td>
          </tr>
             <tr>
