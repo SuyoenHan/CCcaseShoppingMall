@@ -44,6 +44,8 @@
 	div.productName{
 		margin: 15px 0px;
 		font-size: 11pt;
+		border-bottom: solid 2px #caceca;
+		padding-bottom: 10px;
 	}
 	
 	span.spec{
@@ -171,7 +173,6 @@
 			    <div class="discountInfo">${pInfoMap.salepercent}%</div>
 				<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
 				<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
-				<hr>
 				
 				<div>
 					<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
