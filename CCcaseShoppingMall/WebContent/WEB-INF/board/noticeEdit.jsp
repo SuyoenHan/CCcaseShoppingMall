@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>:::FAQ글수정:::</title>
+<title>:::공지사항글수정:::</title>
 <meta charset="utf-8">
 
 
@@ -54,7 +54,7 @@
 	display: none; 
 	}
 	
-	input#fcontent{
+	input#ncontent{
 	width:100%;
 	line-height:300px;
 	background-color: #e6e6e6;
@@ -74,7 +74,7 @@
 	$(document).ready(function(){
 		
 		
-		$("button.faqEditEnd").click(function(){
+		$("button.noticeEditEnd").click(function(){
 			
 			
 				//==글제목과 글내용 있는지  검사한다 ==
@@ -85,7 +85,7 @@
 					if(data == "") {
 						bFlagRequiredInfo = true;
 						alert("제목과 글내용은 필수입력사항 입니다.");
-						$("input#ftitle").focus();
+						$("input#ntitle").focus();
 						return false; // break 라는 뜻이다.
 					}
 					
@@ -96,8 +96,8 @@
 				// 글제목 글내용 있을경우 FaqList에 POST방식으로 등록해준다.
 				if(!bFlagRequiredInfo) { 
 					alert("수정완료");
-					var frm = document.faqEdit;
-					frm.action = "<%= ctxPath%>/board/faqEdit.cc?faqno="+${fvo.faqno};
+					var frm = document.noticeEdit;
+					frm.action = "<%= ctxPath%>/board/noticeEdit.cc?noticeno="+${nvo.noticeno};
 					frm.method = "POST";
 					frm.submit();
 				}
@@ -108,8 +108,8 @@
 		
 		
 		//3. 취소버튼 클릭  => alert창 faqList 메인목록으로 돌아간다.
-		$("button.faqCancel").click(function(){
-			alert("FAQ 글 수정이 취소되었습니다.");
+		$("button.noticeCancel").click(function(){
+			alert("공지사항 글 수정이 취소되었습니다.");
 			window.close();
 			return;
 		});
@@ -133,13 +133,13 @@
 
 
 
-<h2 style="margin-left:20px;"> FAQ 글 수정하기 </h2>
-	<form name ="faqEdit">
+<h2 style="margin-left:20px;"> 공지사항 글 수정하기 </h2>
+	<form name ="noticeEdit">
 	<table>
 		<tr>
 			<td>제목</td>
 			<td>
-				<input type="text" id="ftitle" class="requiredInfo" name="ftitle" value="${fvo.ftitle}"/>
+				<input type="text" id="ntitle" class="requiredInfo" name="ntitle" value="${nvo.ntitle}"/>
 				
 			</td>
 		</tr>
@@ -151,22 +151,22 @@
 		
 		<tr>
 			<td>수정일(default)</td>
-			<td><input type="text" id="fupdatedate" name="fupdatedate" value="현재날짜자동입력" readonly="readonly"/></td>
+			<td><input type="text" id="nupdatedate" name="nupdatedate" value="현재날짜자동입력" readonly="readonly"/></td>
 		</tr>
 		
 		<tr>
 			<td colspan="2" id="text">
 				<label for="story">글쓰기</label>
-				<textarea id="fcontent" name="fcontent" class="requiredInfo"  >
-				 ${fvo.fcontent}
+				<textarea id="ncontent" name="ncontent" class="requiredInfo"  >
+				 ${nvo.ncontent}
 				</textarea>
 				
 		     </td>
 		</tr>
 	</table>
 	
-	<button type="button" class="button faqEditEnd" name="faqInsert" style="align:right;">수정</button>
-	<button type="button" class="button faqCancel" name="faqCancel" style="align:right; ">취소</button>
+	<button type="button" class="button noticeEditEnd" name="noticeInsert" style="align:right;">수정</button>
+	<button type="button" class="button noticeCancel" name="noticeCancel" style="align:right; ">취소</button>
 </form>
 
 </div>

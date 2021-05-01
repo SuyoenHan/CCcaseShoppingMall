@@ -1,10 +1,5 @@
 package board.controller;
 
-
-
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,14 +8,11 @@ import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 
-
-public class FaqwriteAction extends AbstractController {
+public class NoticewriteAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		
-		
+
 		HttpSession session = request.getSession();
 		AdminVO avo = (AdminVO)session.getAttribute("adminUser");
 		
@@ -28,27 +20,27 @@ public class FaqwriteAction extends AbstractController {
 		
 		if(!"GET".equalsIgnoreCase(method)) { //POST 방식일때
 		
-			String ftitle = request.getParameter("ftitle");
+			String ntitle = request.getParameter("ntitle");
 	   	    String adminid = request.getParameter("adminid");
-	   	    String fregisterdate = request.getParameter("fregisterdate");
-	   	    String fcontent = request.getParameter("fcontent");
+	   	    String nregisterdate = request.getParameter("nregisterdate");
+	   	    String ncontent = request.getParameter("ncontent");
 	   	    
-	   	    FaqVO fvo = new FaqVO();
-	   	    fvo.setFtitle(ftitle);
-	   	    fvo.setFk_adminid(adminid);
-	   	    fvo.setFregisterdate(fregisterdate);
-	   	    fvo.setFcontent(fcontent);
-	   	   //  System.out.println(fcontent);
+	   	    NoticeVO nvo = new NoticeVO();
+	   	    nvo.setNtitle(ntitle);
+	   	    nvo.setFk_adminid(adminid);
+	   	    nvo.setNregisterdate(nregisterdate);
+	   	    nvo.setNcontent(ncontent);
+	   	   //  System.out.println(ncontent);
 	   	    
-	   	    InterFaqDAO fdao = new FaqDAO();
+	   	    InterNoticeDAO ndao = new NoticeDAO();
 	   	   
-	   	    int n = fdao.faqInsert(fvo);
+	   	    int n = ndao.noticeInsert(nvo);
 	   	 
 	   	    if(n==1) {
 	   	    	
 	   	    	
-	   	    	String message = "FAQ 글쓰기 등록이 완료되었습니다.";
-				String loc = request.getContextPath()+"/board/faqList.cc";
+	   	    	String message = "공지사항 글쓰기 등록이 완료되었습니다.";
+				String loc = request.getContextPath()+"/board/noticeList.cc";
 				
 				request.setAttribute("message", message);
 				request.setAttribute("loc", loc);
@@ -65,10 +57,10 @@ public class FaqwriteAction extends AbstractController {
 				request.setAttribute("avo", avo);
 				
 				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/board/faqwrite.jsp");
+				super.setViewPage("/WEB-INF/board/noticewrite.jsp");
 			}
 			else {
-				String message = "FAQ 글쓰기는 관리자만 접근이 가능합니다.";
+				String message = "공지사항 글쓰기는 관리자만 접근이 가능합니다.";
 				String loc = "javascript:location.back()";
 				
 				request.setAttribute("message", message);

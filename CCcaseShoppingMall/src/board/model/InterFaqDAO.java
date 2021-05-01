@@ -23,6 +23,9 @@ public interface InterFaqDAO {
 	//FAQ 글내용 수정하기(UPDATE)
 	int faqEditUpdate(FaqVO fvo) throws SQLException;
 
+	//FAQ 글내용 삭제하기(DELETE)
+	int faqDeleteOne(FaqVO fvo) throws SQLException;
+
 
 	
 }

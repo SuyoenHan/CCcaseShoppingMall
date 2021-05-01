@@ -56,7 +56,7 @@ public class NoticeDAO implements InterNoticeDAO {
 			String sql = "select noticeno, fk_adminid, ntitle, nregisterdate ,nupdatedate ,nviewcount,ncontent "+
 						 "from "+
 						  "( "+
-						  "    select rownum as rno, noticeno, fk_adminid, ntitle, to_char(nregisterdate, 'yyyy-mm-dd') as nregisterdate,nupdatedate,nviewcount,ncontent "+
+						  "    select rownum as rno, noticeno, fk_adminid, ntitle, to_char(nregisterdate, 'yyyy-mm-dd') as nregisterdate, to_char(nupdatedate, 'yyyy-mm-dd') as nupdatedate ,nviewcount,ncontent "+
 						  "    from "+
 						  "    ( "+
 						  "        select noticeno, fk_adminid, ntitle, nregisterdate ,nupdatedate ,nviewcount,ncontent "+
@@ -128,7 +128,10 @@ public class NoticeDAO implements InterNoticeDAO {
 	      return totalPage;
 	}
 
+	
 
+
+	
 	//조회수 증가시키기
 	@Override
 	public void updateViewCount(String noticeno) throws SQLException {
@@ -149,13 +152,178 @@ public class NoticeDAO implements InterNoticeDAO {
 	        
 	    } catch (SQLException e) {
 			     e.printStackTrace();
-		}   finally {
+		}finally {
 	         close();
 	    }
-		
+	
 	}
+		// 글쓰기 등록하기
+		@Override
+		public int noticeInsert(NoticeVO nvo) throws SQLException {
+			int n =0 ;
+			
+			try {
+		          conn = ds.getConnection();
+		          
+			
+		          String sql = " insert into tbl_notice ( noticeno, fk_adminid, ntitle, ncontent ) "+
+		        		  	   " values( seq_notice_noticeno.nextval , ? , ? , ? ) ";
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          pstmt.setString(1, nvo.getFk_adminid());
+		          pstmt.setString(2, nvo.getNtitle());
+		          pstmt.setString(3, nvo.getNcontent());
+		          
+		          n = pstmt.executeUpdate();
+		          
+		          if(n==1) {
+					  conn.commit();
+				  }
+		          
+			} catch (SQLException e) {
+				     e.printStackTrace();
+			}   finally {
+		         close();
+		    }
+			return n;
+		}
+		
+		
+		
+		//notice 글내용 수정을 위해 하나의 FAQ를 select해오기
+		@Override
+		public NoticeVO noticeEditOneView(String noticeno) throws SQLException {
+			
+			NoticeVO nvo= null;
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select noticeno, fk_adminid, ntitle, to_char(nregisterdate, 'yyyy-mm-dd'), to_char(nupdatedate, 'yyyy-mm-dd'), nviewcount, ncontent "+   
+							 " from tbl_notice "+
+							 " where noticeno= ? ";
+							 
+				
+				pstmt = conn.prepareStatement(sql);		
+				pstmt.setString(1, noticeno);		
+				
+					
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) { //
+					
+					
+					nvo = new NoticeVO();
+					
+					nvo.setNoticeno(rs.getInt(1));
+					nvo.setFk_adminid(rs.getString(2));
+					nvo.setNtitle(rs.getString(3));
+					nvo.setNregisterdate(rs.getString(4));
+					nvo.setNupdatedate(rs.getString(5));
+					nvo.setNviewcount(rs.getInt(6));
+					nvo.setNcontent(rs.getString(7));
+					
+		            
+				}
+			}finally {
+				close();
+			}
+			
+			return nvo;
+		}
+		
+		
+		
+
+		//NOTICE 글내용 수정하기(UPDATE)
+		@Override
+		public int noticeEditUpdate(NoticeVO nvo) throws SQLException {
+			int n =0;
+			
+			try {
+		          conn = ds.getConnection();
+		          
+			
+		          String sql =  "update tbl_notice set ntitle = ?  "+
+		        		  		"                  , fk_adminid= ? "+
+		        		  	    "                  , nupdatedate = sysdate  "+
+		        		  	    "                  , ncontent= ?  "+
+		        		  	    "where noticeno = ?  ";
+		        		 
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          pstmt.setString(1, nvo.getNtitle());
+		          pstmt.setString(2, nvo.getFk_adminid());
+		          pstmt.setString(3, nvo.getNcontent());
+		          pstmt.setInt(4, nvo.getNoticeno());
+		          
+		          n = pstmt.executeUpdate();
+		          
+		          if(n==1) {
+					  conn.commit();
+				  }
+		          
+		          
+			}   finally {
+		         close();
+		    }  
+			
+			
+			return n;
+		}
 
 
-
+		//FAQ 글내용 삭제하기(DELETE)
+		@Override
+		public int noticeDeleteOne(NoticeVO nvo) throws SQLException {
+			int n =0;
+			
+			try {
+		          conn = ds.getConnection();
+		          
+			
+		          String sql = " delete from tbl_notice "+
+		        		  	   " where noticeno = ? ";
+		        		 
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          pstmt.setInt(1, nvo.getNoticeno());
+		          
+		          
+		          n = pstmt.executeUpdate();
+		          
+		          if(n==1) {
+					  conn.commit();
+				  }
+		          
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+		         close();
+		    }  
+			
+			
+			return n;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
 }
