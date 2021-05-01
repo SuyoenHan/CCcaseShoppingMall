@@ -101,7 +101,11 @@
     	background-color: white;
     }
     
+    div#faq{
+		background-color: #ccffee;
+	}
     
+   
 </style>
   
 
@@ -151,7 +155,7 @@
 			
 		});
 		 
-			
+	
 			
 		
 	});// end of $(document).ready(function(){})--------------

@@ -103,6 +103,9 @@
     	border:solid 1px gray;
     	
     }
+    div#notice{
+		background-color: #ccffee;
+	}
     
 </style>
   
