@@ -19,13 +19,12 @@ public interface InterProductDAO {
 	// 한페이지에 보여줄 제품정보 메소드
 	List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException;
 
-
 	// mnum, cnum이 주어진 경우, 모델그룹별 개수 반환
 	List<Map<String,String>> getCntByModel (String mnum, String cnum) throws SQLException;
 
 
-	
-	
+	// snum이 주어진 경우, 이에 해당하는 제품정보 반환 메소드
+	List<Map<String, String>> selectPInfoBySpec(String snum) throws SQLException;
 	
 	// =========================== 한수연 끝 ======================================
 	

@@ -72,6 +72,19 @@ public class HomeAction extends AbstractController {
 		session.setAttribute("modelListLJ", modelListLJ);
 		session.setAttribute("modelListLB", modelListLB);
 		
+		
+		// 스펙번호별 (snum) 제품 정보를 requestScope에 저장
+		List<Map<String,String>> pInfoListBest= pdao.selectPInfoBySpec("0"); // BEST 상품정보
+		List<Map<String,String>> pInfoListNew= pdao.selectPInfoBySpec("1"); // NEW 상품 정보
+		
+		int pBestCnt= pInfoListBest.size(); // BEST 상품 개수
+		int pNewCnt= pInfoListNew.size(); // NEW 상품 개수
+		
+		request.setAttribute("pInfoListBest",pInfoListBest);
+		request.setAttribute("pInfoListNew",pInfoListNew);
+		request.setAttribute("pBestCnt",pBestCnt);
+		request.setAttribute("pNewCnt",pNewCnt);
+		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/home/homeMain.jsp");
 		// =========================== 한수연 끝 ======================================
