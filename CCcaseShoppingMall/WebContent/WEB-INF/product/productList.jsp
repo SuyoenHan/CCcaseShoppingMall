@@ -139,7 +139,12 @@
 <div id="contents" style="margin-bottom: 100px;">
 	
 	<div id="contentTitle" align="center">
-		<span style="font-size: 30pt; font-weight: bold;" >${cname}&nbsp;&nbsp;[${mname}]</span>
+		<c:if test="${empty modelName}">
+			<span style="font-size: 30pt; font-weight: bold;" >${cname}&nbsp;&nbsp;[${mname}]</span>
+		</c:if>
+		<c:if test="${!empty modelName}">
+			<span style="font-size: 30pt; font-weight: bold;" >${cname}&nbsp;&nbsp;[${mname}&nbsp;${modelName}]</span>
+		</c:if>
 	</div>
 
 	<div align="right" style="margin-top: 50px; ">

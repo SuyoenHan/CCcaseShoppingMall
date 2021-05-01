@@ -23,11 +23,11 @@ public interface InterProductDAO {
 	// mnum, cnum이 주어진 경우, 모델그룹별 개수 반환
 	List<Map<String,String>> getCntByModel (String mnum, String cnum) throws SQLException;
 
+
+	
 	
 	
 	// =========================== 한수연 끝 ======================================
-	
-	
 	
 	
 	
