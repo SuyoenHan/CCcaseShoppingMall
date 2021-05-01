@@ -104,6 +104,9 @@
     	background-color: white;
     }
     
+    div#faq{
+		background-color: #ccffee;
+	}
     
 </style>
   

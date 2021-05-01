@@ -27,7 +27,11 @@
 		padding-top: 5px;
 	}
 
+	
+
 </style> 
+ 
+
  
  
 <div id="leftSide">
@@ -46,7 +50,7 @@
 		</div>
 		
 		<div class="comLeftSection" id="notice">
-			<a href="" class="comNav">공지사항</a>
+			<a href="<%=ctxPath%>/board/noticeList.cc" class="comNav">공지사항</a>
 		</div>
 		
 		<div class="comLeftSection" id="review">
