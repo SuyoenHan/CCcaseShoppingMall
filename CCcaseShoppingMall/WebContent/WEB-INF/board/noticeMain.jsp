@@ -188,7 +188,7 @@
 			
 		<h2> 공지사항 </h2>
 		<div class="container">	
-		  <form name="faqFrm">
+		  <form name="noticeFrm">
 			<table class="table table-hover">
 				<thead>
 					<tr style="width:80%;">
