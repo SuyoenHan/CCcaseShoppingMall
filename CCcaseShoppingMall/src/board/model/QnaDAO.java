@@ -201,7 +201,7 @@ public class QnaDAO implements InterQnaDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, qna.getQnano());
+			pstmt.setInt(1, qna.getFk_qnano());
 			pstmt.setString(2, qna.getFk_adminid());
 			pstmt.setString(3, qna.getCmtcontent());
 

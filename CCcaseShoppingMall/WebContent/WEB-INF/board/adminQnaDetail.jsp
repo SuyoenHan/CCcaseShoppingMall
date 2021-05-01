@@ -63,9 +63,10 @@
 	<div id="content" >
 	<h2 style="margin: 20px;">QnA</h2>
 	    
+	    <!-- QNA 원글 부분 -->
 	    <form name="qnaDetailForm">
 	    <table style="width: 700px; border-color: lightgray;">
-	
+
 	        <tr>
 	            <td class="title">제목</td>
 	            <td>${requestScope.qvo.qtitle}</td>        
@@ -96,8 +97,7 @@
 	               글내용
 	            </td>           
 	            <td>${requestScope.qvo.qcontent}</td>        
-	        </tr>
-	        
+	        </tr>	        
 		</table>
 		</form>
 	
@@ -107,6 +107,7 @@
 				  		<button type="button" onclick="goQnaList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">목록</button>
 				    	<a data-toggle="collapse" href="#collapse1"><button type="button" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button></a>
 				  </div>
+				  <!-- 답변 작성 부분 -->
 				  <div id="collapse1" class="panel-collapse collapse">
 				    	 <div class="panel-body">		    	 	
 							<form method="post" action="adminQnaReply.cc">
@@ -116,8 +117,11 @@
 											<th colspan="2" style="background-color: #eeeeee; text-align: center;">답글쓰기</th>
 										</tr>
 										<tr>
-								            <th>작성자 : <input type="text" name="fk_adminid" value="${sessionScope.adminUser.adminid}" readonly></th>
+								            <th>작성자 : <input type="text" name="fk_adminid" value="${sessionScope.adminUser.adminid}" readonly></th>								        
 								        </tr>
+								        <tr>
+											<td><input name="fk_qnano" id="fk_qnano" type="hidden" value="${requestScope.qvo.qnano}"></td>
+										</tr>
 									</thead>
 									<tbody>
 										<tr>

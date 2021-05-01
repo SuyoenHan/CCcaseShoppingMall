@@ -18,6 +18,7 @@ public class QnaVO {
 	private String qnapwd;           // 글 비밀번호
 	
 	//admin
+	private int fk_qnano;
 	private String fk_adminid;
 	private String cmtcontent;
 	
@@ -49,8 +50,9 @@ public class QnaVO {
 	
 	}
 
-	public QnaVO(String fk_adminid, String cmtcontent) {
+	public QnaVO(int fk_qnano, String fk_adminid, String cmtcontent) {
 		
+		this.fk_qnano = fk_qnano;
 		this.fk_adminid = fk_adminid;
 		this.cmtcontent = cmtcontent;
 		
@@ -142,6 +144,14 @@ public class QnaVO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int getFk_qnano() {
+		return fk_qnano;
+	}
+
+	public void setFk_qnano(int fk_qnano) {
+		this.fk_qnano = fk_qnano;
 	}
 
 	public String getFk_adminid() {

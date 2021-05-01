@@ -20,10 +20,11 @@ public class AdminQnaReplyAction extends AbstractController {
 		if("POST".equalsIgnoreCase(method)) {
 			// **** POST 방식으로 넘어온 것이라면 **** //
 			
+			int fk_qnano = Integer.parseInt(request.getParameter("fk_qnano"));
 			String fk_adminid = request.getParameter("fk_adminid"); 
 			String cmtcontent = request.getParameter("cmtcontent");
 			
-			QnaVO qna = new QnaVO(fk_adminid, cmtcontent);
+			QnaVO qna = new QnaVO(fk_qnano, fk_adminid, cmtcontent);
 			
 			InterQnaDAO qdao = new QnaDAO();
 			
@@ -34,11 +35,11 @@ public class AdminQnaReplyAction extends AbstractController {
 				String loc = "";
 
 				if(n==1) {
-					message = "글쓰기 성공";
+					message = "답글 쓰기 성공";
 					loc = request.getContextPath()+"/board/qnaList.cc";  // 글 목록으로 이동한다.
 				}
 				else {
-					message = "글쓰기 실패";
+					message = "답글 쓰기 실패";
 					loc = "javascript:history.back()";  // 이전페이지로 이동
 				}
 				
