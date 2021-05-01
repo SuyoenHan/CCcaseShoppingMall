@@ -21,10 +21,13 @@ public interface InterQnaDAO {
 	int deleteQna(int qnano) throws SQLException; 
 	
 	// qna 글 수정하기
-	int editQna(QnaVO qna) throws SQLException, NumberFormatException; 
+	int editQna(QnaVO qna) throws SQLException; 
 	
-	// 제목으로 qna 글 불러오기
+	// qnano로 qna 글 불러오기
 	QnaVO qnaDetail(String qnano) throws SQLException;
+	
+	// qnano로 qna 답글 불러오기
+	
 	
 	// 조회수 증가시키기
 	void updateViewCount(int qnano) throws SQLException;

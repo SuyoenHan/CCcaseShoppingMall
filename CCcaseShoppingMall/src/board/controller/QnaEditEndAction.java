@@ -20,23 +20,24 @@ public class QnaEditEndAction extends AbstractController {
 		if("POST".equalsIgnoreCase(method)) {
 			// **** POST 방식으로 넘어온 것이라면 **** //
 			
-			String qtitle = request.getParameter("qtitle"); 
+			String qtitle = request.getParameter("qtitle");
 			String fk_productid = request.getParameter("fk_productid");
 			String qcontent = request.getParameter("qcontent");
+			int qnano = Integer.parseInt(request.getParameter("qnano"));
 			
-			QnaVO qna = new QnaVO(qtitle, fk_productid, qcontent);
+			QnaVO qna = new QnaVO(qnano, qtitle, fk_productid, qcontent);
 			
 			InterQnaDAO qdao = new QnaDAO();
 
 			try {
 				int n = qdao.editQna(qna);
-				
+
 				String message = "";
 				String loc = "";
 				if(n==1) {
 
 					message = "글 수정 성공";
-					loc = request.getContextPath()+"/board/qnaDetail.cc";  // 글 목록으로 이동한다.
+					loc = request.getContextPath()+"/board/qnaDetail.cc?qnano="+qnano;  // 글 목록으로 이동한다.
 				}
 				else {
 					message = "글 수정 실패";

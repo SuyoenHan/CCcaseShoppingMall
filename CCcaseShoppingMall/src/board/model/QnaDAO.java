@@ -245,7 +245,7 @@ public class QnaDAO implements InterQnaDAO {
 	
 	// qna 글 수정하기
 	@Override
-	public int editQna(QnaVO qna) throws SQLException,NumberFormatException {
+	public int editQna(QnaVO qna) throws SQLException {
 		int n = 0;
 		
 		try {

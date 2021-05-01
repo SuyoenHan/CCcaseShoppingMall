@@ -40,11 +40,13 @@ public class QnaVO {
 		
 	}
 
-	public QnaVO(String qtitle, String fk_productid, String qcontent) {
+	public QnaVO(int qnano, String qtitle, String fk_productid, String qcontent) {
 		
+		this.qnano = qnano;
 		this.qtitle = qtitle;
-		this.fk_productid =fk_productid;
+		this.fk_productid =("null".equals(fk_productid)?"":fk_productid);
 		this.qcontent = qcontent;
+	
 	}
 
 	public QnaVO(String fk_adminid, String cmtcontent) {

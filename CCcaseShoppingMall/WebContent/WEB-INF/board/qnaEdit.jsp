@@ -49,7 +49,8 @@
  QnaVO qvo = new QnaDAO().qnaDetail(qnano); 
  
  session.setAttribute("qnano", qnano);
- %>
+ qnano = (String)session.getAttribute("qnano");
+  %>
  
 </script>
 </head>
@@ -63,8 +64,11 @@
 
         <tr>
             <td class="title">제목</td>
+            <td>			
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value="<%= qvo.getQtitle() %>"/>
+            </td>
             <td>
-                <input name="title" id="title" type="text" size="70" maxlength="100" value="<%= qvo.getQtitle() %>"/>
+            	<input name ="qnano" id="qnano" type="hidden" value="<%=qvo.getQnano() %>" />
             </td>        
         </tr>
 		<tr>
