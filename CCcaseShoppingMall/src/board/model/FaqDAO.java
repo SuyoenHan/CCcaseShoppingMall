@@ -44,7 +44,7 @@ public class FaqDAO implements InterFaqDAO {
 	}
 
 
-	// 모든 faq select 해와서 목록에 보여주기
+	// *** 페이징 처리를 한 모든 FAQ 목록 보여주기 *** //
 	@Override
 	public List<FaqVO> selectPagingFaq(Map<String, String> paraMap) throws SQLException {
 		
@@ -255,6 +255,7 @@ public class FaqDAO implements InterFaqDAO {
 	          
 		
 	          String sql =  "update tbl_faq set ftitle = ?  "+
+	        		  		"                  , fk_adminid= ? "+
 	        		  	    "                  , fupdatedate = sysdate  "+
 	        		  	    "                  , fcontent= ?  "+
 	        		  	    "where faqno = ?  ";
@@ -262,8 +263,9 @@ public class FaqDAO implements InterFaqDAO {
 	          
 	          pstmt = conn.prepareStatement(sql);
 	          pstmt.setString(1, fvo.getFtitle());
-	          pstmt.setString(2, fvo.getFcontent());
-	          pstmt.setInt(3, fvo.getFaqno());
+	          pstmt.setString(2, fvo.getFk_adminid());
+	          pstmt.setString(3, fvo.getFcontent());
+	          pstmt.setInt(4, fvo.getFaqno());
 	          
 	          n = pstmt.executeUpdate();
 	          
@@ -273,6 +275,40 @@ public class FaqDAO implements InterFaqDAO {
 	          
 	          
 		}   finally {
+	         close();
+	    }  
+		
+		
+		return n;
+	}
+
+
+	//FAQ 글내용 삭제하기(DELETE)
+	@Override
+	public int faqDeleteOne(FaqVO fvo) throws SQLException {
+		int n =0;
+		
+		try {
+	          conn = ds.getConnection();
+	          
+		
+	          String sql = " delete from tbl_faq "+
+	        		  	   " where faqno = ? ";
+	        		 
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setInt(1, fvo.getFaqno());
+	          
+	          
+	          n = pstmt.executeUpdate();
+	          
+	          if(n==1) {
+				  conn.commit();
+			  }
+	          
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
 	         close();
 	    }  
 		

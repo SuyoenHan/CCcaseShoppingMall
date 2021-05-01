@@ -15,7 +15,7 @@
 
 	 
 
-	div#content {
+	div#contents {
 		margin-left: 35px ;
     	margin-right: 35px ;
 		color: #333;
@@ -98,13 +98,11 @@
    	 background-color:  #aaa !important;
     }
     
-      #contents > div.container > table > tbody > tr.faqDetail {
-    	 
-    	background-color: white;
+    #noticeDetail{
+    	width:100%;
+    	border:solid 1px gray;
+    	
     }
-    
-    
-    
     
 </style>
   
@@ -136,6 +134,8 @@
 		}
 		
 		
+
+		//클릭시 조회수 증가
 		$("tr.noticeSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
@@ -147,20 +147,68 @@
 			
 		});
 		
-		
+		//목록버튼 클릭했을 때
 		$("button.noticeList").click(function(){
-			//목록버튼 클릭했을 때
+			
 			//alert("목록클릭!");
 			location.href="<%=ctxPath%>/board/noticeList.cc";
 			
 		});
 		
-		$("button.noticeWrite").click(function(){
+		
+		
+		
+		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
+		 $("button.noticeEdit").click(function(){
+			 
+			
+			// notice글 수정하기 팝업창 띄우기
+			var noticeno = $(this).parent().parent().prop("id");
+			
+			var url = "<%=ctxPath%>/board/noticeEdit.cc?noticeno="+noticeno;
+			 
+			  	
+			  window.open(url, "noticeEdit",
+					           "lefe=350p, top=100px,width=700px, height=450px");
+				 
+	     }); //end of 수정버튼 클릭-----------------
+				  
+			  
+		
+		//삭제버튼 클릭했을 때
+		$("button.noticeDel").click(function(){
+			
+			
+			$.ajax({
+				url:"<%=ctxPath%>/board/noticeDelete.cc",
+				type:"POST",
+				data:{"noticeno":"${noticeno}"},
+				dataType:"json",
+				success:function(json){ //웹페이지에 보여질 결과물을 java객체인 json에담아 보여줄 것이다.
+					   alert(json.message);   //json 에 담아준 msg를 보여준다.
+					  // swal(json.msg);
+					   location.href="<%=ctxPath%>/board/noticeList.cc";
+			   },
+			   error: function(request, status, error){
+		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		       }
+				   
+			   }); //end of $.ajax({});-------------------------
+			
+				
+			});//end of $("button.noticeDel").click(function(){})---------------------------------
+		
+			
+			
+			
+	    //글쓰기 버튼을 클릭했을 때
+		$("button.noticewrite").click(function(){
 			//버튼(글쓰기)를 클릭하면
 			//alert("글쓰기 버튼 클릭");
 			location.href="<%=ctxPath%>/board/noticewrite.cc";
 			
-		});//end of $("button#noticeWrite").click(function(){}); ------------------
+		});//end of $("button#faqwrite").click(function(){}); ------------------
+			
 		
 		
 		
@@ -170,8 +218,8 @@
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
-	<jsp:include page="../header.jsp" />
-	<jsp:include page="../communityLeftSide.jsp" />
+<jsp:include page="../adminheader.jsp" />
+<jsp:include page="../communityLeftSide.jsp" />
 
 
 
@@ -237,8 +285,13 @@
 								</tr>
 							</table>
 						
-							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
-						
+							
+								<button type="button" class="button noticeList" name="noticeList" style="align:left; margin: 15px 0 20px 35;">목록</button>
+							<!-- 관리자로 로그인이 되어졌을때만 버튼이 보인다. -->
+							<c:if test="${not empty requestScope.avo}">	
+								<button type="button" class="button noticeEdit" name="noticeEdit" style="align:right;">수정</button>
+								<button type="button" class="button noticeDel" name="noticeDel" style="align:right;">삭제</button>
+							</c:if>	
 						</td>
 					 </tr>
 					</c:forEach>
@@ -247,6 +300,10 @@
 			   </table>
 			</form>
 			
+			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
+			<c:if test="${not empty requestScope.avo}">
+			<button type="button" class="noticewrite"  id="noticewrite" name="noticewrite" value="글쓰기" style="float:right; " >글쓰기</button>
+			</c:if>
 			
 			
 			<!-- 페이징바 -->

@@ -112,7 +112,7 @@
 
 	$(document).ready(function(){
 		
-		var fnum =document.getElementsByName("fnum");
+		
 		
 		func_height();//footer.jsp에 있음!
 		
@@ -136,7 +136,7 @@
 		}
 		
 		
-		//클릭시 클릭한 faqno 조회수 증가
+		//클릭시 조회수 증가
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
@@ -159,18 +159,13 @@
 			
 		});
 		 
+		
+		
 		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
 		 $("button.faqEdit").click(function(){
 			 
-			//로그인된 유저와 faq userid가 같을 경우 팝업창 //아닐경우 alert창
 			
-			
-			//  ${avo.adminid}  ==> 로그인한 아이디
-			// 글작성자 아이디는 어떻게 받아와야하는지 모르겠다..>!!!
-			
-			
-			 
-			// 나의정보 수정하기 팝업창 띄우기
+			// FAQ글 수정하기 팝업창 띄우기
 			var faqno = $(this).parent().parent().prop("id");
 			//alert("faqno"+faqno);
 			var url = "<%=ctxPath%>/board/faqEdit.cc?faqno="+faqno;
@@ -178,22 +173,38 @@
 			  	
 			  window.open(url, "faqEdit",
 					           "lefe=350p, top=100px,width=700px, height=450px");
-				  
-	     });
+				 
+	     }); //end of 수정버튼 클릭-----------------
 				  
 			  
-			
-		
 		
 		//삭제버튼 클릭했을 때
 		$("button.faqDel").click(function(){
 			
-			//alert("목록클릭!");
-			location.href="<%=ctxPath%>/board/faqList.cc";
 			
-		});
+			$.ajax({
+				url:"<%=ctxPath%>/board/faqDelete.cc",
+				type:"POST",
+				data:{"faqno":"${faqno}"},
+				dataType:"json",
+				success:function(json){ //웹페이지에 보여질 결과물을 java객체인 json에담아 보여줄 것이다.
+					   alert(json.message);   //json 에 담아준 msg를 보여준다.
+					  // swal(json.msg);
+					   location.href="<%=ctxPath%>/board/faqList.cc";
+			   },
+			   error: function(request, status, error){
+		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		       }
+				   
+			   }); //end of $.ajax({});-------------------------
+			
+				
+			});//end of $("button.faqDel").click(function(){})---------------------------------
 		
 			
+			
+			
+	    //글쓰기 버튼을 클릭했을 때
 		$("button.faqwrite").click(function(){
 			//버튼(글쓰기)를 클릭하면
 			//alert("글쓰기 버튼 클릭");
@@ -202,17 +213,18 @@
 		});//end of $("button#faqwrite").click(function(){}); ------------------
 			
 		
+		
+		
 	});// end of $(document).ready(function(){})--------------
 
 </script>
 
+
+
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
-	<jsp:include page="../adminheader.jsp" />
-	<jsp:include page="../adminleftSide.jsp" />
-
-
-
+<jsp:include page="../adminheader.jsp" />
+<jsp:include page="../communityLeftSide.jsp" />
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -224,7 +236,7 @@
 
 	
 		<div id="title"> 
-				게시판관리
+				커뮤니티
 		</div>
 			
 		<h2> FAQ </h2>
