@@ -180,7 +180,19 @@
 				location.href="<%=ctxPath%>/board/faqList.cc";
 			});
 			
-
+			
+			$("img#menuAllMouseover").hide();
+			
+			$("div#allForEvent").hover(function(){
+				$("img#menuAllMouseout").hide();
+				$("img#menuAllMouseover").show();
+			},function(){
+				$("img#menuAllMouseout").show();
+				$("img#menuAllMouseover").hide();
+			}) // end of hover event--------------------
+				
+			
+			
 	}); // $(documnet).ready(function(){--------------------------------
 	
 		
@@ -211,8 +223,9 @@
 		
 		<div id="mainMenu">
 		
-			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 260px;">
-	  		 	<img src="<%= ctxPath%>/images/homeMain/hamburgerBt.png" width="120" height="80" />
+			<div class="menuEachContainer" id="allForEvent" style="position:absolute; top: 50px; left: 260px;">
+	  		 	<img src="<%= ctxPath%>/images/homeMain/menuAllMouseout.png" width="120" height="80" id="menuAllMouseout"/>
+		  		<img src="<%= ctxPath%>/images/homeMain/menuAllMouseover.png" width="120" height="80" id="menuAllMouseover"/>
 		  		<div class="menuSort" id="mainAll">
 		  			<div class="mainAllContent" style="margin-left:40px;">
 		  				<ul>
@@ -334,6 +347,7 @@
 		  			</div>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
 	  		 	<button class="menuEach case" id="hardCase" value="1">하드케이스</button>
 		  		<div class="menuSort">
@@ -342,6 +356,7 @@
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=1" class="dropMenu"><span>LG</span>${paraMap.hardLgCnt}개</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 560px;">
 		  		<button class="menuEach case" id="jellyCase" value="2">젤리케이스</button>
 		  		<div class="menuSort">
@@ -350,6 +365,7 @@
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=2" class="dropMenu"><span>LG</span>${paraMap.jellyLgCnt}개</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 710px;">
 	  		 	<button class="menuEach case" id="bumperCase" value="3">범퍼케이스</button>
 		  		<div class="menuSort">
@@ -358,6 +374,7 @@
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=3" class="dropMenu"><span>LG</span>${paraMap.bumpLgCnt}개</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 860px;">
 	  		 	<button class="menuEach">악세사리</button>
 		  		<div class="menuSort">
@@ -366,6 +383,7 @@
 		  			<a href="" class="dropMenu">그립톡&nbsp;&nbsp;&nbsp;&nbsp;수량</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 1010px;">
 	  		 	<button class="menuEach" id="commu">커뮤니티</button>
 		  		<div class="menuSort">

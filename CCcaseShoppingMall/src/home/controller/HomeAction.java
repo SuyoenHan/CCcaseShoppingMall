@@ -16,6 +16,7 @@ public class HomeAction extends AbstractController {
 
 		// =========================== 한수연 시작 ======================================
 		InterProductDAO pdao= new ProductDAO();
+		InterProductDetailDAO pddao= new ProductDetailDAO();
 		
 		// 회사+카테고리 별 제품 수 맵에 담아서 session에 저장
 		Map<String,Integer> paraMap= new HashMap<>();
@@ -85,6 +86,15 @@ public class HomeAction extends AbstractController {
 		request.setAttribute("pBestCnt",pBestCnt);
 		request.setAttribute("pNewCnt",pNewCnt);
 		
+		
+		// 무료배송인 제품 정보를 requestScope에 저장 (색상도 고려)
+		List<Map<String,String>> pInfoListDFree= pddao.SelectPInfoByDelivery("0"); // 무료배송 상품정보
+		int pFreeCnt= pInfoListDFree.size(); // 무료배송 상품 개수
+		
+		request.setAttribute("pInfoListDFree",pInfoListDFree);
+		request.setAttribute("pFreeCnt",pFreeCnt);
+		
+				
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/home/homeMain.jsp");
 		// =========================== 한수연 끝 ======================================

@@ -20,6 +20,8 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	private Connection conn; 
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	private ResultSet rs2;
+	
 	
 	// 생성자 
 	public ProductDetailDAO() {
@@ -36,9 +38,10 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	// 사용한 자원을 반납하는 close() 메소드 생성하기 
 	private void close() {
 		try {
-			if(rs != null)    {rs.close();    rs=null;}
-			if(pstmt != null) {pstmt.close(); pstmt=null;}
-			if(conn != null)  {conn.close();  conn=null;}
+			if(rs != null)     {rs.close();    rs=null;}
+			if(rs2 != null)    {rs2.close();    rs2=null;}
+			if(pstmt != null)  {pstmt.close(); pstmt=null;}
+			if(conn != null)   {conn.close();  conn=null;}
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -237,6 +240,126 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 
 
 	
+	// ======================== 한수연 시작 ===========================
+	
+	// 배송옵션에 따른 제품정보 반환 메소드 (색상도 고려)
+	@Override
+	public List<Map<String, String>> SelectPInfoByDelivery(String doption) throws SQLException {
+
+		List<Map<String,String>> pInfoListByDOption= new ArrayList<>();
+		
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select distinct productid, productname, modelname, pimage1, price, price*(1-salepercent) as saleprice, salepercent*100 as salepercent, cname "+
+						" from tbl_product "+
+						" join tbl_pdetail on productid=fk_productid "+
+						" join tbl_category on fk_cnum=cnum " + 
+						" where doption= ? ";
+			
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(doption));
+			
+			rs= pstmt.executeQuery();
+
+			while(rs.next()) {
+				Map<String,String> pInfoMapByDOption= new HashMap<>();
+				
+				pInfoMapByDOption.put("productid", rs.getString(1));
+				pInfoMapByDOption.put("productname", rs.getString(2));
+				pInfoMapByDOption.put("modelname", rs.getString(3));
+				pInfoMapByDOption.put("pimage1", rs.getString(4));
+				pInfoMapByDOption.put("price",  String.valueOf(rs.getInt(5)));
+				pInfoMapByDOption.put("saleprice", String.valueOf(rs.getInt(6)));
+				pInfoMapByDOption.put("salepercent", String.valueOf(rs.getInt(7)));
+				pInfoMapByDOption.put("cname", rs.getString(8));
+				
+				
+				// 색상알아오기 (존재하는 색상들을 문자열로 합쳐서 보내줌)
+				sql= " select pcolor from tbl_pdetail "+
+					 " join tbl_product on fk_productid= productid "+
+					 " where productid= ? ";
+				
+				pstmt= conn.prepareStatement(sql);
+				pstmt.setString(1, rs.getString(1));
+				
+				rs2= pstmt.executeQuery();
+				
+				String pcolor= ""; // 색상정보를 담아줄 문자열 
+				while(rs2.next()) {
+					pcolor+= rs2.getString(1)+" ";   // 문자열을 배열로 만들어서 사용할떄 공백을 -로 replace하고 배열로 나누기
+				}
+				
+				pInfoMapByDOption.put("pcolor",pcolor);   // rs2 사용 끝 
+				
+				
+				// 스펙알아오기
+				sql= " select distinct nvl(fk_snum,-1) from tbl_pdetail "+
+					 " join tbl_product on fk_productid=productid "+
+					 " where productid= ? ";
+				
+				pstmt= conn.prepareStatement(sql);
+				pstmt.setString(1, rs.getString(1));
+				
+				rs2= pstmt.executeQuery();
+				
+				// 나올 수 있는 스펙번호의 경우의 수 고려
+				int count= 0;  
+				int sum= 0;
+				while(rs2.next()) {
+					count++;
+					sum+= rs2.getInt(1);
+				}
+				
+				if(count==3) {
+					pInfoMapByDOption.put("spec","BEST/NEW");
+				}
+				else if(count==2) {
+		
+					switch (sum) {
+						case 1:
+							pInfoMapByDOption.put("spec","BEST/NEW");
+							break;
+						case 0:
+							pInfoMapByDOption.put("spec","NEW");
+							break;
+						case -1:
+							pInfoMapByDOption.put("spec","BEST");
+							break;
+					}
+				}
+				else if(count==1) {
+					switch (sum) {
+						case 0:
+							pInfoMapByDOption.put("spec","BEST");
+							break;
+						case 1:
+							pInfoMapByDOption.put("spec","NEW");
+							break;
+					}
+				}
+				
+			
+				pInfoListByDOption.add(pInfoMapByDOption);
+				
+			} // end of while---------------------
+			
+		} finally {
+			close();
+		}
+		
+		return pInfoListByDOption;
+		
+		/* 
+			제품이 하나도 없는 경우: pInfoListByDOption.size() == 0
+			제품이 하나이상 있는 경우: pInfoListByDOption.size() > 0  
+		*/
+		
+		
+	} // end of public List<Map<String, String>> SelectPInfoByDelivery(String doption) throws SQLException {------
+
+
+	// ======================== 한수연 끝 ===========================	
 	
 	
 	

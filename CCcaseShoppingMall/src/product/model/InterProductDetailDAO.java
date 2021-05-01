@@ -14,5 +14,23 @@ public interface InterProductDetailDAO {
 	String insertProductDetail(Map<String, String> pdetailmap) throws SQLException;
 	//////////////////백원빈 작업끝//////////////////
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// ====================== 한수연 시작 =========================
+	
+	// 배송옵션이에 따른 제품정보 반환 메소드 (색상도 고려)
+	List<Map<String, String>> SelectPInfoByDelivery(String doption) throws SQLException;
+	
+	
+	// ====================== 한수연 끝 =========================
 
 }

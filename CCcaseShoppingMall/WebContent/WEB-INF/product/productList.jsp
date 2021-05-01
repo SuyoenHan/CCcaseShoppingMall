@@ -74,6 +74,10 @@
 		margin-right: 10px;
 	}
 	
+	div.productOuter:hover  img.pImg{
+		box-shadow: 5px 5px 5px 5px;
+	}
+	
 	div.discountInfo{
 		width: 100px;
 		height: 40px;
@@ -115,18 +119,16 @@
 			
 			
 		
-		// 제품이미지 마우스 오버시 할인율, 장바구니아이콘, 자세히보기 아이콘 표시, 제품이미지 흐리게하기
+		// 제품이미지 마우스 오버시 할인율, 장바구니아이콘, 자세히보기 아이콘 표시
 		$("div.productOuter").hover(function(){
 			
 			$(this).find("div.hideIcon").show();
 			$(this).find("div.discountInfo").css("opacity","1");
-			$(this).find("img.pImg").css("opacity","0.5");
 			
 		},function(){  // end of mouseover event-------------
 			
 			$(this).find("div.hideIcon").hide();
 			$(this).find("div.discountInfo").css("opacity","0");
-			$(this).find("img.pImg").css("opacity","1");
 		
 		}); // end of mouseout & hover event----------------	
 		
@@ -171,7 +173,7 @@
 			
 				<input type="hidden" value="${pInfoMap.productid}" />
 			    <div class="discountInfo">${pInfoMap.salepercent}%</div>
-				<img src="<%=ctxPath%>/images/product/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
+				<img src="<%=ctxPath%>/images/${pInfoMap.pimage1}" class="pImg" id="${pInfoMap.productid}" width="210" height="200" />
 				<div class="productName">[${cname}]&nbsp;[${pInfoMap.modelname}]<br>${pInfoMap.productname}</div>
 				
 				<div>

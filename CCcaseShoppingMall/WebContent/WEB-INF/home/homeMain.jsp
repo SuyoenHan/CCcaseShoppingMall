@@ -231,9 +231,69 @@
 			newPShowStart--;
 		}); // end of $("div#nPrev").click(function(event){---------	
 			
+		
+			
+			
+		// ======= 무료배송상품 오른쪽 화살표 버튼 누를경우 이미지 하나씩 넘기기 작업
+		
+		$("div#freeContainer div.productOuter").hide();
+		$("div#freeContainer div.productOuter").each(function(){
+			
+			for(var i=1;i<=4;i++){
+				if("FREE"+i == $(this).prop("id")){
+					$(this).show();
+				}
+			}
+		}); // end of $("div.productOuter").each(function(){---------
+			
+		var freePShowStart= 1;    // 보여줄 신상 이미지 시작순번
+		var lastFCnt= ${pFreeCnt}; // 마지막 신상제품 순번 
+		
+		$("div#fNext").click(function(event){
+				
+			if(freePShowStart==(lastFCnt-3)){
+				return false;	// 이벤트 중지
+			}
+				
+ 			freePShowStart++;
+			$(this).prev().find("div.productOuter").hide()
+			
+			$(this).prev().find("div.productOuter").each(function(){
+				for(var j=freePShowStart;j<=freePShowStart+3;j++){
+					if("FREE"+j == $(this).prop("id")){
+						$(this).show()
+					}
+				}
+			}); // end of $("div.productOuter").each(function(){---------
+			
+		}); // end of $("div#fNext").click(function(event){---------------
+					
+			
+		// ======= 무료배송상품 왼쪽 화살표 버튼 누를경우 이미지 하나씩 넘기기 작업	
+			
+		$("div#fPrev").click(function(event){
+			
+			if(freePShowStart<=1){
+				return false;  // 이벤트 중지
+			}
+
+			$(this).next().find("div.productOuter").hide()
+			
+			$(this).next().find("div.productOuter").each(function(){
+				for(var j=freePShowStart-1;j<=freePShowStart+2;j++){
+					if("FREE"+j == $(this).prop("id")){
+						$(this).show()
+					}
+				}
+			}); // end of $("div.productOuter").each(function(){---------
+				
+			freePShowStart--;
+		}); // end of $("div#fPrev").click(function(event){--------------	
+				
+			
 			
 		
-		// 문서 로딩시 오른쪽으로 넘기는 버튼 자동 실행시키기	
+		// 문서 로딩시 베스트상품, 신상품, 무료배송상품 오른쪽으로 넘기는 버튼 자동 실행시키기	
 		
 		var nNextAuto= setInterval(function(){
 						$('div#nNext').trigger('click');//이벤트 발생
@@ -242,6 +302,10 @@
 		var bNextAuto= setInterval(function(){
 						$('div#bNext').trigger('click');//이벤트 발생
   				  },2000);
+		
+		var fNextAuto= setInterval(function(){
+						$('div#fNext').trigger('click');//이벤트 발생
+		  		  },2000);
 		
 	}); // end of $(document).ready(function(){-----------------------
 	
@@ -252,7 +316,7 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../leftSide.jsp" />
 
-<div id="contents" style="height:1600px;">
+<div id="contents" style="height:2000px;">
 
 	<div class="homeBorderImg" style="margin-top:30px;">경계이미지</div>
 
@@ -267,7 +331,7 @@
 			
 			<div class="productOuter" align="center" id="BEST${statusB.count}">
 				<input type="hidden" value="${pInfoMapBest.productid}" />
-				<img src="<%=ctxPath%>/images/product/${pInfoMapBest.pimage1}" class="pImg" id="${pInfoMapBest.productid}" width="210" height="200" />
+				<img src="<%=ctxPath%>/images/${pInfoMapBest.pimage1}" class="pImg" id="${pInfoMapBest.productid}" width="210" height="200" />
 				<div class="productName">[${pInfoMapBest.cname}]&nbsp;[${pInfoMapBest.modelname}]<br>${pInfoMapBest.productname}</div>
 				
 				<div>
@@ -306,12 +370,12 @@
 		<img src="<%=ctxPath%>/images/homeMain/prevIcon.png" class="movebt" />
 	</div>
 	<div class="caseGroup" id="newContainer">		
-		<%-- 메인화면의 베스트상품 나열 --%>
+		<%-- 메인화면의 신상품 나열 --%>
 		<c:forEach var="pInfoMapNew" items="${pInfoListNew}" varStatus="statusN">
 			
 			<div class="productOuter" align="center" id="NEW${statusN.count}">
 				<input type="hidden" value="${pInfoMapNew.productid}" />
-				<img src="<%=ctxPath%>/images/product/${pInfoMapNew.pimage1}" class="pImg" id="${pInfoMapNew.productid}" width="210" height="200" />
+				<img src="<%=ctxPath%>/images/${pInfoMapNew.pimage1}" class="pImg" id="${pInfoMapNew.productid}" width="210" height="200" />
 				<div class="productName">[${pInfoMapNew.cname}]&nbsp;[${pInfoMapNew.modelname}]<br>${pInfoMapNew.productname}</div>
 				
 				<div>
@@ -341,6 +405,75 @@
 		<img src="<%=ctxPath%>/images/homeMain/nextIcon.png" class="movebt" />
 	</div>
 	
+	
+	
+	<div class="homeBorderImg" style="clear:both;">경계이미지</div>
+	<%-- 배송비여부는 제품별이 아닌 제품상세별로 다르다. 따라서 홈메인에는 제품 이미지를 보여주겠지만, 해당 이미지를 클릭해서 상세페이지로 넘어갔을때 옵션(색상)에, 
+	           해당 제품 중 무료배송인 제품상세의 정보 값을 넣어 줄 것이다  --%>
+	
+	
+	<div class="mainTitle" align="center">&nbsp;&nbsp;무료배송</div>	
+	<div class="caseGroup" style="margin-top:120px; margin-left:30px;"  id="fPrev">
+		<img src="<%=ctxPath%>/images/homeMain/prevIcon.png" class="movebt" />
+	</div>
+	<div class="caseGroup" id="freeContainer">		
+		<%-- 메인화면의 무료배송상품 나열 --%>
+		<c:forEach var="pInfoMapFree" items="${pInfoListDFree}" varStatus="statusf">
+			
+			<div class="productOuter" align="center" id="FREE${statusf.count}">
+				<input type="hidden" value="${pInfoMapFree.productid}" />
+				<input type="hidden" value="${pInfoMapFree.pcolor}" />
+				<img src="<%=ctxPath%>/images/${pInfoMapFree.pimage1}" class="pImg" id="${pInfoMapFree.productid}" width="210" height="200" />
+				<div class="productName">[${pInfoMapFree.cname}]&nbsp;[${pInfoMapFree.modelname}]<br>${pInfoMapFree.productname}</div>
+				
+				<div>
+					<span class="netPrice">정가: ${pInfoMapFree.price}</span>&nbsp;&nbsp;&nbsp;
+					<span class="salePrice">할인가: ${pInfoMapFree.saleprice}</span>
+				</div>
+				
+				<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
+				<div style="float: left">
+					<c:if test="${pInfoMapFree.spec == 'BEST'}">
+						<span class="best spec">BEST</span>
+					</c:if>
+					
+					<c:if test="${pInfoMapFree.spec == 'NEW'}">
+						<span class="new spec">NEW</span>
+					</c:if>
+					
+					<c:if test="${pInfoMapFree.spec == 'BEST/NEW'}">
+						<span class="best spec">BEST</span>
+						<span class="new spec">NEW</span>
+					</c:if>	
+				</div>
+		    </div>
+		</c:forEach>
+	</div>
+	<div class="caseGroup" id="fNext" style="margin-left:20px; margin-top:120px;">
+		<img src="<%=ctxPath%>/images/homeMain/nextIcon.png" class="movebt" />
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 </div>
 	
 <jsp:include page="../footer.jsp" />
