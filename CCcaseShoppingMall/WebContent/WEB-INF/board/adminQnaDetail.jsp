@@ -63,7 +63,7 @@
 	<div id="content" >
 	<h2 style="margin: 20px;">QnA</h2>
 	    
-	    <!-- QNA 원글 부분 -->
+	    <!-- QNA 원글 부분 시작-->
 	    <form name="qnaDetailForm">
 	    <table style="width: 700px; border-color: lightgray;">
 
@@ -100,17 +100,42 @@
 	        </tr>	        
 		</table>
 		</form>
-	
+		<!-- QNA 원글 부분 끝-->
+		
 		<div style="display:inline-block;">
 			<c:if test="${sessionScope.adminUser.adminid !=null }">
 				  <div>
 				  		<button type="button" onclick="goQnaList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">목록</button>
+				  </div>
+				  <!-- 답글이 있으면 답글 보여주고, 없으면 답글 버튼 보여주기 -->
+				  <!-- 답글 보여주기 시작 -->
+				  <div>	
+				  		<form name="qnaReplyDetailForm">
+				  			<table style="width: 700px; border-color: lightgray;">
+				  		        <tr>
+						            <td class="title">작성자</td>
+						            <td>${requestScope.qvo.fk_adminid}</td>
+						        </tr>
+				  				 <tr>
+						            <td class="title">등록일</td>
+						            <td>${requestScope.qvo.cmtregisterday}</td>
+						        </tr>
+						        <tr>
+						            <td id="title">
+						               글내용
+						            </td>           
+						            <td>${requestScope.qvo.cmtcontent}</td>        
+						        </tr>						        	
+				  			</table>
+				  		</form>
+				  		<!--  답글 보여주기 끝 -->
+				  		<!-- 답글이 없을 때, 답글 작성 부분 시작 -->
 				    	<a data-toggle="collapse" href="#collapse1"><button type="button" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button></a>
 				  </div>
-				  <!-- 답변 작성 부분 -->
+				
 				  <div id="collapse1" class="panel-collapse collapse">
 				    	 <div class="panel-body">		    	 	
-							<form method="post" action="adminQnaReply.cc">
+							<form method="post" action="adminQnaReply.cc" name="qnaReplyForm">
 								<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
 									<thead>
 										<tr>
@@ -131,6 +156,7 @@
 								</table>
 								<input type="submit" value="등록" id="qnaReply" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">						
 							</form>
+							<!-- 답글 작성 부분 끝 -->
 						</div>
 				  </div>
 			</c:if>

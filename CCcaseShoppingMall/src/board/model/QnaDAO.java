@@ -336,7 +336,4 @@ public class QnaDAO implements InterQnaDAO {
 	}// end of public void updateViewCount(int qnano)---------------------------------
 
 
-
-
-
 }

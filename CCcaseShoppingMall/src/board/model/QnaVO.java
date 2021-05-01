@@ -21,6 +21,7 @@ public class QnaVO {
 	private int fk_qnano;
 	private String fk_adminid;
 	private String cmtcontent;
+	private String cmtregisterday;
 	
 	public MemberVO memberVO;
 	public AdminVO adminVO;
@@ -168,6 +169,14 @@ public class QnaVO {
 
 	public void setCmtcontent(String cmtcontent) {
 		this.cmtcontent = cmtcontent;
+	}
+
+	public String getCmtregisterday() {
+		return cmtregisterday;
+	}
+
+	public void setCmtregisterday(String cmtregisterday) {
+		this.cmtregisterday = cmtregisterday;
 	}
 
 	public MemberVO getMemberVO() {

@@ -12,7 +12,7 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
 <style type="text/css">
 
@@ -68,7 +68,7 @@
         <tr>
             <td class="title">제목</td>
             <td>
-                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value=""/>
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="50" value=""/>
             </td>        
         </tr>
         <tr>
@@ -112,7 +112,7 @@
             <td colspan="5">
                 <input type="reset" value="작성취소" >
                 <input type="submit" value="등록" >
-                <input type="button" value="목록" onClick="location.href='<%=request.getContextPath()%>/board/qnaList.cc'" >            
+                <input type="button" value="목록" onClick="location.href='<%=ctxPath%>/board/qnaList.cc'" >            
             </td>
         </tr>
     </table>    

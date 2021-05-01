@@ -82,7 +82,12 @@
         </tr>     
         <tr>
         	<td id="title">공개여부</td>
-        	<td>${requestScope.qvo.qstatus}</td>
+        	<td>
+        		<c:choose>
+        			<c:when test="${requestScope.qvo.qstatus eq '0'}">전체공개</c:when>
+        			<c:when test="${requestScope.qvo.qstatus eq '1'}">비공개</c:when>
+        		</c:choose>
+        	</td>
        	</tr>
 
         <tr>

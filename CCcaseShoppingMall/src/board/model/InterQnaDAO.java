@@ -11,11 +11,9 @@ public interface InterQnaDAO {
 	// 페이징처리를 위해서 QNA글에 대한 총페이지 개수 알아오기(select)
 	int selectTotalPage(Map<String, String> paraMap) throws SQLException;
 
+	// USER 용 메소드
 	// qna 글 작성하기
 	int writeQna(QnaVO qna) throws SQLException;
-
-	// qna 답글 작성하기
-	int replyQna(QnaVO qna) throws SQLException;
 	
 	// qna 글 삭제하기
 	int deleteQna(int qnano) throws SQLException; 
@@ -25,6 +23,10 @@ public interface InterQnaDAO {
 	
 	// qnano로 qna 글 불러오기
 	QnaVO qnaDetail(String qnano) throws SQLException;
+	
+	// ADMIN 용 메소드
+	// qna 답글 작성하기(admin)
+	int replyQna(QnaVO qna) throws SQLException;
 	
 	// qnano로 qna 답글 불러오기
 	

@@ -16,7 +16,7 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
 <style type="text/css">
 
@@ -106,7 +106,7 @@
             <td colspan="5">
                 <input type="reset" value="작성취소" style="margin-top: 20px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; " >
                 <input type="submit" value="등록" style="margin-top: 20px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">
-                <input type="button" value="목록" onClick="location.href='<%=request.getContextPath()%>/board/qnaList.cc'" style="margin-top: 20px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">            
+                <input type="button" value="목록" onClick="location.href='<%=ctxPath%>/board/qnaList.cc'" style="margin-top: 20px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">            
             </td>
         </tr>
     </table>    
