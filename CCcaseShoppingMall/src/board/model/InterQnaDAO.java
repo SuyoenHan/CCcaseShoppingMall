@@ -14,15 +14,24 @@ public interface InterQnaDAO {
 	// qna 글 작성하기
 	int writeQna(QnaVO qna) throws SQLException;
 
+	// qna 답글 작성하기
+	int replyQna(QnaVO qna) throws SQLException;
+	
 	// qna 글 삭제하기
 	int deleteQna(int qnano) throws SQLException; 
 	
 	// qna 글 수정하기
+	int editQna(QnaVO qna) throws SQLException; 
 	
-	// 제목으로 qna 글 불러오기
-	QnaVO qnaDetail(String qtitle, String qnano) throws SQLException;
+	// qnano로 qna 글 불러오기
+	QnaVO qnaDetail(String qnano) throws SQLException;
+	
+	// qnano로 qna 답글 불러오기
+	
 	
 	// 조회수 증가시키기
 	void updateViewCount(int qnano) throws SQLException;
+
+	
 
 }

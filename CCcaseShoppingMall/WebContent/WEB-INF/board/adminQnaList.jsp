@@ -8,10 +8,10 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp"/>
+<jsp:include page="../adminheader.jsp" />
+<jsp:include page="../leftSide.jsp"/>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 
 <style type="text/css">
 
@@ -60,9 +60,10 @@
 		// 특정 제목을 클릭하면 그 글의 상세정보를 보여주도록 한다.
 		$("tr.qnaInfo").click(function(){
 	//		console.log($(this).html());
+			var qtitle = $(this).children(".qtitle").text();
 	//		alert(qtitle);
 			var qnano = $(this).children(".qnano").text();
-			location.href="qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
+			location.href="<%= ctxPath%>/board/adminQnaDetail.cc?qtitle="+qtitle+"&qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
 		});
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
 	
@@ -74,13 +75,6 @@
 		frm.submit();
 		
 	}// end of function goSearch()---------------------------------------
-	
-	function goWrite(){
-		var frm = document.qnaFrm;
-		frm.action = "qnaWrite.cc";
- 		frm.method = "GET";
-		frm.submit();
-	}// end of goWrite()-----------------------------------------------------
 	
 </script>
 
@@ -122,7 +116,6 @@
 	      <input type="text"  style="display: none;">
 	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
 	      
-	      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
     </form>
 	    
 	    <div style="width:30%; margin: 0 auto;">
