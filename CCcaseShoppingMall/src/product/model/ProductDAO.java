@@ -1,5 +1,7 @@
 package product.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.*;
 
@@ -461,5 +463,70 @@ public class ProductDAO implements InterProductDAO {
 		
 		return getfkproductid;
 	}
+	
+	// 기종명 조회해오기(select)
+	@Override
+	public List<String> getgijongname() throws SQLException {
+		
+		List<String> gijongList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			// 중복을 제거하는 distinct이용
+			String sql = "select distinct modelname "+
+						 "from tbl_product ";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+
+				gijongList.add(rs.getString(1));
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return gijongList;
+	}
+	
+	// totalPage 알아오기
+	@Override
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+		
+		
+		int totalPage=0;
+		
+		try {
+			conn= ds.getConnection();
+			String sql= " select ceil(count(*)/?) " + 
+					    " from tbl_pdetail ";
+			
+		
+			pstmt= conn.prepareStatement(sql); // int로 안바꿔도 오라클에서 호환사용된다.
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			totalPage= rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+		
+		
+	}
 	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
+
+	
+
+
+	
 }

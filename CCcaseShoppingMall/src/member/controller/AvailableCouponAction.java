@@ -41,10 +41,10 @@ public class AvailableCouponAction extends AbstractController {
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);
 			paraMap.put("currentShowPageNo", currentShowPageNo);
+			paraMap.put("cpstatus", "0"); // 사용가능 쿠폰 목록을 보기 위함
 			
 			// 아이디를 가지고 해당 쿠폰 정보 조회해오기
 			List<CouponVO> cpList = cdao.selectCouponList(paraMap);
-			
 			
 			// 사용가능쿠폰 개수 조회하기
 			int acnt = cdao.countAvalCpQty("0");
@@ -55,10 +55,9 @@ public class AvailableCouponAction extends AbstractController {
 			request.setAttribute("cpList", cpList);
 			request.setAttribute("acnt", acnt);
 			request.setAttribute("ucnt", ucnt);
-			
-			// super.setRedirect(false);
+
 			super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");
-			
+			return;			
 		}
 		else {
 			// 로그인을 안한 경우 또는 보려는 정보와 다른계정으로 로그인되어져 있는 경우
