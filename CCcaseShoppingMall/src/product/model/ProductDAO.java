@@ -1,7 +1,5 @@
 package product.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.*;
 
@@ -16,6 +14,7 @@ public class ProductDAO implements InterProductDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	private ResultSet rs2;
 	
 	// 생성자 
 	public ProductDAO() {
@@ -33,6 +32,7 @@ public class ProductDAO implements InterProductDAO {
 	private void close() {
 		try {
 			if(rs != null)    {rs.close();    rs=null;}
+			if(rs2 != null)   {rs2.close();   rs2=null;}
 			if(pstmt != null) {pstmt.close(); pstmt=null;}
 			if(conn != null)  {conn.close();  conn=null;}
 		} catch(SQLException e) {
@@ -200,6 +200,52 @@ public class ProductDAO implements InterProductDAO {
 				pInfoMap.put("price",  String.valueOf(rs.getInt(5)));
 				pInfoMap.put("saleprice", String.valueOf(rs.getInt(6)));
 				pInfoMap.put("salepercent", String.valueOf(rs.getInt(7)));
+				
+				// 스펙알아오기
+				sql= " select distinct nvl(fk_snum,-1) from tbl_pdetail "+
+					 " join tbl_product on fk_productid=productid "+
+					 " where productid= ? ";
+				
+				pstmt= conn.prepareStatement(sql);
+				pstmt.setString(1, rs.getString(1));
+				
+				rs2= pstmt.executeQuery();
+				
+				// 나올 수 있는 스펙번호의 경우의 수 고려
+				int count= 0;  
+				int sum= 0;
+				while(rs2.next()) {
+					count++;
+					sum+= rs2.getInt(1);
+				}
+				
+				if(count==3) {
+					pInfoMap.put("spec","BEST/NEW");
+				}
+				else if(count==2) {
+		
+					switch (sum) {
+						case 1:
+							pInfoMap.put("spec","BEST/NEW");
+							break;
+						case 0:
+							pInfoMap.put("spec","NEW");
+							break;
+						case -1:
+							pInfoMap.put("spec","BEST");
+							break;
+					}
+				}
+				else if(count==1) {
+					switch (sum) {
+						case 0:
+							pInfoMap.put("spec","BEST");
+							break;
+						case 1:
+							pInfoMap.put("spec","NEW");
+							break;
+					}
+				}
 				
 				pInfoList.add(pInfoMap);
 			}

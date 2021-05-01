@@ -25,7 +25,7 @@
 	}
 	
 	div.menuEachContainer{
-		border: solid 1px red;
+		border: solid 0px red;
 		display: inline-block;
 		height: 150px;
 		width: 140px;
@@ -86,7 +86,66 @@
 		background-color: #33ccff;
 		color: black;
 	}
+	
+	div#mainAll{
+		width: 900px;
+		height: 600px;
+	}
+	
+	div.mainAllContent{
+		border-right: solid 2px #caceca;
+		float: left;
+		margin-top: 40px;
+		width: 160px;
+		padding-left: 15px;
+		height: 500px;
+	}
+	
+	div.mainAllContent ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+	
+	li.mainAllTitle{
+		background-color: #2c302c;
+		color: #fff;
+		border-radius: 5%;
+		text-align: center;
+		padding-top: 10px;
+		width: 130px;
+		height: 40px;	
+		font-weight: bold;	
+	}
+	
+	li.mainAllCom{
+		background-color:  #fff;
+		border-radius: 5%;
+		text-align: center;
+		padding-top: 10px;
+		width: 130px;
+		height: 40px;
+		font-weight: bold;
+		margin: 8px 0px;
+	}
 
+	li.mdname{
+		line-height: 25px;
+	}
+	
+	li.mdname:hover{
+		background-color: #ffffcc;
+		font-weight: bold;
+	}
+	
+	div.mainAllContent a{
+		text-decoration: none;
+	}
+	
+	li.mainAllCommu:hover{
+		background-color: #ffffcc;
+		font-weight: bold;
+	}
+	
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -95,7 +154,7 @@
 
 	$(document).ready(function(){
 	
-			$("button#btnlogin").click(function(){
+		    $("button#btnlogin").click(function(){
 				location.href="<%= ctxPath%>/login/loginform.cc";
 			});
 		
@@ -115,8 +174,7 @@
 				location.href="<%=ctxPath%>/board/faqList.cc";
 			});
 			
-			
-		
+
 	}); // $(documnet).ready(function(){--------------------------------
 	
 		
@@ -148,9 +206,126 @@
 		<div id="mainMenu">
 		
 			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 260px;">
-	  		 	전체메뉴
-		  		<div class="menuSort">
-		  			여긴아직~~
+	  		 	<img src="<%= ctxPath%>/images/homeMain/hamburgerBt.png" width="120" height="80" />
+		  		<div class="menuSort" id="mainAll">
+		  			<div class="mainAllContent" style="margin-left:40px;">
+		  				<ul>
+		  					<li class="mainAllTitle">하드케이스</li>
+		  					<li class="mainAllCom">삼성</li>
+		  					<c:forEach var="modelSH" items="${modelListSH}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=1&modelName=${modelSH}">
+		  							<li class="mdname">&nbsp;${modelSH}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=1">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">애플</li>
+		  					<c:forEach var="modelAH" items="${modelListAH}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=1&modelName=${modelAH}">
+		  							<li class="mdname">&nbsp;${modelAH}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=1">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">엘지</li>
+		  					<c:forEach var="modelLH" items="${modelListLH}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=1&modelName=${modelLH}">
+		  							<li class="mdname">&nbsp;${modelLH}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=1">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent">
+		  				<ul>
+		  					<li class="mainAllTitle">젤리케이스</li>
+		  					<li class="mainAllCom">삼성</li>
+		  					<c:forEach var="modelSJ" items="${modelListSJ}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=2&modelName=${modelSJ}">
+		  							<li class="mdname">&nbsp;${modelSJ}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=2">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">애플</li>
+		  					<c:forEach var="modelAJ" items="${modelListAJ}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=2&modelName=${modelAJ}">
+		  							<li class="mdname">&nbsp;${modelAJ}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=2">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">엘지</li>
+		  					<c:forEach var="modelLJ" items="${modelListLJ}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=2&modelName=${modelLJ}">
+		  							<li class="mdname">&nbsp;${modelLJ}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=2">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent">
+		  				<ul>
+		  					<li class="mainAllTitle">범퍼케이스</li>
+		  					<li class="mainAllCom">삼성</li>
+		  					<c:forEach var="modelSB" items="${modelListSB}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=3&modelName=${modelSB}">
+		  							<li class="mdname">&nbsp;${modelSB}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=3">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">애플</li>
+		  					<c:forEach var="modelAB" items="${modelListAB}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=3&modelName=${modelAB}">
+		  							<li class="mdname">&nbsp;${modelAB}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=3">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">엘지</li>
+		  					<c:forEach var="modelLB" items="${modelListLB}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=3&modelName=${modelLB}">
+		  							<li class="mdname">&nbsp;${modelLB}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=3">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent">
+		  				<ul>
+		  					<li class="mainAllTitle">악세사리</li>
+		  					<li class="mainAllCom">에어팟케이스</li>
+		  					<li class="mainAllCom">버즈케이스</li>
+		  					<li class="mainAllCom">그립톡</li>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent" style="border: none;">
+		  				<ul>
+		  					<li class="mainAllTitle">커뮤니티</li>
+		  					<a href="<%=ctxPath%>/board/faqList.cc">
+		  						<li class="mainAllCom mainAllCommu">F&nbsp;A&nbsp;Q</li>
+		  					</a>
+		  					<a href="<%=ctxPath%>/board/qnaList.cc">
+		  						<li class="mainAllCom mainAllCommu">Q&nbsp;&&nbsp;A</li>
+		  					</a>
+		  					<li class="mainAllCom mainAllCommu">이벤트</li>
+		  					<li class="mainAllCom mainAllCommu">공지사항</li>
+		  					<li class="mainAllCom mainAllCommu">고객리뷰</li>
+		  				</ul>
+		  			</div>
 		  		</div>
 	  		</div>
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
