@@ -244,7 +244,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	
 	// 배송옵션에 따른 제품정보 반환 메소드 (색상도 고려)
 	@Override
-	public List<Map<String, String>> SelectPInfoByDelivery(String doption) throws SQLException {
+	public List<Map<String, String>> selectPInfoByDelivery(String doption) throws SQLException {
 
 		List<Map<String,String>> pInfoListByDOption= new ArrayList<>();
 		
@@ -399,6 +399,37 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		   productid에 해당하는 제품이 존재하는 경우: OnePDetailInfoList.size() > 0  
 		*/
 	
+	}
+
+	// pnum이 주어진 경우, 이에 해당하는 배송옵션 반환 메소드
+	@Override
+	public int getDOptionByPnum(String pnum) throws SQLException {
+
+		int dOption= -1;
+	
+		try {
+			conn=ds.getConnection();
+			String sql= " select doption from tbl_pdetail where pnum= ? ";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dOption= rs.getInt(1);
+			}
+			
+		}finally {
+			 close();
+		}
+		
+		return dOption;
+		
+		/*
+		 	존재하지 않는 pnum인 경우: dOption= -1    
+		 	무료배송인 pnum인 경우:  dOption= 0   
+		 	유료배송인 pnum인 경우: dOption= 1
+		*/
 	}
 
 
