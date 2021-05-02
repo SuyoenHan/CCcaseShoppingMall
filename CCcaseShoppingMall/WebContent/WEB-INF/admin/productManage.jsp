@@ -63,20 +63,14 @@
 			frm.submit();
 		})
 		
-		
+		 
 		// 추가상품등록하기 버튼을 클릭했을때
-		$("button#moreRegister").click(function(){
+		$("button.moreRegister").click(function(){
 			
-			var pnum = $(this).parent().parent().find("#pnum").text();
-			var mname= ${requestScope.proList.mname};
-			var productname= ${requestScope.proList.productname};
-			var cname= ${requestScope.proList.cname};
-			var salepercent= ${requestScope.proList.salepercent};
-			var pimage1= ${requestScope.proList.pimage1};
+			var productid =$(this).parent().prop('class');
 			
-
-			location.href="<%= request.getContextPath() %>/admin/productRegister.cc?pnum="+pnum+"&mname";					
-
+			location.href="<%= request.getContextPath() %>/admin/productRegister.cc?productid="+productid; 					
+			
 		});// end of $("button#moreRegister").click(function(){
 		
 	}); // end of $(document).ready(function(){
@@ -102,9 +96,9 @@
 		</thead>
 		
 		<tbody>
-			<c:forEach var="proMap" items="${requestScope.proList}">
+			<c:forEach var="proMap" items="${requestScope.proList}" >
 				<tr>
-					<td id="pnum">${proMap.pnum}</td>
+					<td>${proMap.pnum}</td>
 					<td colspan="2">${proMap.pname}</td>
 					<td>${proMap.pcolor}</td>
 					<td>${proMap.originalprice}원</td>
@@ -114,13 +108,12 @@
 					<td>
 						 <c:choose> 
 							<c:when test="${proMap.doption eq '0'}">무료</c:when> 
-						 </c:choose>
-						 <c:choose> 
-							<c:when test="${proMap.doption eq '1'}">유료</c:when> 
+							<c:when test="${proMap.doption eq '1'}">유료</c:when>
 						 </c:choose>
 					</td> 
-					<td><button type="button" id="moreOrUpdate">더보기 및 수정</button></td>
-					<td><button type="button" id="moreRegister">추가상품 등록</button></td>
+					<td><button type="button" class="moreOrUpdate">더보기 및 수정</button></td>
+					<td class="${proMap.productid}"><button type="button" class="moreRegister">추가상품 등록</button></td>
+
 				</tr>	
 			</c:forEach>	
 			

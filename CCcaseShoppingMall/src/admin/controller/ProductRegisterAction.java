@@ -84,6 +84,24 @@ public class ProductRegisterAction extends AbstractController {
 				
 				request.setAttribute("colorList", colorList);
 				
+				String productid = request.getParameter("productid");
+				
+				Map<String,String> getProInfoMap = pdao.getProInfo(productid);
+		    	String mapSize= String.valueOf(getProInfoMap.size());
+				
+		    	/*
+		    	 	mapSize==0 인경우 productid에 해당하는 정보 존재하지 않음
+		    	 */
+		    	
+				request.setAttribute("productid", getProInfoMap.get("productid"));
+				request.setAttribute("productname",getProInfoMap.get("productname"));
+				request.setAttribute("modelname",getProInfoMap.get("modelname"));
+				request.setAttribute("pimage1",getProInfoMap.get("pimage1"));
+				request.setAttribute("price",getProInfoMap.get("price"));
+				request.setAttribute("salepercent",getProInfoMap.get("salepercent"));
+				request.setAttribute("fk_cnum",getProInfoMap.get("fk_cnum"));
+				request.setAttribute("fk_mnum",getProInfoMap.get("fk_mnum"));
+				request.setAttribute("mapSize",mapSize);
 		
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/admin/productRegister2.jsp");

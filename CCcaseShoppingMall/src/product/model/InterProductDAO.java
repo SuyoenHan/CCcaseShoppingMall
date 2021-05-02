@@ -49,7 +49,8 @@ public interface InterProductDAO {
 	// totalPage 알아오기
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
 
-	
+	// productid를 가져와, 제품등록화면에 값을 넣어주는 메소드
+	Map<String, String> getProInfo(String productid) throws SQLException;
 	
 	
 	
