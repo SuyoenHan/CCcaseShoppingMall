@@ -144,7 +144,7 @@ public class ProductRegisterAction extends AbstractController {
 	            
 	            
 	            InterProductDAO pdao = new ProductDAO();
-	            
+	           
 	            // 제품테이블에 insert작업 + 제품번호(primary) 알아오기.
 	            String getfkproductid = pdao.insertProduct(promap);
 	            
@@ -180,11 +180,11 @@ public class ProductRegisterAction extends AbstractController {
 	            if(n==1) {
 	            	
 	            	message = "제품등록에 성공하셨습니다.";
-	            	loc = request.getContextPath()+"/admin.cc";
+	            	loc = request.getContextPath()+"/admin/productmanage.cc";
 	            }
 	            else {
 	            	message = "제품등록에 실패하셨습니다.";
-	            	loc = request.getContextPath()+"admin/productRegister2.cc";
+	            	loc = request.getContextPath()+"/admin.cc";
 	            }
 	           
 	            request.setAttribute("message", message);
