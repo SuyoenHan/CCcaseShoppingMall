@@ -88,7 +88,7 @@ public class HomeAction extends AbstractController {
 		
 		
 		// 무료배송인 제품 정보를 requestScope에 저장 (색상도 고려)
-		List<Map<String,String>> pInfoListDFree= pddao.SelectPInfoByDelivery("0"); // 무료배송 상품정보
+		List<Map<String,String>> pInfoListDFree= pddao.selectPInfoByDelivery("0"); // 무료배송 상품정보
 		int pFreeCnt= pInfoListDFree.size(); // 무료배송 상품 개수
 		
 		request.setAttribute("pInfoListDFree",pInfoListDFree);
