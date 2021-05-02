@@ -5,9 +5,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.InterQnaDAO;
-import board.model.QnaDAO;
-import board.model.QnaVO;
+import board.model.*;
 import common.controller.AbstractController;
 
 public class AdminQnaReplyAction extends AbstractController {
@@ -24,8 +22,7 @@ public class AdminQnaReplyAction extends AbstractController {
 			String fk_adminid = request.getParameter("fk_adminid"); 
 			String cmtcontent = request.getParameter("cmtcontent");
 			
-			QnaVO qna = new QnaVO(fk_qnano, fk_adminid, cmtcontent);
-			
+			QnaCmtVO qna = new QnaCmtVO(fk_qnano, fk_adminid, cmtcontent);			
 			InterQnaDAO qdao = new QnaDAO();
 			
 			try {

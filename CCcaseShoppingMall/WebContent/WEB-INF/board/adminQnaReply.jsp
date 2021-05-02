@@ -17,5 +17,26 @@
 		fk_adminid = (String)session.getAttribute("fk_adminid");
 		cmtcontent= (String)session.getAttribute("cmtcontent");
 		
-		response.sendRedirect("adminQnaList.jsp");
+		response.sendRedirect("adminQnaDetail.jsp");
+		
 %>
+
+<div>	
+		
+  		<form name="qnaReplyDetailForm">
+  			<table style="width: 700px; border: 1px; border-color: lightgray;">
+  				 <tr>
+  				 	<td style="display: none">fk_qnano</td>
+		            <td class="title">등록일</td>
+		            <td>${requestScope.qrvo.cmtregisterday}</td>
+		        </tr>
+		        <tr>
+		            <td id="title">
+		               글내용
+		            </td>           
+		            <td>cmtcontent</td>        
+		        </tr>						        	
+  			</table>
+  		</form>
+  		
+  		</div>

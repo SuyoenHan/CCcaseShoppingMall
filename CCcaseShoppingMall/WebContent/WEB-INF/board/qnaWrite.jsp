@@ -5,7 +5,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<!DOCTYPE jsp:include PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>QnA 글쓰기</title>
@@ -55,10 +55,14 @@
 	    }
 	}// end of function setDisplay()--------------------------------------
 
+	function on_load(){
+		document.admRepWriteForm.qtitle.focus();
+	}
+	
 </script>
 </head>
 
-<body>
+<body onload="fn_onload()">
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     

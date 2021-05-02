@@ -57,12 +57,12 @@
 			}
 		});
 		
-		// 특정 제목을 클릭하면 그 글의 상세정보를 보여주도록 한다.
+		// 특정 글을 그 글의 상세정보를 보여주도록 한다.
 		$("tr.qnaInfo").click(function(){
 
 			var qnano = $(this).children(".qnano").text();
-<%--		var qnapwd = "${requestScope.qvo.qnapwd}";
-			
+ <%--	var qnapwd = $("td.qnapwd").text();
+
 			var test = 1;
 			var pass = prompt('글 암호를 입력하십시오','글 암호를 입력하세요'); // 초기시 암호 물어보는 멘트
 
@@ -70,18 +70,18 @@
 				if (!pass) 
 					history.go(-1);
 				if (pass == qnapwd) { // 암호지정
-					alert('확인을 누르면 클릭하신 글로 이동합니다.'); // 암호가 맞았을때 나오는 멘트	 --%>
+					alert('확인을 누르면 클릭하신 글로 이동합니다.'); // 암호가 맞았을때 나오는 멘트 --%>
 					location.href ="qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
 <%--				break;
 				}
 				test += 1;
-				var pass1 = prompt('암호를 확인 하시고 다시 입력하세요!.','암호 확인'); // 암호가 틀렸을때 멘트
+	 			var pass1 = prompt('암호를 확인 하시고 다시 입력하세요!.','암호 확인'); // 암호가 틀렸을때 멘트
 			}
 			
 			if (pass != qnapwd && test == 3) 
 				history.go(-1);
 				return " "; 		--%>
-		});
+		}); 	
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
 	
 	// Function declaration
@@ -124,6 +124,7 @@
 	    				<td>${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>
 	    				<td class="qviewcount">${qvo.qviewcount}</td>
+	    				<td class="qnapwd" style="display: none">${qvo.qnapwd}</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
 import my.util.Myutil;
 
 
