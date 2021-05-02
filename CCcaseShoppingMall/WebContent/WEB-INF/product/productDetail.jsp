@@ -13,7 +13,6 @@
 		width: 450px;
 		height: 510px;
 		margin: 0px 0px 50px 100px;
-		
 	}
 	
 	div#primaryImg{
@@ -102,7 +101,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-<%--
+
 	$(document).ready(function(){
 		
 		// 색상옵션에 따라 배송비 ajax로 넣어주기
@@ -115,6 +114,20 @@
 				dataType:"json",
 				success:function(json){
 					
+					var html="";
+					
+					if(json.dOption==-1){ // 존재하지 않는 pnum
+						html="<span>색상에 따라 상이</span>";
+					}
+					else if(json.dOption==0){ // 무료배송
+						html="<span style='color:red; font-weight:bold;'>무료배송</span>";
+					}
+					else if(json.dOption==1){ // 유료배송
+						html="<span>3,000 원</span>";
+					}
+					
+					$("td#dOptionText").html(html);
+					
 				},
 				error: function(request, status, error){
 			           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -126,7 +139,7 @@
 		
 	}); // end of $(document).ready(function(){--------------------
 
---%>
+
 
 </script>
 
