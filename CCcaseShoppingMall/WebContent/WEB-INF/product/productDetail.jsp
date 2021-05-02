@@ -37,6 +37,10 @@
 		margin-bottom: 20px;
 	}
 	
+	div.pdetailTitle img{
+		border-radius: 50%;
+	}
+	
 	table#pdetailInfoTable{
 		border: solid 1px red;
 		clear: both;
@@ -97,6 +101,33 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+<%--
+	$(document).ready(function(){
+		
+		// 색상옵션에 따라 배송비 ajax로 넣어주기
+		$("select#cOption").change(function(){
+			
+			$.ajax({
+				url:"<%=ctxPath%>/product/deliveryOptionCheck.cc",
+				type:"post",
+				data:{"pnum":$(this).val()},
+				dataType:"json",
+				success:function(json){
+					
+				},
+				error: function(request, status, error){
+			           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			    }
+			}); // end of $.ajax({--------------------------------
+			
+		}); // end of change event--------------------------------
+		
+		
+	}); // end of $(document).ready(function(){--------------------
+
+--%>
+
 </script>
 
 <jsp:include page="../header.jsp" />
@@ -105,24 +136,42 @@
 <div id="contents" style="margin: 80px 0px;">
 
 	<div class="pdetail" id="pImg" style="width: 500px;">
-		<div id="primaryImg">대표이미지 사진</div>
+		<div id="primaryImg">
+			<img src="<%=ctxPath%>/images/${onePInfo.pimage1}" width="495px" height="350px" />
+		</div>
 		<div>
-			<div class="plusimg">상품이지미1사진</div>
-			<div class="plusimg" style="margin-left: 24px;">상품이지미2 사진</div>
-			<div class="plusimg" style="margin-left: 24px;">상품이지미3 사진</div>
+			<c:forEach var="primeFileName" items="${primePlusImgFile}" varStatus="status">
+				<c:if test="${status.index < 3}">
+					<c:if test="${status.index== 0}">
+						<div class="plusimg">
+							<img src="<%=ctxPath%>/images/${primeFileName}" width="145px" height="130px" />	
+						</div>
+					</c:if>
+					<c:if test="${status.index > 0}">
+						<div class="plusimg" style="margin-left: 24px;">
+							<img src="<%=ctxPath%>/images/${primeFileName}" width="145px" height="130px" />	
+						</div>
+					</c:if>
+				</c:if>
+			</c:forEach>
 		</div>
 	</div>
 	
 	<div class="pdetail" id="pdetailInfo" style="margin-left: 50px;">
-		<div class="pdetailTitle">케이스명</div>
-		<div class="pdetailTitle" style="width: 90px; margin-left: 20px;">관심상품담기 아이콘</div>
+		<div class="pdetailTitle" align="center">
+			[${onePInfo.cname}]&nbsp;[${onePInfo.modelname}]<br>
+			${onePInfo.productname}
+		</div>
+		<div class="pdetailTitle" style="width: 90px; margin-left: 20px;">
+			<img src="<%=ctxPath%>/images/product/heartIcon.png" width="90px" height="80px;" />
+		</div>
 		<table id="pdetailInfoTable">
 			<tr>
 				<th>
 					할인판매가
 				</th>
 				<td>
-					할인판매가 가격
+					${onePInfo.saleprice}원
 				</td>
 			</tr>
 			<tr>
@@ -130,7 +179,20 @@
 					판매가
 				</th>
 				<td>
-					판매가격 <span>할인율</span>
+					${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					색상 옵션
+				</th>
+				<td>
+					<select id="cOption">
+						<option value="">색상을 선택해 주세요</option>
+						<c:forEach var="pDetailInfo" items="${onePDetailInfoList}" >
+							<option value="${pDetailInfo.pnum}">${pDetailInfo.pcolor}</option>
+						</c:forEach>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -145,24 +207,8 @@
 				<th>
 					배송비
 				</th>
-				<td>
-					배송가격/무료배송
-				</td>
-			</tr>
-			<tr>
-				<th>
-					색상옵션
-				</th>
-				<td>
-					색상드롭박스
-				</td>
-			</tr>
-			<tr>
-				<th>
-					기종명
-				</th>
-				<td>
-					기종드롭박스
+				<td id="dOptionText">
+					색상에 따라 상이
 				</td>
 			</tr>
 		</table>

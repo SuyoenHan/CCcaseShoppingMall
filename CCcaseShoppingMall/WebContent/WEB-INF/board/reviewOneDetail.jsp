@@ -17,6 +17,7 @@
 
 <script type="text/javascript">
 
+<<<<<<< HEAD
 	$(document).ready(function(){
 			
 		
@@ -27,6 +28,9 @@
 		location.href="<%= ctxPath%>/"+goBackURL;
 	}
 	
+=======
+
+>>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 </script>
 
 <c:if test="${empty requestScope.rvo}">
