@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 
 <% String ctxPath = request.getContextPath(); %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
@@ -13,8 +12,15 @@
 
 </style>
 
+
+	
+
 <script type="text/javascript">
 
+
+function goRevList() {
+	location.href="<%= ctxPath%>/"+goBackURL;
+}
 
 </script>
 
@@ -23,8 +29,6 @@
 </c:if>
 
 <c:if test="">
-
-
 
 
 </c:if>

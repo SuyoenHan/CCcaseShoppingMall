@@ -87,7 +87,7 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate "
+			String sql = " select reviewno, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate "
 							+ " from "
 							+ " ( "
 							+ " select reviewno, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate "
@@ -142,6 +142,74 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		
 		return revList;
+	}
+	
+	// 조회수 증가시키기
+	@Override
+	public void updateViewCount(String reviewno) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_review set rviewcount = rviewcount+1"
+							+ " where reviewno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(reviewno));
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				conn.commit();
+			}
+			
+		} finally {
+			close();
+		}
+		
+	}
+	
+	// reviewimage1(썸네일) 값을 입력받아서 리뷰 1개에 대한 상세정보를 알아오기
+	@Override
+	public ReviewVO reviewOneDetail(String reviewimage1) throws SQLException {
+		
+		ReviewVO rvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select reviewimage1, reviewimage2, reviewimage3, rvtitle, rvcontent, fk_pname, "
+							+ " to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate, rviewcount "
+							+ " from tbl_review "
+							+ " where reviewimage1 = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reviewimage1);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				rvo = new ReviewVO();
+				
+				rvo.setReviewimage1(rs.getString(1));
+				rvo.setReviewimage2(rs.getString(2));
+				rvo.setReviewimage3(rs.getString(3));
+				rvo.setRvtitle(rs.getString(4));
+				rvo.setRvcontent(rs.getString(5));
+				rvo.setFk_pname(rs.getString(6));
+				rvo.setRregisterdate(rs.getString(7));
+				rvo.setRupdatedate(rs.getString(8));
+				rvo.setRviewcount(rs.getInt(9));
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return rvo;
 	}
 
 	
