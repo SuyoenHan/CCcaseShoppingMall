@@ -28,7 +28,37 @@ public class ProductDetailAction extends AbstractController {
 		List<Map<String, String>> onePDetailInfoList= pddao.getOnePDetailInfo(productid);
 		request.setAttribute("onePDetailInfoList", onePDetailInfoList);
 		
-		// List<Map<String, String>> imgFileByPnum= idao.selectImgFileByPnum(pnum);
+		List<String> primePlusImgFile= new ArrayList<>();
+		List<String> extraPlusImgFile= new ArrayList<>();
+		
+		for(Map<String, String> pDetailInfoMap : onePDetailInfoList) {
+			
+			String pnum= pDetailInfoMap.get("pnum");
+			List<Map<String, String>> imgFileByPnum= idao.selectImgFileByPnum(pnum);
+			
+			for(int i=0;i<imgFileByPnum.size();i++) {
+				
+				for(int j=0;j<imgFileByPnum.get(i).size();j++) {
+					String imgName= imgFileByPnum.get(i).get("imgplus"+(j+1));
+					
+					if(j==0) primePlusImgFile.add(imgName);
+					else  extraPlusImgFile.add(imgName);
+				}
+			}
+		} // end of for(Map<String, String> pDetailInfoMap : onePDetailInfoList) {---
+		
+		
+		for(int i=0;i<extraPlusImgFile.size();i++) {
+			if("noimage.png".equalsIgnoreCase(extraPlusImgFile.get(i))) {
+				extraPlusImgFile.remove(i);
+				i--;
+			}
+		}
+		
+		
+		request.setAttribute("extraPlusImgFile", extraPlusImgFile);
+		request.setAttribute("primePlusImgFile", primePlusImgFile);
+		
 		
 		
 		super.setRedirect(false);
