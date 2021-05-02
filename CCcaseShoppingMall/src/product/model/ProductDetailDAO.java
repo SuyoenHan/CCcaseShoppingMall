@@ -60,7 +60,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		try {
 			
 			conn = ds.getConnection();
-			String sql =" select pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
+			String sql =" select pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption, productname, cname,salepercent,pimage1 "+
 						" from " + 
 						" ( " + 
 							" select rownum as rno, pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
@@ -163,18 +163,21 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 				promap.put("pinputdate", rs.getString(9));
 				promap.put("doption", String.valueOf(rs.getInt(10)));
 				
+				promap.put("mname", rs.getString(2));
+				promap.put("productname", rs.getString(11));
+				promap.put("cname", rs.getString(12));
+				promap.put("salepercent", String.valueOf(rs.getDouble(13)));
+				promap.put("pimage1", rs.getString(14));
+				
 				proList.add(promap);
 				
 			}// end of while(rs.next()) {
-			
-			
+		
 		} finally {
 			close();
 		}
-
 		return proList;
-	}
-	
+	}	
 	////////////////////////////////////////////////
 	// 제품상세테이블로 insert하기 + 제품상세번호(primary)알아오기
 	@Override
@@ -226,14 +229,11 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 					if(rs.next()) {
 						getpnum=rs.getString(1);
 					}
-				}
-				
-			}
-			
+				}		
+			}		
 		} finally {
 			close();
-		}
-		
+		}	
 		return getpnum;
 	}
 	//////////////////백원빈 작업끝//////////////////

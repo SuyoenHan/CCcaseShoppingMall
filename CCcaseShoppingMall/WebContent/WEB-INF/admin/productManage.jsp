@@ -63,6 +63,22 @@
 			frm.submit();
 		})
 		
+		
+		// 추가상품등록하기 버튼을 클릭했을때
+		$("button#moreRegister").click(function(){
+			
+			var pnum = $(this).parent().parent().find("#pnum").text();
+			var mname= ${requestScope.proList.mname};
+			var productname= ${requestScope.proList.productname};
+			var cname= ${requestScope.proList.cname};
+			var salepercent= ${requestScope.proList.salepercent};
+			var pimage1= ${requestScope.proList.pimage1};
+			
+
+			location.href="<%= request.getContextPath() %>/admin/productRegister.cc?pnum="+pnum+"&mname";					
+
+		});// end of $("button#moreRegister").click(function(){
+		
 	}); // end of $(document).ready(function(){
 	
 	
@@ -81,14 +97,14 @@
 				<th>재고량</th>
 				<th>제품입고일자</th>
 				<th>배송조건</th>
-				<th>추가 정보</th>
+				<th colspan="2">추가 정보</th>
 			</tr>
 		</thead>
 		
 		<tbody>
 			<c:forEach var="proMap" items="${requestScope.proList}">
 				<tr>
-					<td>${proMap.pnum}</td>
+					<td id="pnum">${proMap.pnum}</td>
 					<td colspan="2">${proMap.pname}</td>
 					<td>${proMap.pcolor}</td>
 					<td>${proMap.originalprice}원</td>
@@ -103,7 +119,8 @@
 							<c:when test="${proMap.doption eq '1'}">유료</c:when> 
 						 </c:choose>
 					</td> 
-					<td><button type="button">더보기</button></td>
+					<td><button type="button" id="moreOrUpdate">더보기 및 수정</button></td>
+					<td><button type="button" id="moreRegister">추가상품 등록</button></td>
 				</tr>	
 			</c:forEach>	
 			
