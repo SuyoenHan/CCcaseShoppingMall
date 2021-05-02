@@ -78,7 +78,7 @@ public class ImageFileDAO implements InterImageFileDAO {
 	@Override
 	public List<Map<String, String>> selectImgFileByPnum(String pnum) throws SQLException {
 
-		List<Map<String, String>> ImgFileByPnumList= new ArrayList<>();
+		List<Map<String, String>> imgFileByPnumList= new ArrayList<>();
 		
 		try {
 			
@@ -98,18 +98,18 @@ public class ImageFileDAO implements InterImageFileDAO {
 				ImgFileByPnumMap.put("imgplus2",rs.getString(2));
 				ImgFileByPnumMap.put("imgplus3",rs.getString(3));
 				
-				 ImgFileByPnumList.add(ImgFileByPnumMap);			
+				 imgFileByPnumList.add(ImgFileByPnumMap);			
 			}
 					
 		} finally {
 			close();
 		}
 
-		return ImgFileByPnumList;
+		return imgFileByPnumList;
 		
 		/* 
-		   pnum에 해당하는 추가이미지가 존재하지 않는경우: ImgFileByPnumList.size() == 0
-		   pnum에 해당하는 추가이미지가 존재하는 경우: ImgFileByPnumList.size() > 0    
+		   pnum에 해당하는 추가이미지가 존재하지 않는경우: imgFileByPnumList.size() == 0
+		   pnum에 해당하는 추가이미지가 존재하는 경우: imgFileByPnumList.size() > 0    
 		*/
 	}
 
