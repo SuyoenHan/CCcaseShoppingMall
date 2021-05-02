@@ -391,7 +391,7 @@
 		  			<a href="<%=ctxPath%>/board/qnaList.cc" class="dropMenu">Q&A</a>
 		  			<a href="" class="dropMenu">이벤트</a>
 		  			<a href="<%=ctxPath%>/board/noticeList.cc" class="dropMenu">공지사항</a>
-		  			<a href="" class="dropMenu">고객리뷰</a>
+		  			<a href="<%=ctxPath%>/board/reviewList.cc" class="dropMenu">고객리뷰</a>
 		  		</div>
 	  		</div>
 	  		
