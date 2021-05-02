@@ -54,7 +54,7 @@
 		</div>
 		
 		<div class="comLeftSection" id="review">
-			<a href="" class="comNav">고객리뷰</a>
+			<a href="<%=ctxPath%>/board/reviewList.cc" class="comNav">고객리뷰</a>
 		</div>
 		
 	</div>	
