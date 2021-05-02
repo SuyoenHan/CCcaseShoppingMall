@@ -59,14 +59,14 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		
 		try {
 			
-			conn = ds.getConnection();
-			String sql =" select pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption, productname, cname,salepercent,pimage1 "+
+			conn = ds.getConnection(); //pnum = productid+제품상세테이블의 seq
+			String sql =" select pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption, productname, cname,salepercent,pimage1,productid "+
 						" from " + 
 						" ( " + 
-							" select rownum as rno, pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption "+
+							" select rownum as rno, pnum, mname, pname, modelname, pcolor, price, saleprice, pqty, pinputdate, doption, productname, cname,salepercent,pimage1,productid "+
 							" from " + 
 							" ( "+
-								" select D.pnum, mname, pname, modelname, pcolor, price, ((1-salepercent)*price) as saleprice, pqty, to_char(pinputdate,'yyyy-mm-dd') as pinputdate,  doption "+
+								" select D.pnum, mname, pname, modelname, pcolor, price, ((1-salepercent)*price) as saleprice, pqty, to_char(pinputdate,'yyyy-mm-dd') as pinputdate,  doption, productname, cname,salepercent,pimage1, productid "+
 								" from "+
 								" ( "+
 								" select * "+
@@ -168,6 +168,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 				promap.put("cname", rs.getString(12));
 				promap.put("salepercent", String.valueOf(rs.getDouble(13)));
 				promap.put("pimage1", rs.getString(14));
+				promap.put("productid", rs.getString(15));
 				
 				proList.add(promap);
 				

@@ -46,6 +46,34 @@
 		// 제품등록 화면 페이지로 이동시, 추가등록 화면은 숨기기
 		$("div#register2").hide();
 		
+		if("0"!="${requestScope.mapSize}"){
+			
+			var productid = "${requestScope.productid}";
+			var productname = "${requestScope.productname}";
+			var modelname = "${requestScope.modelname}";
+			var pimage1 = "${requestScope.pimage1}";
+			var price = Number("${requestScope.price}");
+			var salepercent = Number("${requestScope.salepercent}");
+			var fk_cnum = "${requestScope.fk_cnum}";
+			var fk_mnum = "${requestScope.fk_mnum}";
+			
+			
+			$("input#productname").val(productname);
+			$("input#productname").prop("disabled",true);
+
+			$("select#fk_mnum").val(fk_mnum);
+			$("select#fk_mnum").prop("disabled",true);
+			
+			$("input#price").val(price);
+			$("input#price").prop("disabled",true);
+			
+			
+			
+		}
+		
+		
+		
+		
 		
 		// 상세정보등록하기 버튼 클릭 시
 		$("button#goregister2").click(function(){

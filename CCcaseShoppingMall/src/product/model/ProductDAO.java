@@ -713,7 +713,53 @@ public class ProductDAO implements InterProductDAO {
 		
 		
 	}
+	
+	
+	@Override
+	public Map<String, String> getProInfo(String productid) throws SQLException {
+		
+		Map<String, String> proRegisterMap= new HashMap<>();
+		
+		try {
+		
+			conn=ds.getConnection();
+			String sql= " select productid, productname, modelname, pimage1, price, salepercent, fk_cnum,fk_mnum "+
+						" from tbl_product "+
+						" where productid= ? ";
+		    pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, productid);		
+		    
+			rs= pstmt.executeQuery();
+			
+		    if(rs.next()) {
+		    	
+		    	proRegisterMap.put("productid", rs.getString(1));
+		    	proRegisterMap.put("productname", rs.getString(2));
+		    	proRegisterMap.put("modelname", rs.getString(3));
+		    	proRegisterMap.put("pimage1", rs.getString(4));
+		    	proRegisterMap.put("price", String.valueOf(rs.getInt(5)));
+		    	proRegisterMap.put("salepercent", String.valueOf(rs.getInt(6)));
+		    	proRegisterMap.put("fk_cnum", String.valueOf(rs.getInt(7)));
+		    	proRegisterMap.put("fk_mnum", String.valueOf(rs.getInt(8)));
+		    }
+			
+			
+		}finally {
+			close();
+		}
+		
+		return proRegisterMap;
+		
+		/* 
+		   productid에 해당하는 제품이 존재하지 않는경우: null
+		   productid에 해당하는 제품이 존재하는 경우: proRegisterMap   
+		*/
+	
+	}
+
+
 	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
+
 
 
 
