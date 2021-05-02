@@ -33,9 +33,7 @@ public class AdminQnaDetailAction extends AbstractController {
 				
 				request.setAttribute("qvo", qvo);
 			
-				// fk_qnano 가져오기
-				String fk_qnano = request.getParameter("fk_qnano");			
-				List<QnaCmtVO> cmtList = qdao.getCmtList(fk_qnano);
+				List<QnaCmtVO> cmtList = qdao.getCmtList(qnano);
 
 				request.setAttribute("cmtList", cmtList);	
 
