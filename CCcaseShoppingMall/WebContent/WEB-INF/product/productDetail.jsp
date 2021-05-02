@@ -239,8 +239,9 @@
 	</div>
 	
 	<div id="pDescribe">
-		<div>맨위로 스크롤바 위치잡기</div>
-		제품상세설명
+		<div><img src="<%=ctxPath%>/images/homeMain/logo.png"/></div>
+		
+		
 	
 	
 	</div>
