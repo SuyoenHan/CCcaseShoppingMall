@@ -11,6 +11,9 @@
 
 <style type="text/css">
 	
+	div#btns {
+		margin-left: 20px;
+	}
 	
 	button.btn {
 		border: none;
@@ -26,36 +29,49 @@
 		color: white;
 	}
 
+	
+
 </style>
 
 <script type="text/javascript">
+	 
 
 	$(document).ready(function(){
+		
 		$("button#aval").click(function(){
-			javascript:history.go(0);
-		});
+			location.href="<%= ctxPath%>/member/availableCoupon.cc"; <%-- 사용완료 쿠폰으로 이동--%>
+		})
 		
 		$("button#unAval").click(function(){
 			location.href="<%= ctxPath%>/member/unavailableCoupon.cc"; <%-- 사용완료 쿠폰으로 이동--%>
 		});
 		
-	});	
+		
+		
+		
+	});	 // end of $(document).ready(function(){})---------------------------------------
+	
 	
 </script>
-<br>
+
 <h3 style="font-weight: bold; color: navy;">나의 쿠폰 조회</h3>
 <hr style="background-color:black; height:2px;">
 
 <br><br><br><br><br>
 
-<div>
+<div >
+
+</div>
+
+
+<div id="btns">
 	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.acnt}</span>)</button>
 	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.ucnt}</span>)</button>
 </div>
 
 <br>
 
-<table id="memberTbl" class="table" style="align: center; width:80%; margin-top:20px;">
+<table id="memberTbl" class="table" style="align: center; width:80%; margin-top:20px; ">
 	<thead>
 		<tr>
 			<th>쿠폰번호</th>
@@ -69,23 +85,29 @@
 		</tr>
 	</thead>
 	
+	
 	<tbody>
-	<c:set var="today"> <fmt:formatDate value="<%=new java.util.Date()%>" pattern="yyyy-mm-dd" /></c:set>
-	<c:set var="cpstatus" value="requestScope.cpList.cpstatus"/>
-	<c:if test="${cpstatus eq '0'}">
+		
 		<c:forEach var="cvo" items="${requestScope.cpList}">
 			<tr class="couponInfo"><%-- 아래 내용 아직 예시 --%>
 				<td>${cvo.cpno}</td>
-				<td>${cvo.cpcontent}</td>
+				<td>
+				<c:choose>
+					<c:when test="${cvo.cpcontent eq '0'}">
+						무료배송					
+					</c:when>
+					<c:otherwise>
+						할인쿠폰
+					</c:otherwise>	
+				</c:choose></td>
 				<td>${cvo.cpname}</td>
 				<td>5,000원</td>
-				<td>${cvo.cpdiscount}</td>
-				<td>${cvo.issudate}</td>
+				<td><fmt:formatNumber value="${cvo.cpdiscount*100}" pattern="0"/><span>%</span></td>
+				<td>${cvo.issuedate}</td>
 				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
-				<td>D-(${cvo.expirationdate}-${today})</td>
+				<td>D-<span>${cvo.remaindate}</span></td>
 			</tr>
 		</c:forEach>
-	</c:if>
 	</tbody>
 </table>
 <jsp:include page="../../WEB-INF/footer.jsp" />

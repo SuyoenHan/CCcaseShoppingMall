@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
@@ -20,19 +19,17 @@ public class QnaDetailAction extends AbstractController {
 				
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 		
-		String qtitle = request.getParameter("qtitle");
 		String qnano = request.getParameter("qnano");
 		
 		InterQnaDAO qdao = new QnaDAO();
-		QnaVO qvo = qdao.qnaDetail(qtitle, qnano);
+		QnaVO qvo = qdao.qnaDetail(qnano);
 		
 		request.setAttribute("qvo", qvo);
 		
 		if( loginuser != null) { // 로그인했으면
-			
-			// 로그인 유저와 작성자 아이디가 다르면 조회수 증가
+		
+		// 로그인 유저와 작성자 아이디가 다르면 조회수 증가
 			if( !qvo.getFk_userid().equals(loginuser.getUserid()) ) {
 				qdao.updateViewCount(qvo.getQnano());
 			}
@@ -60,20 +57,17 @@ public class QnaDetailAction extends AbstractController {
 				}		
 			}
 			else {// 비공개 글이 아니라면*/
-				//	super.setRedirect(false); 
+//			}				
+			
+				//super.setRedirect(false);
 				super.setViewPage("/WEB-INF/board/qnaDetail.jsp");
-//			}
+			
 		}
 			else {
-				// 로그인을 안 했으면
-				String message = "글을 보려면 먼저 로그인을 하세요!";
-				String loc = "javascript:history.back()";
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				
-			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
+				// 로그인을 안 했으면 누구의 글을 봐도 조회수 증가
+				qdao.updateViewCount(qvo.getQnano());				
+		
+				super.setViewPage("/WEB-INF/board/qnaDetail.jsp");
 			}
 	}
 

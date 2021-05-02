@@ -60,10 +60,9 @@
 		// 특정 제목을 클릭하면 그 글의 상세정보를 보여주도록 한다.
 		$("tr.qnaInfo").click(function(){
 	//		console.log($(this).html());
-			var qtitle = $(this).children(".qtitle").text();
 	//		alert(qtitle);
 			var qnano = $(this).children(".qnano").text();
-			location.href="<%= ctxPath%>/board/qnaDetail.cc?qtitle="+qtitle+"&qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
+			location.href="qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
 		});
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
 	

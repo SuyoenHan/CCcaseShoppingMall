@@ -11,6 +11,10 @@ public class CouponVO {
 	private String issuedate;				// 발행일
 	private String expirationdate; 	// 만료일(발행일+14)
 	
+	////////////////////////////////////////////////////////////////
+	private String remaindate; // 남은 날짜;
+	////////////////////////////////////////////////////////////////
+	
 	public CouponVO() {}
 	
 	public CouponVO(String cpno, String fk_userid, int cpstatus, int cpcontent, String cpname, String cpdiscount, 
@@ -89,6 +93,18 @@ public class CouponVO {
 	public void setExpirationdate(String expirationdate) {
 		this.expirationdate = expirationdate;
 	}
+
+	public String getRemaindate() {
+		return remaindate;
+	}
+
+	public void setRemaindate(String remaindate) {
+		this.remaindate = remaindate;
+	}
+
+	
+
+
 	
 	
 	

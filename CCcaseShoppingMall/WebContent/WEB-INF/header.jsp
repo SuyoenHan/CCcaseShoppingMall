@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>HomeMain 화면</title>
+<title>CCcase Shop</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
 <style type="text/css">
@@ -86,7 +86,72 @@
 		background-color: #33ccff;
 		color: black;
 	}
+	
+	div#mainAll{
+		width: 900px;
+		height: 600px;
+	}
+	
+	div.mainAllContent{
+		border-right: solid 2px #caceca;
+		float: left;
+		margin-top: 40px;
+		width: 160px;
+		padding-left: 15px;
+		height: 500px;
+	}
+	
+	div.mainAllContent ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+	
+	li.mainAllTitle{
+		background-color: #2c302c;
+		color: #fff;
+		border-radius: 5%;
+		text-align: center;
+		padding-top: 10px;
+		width: 130px;
+		height: 40px;	
+		font-weight: bold;	
+	}
+	
+	li.mainAllCom{
+		background-color:  #fff;
+		border-radius: 5%;
+		text-align: center;
+		padding-top: 10px;
+		width: 130px;
+		height: 40px;
+		font-weight: bold;
+		margin: 8px 0px;
+	}
 
+	li.mdname{
+		line-height: 25px;
+	}
+	
+	li.mdname:hover{
+		background-color: #ffffcc;
+		font-weight: bold;
+	}
+	
+	div.mainAllContent a{
+		text-decoration: none;
+	}
+	
+	li.mainAllCommu:hover{
+		background-color: #ffffcc;
+		font-weight: bold;
+	}
+	
+	div.menuSort span{
+		border: solid 0px red;
+		display: inline-block;
+		width: 65px;
+		margin-left:5px;
+	}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -95,7 +160,7 @@
 
 	$(document).ready(function(){
 	
-			$("button#btnlogin").click(function(){
+		    $("button#btnlogin").click(function(){
 				location.href="<%= ctxPath%>/login/loginform.cc";
 			});
 		
@@ -103,15 +168,31 @@
 				location.href="<%= ctxPath%>/member/memberRegister.cc";
 			});
 			
-			$("button.menuEach").click(function(){
+			$("button.case").click(function(){
 				
 				var selectMenu= $(this).val();
 				location.href="<%= ctxPath%>/modelList.cc?cnum="+selectMenu;
 				
 			}); // end of $("button.menuEach").click(function(){------------
 			
+				
+			$("button#commu").click(function(){
+				location.href="<%=ctxPath%>/board/faqList.cc";
+			});
 			
-		
+			
+			$("img#menuAllMouseover").hide();
+			
+			$("div#allForEvent").hover(function(){
+				$("img#menuAllMouseout").hide();
+				$("img#menuAllMouseover").show();
+			},function(){
+				$("img#menuAllMouseout").show();
+				$("img#menuAllMouseover").hide();
+			}) // end of hover event--------------------
+				
+			
+			
 	}); // $(documnet).ready(function(){--------------------------------
 	
 		
@@ -142,36 +223,158 @@
 		
 		<div id="mainMenu">
 		
-			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 260px;">
-	  		 	<button class="menuEach">전체메뉴</button>
-		  		<div class="menuSort">
-		  			여긴아직~~
+			<div class="menuEachContainer" id="allForEvent" style="position:absolute; top: 50px; left: 260px;">
+	  		 	<img src="<%= ctxPath%>/images/homeMain/menuAllMouseout.png" width="120" height="80" id="menuAllMouseout"/>
+		  		<img src="<%= ctxPath%>/images/homeMain/menuAllMouseover.png" width="120" height="80" id="menuAllMouseover"/>
+		  		<div class="menuSort" id="mainAll">
+		  			<div class="mainAllContent" style="margin-left:40px;">
+		  				<ul>
+		  					<li class="mainAllTitle">하드케이스</li>
+		  					<li class="mainAllCom">삼성</li>
+		  					<c:forEach var="modelSH" items="${modelListSH}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=1&modelName=${modelSH}">
+		  							<li class="mdname">&nbsp;${modelSH}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=1">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">애플</li>
+		  					<c:forEach var="modelAH" items="${modelListAH}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=1&modelName=${modelAH}">
+		  							<li class="mdname">&nbsp;${modelAH}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=1">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">엘지</li>
+		  					<c:forEach var="modelLH" items="${modelListLH}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=1&modelName=${modelLH}">
+		  							<li class="mdname">&nbsp;${modelLH}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=1">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent">
+		  				<ul>
+		  					<li class="mainAllTitle">젤리케이스</li>
+		  					<li class="mainAllCom">삼성</li>
+		  					<c:forEach var="modelSJ" items="${modelListSJ}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=2&modelName=${modelSJ}">
+		  							<li class="mdname">&nbsp;${modelSJ}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=2">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">애플</li>
+		  					<c:forEach var="modelAJ" items="${modelListAJ}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=2&modelName=${modelAJ}">
+		  							<li class="mdname">&nbsp;${modelAJ}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=2">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">엘지</li>
+		  					<c:forEach var="modelLJ" items="${modelListLJ}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=2&modelName=${modelLJ}">
+		  							<li class="mdname">&nbsp;${modelLJ}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=2">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent">
+		  				<ul>
+		  					<li class="mainAllTitle">범퍼케이스</li>
+		  					<li class="mainAllCom">삼성</li>
+		  					<c:forEach var="modelSB" items="${modelListSB}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=3&modelName=${modelSB}">
+		  							<li class="mdname">&nbsp;${modelSB}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=1000&cnum=3">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">애플</li>
+		  					<c:forEach var="modelAB" items="${modelListAB}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=3&modelName=${modelAB}">
+		  							<li class="mdname">&nbsp;${modelAB}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=2000&cnum=3">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  					<li class="mainAllCom">엘지</li>
+		  					<c:forEach var="modelLB" items="${modelListLB}">
+		  						<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=3&modelName=${modelLB}">
+		  							<li class="mdname">&nbsp;${modelLB}</li>
+		  						</a>
+		  					</c:forEach>
+		  					<a href="<%=ctxPath%>/product/productList.cc?mnum=3000&cnum=3">
+		  						<li class="mdname">&nbsp;전체보기</li>
+		  					</a>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent">
+		  				<ul>
+		  					<li class="mainAllTitle">악세사리</li>
+		  					<li class="mainAllCom">에어팟케이스</li>
+		  					<li class="mainAllCom">버즈케이스</li>
+		  					<li class="mainAllCom">그립톡</li>
+		  				</ul>
+		  			</div>
+		  			<div class="mainAllContent" style="border: none;">
+		  				<ul>
+		  					<li class="mainAllTitle">커뮤니티</li>
+		  					<a href="<%=ctxPath%>/board/faqList.cc">
+		  						<li class="mainAllCom mainAllCommu">F&nbsp;A&nbsp;Q</li>
+		  					</a>
+		  					<a href="<%=ctxPath%>/board/qnaList.cc">
+		  						<li class="mainAllCom mainAllCommu">Q&nbsp;&&nbsp;A</li>
+		  					</a>
+		  					<li class="mainAllCom mainAllCommu">이벤트</li>
+		  					<li class="mainAllCom mainAllCommu">공지사항</li>
+		  					<li class="mainAllCom mainAllCommu">고객리뷰</li>
+		  				</ul>
+		  			</div>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
-	  		 	<button class="menuEach" name="hardCase" value="1">하드케이스</button>
+	  		 	<button class="menuEach case" id="hardCase" value="1">하드케이스</button>
 		  		<div class="menuSort">
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=1" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${sessionScope.paraMap.hardSamCnt}개</a>
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=1" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.hardAppCnt}개</a>
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=1" class="dropMenu">LG&nbsp;&nbsp;&nbsp;&nbsp;${paraMap.hardLgCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=1" class="dropMenu"><span>삼성</span>${paraMap.hardSamCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=1" class="dropMenu"><span>애플</span>${paraMap.hardAppCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=1" class="dropMenu"><span>LG</span>${paraMap.hardLgCnt}개</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 560px;">
-		  		<button class="menuEach" name="jellyCase" value="2">젤리케이스</button>
+		  		<button class="menuEach case" id="jellyCase" value="2">젤리케이스</button>
 		  		<div class="menuSort">
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=2" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${paraMap.jellySamCnt}개</a>
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=2" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.jellyAppCnt}개</a>
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=2" class="dropMenu">LG&nbsp;&nbsp;&nbsp;&nbsp;${paraMap.jellyLgCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=2" class="dropMenu"><span>삼성</span>${paraMap.jellySamCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=2" class="dropMenu"><span>애플</span>${paraMap.jellyAppCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=2" class="dropMenu"><span>LG</span>${paraMap.jellyLgCnt}개</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 710px;">
-	  		 	<button class="menuEach" name="bumperCase" value="3">범퍼케이스</button>
+	  		 	<button class="menuEach case" id="bumperCase" value="3">범퍼케이스</button>
 		  		<div class="menuSort">
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=3" class="dropMenu">삼성&nbsp;&nbsp;&nbsp;${paraMap.bumpSamCnt}개</a>
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=3" class="dropMenu">애플&nbsp;&nbsp;&nbsp;${paraMap.bumpAppCnt}개</a>
-		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=3" class="dropMenu">LG&nbsp;&nbsp;&nbsp;&nbsp;${paraMap.bumpLgCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=3" class="dropMenu"><span>삼성</span>${paraMap.bumpSamCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=3" class="dropMenu"><span>애플</span>${paraMap.bumpAppCnt}개</a>
+		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=3000&cnum=3" class="dropMenu"><span>LG</span>${paraMap.bumpLgCnt}개</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 860px;">
 	  		 	<button class="menuEach">악세사리</button>
 		  		<div class="menuSort">
@@ -180,13 +383,14 @@
 		  			<a href="" class="dropMenu">그립톡&nbsp;&nbsp;&nbsp;&nbsp;수량</a>
 		  		</div>
 	  		</div>
+	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 1010px;">
-	  		 	<button class="menuEach">커뮤니티</button>
+	  		 	<button class="menuEach" id="commu">커뮤니티</button>
 		  		<div class="menuSort">
 		  			<a href="<%=ctxPath%>/board/faqList.cc" class="dropMenu">FAQ</a>
 		  			<a href="<%=ctxPath%>/board/qnaList.cc" class="dropMenu">Q&A</a>
 		  			<a href="" class="dropMenu">이벤트</a>
-		  			<a href="" class="dropMenu">공지사항</a>
+		  			<a href="<%=ctxPath%>/board/noticeList.cc" class="dropMenu">공지사항</a>
 		  			<a href="" class="dropMenu">고객리뷰</a>
 		  		</div>
 	  		</div>

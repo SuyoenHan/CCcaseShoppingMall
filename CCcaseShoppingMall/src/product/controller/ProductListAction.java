@@ -120,8 +120,8 @@ public class ProductListAction extends AbstractController {
 		}// end of while-----------------------------
 		
 		if(pageNo <= totalPage) {
-			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[다음]</a>&nbsp";
-			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[마지막]</a>&nbsp";
+			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[다음]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>[마지막]</a>&nbsp;";
 		}
 		
 		request.setAttribute("pageBar", pageBar);

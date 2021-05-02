@@ -21,13 +21,31 @@ public class UnavailableCouponAction extends AbstractController {
 			
 			// 로그인된 계정으로 접속 했을 경우
 			if(loginuser != null) {
+				String currentShowPageNo = request.getParameter("currentShowPageNo");
+				
+				if(currentShowPageNo == null) {
+					currentShowPageNo = "1";
+				}
+				
+				try {
+					Integer.parseInt(currentShowPageNo);
+				} catch (NumberFormatException e) {
+						currentShowPageNo = "1";
+				}
 				
 				String userid = loginuser.getUserid();
 				
+				
 				InterCouponDAO cdao = new CouponDAO();
 				
+				Map<String, String> paraMap = new HashMap<>();
+				paraMap.put("userid", userid);
+				paraMap.put("currentShowPageNo", currentShowPageNo);
+				paraMap.put("cpstatus", "1"); // 사용불가능 쿠폰 목록을 보기 위함 (소멸쿠폰은 2번이다 => CouponDAO에서 처리함)
+				
 				// 아이디를 가지고 해당 쿠폰 정보 조회해오기
-				List<CouponVO> cpList = cdao.selectCouponList(userid);
+				List<CouponVO> cpList = cdao.selectCouponList(paraMap);
+				
 				
 				// 사용가능쿠폰 개수 조회하기
 				int acnt = cdao.countAvalCpQty("0");
@@ -38,6 +56,9 @@ public class UnavailableCouponAction extends AbstractController {
 				request.setAttribute("cpList", cpList);
 				request.setAttribute("acnt", acnt);
 				request.setAttribute("ucnt", ucnt);
+				
+				
+				
 				
 				// super.setRedirect(false);
 				super.setViewPage("/WEB-INF/member/AvailableCoupon.jsp");

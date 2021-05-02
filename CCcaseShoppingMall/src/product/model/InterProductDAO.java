@@ -19,15 +19,14 @@ public interface InterProductDAO {
 	// 한페이지에 보여줄 제품정보 메소드
 	List<Map<String, String>> selectPagingProduct(Map<String, String> pageMap) throws SQLException;
 
-	
+	// mnum, cnum이 주어진 경우, 모델그룹별 개수 반환
+	List<Map<String,String>> getCntByModel (String mnum, String cnum) throws SQLException;
 
-	
 
-	
+	// snum이 주어진 경우, 이에 해당하는 제품정보 반환 메소드
+	List<Map<String, String>> selectPInfoBySpec(String snum) throws SQLException;
 	
 	// =========================== 한수연 끝 ======================================
-	
-	
 	
 	
 	
@@ -40,6 +39,12 @@ public interface InterProductDAO {
 	// =========================== 백원빈 시작 ======================================
 	// product테이블에 insert하는 메소드
 	String insertProduct(Map<String, String> promap) throws SQLException;
+	
+	// 기종명 조회해오기(select)
+	List<String> getgijongname() throws SQLException;
+	
+	// totalPage 알아오기
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
 	
 	
 	

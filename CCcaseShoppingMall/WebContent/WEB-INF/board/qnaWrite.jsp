@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+    pageEncoding="UTF-8"%>    
 
 <%
 	String ctxPath = request.getContextPath();
@@ -65,7 +62,7 @@
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
-    <form action="qnaWriteEnd.jsp" method="post" name="qnaWriteForm">
+    <form action="qnaWriteEnd.cc" method="post" name="qnaWriteForm">
     <table style="width: 700px; border-color: lightgray;">
 
         <tr>
@@ -107,7 +104,7 @@
                글내용
             </td>
             <td>
-                <textarea name="qcontent" id="qcontent" cols="65" rows="15"></textarea>            
+                <textarea name="qcontent" id="qcontent" cols="72" rows="15"></textarea>            
             </td>        
         </tr>
 

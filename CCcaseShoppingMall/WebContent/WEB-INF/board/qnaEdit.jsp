@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="board.model.QnaVO" %>    
+<%@ page import="board.model.QnaDAO" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -41,22 +41,17 @@
 	
 	 $(document).ready(function(){		
 		 
-		 $("#qnaPwd").hide();// 비공개글일 때만 글비번 보여주기
-		 
-	 });
- 
-	 // Function declaration
-	 
-	 // 비공개 글만 비밀번호칸 공개하기
-	 function setDisplay(){
-	    if($("input:radio[id=qstatus2]").is(":checked")){
-	        $("#qnaPwd").show();
-	    }
-	   else{
-	        $("#qnaPwd").hide();
-	    }
-	}// end of function setDisplay()--------------------------------------
 
+	 });
+	 
+ <% 
+ String qnano=request.getParameter("qnano");
+ QnaVO qvo = new QnaDAO().qnaDetail(qnano); 
+ 
+ session.setAttribute("qnano", qnano);
+ qnano = (String)session.getAttribute("qnano");
+  %>
+ 
 </script>
 </head>
 
@@ -64,35 +59,38 @@
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
-    <form action="qnaEditEnd.jsp" method="post" name="qnaEditForm">
+    <form action="qnaEditEnd.cc" method="post" name="qnaEditForm">
     <table style="width: 700px; border-color: lightgray;">
 
         <tr>
             <td class="title">제목</td>
+            <td>			
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value="<%= qvo.getQtitle() %>"/>
+            </td>
             <td>
-                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value="${requestScope.qvo.qtitle}"/>
+            	<input name ="qnano" id="qnano" type="hidden" value="<%=qvo.getQnano() %>" />
             </td>        
         </tr>
 		<tr>
             <td class="title">작성자</td>
-            <td><input type="text" id="fk_userid" name="fk_userid" size="70" value="${requestScope.qvo.fk_userid}" readonly></td>
+            <td><input type="text" id="fk_userid" name="fk_userid" size="70" value="<%= qvo.getFk_userid() %>" readonly></td>
         </tr>
          <tr>
             <td class="title">등록일</td>
-            <td><input type="text" id="qregisterdate" name="qregisterdate" size="70" value="${requestScope.qvo.qregisterdate}" readonly></td>
+            <td><input type="text" id="qregisterdate" name="qregisterdate" size="70" value="<%= qvo.getQregisterdate() %>" readonly></td>
         </tr>
 		<tr>
             <td class="title">이메일</td>
-            <td><input type="text" id="email" name="email" size="70" value="${requestScope.qvo.email}" readonly></td>
+            <td><input type="text" id="email" name="email" size="70" value="<%= qvo.getEmail() %>" readonly></td>
         </tr>
         <tr>
             <td class="title">제품아이디</td>
-            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value="${requestScope.qvo.fk_productid}"/></td>
+            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value="<%= qvo.getFk_productid() %>"/></td>
         </tr>
         
         <tr>
         	<td id="title">공개여부</td>
-        	<td><input type="text" id="qtatus" name="qstatus" size="70" value="${requestScope.qvo.qstatus}" readonly></td>
+        	<td><input type="text" id="qtatus" name="qstatus" size="70" value="<%= qvo.getQstatus() %>" readonly></td>
        	</tr>
 
         <tr>
@@ -100,7 +98,7 @@
                글내용
             </td>
             <td>
-                <textarea name="qcontent" id="qcontent" cols="65" rows="15" >${requestScope.qvo.qcontent}</textarea>            
+                <textarea name="qcontent" id="qcontent" cols="72" rows="15" ><%= qvo.getQcontent()  %></textarea>            
             </td>        
         </tr>
 
