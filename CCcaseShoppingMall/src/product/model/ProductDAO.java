@@ -398,6 +398,55 @@ public class ProductDAO implements InterProductDAO {
 	} // end of public List<Map<String, String>> selectPInfoBySpec(String snum) throws SQLException {---------
 
 	
+	
+	// productid가 주어진 경우, 이에 해당하는 제품정보 반환 메소드
+	@Override
+	public Map<String, String> getOnePInfo(String productid) throws SQLException {
+
+		Map<String, String> onePInfoMap= null;
+		
+		try {
+		
+			conn=ds.getConnection();
+			String sql= " select productid, productname, modelname, pimage1, price, price*(1-salepercent) as saleprice, salepercent*100 as salepercent, cname "+
+						" from tbl_product "+
+						" join tbl_category on fk_cnum=cnum "+
+						" where productid= ? ";
+		    pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, productid);		
+		    
+			rs= pstmt.executeQuery();
+			
+		    if(rs.next()) {
+		    	
+		    	onePInfoMap= new HashMap<>();
+		    	onePInfoMap.put("productid", rs.getString(1));
+		    	onePInfoMap.put("productname", rs.getString(2));
+		    	onePInfoMap.put("modelname", rs.getString(3));
+		    	onePInfoMap.put("pimage1", rs.getString(4));
+		    	onePInfoMap.put("price", String.valueOf(rs.getInt(5)));
+		    	onePInfoMap.put("saleprice", String.valueOf(rs.getInt(6)));
+		    	onePInfoMap.put("salepercent", String.valueOf(rs.getInt(7)));
+		    	onePInfoMap.put("cname", rs.getString(8));
+		    }
+			
+			
+		}finally {
+			close();
+		}
+		
+		return onePInfoMap;
+		
+		/* 
+		   productid에 해당하는 제품이 존재하지 않는경우: null
+		   productid에 해당하는 제품이 존재하는 경우: onePInfoMap   
+		*/
+	
+	}
+
+
+	
+	
 	// =========================== 한수연 끝 ======================================
 
 	

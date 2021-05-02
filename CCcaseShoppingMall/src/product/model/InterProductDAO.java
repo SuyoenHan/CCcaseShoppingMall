@@ -26,6 +26,9 @@ public interface InterProductDAO {
 	// snum이 주어진 경우, 이에 해당하는 제품정보 반환 메소드
 	List<Map<String, String>> selectPInfoBySpec(String snum) throws SQLException;
 	
+	// productid가 주어진 경우, 이에 해당하는 제품정보 반환 메소드
+	Map<String, String> getOnePInfo(String productid) throws SQLException;
+	
 	// =========================== 한수연 끝 ======================================
 	
 	
@@ -45,6 +48,7 @@ public interface InterProductDAO {
 	
 	// totalPage 알아오기
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+
 	
 	
 	
