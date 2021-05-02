@@ -1,13 +1,13 @@
 package board.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import admin.model.AdminVO;
-import board.model.InterQnaDAO;
-import board.model.QnaDAO;
-import board.model.QnaVO;
+import board.model.*;
 import common.controller.AbstractController;
 
 
@@ -21,18 +21,26 @@ public class AdminQnaDetailAction extends AbstractController {
 				String goBackURL = request.getParameter("goBackURL");
 				request.setAttribute("goBackURL", goBackURL); 
 				
+				// admin 값 받아오기
 				HttpSession session = request.getSession();
 				AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 				
+				// qnano 데이터 받아오기
 				String qnano = request.getParameter("qnano");
 				
 				InterQnaDAO qdao = new QnaDAO();
 				QnaVO qvo = qdao.qnaDetail(qnano);
 				
 				request.setAttribute("qvo", qvo);
-				
+			
+				// fk_qnano 가져오기
+				String fk_qnano = request.getParameter("fk_qnano");			
+				List<QnaCmtVO> cmtList = qdao.getCmtList(fk_qnano);
+
+				request.setAttribute("cmtList", cmtList);	
+
 				if( adminUser != null) { // 로그인했으면
-					
+				
 					// 조회수 증가
 					qdao.updateViewCount(qvo.getQnano());
 	

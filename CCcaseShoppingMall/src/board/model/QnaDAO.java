@@ -47,13 +47,13 @@ public class QnaDAO implements InterQnaDAO {
 		try {
 			 conn = ds.getConnection();
 			 
-			 String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount "+
+			 String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
 					 			" from " +
 					 			" ( "+
-					 			"    select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount "+
+					 			"    select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
 					 			"    from "+
 					 			"    ( "+
-					 			"        select qnano, qtitle, fk_userid, qregisterdate, qviewcount "+
+					 			"        select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
 					 			"        from tbl_qna " ;
 			 
 			 	/////////// === 검색어가 있는 경우 시작 === ///////////
@@ -99,6 +99,7 @@ public class QnaDAO implements InterQnaDAO {
 				 qvo.setFk_userid(rs.getString(3));
 				 qvo.setQregisterdate(rs.getString(4));
 				 qvo.setQviewcount(rs.getInt(5));
+				 qvo.setQnapwd(rs.getString(6));
 				 
 				 qnaList.add(qvo);
 				 
@@ -154,6 +155,33 @@ public class QnaDAO implements InterQnaDAO {
 		return totalPage;
 	}
 
+	// 조회수 증가시키기
+	@Override
+	public void updateViewCount(int qnano) throws SQLException {
+		
+		try {
+			  conn = ds.getConnection();
+			  
+			  String sql = " update tbl_qna set qviewcount = qviewcount + 1 "
+				  	     	 + " where qnano = ? ";
+				  
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, qnano);
+				  
+			  int n = pstmt.executeUpdate();
+				  
+			  if(n==1) {
+				  conn.commit();
+			  }
+			  
+		} finally {
+			close();
+		}	
+		
+	}// end of public void updateViewCount(int qnano)---------------------------------
+	
+	
+	// USER 용 메소드
 	// qna 글 작성하기(tbl_qna에 insert)
 	@Override
 	public int writeQna(QnaVO qna) throws SQLException {
@@ -176,35 +204,6 @@ public class QnaDAO implements InterQnaDAO {
 			pstmt.setString(6, qna.getQnapwd());
 			pstmt.setString(7, qna.getFk_productid());
 			
-			n = pstmt.executeUpdate();
-			
-			return n;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}	
-		return -1; // 데이터베이스 오류
-	}
-
-	// qna 답글 작성하기(tbl_qnacmt에 insert)
-	@Override
-	public int replyQna(QnaVO qna) throws SQLException {
-
-		int n = 0;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " insert into tbl_qnacmt (cmtno, fk_qnano, fk_adminid, cmtcontent) "+
-								" values(seq_qnacmt_cmtno.nextval, ?, ?, ?) ";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, qna.getQnano());
-			pstmt.setString(2, qna.getFk_adminid());
-			pstmt.setString(3, qna.getCmtcontent());
-
 			n = pstmt.executeUpdate();
 			
 			return n;
@@ -310,33 +309,76 @@ public class QnaDAO implements InterQnaDAO {
 		return qvo;
 	}
 
-	// 조회수 증가시키기
+
+	// ADMIN 용 메소드
+	// qna 답글 작성하기(tbl_qnacmt에 insert)
 	@Override
-	public void updateViewCount(int qnano) throws SQLException {
+	public int replyQna(QnaCmtVO qcvo) throws SQLException {
+
+		int n = 0;
 		
 		try {
-			  conn = ds.getConnection();
-			  
-			  String sql = " update tbl_qna set qviewcount = qviewcount + 1 "
-				  	     	 + " where qnano = ? ";
-				  
-			  pstmt = conn.prepareStatement(sql);
-			  pstmt.setInt(1, qnano);
-				  
-			  int n = pstmt.executeUpdate();
-				  
-			  if(n==1) {
-				  conn.commit();
-			  }
-			  
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_qnacmt (cmtno, fk_qnano, fk_adminid, cmtcontent) "+
+								" values(seq_qnacmt_cmtno.nextval, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qcvo.getFk_qnano());
+			pstmt.setString(2, qcvo.getFk_adminid());
+			pstmt.setString(3, qcvo.getCmtcontent());
+
+			n = pstmt.executeUpdate();
+			
+			return n;
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			close();
 		}	
+		return -1; // 데이터베이스 오류
+	}// end of public int replyQna(QnaCmtVO qcvo) throws SQLException--------------------
+
+	// fk_qnano로 qna 답글 불러오기
+	@Override
+	public List<QnaCmtVO> getCmtList(String fk_qnano) throws SQLException {
 		
-	}// end of public void updateViewCount(int qnano)---------------------------------
+		List<QnaCmtVO> cmtList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select C.fk_adminid, C.cmtregisterday, C.cmtcontent "+
+								" from "+
+								" ( "+
+								"  select fk_qnano, fk_adminid, cmtregisterday, cmtcontent "+
+								"  from tbl_qnacmt "+
+								"  where fk_qnano= ? "+
+								" ) C JOIN tbl_qna Q "+
+								" ON C.fk_qnano = Q.qnano ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, fk_qnano);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				QnaCmtVO qcvo = new QnaCmtVO();
+				
+				qcvo.setFk_adminid(rs.getString(1));
+				qcvo.setCmtregisterday(rs.getString(2));
+				qcvo.setCmtcontent(rs.getString(3));
+				
+				cmtList.add(qcvo);
 
-
-
-
+			}
+		} finally {
+			close();
+		}		
+		return cmtList;
+	}// end of public List<QnaCmtVO> cmtList(String fk_qnano) throws SQLException
 
 }

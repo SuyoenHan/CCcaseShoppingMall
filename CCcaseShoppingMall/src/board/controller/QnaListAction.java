@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
 import my.util.Myutil;
 
 
@@ -19,7 +18,7 @@ public class QnaListAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 1.
-		// *** 관리자 아이디 로그인시 관리자 페이지로 연결
+		// *** 일반회원 로그인 or 로그인 안했으면 유저페이지로, 관리자 아이디 로그인시 관리자 페이지로 연결
 		HttpSession session = request.getSession();
 	
 //		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");		
@@ -28,7 +27,7 @@ public class QnaListAction extends AbstractController {
 		InterQnaDAO qdao = new QnaDAO();
 		
 		super.setViewPage("/WEB-INF/board/qnaList.jsp");
-
+	
 		if(adminUser != null) {
 			super.setViewPage("/WEB-INF/board/adminQnaList.jsp");
 		}

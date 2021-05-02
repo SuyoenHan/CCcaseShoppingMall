@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+    
 <jsp:include page="../header.jsp" /> 
 <jsp:include page="../communityLeftSide.jsp"/>
 
@@ -47,9 +47,15 @@
 	}
 	
 	function goDelete(){
-	        if(confirm("정말로 삭제하시겠습니까?")==true){
-	            location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
-	        }
+        if(confirm("정말로 삭제하시겠습니까?")==true){
+        	if("${requestScope.qvo.qnano}"=="${requestScope.qrvo.fk_qnano}"){
+        		alert("답글이 있는 글은 삭제할 수 없습니다.");
+        		location.href = "/CCcaseShoppingMall/"+goBackURL;
+       		 }
+        	else{	
+            	location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
+        	}
+        }
 	}
 
 </script>
@@ -82,7 +88,12 @@
         </tr>     
         <tr>
         	<td id="title">공개여부</td>
-        	<td>${requestScope.qvo.qstatus}</td>
+        	<td>
+        		<c:choose>
+        			<c:when test="${requestScope.qvo.qstatus eq '0'}">전체공개</c:when>
+        			<c:when test="${requestScope.qvo.qstatus eq '1'}">비공개</c:when>
+        		</c:choose>
+        	</td>
        	</tr>
 
         <tr>
@@ -94,18 +105,38 @@
         
 	</table>
 	</form>
+	
+	 <div>	
+  		<form name="qnaReplyDetailForm">
+  			<table style="width: 700px; border: 1px; border-color: lightgray;">
+  				 <tr>
+  				 	<td style="display: none">${requestScope.qrvo.fk_qnano}</td>
+  				 	<td style="display: none">${requestScope.qrvo.cmtno }</td>
+		            <td class="title">등록일</td>
+		            <td>${requestScope.qrvo.cmtregisterday}</td>
+		        </tr>
+		        <tr>
+		            <td id="title">
+		               글내용
+		            </td>           
+		            <td>${requestScope.qrvo.cmtcontent}</td>        
+		        </tr>						        	
+  			</table>
+  		</form>
+		<!--  답글 보여주기 끝 -->		  		
+	  </div>
 
 	<div style="display:inline-block;">
-		<button style="margin-top: 50px;" type="button" onclick="goQnaList()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
+		<button type="button" onclick="goQnaList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
 	</div>
 	<div style="display:inline-block;">
 		<c:if test="${sessionScope.adminUser.adminid !=null }">
-				<button style="margin-top: 50px;" type="button" onclick="goReply()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button>
+				<button type="button" onclick="goReply()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button>
 		</c:if>
 		<c:if test="${sessionScope.loginuser.userid !=null }">
 			<c:if test="${sessionScope.loginuser.userid == requestScope.qvo.fk_userid}">
-				<button style="margin-top: 50px;" type="button" onclick="goEdit()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">수정</button>
-				<button style="margin-top: 50px;" type="button" onclick="goDelete();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
+				<button type="button" onclick="goEdit()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">수정</button>
+				<button type="button" onclick="goDelete();" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
 			</c:if>
 		</c:if>
 	</div>

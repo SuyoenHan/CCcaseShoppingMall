@@ -5,14 +5,14 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<!DOCTYPE jsp:include PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>QnA 글쓰기</title>
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
 <style type="text/css">
 
@@ -55,10 +55,14 @@
 	    }
 	}// end of function setDisplay()--------------------------------------
 
+	function on_load(){
+		document.admRepWriteForm.qtitle.focus();
+	}
+	
 </script>
 </head>
 
-<body>
+<body onload="fn_onload()">
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
@@ -68,7 +72,7 @@
         <tr>
             <td class="title">제목</td>
             <td>
-                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="100" value=""/>
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="50" value=""/>
             </td>        
         </tr>
         <tr>
@@ -112,7 +116,7 @@
             <td colspan="5">
                 <input type="reset" value="작성취소" >
                 <input type="submit" value="등록" >
-                <input type="button" value="목록" onClick="location.href='<%=request.getContextPath()%>/board/qnaList.cc'" >            
+                <input type="button" value="목록" onClick="location.href='<%=ctxPath%>/board/qnaList.cc'" >            
             </td>
         </tr>
     </table>    
