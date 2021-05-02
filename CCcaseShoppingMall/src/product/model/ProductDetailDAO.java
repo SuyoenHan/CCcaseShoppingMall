@@ -358,6 +358,49 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		
 	} // end of public List<Map<String, String>> SelectPInfoByDelivery(String doption) throws SQLException {------
 
+	
+	
+	// productid가 주어진 경우, 이에 해당하는 제품정보 반환 메소드
+	@Override
+	public List<Map<String, String>> getOnePDetailInfo(String productid) throws SQLException {
+		
+		List<Map<String, String>> OnePDetailInfoList= new ArrayList<>();;
+	
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select pnum, pcolor, pcontent, doption "+
+			            " from tbl_pdetail " +
+			            " where fk_productid= ? ";
+			pstmt= conn.prepareStatement(sql);			
+			pstmt.setString(1, productid);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				Map<String,String> OnePDetailInfoMap= new HashMap<>();
+				OnePDetailInfoMap.put("pnum", rs.getString(1));
+				OnePDetailInfoMap.put("pcolor", rs.getString(2));
+				OnePDetailInfoMap.put("pcontent", rs.getString(3));
+				OnePDetailInfoMap.put("doption", String.valueOf(rs.getInt(4)));
+				
+				OnePDetailInfoList.add(OnePDetailInfoMap);
+			}
+			
+		}finally {
+			close();
+		}
+				
+		return OnePDetailInfoList;
+
+		/* 
+		   productid에 해당하는 제품이 존재하지 않는경우: OnePDetailInfoList.size() == 0  
+		   productid에 해당하는 제품이 존재하는 경우: OnePDetailInfoList.size() > 0  
+		*/
+	
+	}
+
 
 	// ======================== 한수연 끝 ===========================	
 	
