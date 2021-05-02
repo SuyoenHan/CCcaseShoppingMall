@@ -59,6 +59,8 @@ public class ProductDetailAction extends AbstractController {
 		request.setAttribute("extraPlusImgFile", extraPlusImgFile);
 		request.setAttribute("primePlusImgFile", primePlusImgFile);
 		
+		String goBackURL= request.getParameter("goBackURL");
+		request.setAttribute("goBackURL", goBackURL);
 		
 		
 		super.setRedirect(false);
