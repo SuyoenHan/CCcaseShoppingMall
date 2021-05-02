@@ -244,7 +244,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	
 	// 배송옵션에 따른 제품정보 반환 메소드 (색상도 고려)
 	@Override
-	public List<Map<String, String>> SelectPInfoByDelivery(String doption) throws SQLException {
+	public List<Map<String, String>> selectPInfoByDelivery(String doption) throws SQLException {
 
 		List<Map<String,String>> pInfoListByDOption= new ArrayList<>();
 		

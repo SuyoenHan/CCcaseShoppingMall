@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="../header.jsp" />
@@ -11,49 +8,34 @@
 
 <style type="text/css">
 
-		
+
 
 </style>
 
+
+	
+
 <script type="text/javascript">
 
-<<<<<<< HEAD
-	$(document).ready(function(){
-			
-		
-		
-	});
 
-	function goRevList() {
-		location.href="<%= ctxPath%>/"+goBackURL;
-	}
-	
-=======
+function goRevList() {
+	location.href="<%= ctxPath%>/"+goBackURL;
+}
 
->>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 </script>
 
-<c:if test="${empty requestScope.rvo}">
+<c:if test="">
 	존재하지 않는 리뷰입니다.<br>
 </c:if>
 
-<c:if test="${not empty requestScope.rvo}">
-	
-	<div id="imgSection"></div>
-	
-	<div id="showPord"></div>
-	
-	<div id="rvoInfo" float="left">
-		
-	</div>
-		
-	
+<c:if test="">
 
 
 </c:if>
 
 	<div id="btnRevList" align="right">
-		<button type="button" onClick="goRevList()">리뷰목록</button>
+		<button type="button" onClick="">리뷰목록</button>
 	</div>
+
 
 <jsp:include page="../footer.jsp" />

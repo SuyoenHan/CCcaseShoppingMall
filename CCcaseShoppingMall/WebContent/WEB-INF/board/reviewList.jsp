@@ -51,10 +51,6 @@
 		
 	}// end of function goRSearch() {}----------------------------------------
 
-<<<<<<< HEAD
-	
-	
-=======
 	function goRevDetail() {
 		
 		location.href
