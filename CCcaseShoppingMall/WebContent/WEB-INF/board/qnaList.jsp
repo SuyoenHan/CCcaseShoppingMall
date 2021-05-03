@@ -58,11 +58,12 @@
 		});
 		
 		// 특정 제목을 클릭하면 그 글의 상세정보를 보여주도록 한다.
+		// 그런데 만약에 비번 걸린 글이면 비번 입력해야 볼 수 있다.
 		$("tr.qnaInfo").click(function(){
 
 			var qnano = $(this).children(".qnano").text();
-<%--		var qnapwd = "${requestScope.qvo.qnapwd}";
-			
+			var qnapwd = $(this).children(".qnapwd").text();
+
 			var test = 1;
 			var pass = prompt('글 암호를 입력하십시오','글 암호를 입력하세요'); // 초기시 암호 물어보는 멘트
 
@@ -72,16 +73,18 @@
 				if (pass == qnapwd) { // 암호지정
 					alert('확인을 누르면 클릭하신 글로 이동합니다.'); // 암호가 맞았을때 나오는 멘트	 --%>
 					location.href ="qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
-<%--				break;
+					break;
 				}
 				test += 1;
 				var pass1 = prompt('암호를 확인 하시고 다시 입력하세요!.','암호 확인'); // 암호가 틀렸을때 멘트
 			}
-			
-			if (pass != qnapwd && test == 3) 
+			if (pass != qnapwd && test == 3) {// 비밀번호 세번 틀리면 이전페이지로
 				history.go(-1);
-				return " "; 		--%>
-		});
+				return " "; 	
+			}
+
+		});// end of $("tr.qnaInfo").click(function(){})-------------------------------------------------------------
+			
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
 	
 	// Function declaration
@@ -124,7 +127,7 @@
 	    				<td>${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>
 	    				<td class="qviewcount">${qvo.qviewcount}</td>
-	    				<td class="qnapwd" style="display: none">${qvo.qnapwd}</td>
+	    				<td class="qnapwd" style="display:none;" >${qvo.qnapwd}</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>
@@ -148,16 +151,5 @@
 	    </div>
 	    
 </div>
- <jsp:include page="../footer.jsp" />rd" />
-	      <input type="text"  style="display: none;">
-	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
-	      
-	      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
-    </form>
-	    
-	    <div style="width:30%; margin: 0 auto;">
-	    	${requestScope.pageBar}
-	    </div>
-	    
-</div>
+
  <jsp:include page="../footer.jsp" />
