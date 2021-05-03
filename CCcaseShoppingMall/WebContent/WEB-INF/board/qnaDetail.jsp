@@ -43,13 +43,23 @@
 	}// function goQnaList()----------------------------------------------------
 	
 	function goEdit(){
-		location.href= "qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
+		var cmtno_val = $("#cmt").val();
+		
+		if(cmtno_val == null){
+			location.href= "qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
+		}
+		else{
+			alert("답글이 있는 QNA 글은 수정 불가능합니다. 새로 작성해주세요.");
+			location.href = "/CCcaseShoppingMall/"+goBackURL;
+		}
 	}
 	
 	function goDelete(){
-        if(confirm("정말로 삭제하시겠습니까?")==true){
-            	location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
-        }
+
+	        if(confirm("정말로 삭제하시겠습니까?")==true){
+	            location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
+	        }
+
 	}
 
 </script>
