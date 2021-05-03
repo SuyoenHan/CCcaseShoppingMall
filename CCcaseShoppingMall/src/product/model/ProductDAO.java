@@ -738,7 +738,7 @@ public class ProductDAO implements InterProductDAO {
 		    	proRegisterMap.put("modelname", rs.getString(3));
 		    	proRegisterMap.put("pimage1", rs.getString(4));
 		    	proRegisterMap.put("price", String.valueOf(rs.getInt(5)));
-		    	proRegisterMap.put("salepercent", String.valueOf(rs.getInt(6)));
+		    	proRegisterMap.put("salepercent", String.valueOf(rs.getDouble(6)));
 		    	proRegisterMap.put("fk_cnum", String.valueOf(rs.getInt(7)));
 		    	proRegisterMap.put("fk_mnum", String.valueOf(rs.getInt(8)));
 		    }

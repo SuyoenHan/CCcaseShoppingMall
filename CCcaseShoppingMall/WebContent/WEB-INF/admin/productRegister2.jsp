@@ -59,15 +59,21 @@
 			
 			
 			$("input#productname").val(productname);
-			$("input#productname").prop("disabled",true);
+			
 
 			$("select#fk_mnum").val(fk_mnum);
-			$("select#fk_mnum").prop("disabled",true);
 			
+			$("select#modelname").val(modelname);
+			
+			
+			$("select#fk_cnum").val(fk_cnum);
+	
 			$("input#price").val(price);
-			$("input#price").prop("disabled",true);
+
+			$("input#salepercent").val(salepercent);
 			
-			
+			$("input#productid").val(productid);
+
 			
 		}
 		
@@ -118,7 +124,7 @@
 
 		
 		
-		// 추가정보등록버튼을 클릭했을경우
+		// 최종 등록버튼을 클릭했을경우
 		$("button#finalRegister").click(function(){
 			
 			var Registerflag = false;
@@ -202,7 +208,7 @@
 						<tr> 
 							<td id="info2"><label class="Infoname" for="fk_mnum">2. 회사명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
 							<td>
-								<select id="fk_mnum" name="fk_mnum" class="pilsu1">
+								<select id="fk_mnum" name="fk_mnum" class="pilsu1" >
 									<option value="">선택하세요</option>
 									<c:forEach var="coList" items="${requestScope.companyList}">
 										<option value="${coList.mnum}">${coList.mname}</option>
@@ -241,8 +247,8 @@
 							<td><input type="number" name="salepercent" id="salepercent" min="0.0" max="1.0" value="0.0" step="0.1" /></td>				
 						</tr>
 						<tr> 
-							<td id="info7"><label class="Infoname" for="pimage1">7. 대표이미지파일명<span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td><input type="file" name="pimage1" id="pimage1" class="pilsu1" /></td>				
+							<td id="info7"><label class="Infoname" for="pimage1">7. 대표이미지파일명</label></td>
+							<td><input type="file" name="pimage1" id="pimage1" /></td>				
 						</tr>																									
 					</tbody>
 				</table>
@@ -259,7 +265,8 @@
 				<div id="proregister">
 					<h2>추가 상품등록<span style="font-size:15px; text-decoration: underline; margin-left:5px;">&nbsp;(** 필수입력사항은 꼭 입력해주세요 **)</span></h2>	
 				</div>
-			
+				
+				<input type="hidden" id="productid" name="productid" value="x" />
 				<table>
 					<tbody>
 						<tr> <%-- 제품상세명 : 회사명(mname) - 기종명(modelname) - productname(제품명)   --%>
@@ -285,7 +292,7 @@
 							<td id="info11"><label class="Infoname" for="fk_snum">4. 제품스펙</label></td>
 							<td>
 								<select id="fk_snum" name="fk_snum">
-									<option value="">선택하세요</option>
+									<option value="-1">선택하세요</option>
 									<c:forEach var="map" items="${requestScope.specList}">
 										<option value="${map.snum}">${map.sname}</option>
 									</c:forEach>	

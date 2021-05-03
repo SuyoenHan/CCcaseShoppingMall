@@ -114,6 +114,8 @@ public class ProductRegisterAction extends AbstractController {
 				
 				String imagesDir = svlCtx.getRealPath("/images");
 				
+				imagesDir = "C:\\Users\\BAEK\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images";
+				
 				try {
 					mtrRequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 				} catch (IOException e) {
@@ -142,6 +144,7 @@ public class ProductRegisterAction extends AbstractController {
 				String pimage1 = mtrRequest.getFilesystemName("pimage1");       // 제품대표이미지(제품테이블)
 				String imgPlus1 = mtrRequest.getFilesystemName("imgPlus1"); // 제품추가이미지(이미지추가테이블)
 				String pcontent = mtrRequest.getParameter("pcontent"); 			// 제품설명란(제품상세테이블)
+
 				// 크로스 사이트 스크립트 공격 방지
 				pcontent = pcontent.replaceAll("<", "&lt;");
 	            pcontent = pcontent.replaceAll(">", "&gt;");
@@ -151,7 +154,8 @@ public class ProductRegisterAction extends AbstractController {
 	            Map<String,String> pdetailmap = new HashMap<>();
 	            Map<String,String> plusimgmap = new HashMap<>();
 	            
-	            // 제품테이블의 DAO로 전달하기 위한 promap
+	            // 제품테이블의 DAO로 전달하기 위한 promap productid 
+	            // => cnum + mnum + seq
 	            promap.put("fk_cnum", fk_cnum);
 	            promap.put("fk_mnum", fk_mnum);
 	            promap.put("productname", productname.toUpperCase());
@@ -160,13 +164,21 @@ public class ProductRegisterAction extends AbstractController {
 	            promap.put("salepercent", salepercent);
 	            promap.put("pimage1", pimage1);
 	            
+	            // 색상이 달라도 대표이미지는 1개다 ㅇㅋ?
 	            
 	            InterProductDAO pdao = new ProductDAO();
-	           
-	            // 제품테이블에 insert작업 + 제품번호(primary) 알아오기.
-	            String getfkproductid = pdao.insertProduct(promap);
 	            
+	            // 아래와 같이 productid를 2개의 경우의 수로 나누는 이유는
+	            // 이미 등록된 제품에서 추가정보를 클릭하여 추가색상제품을 만들때
+	           
+	            String productid = mtrRequest.getParameter("productid");
 
+	            if("x".equalsIgnoreCase(productid)) { // 새상품등록할때.
+	            // 제품테이블에 insert작업 + 제품번호(primary) 알아오기.
+	            	productid = pdao.insertProduct(promap);
+	            }
+	            
+	            
 	            // 제품상세테이블의 DAO로 전달하기 위한 pdetailmap
 	            pdetailmap.put("fk_snum", fk_snum);
 	            pdetailmap.put("pinputdate", pinputdate);
@@ -175,12 +187,12 @@ public class ProductRegisterAction extends AbstractController {
 	            pdetailmap.put("pcontent", pcontent);
 	            pdetailmap.put("productname", productname.toUpperCase());
 	            pdetailmap.put("modelname", modelname);
-	            pdetailmap.put("fk_productid",getfkproductid);
+	            pdetailmap.put("productid", productid);
 	            pdetailmap.put("pcolor", pcolor);
 	            pdetailmap.put("mname", mname);
 	            
-	            
 	            InterProductDetailDAO pddao = new ProductDetailDAO();
+
 	            // 제품상세테이블로 insert하기 + 제품상세번호(primary)알아오기
 	            String getpnum = pddao.insertProductDetail(pdetailmap);
 	            
