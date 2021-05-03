@@ -28,10 +28,10 @@ public class MyCartAction extends AbstractController {
 			InterMemberGradeDAO mgdao= new MemberGradeDAO();
 			InterProductDetailDAO pddao= new ProductDetailDAO();
 			
-			int pointPercent=mgdao.getPointPercent(loginuser.getUserid()); // 로그인한 회원의 적립률
+			double pointPercent=mgdao.getPointPercent(loginuser.getUserid()); // 로그인한 회원의 적립률
 			request.setAttribute("pointPercent", pointPercent);
 			
-			List<Map<String, String>> cartInfoList= ctdao.selectCartInfo(userid);
+			List<Map<String, String>> cartInfoList= ctdao.selectCartInfo(userid); //색깔 고르지 않은 경우 pnum="-1"
 			
 			/*
 		 		특정회원의 장비구니 정보가 없는 경우: cartInfoList.size()==0
@@ -46,45 +46,48 @@ public class MyCartAction extends AbstractController {
 			}
 			else { // 장바구니 목록이 존재하는 경우
 			
-				List<Map<String, String>> cartRequiredInfo = new ArrayList<>();
+				List<Map<String, String>> cartRequiredInfoList = new ArrayList<>();
 				
 				for(Map<String, String> cartInfoMap : cartInfoList) {
 					
 					String productid= cartInfoMap.get("fk_productid");
 					String pnum= cartInfoMap.get("fk_pnum");
+					String cinputcnt= cartInfoMap.get("cinputcnt");
+					
 					Map<String,String> onePInfo= pdao.getOnePInfo(productid);
+					onePInfo.put("cinputcnt", cinputcnt);
 					
-					// int dOption= pddao.getDOptionByPnum(pnum);
-					//onePInfo.put("dOption", String.valueOf(dOption));
+					Map<String,String> colorDeliveryMap= pddao.getColorDelivery(pnum);
 					
-					// cartRequiredInfo.add(onePInfo);
-				}
+					if(colorDeliveryMap.size()>0) {  // 색상을 선택한 경우
+						onePInfo.put("pnum", colorDeliveryMap.get("pnum"));
+						onePInfo.put("pcolor", colorDeliveryMap.get("pcolor"));
+						onePInfo.put("doption", colorDeliveryMap.get("doption"));
+					}
+					else { // 색상을 선택하지 않은 경우
+						onePInfo.put("pnum", "-1"); 
+						onePInfo.put("pcolor", "-");
+						onePInfo.put("doption", "색상에 따라 상이");
+					}
+					
+					// 예상적립금
+					int point= (int)((Integer.parseInt(cinputcnt)*Integer.parseInt(onePInfo.get("saleprice")))*pointPercent);
+					onePInfo.put("point",String.valueOf(point));
+					
+					
+					// 합계금액
+					int totalPrice= Integer.parseInt(cinputcnt)*Integer.parseInt(onePInfo.get("saleprice"));
+					onePInfo.put("totalPrice",String.valueOf(totalPrice));
+					
+					cartRequiredInfoList.add(onePInfo);
+					
+				} // end of for------------------------------------------------------
 				
-				
-				
-				
-				
-				
-				
-				
-				
-			}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			request.setAttribute("name", loginuser.getName());
-			
-			
-			
-			
+				request.setAttribute("cartRequiredInfoList", cartRequiredInfoList);
+				request.setAttribute("name", loginuser.getName());
+			} // end of else----------------------------------------------------------
+
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/myCart.jsp");

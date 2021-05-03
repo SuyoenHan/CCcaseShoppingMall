@@ -45,9 +45,9 @@ public class MemberGradeDAO implements InterMemberGradeDAO {
 	
 	// 회원아이디가 주어진 경우, 적립률 반환 
 	@Override
-	public int getPointPercent(String userid) throws SQLException {
+	public double getPointPercent(String userid) throws SQLException {
 
-		int pointPercent=0;
+		double pointPercent=0;
 		try {
 			
 			conn=ds.getConnection();
@@ -58,7 +58,8 @@ public class MemberGradeDAO implements InterMemberGradeDAO {
 			pstmt= conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
 			
-			if(rs.next())  pointPercent= rs.getInt(1);
+			rs=pstmt.executeQuery();
+			if(rs.next())  pointPercent= rs.getDouble(1);
 			
 		}finally {
 			close();
@@ -66,7 +67,7 @@ public class MemberGradeDAO implements InterMemberGradeDAO {
 		
 		return pointPercent;
 		
-	} // end of public int getPointPercent(String userid) throws SQLException {-------
+	} // end of public double getPointPercent(String userid) throws SQLException {-------
 		
 	// ===================== 한수연 끝 ==========================
 	

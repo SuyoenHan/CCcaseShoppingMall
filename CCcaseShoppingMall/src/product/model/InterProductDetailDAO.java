@@ -37,6 +37,8 @@ public interface InterProductDetailDAO {
 	// pnum이 주어진 경우, 이에 해당하는 배송옵션 반환 메소드
 	int getDOptionByPnum (String pnum) throws SQLException;
 
+	// pnum이 주어진 경우, 배송옵션과 색깔 반환 메소드
+	Map<String,String> getColorDelivery (String pnum) throws SQLException;
 	
 	// ====================== 한수연 끝 =========================
 

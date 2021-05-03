@@ -228,7 +228,7 @@
 		// 장바구니 버튼 클릭 시 장바구니 테이블에 insert
 		$("div#wishListBt").click(function(){
 			
-			if("${loginser}"!=null){ // 로그인 한 경우
+			if("${loginuser}"!=null){ // 로그인 한 경우
 
 				var productid= $("input#productid").val();
 				var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 ""

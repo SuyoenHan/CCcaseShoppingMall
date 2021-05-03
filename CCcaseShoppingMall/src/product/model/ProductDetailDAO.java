@@ -556,7 +556,43 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		 	무료배송인 pnum인 경우:  dOption= 0   
 		 	유료배송인 pnum인 경우: dOption= 1
 		*/
-	}
+	} // end of public int getDOptionByPnum(String pnum) throws SQLException {--------------
+
+	
+
+	// pnum이 주어진 경우, 배송옵션과 색깔 반환 메소드
+	@Override
+	public Map<String, String> getColorDelivery(String pnum) throws SQLException {
+		
+		Map<String, String> colorDeliveryMap= new HashMap<>();
+		
+		try {
+			conn=ds.getConnection();
+			String sql= " select pnum, upper(pcolor) as pcolor, doption from tbl_pdetail where pnum= ? ";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				colorDeliveryMap.put("pnum",rs.getString(1));
+				colorDeliveryMap.put("pcolor",rs.getString(2));
+				colorDeliveryMap.put("doption",String.valueOf(rs.getInt(3)));
+			}
+			
+		}finally {
+			 close();
+		}
+		
+		return colorDeliveryMap;
+		
+		/*
+		 	pnum이 존재하지 않는경우 (색상옵션을 선택하지 않은 경우): colorDeliveryMap.size()= 0
+		 	pnum이 존재하는 경우 (색상옵션을 선택한 경우): colorDeliveryMap.size() > 0
+		*/
+		
+	} // end of public Map<String, String> getColorDelivery(String pnum) throws SQLException {
+
 
 
 	// ======================== 한수연 끝 ===========================	

@@ -115,8 +115,8 @@ public class CartDAO implements InterCartDAO {
 				
 				Map<String, String> cartInfoMap= new HashMap<>();
 				cartInfoMap.put("fk_productid", rs.getString(1));
-				cartInfoMap.put("fk_productid", rs.getString(2));
-				cartInfoMap.put("fk_productid", String.valueOf(rs.getInt(3)));
+				cartInfoMap.put("fk_pnum", rs.getString(2));
+				cartInfoMap.put("cinputcnt", String.valueOf(rs.getInt(3)));
 				
 				cartInfoList.add(cartInfoMap);
 			}
