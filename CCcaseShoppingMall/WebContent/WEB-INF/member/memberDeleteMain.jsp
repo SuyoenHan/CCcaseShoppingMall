@@ -7,9 +7,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../../WEB-INF/header.jsp" />
-
-<jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 <jsp:include page="../../WEB-INF/member/myPageHeader.jsp"/>
+<jsp:include page="../../WEB-INF/leftSide.jsp" />
 
 <style>
 	div#MemberEdithome{
@@ -77,8 +76,9 @@
 	
 	function pwdCheck() {
 		// alert("헤헤헤헤");
+	
 		var frm = document.editMainFrm;
-		frm.action = "<%= ctxPath%>/member/passwdCheck.cc";
+		frm.action = "<%= ctxPath%>/member/deletpasswdCheck.cc";
 		frm.method = "POST";
 		frm.submit();
 	
@@ -93,7 +93,7 @@
 		
 		<div id="myprofileInfo">
 			<div id="mycheck">
-				<span style="font-size:25pt; font-weight: bold;"> 회원정보확인</span><br>
+				<span style="font-size:25pt; font-weight: bold;"> 회원탈퇴</span><br>
 				<span style="font-size:15pt; color:navy; font-weight: bold;">${sessionScope.loginuser.name}</span>
 				<span style="font-size:15pt;">님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.</span>
 	  		<hr>

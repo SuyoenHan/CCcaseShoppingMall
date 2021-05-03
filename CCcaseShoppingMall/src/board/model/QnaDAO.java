@@ -276,7 +276,43 @@ public class QnaDAO implements InterQnaDAO {
 		}	
 		
 	}// end of public void updateViewCount(int qnano)---------------------------------
-
+	
+	// 내가쓴글 확인
+		@Override
+		public QnaVO qnaMywrite(String userid) throws SQLException {
+			QnaVO qvo = null;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select qnano, qtitle, fk_userid, qregisterdate, email, fk_productid, qstatus, qcontent "
+								+ " from tbl_qna "
+								+ " where fk_userid = ? " ;
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1,userid);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					qvo = new QnaVO();
+					
+					qvo.setQnano(rs.getInt(1));
+					qvo.setQtitle(rs.getString(2));
+					qvo.setFk_userid(rs.getString(3));
+					qvo.setQregisterdate(rs.getString(4));
+					qvo.setEmail(rs.getString(5));
+					qvo.setFk_productid(rs.getString(6));
+					qvo.setQstatus(rs.getString(7));
+					qvo.setQcontent(rs.getString(8));
+				}
+			} finally {
+				close();
+			}		
+			return qvo;
+		}
 
 
 }

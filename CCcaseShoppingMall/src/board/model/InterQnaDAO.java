@@ -25,4 +25,7 @@ public interface InterQnaDAO {
 	// 조회수 증가시키기
 	void updateViewCount(int qnano) throws SQLException;
 
+	//마이페이지에서 내가 쓴 게시물 보기
+	QnaVO qnaMywrite(String userid) throws SQLException;
+
 }
