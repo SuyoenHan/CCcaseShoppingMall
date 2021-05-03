@@ -43,9 +43,9 @@
 	}// function goQnaList()----------------------------------------------------
 	
 	function goEdit(){
-		var cmtno_val = $("#cmt").val();
+		var cmt_val = $("#cmt").val();
 		
-		if(cmtno_val == null){
+		if(cmt_val == null){
 			location.href= "qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
 		}
 		else{
