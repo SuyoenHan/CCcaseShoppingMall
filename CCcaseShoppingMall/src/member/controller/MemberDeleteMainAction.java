@@ -7,21 +7,23 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
-public class MemberEditAction extends AbstractController {
+public class MemberDeleteMainAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-			if(super.checkLogin(request)) {
+
+		if(super.checkLogin(request)) {
 				//로그인을 했으면
 				
-				String userid = request.getParameter("userid");
+			String userid = request.getParameter("userid");
+			
 				HttpSession session =request.getSession();
 				MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 				
 				if(loginuser.getUserid().equals(userid)) {
 					//로그인한 사용자가 자신의 정보를 수정하는 경우
 				      //   super.setRedirect(false);
-			         super.setViewPage("/WEB-INF/member/memberEdit.jsp");
+					super.setViewPage("/WEB-INF/member/memberDeleteMain.jsp");
 					
 				}
 				else {
@@ -49,6 +51,6 @@ public class MemberEditAction extends AbstractController {
 		      //   super.setRedirect(false);
 		         super.setViewPage("/WEB-INF/msg.jsp");
 			}
-		}
+	}
 
 }

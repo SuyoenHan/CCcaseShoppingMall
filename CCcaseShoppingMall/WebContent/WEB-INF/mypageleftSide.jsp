@@ -42,40 +42,25 @@
 	 }
 	
 </style>
-
 <script type="text/javascript">
-	
-	$(document).ready(function(){
-		
-		var index = 0;
-		
-		$("a#myProfileOpt").click(function(){
-			
-			 index = $("a#myProfileOpt").index(this);
-			
-			$("div#menu > div").eq(index).removeClass("lside");
-			$("div#menu > div").eq(index).addClass("lside");
-			
-		});
-		
-	});
 
-	
+	function goMyboard(userid){
+		
+		location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
+	}
+
+
 </script>
-
 <div id="leftSide">
 
 	<div id="leftContainer">
 			
 		<div class="myShopping">나의 쇼핑 내역</div>
-		<div id="menu">
-		<div class="lside" ><a href="" id="myProfileOpt">주문&nbsp;내역&nbsp;조회</a></div>
-		<div class="lside" ><a href="" id="myProfileOpt">회원&nbsp;정보&nbsp;수정</a></div>
-		<div class="lside" ><a href="" id="myProfileOpt">적립금&nbsp;내역</a></div>
-		<div class="lside" ><a href="<%= ctxPath%>/member/availableCoupon.cc" id="myProfileOpt">쿠폰&nbsp;조회</a></div>
-		<div class="lside" ><a href="" id="myProfileOpt">관심상품&nbsp;조회</a></div>
-		<div class="lside" ><a href="" id="myProfileOpt" class="waveEffect">게시물&nbsp;관리</a></div>
-		</div>
-	
+		<div class="lside"><a href="" id="myProfileOpt">주문&nbsp;내역&nbsp;조회</a></div>
+		<div class="lside"><a href="" id="myProfileOpt">회원&nbsp;정보&nbsp;수정</a></div>
+		<div class="lside"><a href="" id="myProfileOpt">적립금&nbsp;내역</a></div>
+		<div class="lside"><a href="<%= ctxPath%>/member/availableCoupon.cc" id="myProfileOpt">쿠폰&nbsp;조회</a></div>
+		<div class="lside"><a href="" id="myProfileOpt">관심상품&nbsp;조회</a></div>
+		<div class="lside"><a href="javascript:goMyboard('${(sessionScope.loginuser).userid}');" id="myProfileOpt">게시물&nbsp;관리</a></div>
 	</div>
 </div>
