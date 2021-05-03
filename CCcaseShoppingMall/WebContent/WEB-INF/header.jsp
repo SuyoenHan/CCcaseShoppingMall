@@ -194,11 +194,7 @@
 			
 			// 나의 장바구니 이동 클릭이벤트
 			$("button#wishlist").click(function(){
-				
-				var frm= document.goCart;
-				frm.method="POST";
 				frm.action="<%=ctxPath%>/member/myCart.cc";
-				frm.submit();
 			});
 			
 			
@@ -424,6 +420,7 @@
 			<div>
 				<form name="goCart" style="float:left;">
 					<input type="hidden" name="userid" value="${loginuser.userid}">
+					<input type="hidden" name="name" value="${loginuser.name}">
 				</form>
 					<button class="loginSection" id="wishlist">장바구니</button>
 				<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">
