@@ -48,13 +48,7 @@
 	
 	function goDelete(){
         if(confirm("정말로 삭제하시겠습니까?")==true){
-        	if("${requestScope.qvo.qnano}"=="${requestScope.qrvo.fk_qnano}"){
-        		alert("답글이 있는 글은 삭제할 수 없습니다.");
-        		location.href = "/CCcaseShoppingMall/"+goBackURL;
-       		 }
-        	else{	
             	location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
-        	}
         }
 	}
 
@@ -106,26 +100,27 @@
 	</table>
 	</form>
 	
-	 <div>	
+	<!-- 답글 보여주기 시작 -->
+	<c:if test="${not empty  requestScope.cmtList}">
+	  <div>	
   		<form name="qnaReplyDetailForm">
-  			<table style="width: 700px; border: 1px; border-color: lightgray;">
-  				 <tr>
-  				 	<td style="display: none">${requestScope.qrvo.fk_qnano}</td>
-  				 	<td style="display: none">${requestScope.qrvo.cmtno }</td>
-		            <td class="title">등록일</td>
-		            <td>${requestScope.qrvo.cmtregisterday}</td>
+  			<table id="repContent" style="width: 700px; border: 10px; border-color: blue;">
+  			<c:forEach var="qcvo" items="${requestScope.cmtList }"> 
+  				<tr>
+		            <td>등록일</td>
+		            <td><input type="text" value="${qcvo.cmtregisterday}" readonly></td>
 		        </tr>
 		        <tr>
-		            <td id="title">
-		               글내용
-		            </td>           
-		            <td>${requestScope.qrvo.cmtcontent}</td>        
-		        </tr>						        	
+		            <td>글내용</td>           
+		            <td><textarea id="cmt" readonly>${qcvo.cmtcontent}</textarea></td>        
+		        </tr>
+		        </c:forEach>									        	
   			</table>
   		</form>
-		<!--  답글 보여주기 끝 -->		  		
-	  </div>
-
+  		</div>
+  	</c:if>
+  	<!--  답글 보여주기 끝 -->
+  	
 	<div style="display:inline-block;">
 		<button type="button" onclick="goQnaList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
 	</div>

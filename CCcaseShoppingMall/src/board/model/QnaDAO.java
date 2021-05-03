@@ -340,7 +340,7 @@ public class QnaDAO implements InterQnaDAO {
 		return -1; // 데이터베이스 오류
 	}// end of public int replyQna(QnaCmtVO qcvo) throws SQLException--------------------
 
-	// fk_qnano로 qna 답글 불러오기
+	// qnano로 qna 답글 불러오기
 	@Override
 	public List<QnaCmtVO> getCmtList(String fk_qnano) throws SQLException {
 		
@@ -349,10 +349,10 @@ public class QnaDAO implements InterQnaDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select C.fk_adminid, C.cmtregisterday, C.cmtcontent "+
+			String sql = " select C.cmtno, C.fk_adminid, C.cmtregisterday, C.cmtcontent "+
 								" from "+
 								" ( "+
-								"  select fk_qnano, fk_adminid, cmtregisterday, cmtcontent "+
+								"  select cmtno, fk_qnano, fk_adminid, cmtregisterday, cmtcontent "+
 								"  from tbl_qnacmt "+
 								"  where fk_qnano= ? "+
 								" ) C JOIN tbl_qna Q "+
@@ -368,9 +368,10 @@ public class QnaDAO implements InterQnaDAO {
 				
 				QnaCmtVO qcvo = new QnaCmtVO();
 				
-				qcvo.setFk_adminid(rs.getString(1));
-				qcvo.setCmtregisterday(rs.getString(2));
-				qcvo.setCmtcontent(rs.getString(3));
+				qcvo.setCmtno(rs.getInt(1));
+				qcvo.setFk_adminid(rs.getString(2));
+				qcvo.setCmtregisterday(rs.getString(3));
+				qcvo.setCmtcontent(rs.getString(4));
 				
 				cmtList.add(qcvo);
 
@@ -380,5 +381,32 @@ public class QnaDAO implements InterQnaDAO {
 		}		
 		return cmtList;
 	}// end of public List<QnaCmtVO> cmtList(String fk_qnano) throws SQLException
+
+	// qna 답글 삭제하기
+	@Override
+	public int deleteQnaRep(int cmtno) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_qnacmt "
+							+ " where cmtno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cmtno);
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				  conn.commit();
+			  }
+			
+			return n;
+		} finally {
+			close();
+		}
+	}
 
 }

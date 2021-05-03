@@ -148,16 +148,5 @@
 	    </div>
 	    
 </div>
- <jsp:include page="../footer.jsp" />rd" />
-	      <input type="text"  style="display: none;">
-	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
-	      
-	      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
-    </form>
-	    
-	    <div style="width:30%; margin: 0 auto;">
-	    	${requestScope.pageBar}
-	    </div>
-	    
-</div>
+
  <jsp:include page="../footer.jsp" />

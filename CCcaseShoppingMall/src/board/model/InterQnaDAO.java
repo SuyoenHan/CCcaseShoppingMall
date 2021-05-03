@@ -34,6 +34,8 @@ public interface InterQnaDAO {
 	// fk_qnano로 qna 답글 불러오기
 	List<QnaCmtVO> getCmtList(String fk_qnano) throws SQLException;
 
+	// qna 답글 삭제하기
+	int deleteQnaRep(int cmtno) throws SQLException; 
 	
 
 
