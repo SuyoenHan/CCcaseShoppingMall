@@ -46,7 +46,7 @@ public class MemberEditEndAction extends AbstractController {
 	        	 
 	        	 
 	        	 if(n==1) {
-	        		 message="회원정보 수정 성공!!";
+	        		 message="회원정보 수정 성공 다시 로그인 해주세요!";
 	        		 HttpSession session = request.getSession();
 	                 MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 	                 
@@ -59,6 +59,7 @@ public class MemberEditEndAction extends AbstractController {
 	                 loginuser.setDetailaddress(detailaddress);
 	                 loginuser.setExtraaddress(extraaddress);
 	                 
+	                 session.invalidate();
 	                 super.setViewPage(request.getContextPath()+"/home.cc");
 	                
 	        	 }
