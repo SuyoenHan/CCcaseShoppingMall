@@ -13,8 +13,6 @@
  
 <style>
 
-	 
-
 	div#contents {
 		margin-left: 35px ;
     	margin-right: 35px ;
@@ -56,8 +54,6 @@
 	.button:hover{
 		background-color: #666699;
 		color: white;
-		margin-top: 35px ;
-    	
     	
 	}
 	
@@ -105,7 +101,11 @@
     	background-color: white;
     }
     
+    div#faq{
+		background-color: #ccffee;
+	}
     
+   
 </style>
   
 
@@ -132,6 +132,8 @@
 			$("tr.faqDetail").css('display','none'); //안보이도록 한다.
 		}
 		
+		
+		//클릭시 조회수 증가
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
@@ -144,14 +146,16 @@
 		
 		});
 		
+		
+		//목록버튼 클릭했을 때
 		$("button.faqList").click(function(){
-			//목록버튼 클릭했을 때
+			
 			//alert("목록클릭!");
 			location.href="<%=ctxPath%>/board/faqList.cc";
 			
 		});
 		 
-			
+	
 			
 		
 	});// end of $(document).ready(function(){})--------------
@@ -160,8 +164,8 @@
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
-	<jsp:include page="../header.jsp" />
-	<jsp:include page="../communityLeftSide.jsp" />
+<jsp:include page="../header.jsp" />
+<jsp:include page="../communityLeftSide.jsp" />
 
 
 
@@ -206,17 +210,17 @@
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
-									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
+									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; <span>${fvo.ftitle}</span></div>
 									
 								</tr>
 								<tr>
-									<div class="cal">작성자: &nbsp;&nbsp;${fvo.fk_adminid}</div>
+									<div class="cal" id="writer" name="writer">작성자: &nbsp;&nbsp;<span id="writer" name="writer">${fvo.fk_adminid}</span></div>
 								</tr>
 								<tr>
 								   <div class="cal">
-									<span >등록일:&nbsp;&nbsp;${fvo.fregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최근수정일:&nbsp;&nbsp;${fvo.fupdatedate}</span>
+									<span >등록일:&nbsp;&nbsp;<span>${fvo.fregisterdate}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span >최근수정일:&nbsp;&nbsp;<span>${fvo.fupdatedate}</span></span>
 									</div>
 								</tr>
 								<tr>

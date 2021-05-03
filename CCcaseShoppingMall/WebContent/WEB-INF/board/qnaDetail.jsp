@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+    
 <jsp:include page="../header.jsp" /> 
 <jsp:include page="../communityLeftSide.jsp"/>
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
 <style type="text/css">
 
@@ -41,18 +42,22 @@
 		location.href = "/CCcaseShoppingMall/"+goBackURL;
 	}// function goQnaList()----------------------------------------------------
 	
-	function goReply(){
-		
-	}// function goReply()------------------------------------------------------
-	
 	function goEdit(){
-		location.href="qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
+		var cmt_val = $("#cmt").val();
+		
+		if(cmt_val == null){
+			location.href= "qnaEdit.cc?qnano=${requestScope.qvo.qnano}";
+		}
+		else{
+			alert("답글이 있는 QNA 글은 수정 불가능합니다. 새로 작성해주세요.");
+			location.href = "/CCcaseShoppingMall/"+goBackURL;
+		}
 	}
 	
 	function goDelete(){
-	        if(confirm("정말로 삭제하시겠습니까?")==true){
-	            location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
-	        }
+        if(confirm("정말로 삭제하시겠습니까?")==true){
+            	location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
+        }
 	}
 
 </script>
@@ -85,7 +90,12 @@
         </tr>     
         <tr>
         	<td id="title">공개여부</td>
-        	<td>${requestScope.qvo.qstatus}</td>
+        	<td>
+        		<c:choose>
+        			<c:when test="${requestScope.qvo.qstatus eq '0'}">전체공개</c:when>
+        			<c:when test="${requestScope.qvo.qstatus eq '1'}">비공개</c:when>
+        		</c:choose>
+        	</td>
        	</tr>
 
         <tr>
@@ -97,21 +107,42 @@
         
 	</table>
 	</form>
-</div>
-
-<div style="display:inline-block;">
-	<button style="margin-top: 50px;" type="button" onclick="goQnaList()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
-</div>
-<div style="display:inline-block;">
-	<c:if test="${sessionScope.adminUser.adminid !=null }">
-			<button style="margin-top: 50px;" type="button" onclick="goReply()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button>
-	</c:if>
-	<c:if test="${sessionScope.loginuser.userid !=null }">
-		<c:if test="${sessionScope.loginuser.userid == requestScope.qvo.fk_userid}">
-			<button style="margin-top: 50px;" type="button" onclick="goEdit()" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">수정</button>
-			<button style="margin-top: 50px;" type="button" onclick="goDelete();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
+	
+	<!-- 답글 보여주기 시작 -->
+	<c:if test="${not empty  requestScope.cmtList}">
+	  <div>	
+  		<form name="qnaReplyDetailForm">
+  			<table id="repContent" style="width: 700px; border: 10px; border-color: blue;">
+  			<c:forEach var="qcvo" items="${requestScope.cmtList }"> 
+  				<tr>
+		            <td>등록일</td>
+		            <td><input type="text" value="${qcvo.cmtregisterday}" readonly></td>
+		        </tr>
+		        <tr>
+		            <td>글내용</td>           
+		            <td><textarea id="cmt" readonly>${qcvo.cmtcontent}</textarea></td>        
+		        </tr>
+		        </c:forEach>									        	
+  			</table>
+  		</form>
+  		</div>
+  	</c:if>
+  	<!--  답글 보여주기 끝 -->
+  	
+	<div style="display:inline-block;">
+		<button type="button" onclick="goQnaList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
+	</div>
+	<div style="display:inline-block;">
+		<c:if test="${sessionScope.adminUser.adminid !=null }">
+				<button type="button" onclick="goReply()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button>
 		</c:if>
-	</c:if>
+		<c:if test="${sessionScope.loginuser.userid !=null }">
+			<c:if test="${sessionScope.loginuser.userid == requestScope.qvo.fk_userid}">
+				<button type="button" onclick="goEdit()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">수정</button>
+				<button type="button" onclick="goDelete();" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
+			</c:if>
+		</c:if>
+	</div>
 </div>
 
  <jsp:include page="../footer.jsp" />

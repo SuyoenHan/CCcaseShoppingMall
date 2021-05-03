@@ -1,18 +1,17 @@
 package board.model;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.sql.*;
+import java.util.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+
 
 public class FaqDAO implements InterFaqDAO {
 
@@ -45,7 +44,7 @@ public class FaqDAO implements InterFaqDAO {
 	}
 
 
-	// 모든 faq select 해와서 목록에 보여주기
+	// *** 페이징 처리를 한 모든 FAQ 목록 보여주기 *** //
 	@Override
 	public List<FaqVO> selectPagingFaq(Map<String, String> paraMap) throws SQLException {
 		
@@ -195,6 +194,130 @@ public class FaqDAO implements InterFaqDAO {
 	    }
 		return n;
 	}
+
+
+
+
+	//FAQ 글내용 수정을 위해 하나의 FAQ를 select해오기
+	@Override
+	public FaqVO faqEditOneView(String faqno) throws SQLException {
+		
+		FaqVO fvo= null;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select faqno, fk_adminid, ftitle, to_char(fregisterdate, 'yyyy-mm-dd'), to_char(fupdatedate, 'yyyy-mm-dd'), fviewcount, fcontent "+
+						 " from tbl_faq "+
+						 " where faqno= ? ";
+						 
+			
+			pstmt = conn.prepareStatement(sql);		
+			pstmt.setString(1, faqno);		
+			
+				
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) { //
+				
+				
+				fvo = new FaqVO();
+				
+				fvo.setFaqno(rs.getInt(1));
+				fvo.setFk_adminid(rs.getString(2));
+				fvo.setFtitle(rs.getString(3));
+				fvo.setFregisterdate(rs.getString(4));
+				fvo.setFupdatedate(rs.getString(5));
+				fvo.setNumber(rs.getInt(6));
+				fvo.setFcontent(rs.getString(7));
+				
+	            
+			}
+		}finally {
+			close();
+		}
+		
+		return fvo;
+	}
+	
+	
+	
+
+	//FAQ 글내용 수정하기(UPDATE)
+	@Override
+	public int faqEditUpdate(FaqVO fvo) throws SQLException {
+		int n =0;
+		
+		try {
+	          conn = ds.getConnection();
+	          
+		
+	          String sql =  "update tbl_faq set ftitle = ?  "+
+	        		  		"                  , fk_adminid= ? "+
+	        		  	    "                  , fupdatedate = sysdate  "+
+	        		  	    "                  , fcontent= ?  "+
+	        		  	    "where faqno = ?  ";
+	        		 
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setString(1, fvo.getFtitle());
+	          pstmt.setString(2, fvo.getFk_adminid());
+	          pstmt.setString(3, fvo.getFcontent());
+	          pstmt.setInt(4, fvo.getFaqno());
+	          
+	          n = pstmt.executeUpdate();
+	          
+	          if(n==1) {
+				  conn.commit();
+			  }
+	          
+	          
+		}   finally {
+	         close();
+	    }  
+		
+		
+		return n;
+	}
+
+
+	//FAQ 글내용 삭제하기(DELETE)
+	@Override
+	public int faqDeleteOne(FaqVO fvo) throws SQLException {
+		int n =0;
+		
+		try {
+	          conn = ds.getConnection();
+	          
+		
+	          String sql = " delete from tbl_faq "+
+	        		  	   " where faqno = ? ";
+	        		 
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setInt(1, fvo.getFaqno());
+	          
+	          
+	          n = pstmt.executeUpdate();
+	          
+	          if(n==1) {
+				  conn.commit();
+			  }
+	          
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+	         close();
+	    }  
+		
+		
+		return n;
+	}
+	
+	
+	
 	
 	
 }

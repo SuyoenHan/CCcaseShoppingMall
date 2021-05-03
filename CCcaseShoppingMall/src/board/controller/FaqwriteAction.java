@@ -63,7 +63,7 @@ public class FaqwriteAction extends AbstractController {
 			if(avo!=null) {
 				
 				request.setAttribute("avo", avo);
-				System.out.println(avo.getAdminid());
+				
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/board/faqwrite.jsp");
 			}

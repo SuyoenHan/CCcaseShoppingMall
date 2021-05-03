@@ -28,13 +28,18 @@
 		
 	}
 	
-	.lside:hover {
+	 div#menu > div:hover {
 		background-color: #99ccff;
-		color: white;
 		text-decoration: none;
 		text-align: center;
 		font-weight: bold;
-	}
+	} 
+	
+	 .clicked {
+	 	text-align:center;
+	 	font-weight:bold;
+	 	background-color: #99ccff;
+	 }
 	
 </style>
 <script type="text/javascript">

@@ -56,8 +56,6 @@
 	.button:hover{
 		background-color: #666699;
 		color: white;
-		margin-top: 35px ;
-    	
     	
 	}
 	
@@ -76,7 +74,7 @@
     	line-height: 40px;
     	
     }
-    .faqcontent{
+    .noticecontent{
     	background-color: #e6e6e6;
     	border: solid 1px gray; 
     	margin-left: 35px ;
@@ -84,7 +82,7 @@
     	padding: 25px ;
     }
     
-    tr.faqSimple{
+    tr.noticeSimple{
        background-color: #eee;
 	   color: #444;
 	   cursor: pointer;
@@ -96,15 +94,19 @@
 	   font-size: 15px;
 	   transition: 2s;
     }
-    tr.faqSimple:hover{
+    tr.noticeSimple:hover{
    	 background-color:  #aaa !important;
     }
     
-    #contents > div.container > table > tbody > tr.faqDetail {
+      #contents > div.container > table > tbody > tr.faqDetail {
     	 
     	background-color: white;
     }
     
+    
+    div#notice{
+		background-color: #ccffee;
+	}
     
 </style>
   
@@ -113,14 +115,13 @@
 
 	$(document).ready(function(){
 		
-		var fnum =document.getElementsByName("fnum");
 		
 		func_height();//footer.jsp에 있음!
 		
 		
 		if("${noticeno}"!="x"){
 			
-			$("tr.faqDetail").each(function(index,item){
+			$("tr.noticeDetail").each(function(index,item){
 				
 				if($(item).prop("id")=="${noticeno}"){
 					$(item).css('display','');
@@ -133,11 +134,11 @@
 		}
 		else{
 		
-			$("tr.faqDetail").css('display','none'); //안보이도록 한다.
+			$("tr.noticeDetail").css('display','none'); //안보이도록 한다.
 		}
 		
 		
-		$("tr.faqSimple").click(function(event){
+		$("tr.noticeSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
 				location.href="<%=ctxPath%>/board/noticeList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&noticeno="+$(this).next().prop("id");			
@@ -149,7 +150,7 @@
 		});
 		
 		
-		$("button.faqList").click(function(){
+		$("button.noticeList").click(function(){
 			//목록버튼 클릭했을 때
 			//alert("목록클릭!");
 			location.href="<%=ctxPath%>/board/noticeList.cc";
@@ -170,8 +171,10 @@
 </script>
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
-<jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp" />
+
+	<jsp:include page="../header.jsp" />
+	<jsp:include page="../communityLeftSide.jsp" />
+
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -188,7 +191,7 @@
 			
 		<h2> 공지사항 </h2>
 		<div class="container">	
-		  <form name="faqFrm">
+		  <form name="noticeFrm">
 			<table class="table table-hover">
 				<thead>
 					<tr style="width:80%;">
@@ -204,7 +207,7 @@
 				<c:forEach var="nvo" items="${requestScope.noticeList}">
 						<input type="hidden" name="sizePerPage" id="sizePerPage" value="7" />
 						<input type="text" style="display: none;"><%-- form으로 보낼 대상인 input태그가 1개뿐이라서 해줌 --%>
-					<tr class="faqSimple">
+					<tr class="noticeSimple">
 						<td class="noticeno" name="noticeno" id="noticeno">${nvo.noticeno}</td>
 						<td name="ntitle" id="ntitle">${nvo.ntitle}</td>
 						<td name="fk_adminid" id="fk_adminid">${nvo.fk_adminid}</td>
@@ -212,26 +215,26 @@
 						<td name="nviewcount" id="nviewcount">${nvo.nviewcount}</td>
 					</tr>
 					
-					<tr class="faqDetail" id="${nvo.noticeno}">
+					<tr class="noticeDetail" id="${nvo.noticeno}">
 						<td colspan="4"> 
-							<table id="faqDetail">
+							<table id="noticeDetail">
 								<tr>
-									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${nvo.ntitle}</div>
+									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp;<span>${nvo.ntitle}</span></div>
 									
 								</tr>
 								<tr>
-									<div class="cal">작성자: &nbsp;&nbsp;${nvo.fk_adminid}</div>
+									<div class="cal">작성자: &nbsp;&nbsp;<span>${nvo.fk_adminid}</span></div>
 								</tr>
 								<tr>
 								   <div class="cal">
-									<span >등록일:&nbsp;&nbsp;${nvo.nregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최근수정일:&nbsp;&nbsp;${nvo.nupdatedate}</span>
+									<span >등록일:&nbsp;&nbsp;<span>${nvo.nregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span >최근수정일:&nbsp;&nbsp;<span>${nvo.nupdatedate}</span>
 									</div>
 								</tr>
 								<tr>
 									<div class="cal">글내용</div>
-									<div class="faqcontent">${nvo.ncontent}</div>
+									<div class="noticecontent">${nvo.ncontent}</div>
 								     
 								</tr>
 							</table>
@@ -247,10 +250,7 @@
 			</form>
 			
 			
-			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
-			<c:if test="${not empty requestScope.avo}">
-			<button type="button" class="noticeWrite"  id="noticeWrite" name="noticeWrite" value="글쓰기" style="float:right; " >글쓰기</button>
-			</c:if>
+			
 			<!-- 페이징바 -->
 			<div style="text-align:center; font-size:17px;">${requestScope.pageBar}</div>
 	

@@ -8,7 +8,7 @@
 <style type="text/css">
 
 	div.comMenu{
-		border-right: solid #caceca;
+		border-right: solid 2px #caceca;
 		float: left;
 		width: 300px;
 		margin-top: 40px;

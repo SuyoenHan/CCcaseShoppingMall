@@ -1,10 +1,7 @@
 package product.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -70,8 +67,55 @@ public class ImageFileDAO implements InterImageFileDAO {
 		
 		return n;
 	}
+
 	
 	////////////////////백원빈 작업 끝 ///////////////////////////
 	
+	
+	// ========================== 한수연 작업 시작 =======================================
+	
+	// pnum이 주어진 경우 pnum에 해당하는 제품이미지명 반환 (pnum에 해당하는 행이 1개 이상 존재 할 수도 있다)
+	@Override
+	public List<Map<String, String>> selectImgFileByPnum(String pnum) throws SQLException {
 
+		List<Map<String, String>> imgFileByPnumList= new ArrayList<>();
+		
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select imgplus1, nvl(imgplus2,'noimage.png') as imgplus2, nvl(imgplus3,'noimage.png') as imgplus3 "+
+						" from tbl_imagefile "+
+						" where fk_pnum= ? ";
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs= pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				Map<String, String> ImgFileByPnumMap= new HashMap<>();
+				ImgFileByPnumMap.put("imgplus1",rs.getString(1));
+				ImgFileByPnumMap.put("imgplus2",rs.getString(2));
+				ImgFileByPnumMap.put("imgplus3",rs.getString(3));
+				
+				 imgFileByPnumList.add(ImgFileByPnumMap);			
+			}
+					
+		} finally {
+			close();
+		}
+
+		return imgFileByPnumList;
+		
+		/* 
+		   pnum에 해당하는 추가이미지가 존재하지 않는경우: imgFileByPnumList.size() == 0
+		   pnum에 해당하는 추가이미지가 존재하는 경우: imgFileByPnumList.size() > 0    
+		*/
+	}
+
+		
+		
+		
+   // ========================== 한수연 작업 끝 =======================================
+	
 }

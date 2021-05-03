@@ -56,7 +56,6 @@
 	.button:hover{
 		background-color: #666699;
 		color: white;
-		margin-top: 35px ;
     	
     	
 	}
@@ -105,6 +104,9 @@
     	background-color: white;
     }
     
+    div#faq{
+		background-color: #ccffee;
+	}
     
 </style>
   
@@ -113,7 +115,7 @@
 
 	$(document).ready(function(){
 		
-		var fnum =document.getElementsByName("fnum");
+		
 		
 		func_height();//footer.jsp에 있음!
 		
@@ -137,7 +139,7 @@
 		}
 		
 		
-		//클릭시 클릭한 faqno 조회수 증가
+		//클릭시 조회수 증가
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
@@ -160,34 +162,52 @@
 			
 		});
 		 
+		
+		
 		// 수정 버튼을 클릭했을때 =>팝업창띄우기 
 		 $("button.faqEdit").click(function(){
 			 
-			 //로그인된 유저와 faq userid가 같을 경우 팝업창 //아닐경우 alert창
-			 
-			 
-			// 나의정보 수정하기 팝업창 띄우기
-			 var url = "<%=ctxPath%>/board/faqwrite.cc?faqno="+$(this).next().prop("id");
+			
+			// FAQ글 수정하기 팝업창 띄우기
+			var faqno = $(this).parent().parent().prop("id");
+			//alert("faqno"+faqno);
+			var url = "<%=ctxPath%>/board/faqEdit.cc?faqno="+faqno;
 			 
 			  	
 			  window.open(url, "faqEdit",
 					           "lefe=350p, top=100px,width=700px, height=450px");
-				  
-	     });
+				 
+	     }); //end of 수정버튼 클릭-----------------
 				  
 			  
-			
-		
 		
 		//삭제버튼 클릭했을 때
 		$("button.faqDel").click(function(){
 			
-			//alert("목록클릭!");
-			location.href="<%=ctxPath%>/board/faqList.cc";
 			
-		});
+			$.ajax({
+				url:"<%=ctxPath%>/board/faqDelete.cc",
+				type:"POST",
+				data:{"faqno":"${faqno}"},
+				dataType:"json",
+				success:function(json){ //웹페이지에 보여질 결과물을 java객체인 json에담아 보여줄 것이다.
+					   alert(json.message);   //json 에 담아준 msg를 보여준다.
+					  // swal(json.msg);
+					   location.href="<%=ctxPath%>/board/faqList.cc";
+			   },
+			   error: function(request, status, error){
+		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		       }
+				   
+			   }); //end of $.ajax({});-------------------------
+			
+				
+			});//end of $("button.faqDel").click(function(){})---------------------------------
 		
 			
+			
+			
+	    //글쓰기 버튼을 클릭했을 때
 		$("button.faqwrite").click(function(){
 			//버튼(글쓰기)를 클릭하면
 			//alert("글쓰기 버튼 클릭");
@@ -196,17 +216,18 @@
 		});//end of $("button#faqwrite").click(function(){}); ------------------
 			
 		
+		
+		
 	});// end of $(document).ready(function(){})--------------
 
 </script>
 
+
+
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
-	<jsp:include page="../adminheader.jsp" />
-	<jsp:include page="../adminleftSide.jsp" />
-
-
-
+<jsp:include page="../adminheader.jsp" />
+<jsp:include page="../communityLeftSide.jsp" />
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -218,7 +239,7 @@
 
 	
 		<div id="title"> 
-				게시판관리
+				커뮤니티
 		</div>
 			
 		<h2> FAQ </h2>
@@ -249,17 +270,17 @@
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr>
-									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; ${fvo.ftitle}</div>
+									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; <span>${fvo.ftitle}</span></div>
 									
 								</tr>
 								<tr>
-									<div class="cal">작성자: &nbsp;&nbsp;${fvo.fk_adminid}</div>
+									<div class="cal" id="writer" name="writer">작성자: &nbsp;&nbsp;<span id="writer" name="writer">${fvo.fk_adminid}</span></div>
 								</tr>
 								<tr>
 								   <div class="cal">
-									<span >등록일:&nbsp;&nbsp;${fvo.fregisterdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최초등록일:&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
-									<span >최근수정일:&nbsp;&nbsp;${fvo.fupdatedate}</span>
+									<span >등록일:&nbsp;&nbsp;<span>${fvo.fregisterdate}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span >최근수정일:&nbsp;&nbsp;<span>${fvo.fupdatedate}</span></span>
 									</div>
 								</tr>
 								<tr>
@@ -267,12 +288,12 @@
 									<div class="faqcontent">${fvo.fcontent}</div>
 								     
 								</tr>
-							</table>
-						
-							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
-							<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
-							<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
 							
+								<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
+								<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
+								<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
+								
+							</table>
 						</td>
 					 </tr>
 					</c:forEach>

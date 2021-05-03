@@ -18,6 +18,7 @@ public class MemberOneDetailAction extends AbstractController {
 		AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 	
 		// 관리자(admin)로 로그인 했을 경우
+
 		if(adminUser != null) {
 		
 			String userid = request.getParameter("userid");

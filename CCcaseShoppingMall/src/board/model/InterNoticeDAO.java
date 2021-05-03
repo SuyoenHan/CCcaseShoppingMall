@@ -15,4 +15,18 @@ public interface InterNoticeDAO {
 	//조회수 증가시키기
 	void updateViewCount(String noticeno) throws SQLException; 
 
+	
+	//notice 글쓰기 insert 해주기
+	int noticeInsert(NoticeVO nvo) throws SQLException;
+
+	
+	//FAQ 글내용 수정을 위해 하나의 FAQ를 select해오기
+	NoticeVO noticeEditOneView(String noticeno) throws SQLException;
+
+	//FAQ 글내용 수정하기(UPDATE)
+	int noticeEditUpdate(NoticeVO nvo) throws SQLException;
+
+	//FAQ 글내용 삭제하기(DELETE)
+	int noticeDeleteOne(NoticeVO nvo) throws SQLException;
+	
 }

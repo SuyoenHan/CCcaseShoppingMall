@@ -9,8 +9,12 @@ public class QnaEditAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		
+
+		String goBackURL = request.getParameter("goBackURL");
+		request.setAttribute("goBackURL", goBackURL); 
+
+//   super.setRedirect(false);
+        super.setViewPage("/WEB-INF/board/qnaEdit.jsp");
 	}
 
 }

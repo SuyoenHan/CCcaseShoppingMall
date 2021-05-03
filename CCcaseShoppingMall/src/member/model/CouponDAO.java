@@ -52,7 +52,7 @@ public class CouponDAO implements InterCouponDAO {
 							+ " where cpstatus = ? ";
 			
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, "0");
+			 pstmt.setInt(1, 0);
 			
 			 rs = pstmt.executeQuery();
 	          
@@ -80,7 +80,7 @@ public class CouponDAO implements InterCouponDAO {
 							+ " where cpstatus = ? ";
 			
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, "1");
+			 pstmt.setInt(1, 1);
 			
 			 rs = pstmt.executeQuery();
 	          
@@ -95,45 +95,7 @@ public class CouponDAO implements InterCouponDAO {
 		return ucnt;
 	}
 
-/*	
-	@Override
-	public List<CouponVO> selectCouponList(String userid) throws SQLException {
-		
-		List<CouponVO> cpList = new ArrayList<>();
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
-							+ " from tbl_coupon "
-							+ " where fk_userid = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				CouponVO cvo = new CouponVO();
-				cvo.setCpno(rs.getString(1));
-				cvo.setCpstatus(rs.getInt(2));
-				cvo.setCpcontent(rs.getInt(3));
-				cvo.setCpname(rs.getString(4));
-				cvo.setCpdiscount(rs.getString(5));
-				cvo.setIssuedate(rs.getString(6));
-				cvo.setExpirationdate(rs.getString(7));
-				
-				cpList.add(cvo);
-			}
-			
-		} finally {
-			close();
-		}
-		
-		return cpList;
-	}
-*/
-	
+
 	
 	@Override
 	public List<CouponVO> selectCouponList(Map<String, String> paraMap) throws SQLException {
@@ -142,32 +104,41 @@ public class CouponDAO implements InterCouponDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
+			String sql = " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate, remain "
 							+ " from "
 							+ " ( "
-							+ " select rownum as rno, cpno, cpstatus, cpcontent, cpname, cpdiscount, to_char(issuedate, 'yyyy-mm-dd') as issuedate, to_char(expirationdate, 'yyyy-mm-dd') as expirationdate "
+							+ " select rownum as rno, cpno, cpstatus, cpcontent, cpname, cpdiscount, to_char(issuedate, 'yyyy-mm-dd') as issuedate, to_char(expirationdate, 'yyyy-mm-dd') as expirationdate, trunc(expirationdate-sysdate) as remain "
 							+ " from "
 							+ " ( "
 							+ " select cpno, cpstatus, cpcontent, cpname, cpdiscount, issuedate, expirationdate "
-							+ " from tbl_coupon "
-							+ " where fk_userid = ? "
-							+ " order by issuedate "
-							+ " ) V "
-							+ " ) T"
-							+ " where rno between ? and ? ";
+							+ " from tbl_coupon ";
+			
+			if("1".equals(paraMap.get("cpstatus"))) { // 사용완료 및 소멸 쿠폰목록 조회
+				sql+= " where fk_userid = ? and (cpstatus= ? or cpstatus=2 ) ";
+			}
+			else { // 사용가능 쿠폰목록 조회
+				sql+=" where fk_userid = ? and cpstatus= ? ";
+			}
+			
+			sql+= " order by issuedate "
+				+ " ) V "
+				+ " ) T "
+				+ " where rno between ? and ? ";
 			
 			int currentShowPageNo = Integer.parseInt( paraMap.get("currentShowPageNo") );
 	        int sizePerPage = 10; // 한 페이지당 화면상에 보여줄 제품의 개수는 10 으로 한다.
 			
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, paraMap.get("userid"));
-	        pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); //공식
-			pstmt.setInt(3, (currentShowPageNo * sizePerPage) );
+	        pstmt.setInt(2, Integer.parseInt(paraMap.get("cpstatus")));
+	        pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); //공식
+			pstmt.setInt(4, (currentShowPageNo * sizePerPage) );
 	        
 	        rs = pstmt.executeQuery();
 	        
 	        while(rs.next()) {
-				CouponVO cvo = new CouponVO();
+				
+	        	CouponVO cvo = new CouponVO();
 				cvo.setCpno(rs.getString("cpno"));
 				cvo.setCpstatus(rs.getInt("cpstatus"));
 				cvo.setCpcontent(rs.getInt("cpcontent"));
@@ -175,8 +146,10 @@ public class CouponDAO implements InterCouponDAO {
 				cvo.setCpdiscount(rs.getString("cpdiscount"));
 				cvo.setIssuedate(rs.getString("issuedate"));
 				cvo.setExpirationdate(rs.getString("expirationdate"));
+				cvo.setRemaindate(rs.getString("remain"));
 				
 				cpList.add(cvo);
+				
 			}
 	        
 		} finally {
@@ -185,7 +158,11 @@ public class CouponDAO implements InterCouponDAO {
 		
 		return cpList;
 	}
-		
+
+	
+
+	
+
 	   
 	   
 }

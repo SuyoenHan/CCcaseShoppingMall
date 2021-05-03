@@ -20,6 +20,8 @@ public class QnaVO {
 	public MemberVO memberVO;
 	public AdminVO adminVO;
 	
+	
+	
 	public QnaVO() {}
 	
 	public QnaVO(String qtitle, String fk_userid, String email, String fk_productid, String qstatus, String qnapwd, String qcontent) {
@@ -32,6 +34,15 @@ public class QnaVO {
 		this.qnapwd = qnapwd;
 		this.qcontent = qcontent;
 		
+	}
+
+	public QnaVO(int qnano, String qtitle, String fk_productid, String qcontent) {
+		
+		this.qnano = qnano;
+		this.qtitle = qtitle;
+		this.fk_productid =("null".equals(fk_productid)?"":fk_productid);
+		this.qcontent = qcontent;
+	
 	}
 
 	public int getQnano() {
