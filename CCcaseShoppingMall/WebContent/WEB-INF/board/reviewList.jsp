@@ -9,6 +9,17 @@
 
 <style>
 	
+	div#title{
+	/* 	border:solid 1px gray; */
+		background-color: #ccc;
+		width:100%;
+		height:60px;
+		padding:15px;
+		margin:20px auto;
+		text-align: left;
+		font-size: 20pt;
+	}
+	
 	#description {
 		font-size: 12pt;
 		color: #a6a6a6;
@@ -33,12 +44,22 @@
 
 	$(document).ready(function(){
 		
+		func_height();
+		
 		$("li#revDetail").click(function(){
 			
+			if(${sessionScope.loginuser != null}){
 			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?subject="+subject+"&goBackURL=";
+			}
+			else {
+				alert("로그인 후에 사용 가능합니다!");
+			}
 			
 		});
 		
+		$("button#btnWrite").click(function(){
+			location.href="<%=ctxPath%>/board/reviewWrite.cc";
+		});
 		
 	});// end of $(document).ready(function(){})----------------------------------
 	
@@ -51,13 +72,12 @@
 		
 	}// end of function goRSearch() {}----------------------------------------
 
-	function goRevDetail() {
-		
-		location.href
-		
-	}
 	
 </script>
+
+<div id="title"> 
+	커뮤니티
+</div>
 
 <h3>고객리뷰</h3>
 
@@ -67,8 +87,8 @@
 		<ul>
 			<c:forEach var="rvo" items="${requestScope.revList}">
 				<li id="revDetail">
-					<c:if test="${rvo.reviewimage1 != null}">${rvo.reviewimage1}</c:if>
-					<c:if test="${rvo.reviewimage eq null}"><img src="../images/noimage.png"></c:if>
+					<c:if test="${rvo.reviewimage1 != null}"><a><img src="${rvo.reviewimage1}"></a></c:if>
+					<c:if test="${rvo.reviewimage eq null}"><a><img src="../images/noimage.png"></a></c:if>
 				</li>
 			</c:forEach>
 		</ul>
@@ -90,7 +110,7 @@
 				<c:forEach var="rvo" items="${requestScope.revList}">
 				<tr class="reviewInfo">
 					<td>${rvo.reviewimage1}</td>
-					<td>${rvo.rvtitle}</td>
+					<td class="rvtitle">${rvo.rvtitle}</td>
 					<td>${rvo.rvcontent}</td>
 					<td>${rvo.rregisterdate}</td>
 				</tr>
@@ -101,5 +121,7 @@
 		<div style="text-align:center; padding: 20px 0;">
 				${requestScope.pageBar}
 		</div>
+
+		<button type="button" id="btnWrite" style="align: right;">글쓰기</button>
 
 <jsp:include page="../footer.jsp" />
