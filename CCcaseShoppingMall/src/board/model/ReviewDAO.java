@@ -8,6 +8,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import product.model.ImageFileVO;
+import product.model.ProductDetailVO;
+import product.model.SpecVO;
+
 public class ReviewDAO implements InterReviewDAO {
 	
 	private DataSource ds;
@@ -253,18 +257,7 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select imgPlus1, pname, price, sname "+
-					" from "+
-					" ( "+
-					" select pname, to_char(price,'9,999,999')as price, pnum, sname, imgPlus1  "+
-					" from tbl_pdetail D "+
-					" join tbl_product P "+
-					" on D.pname = P.productname "+
-					" join tbl_imagefile I "+
-					" on D.pnum = I.fk_pnum "+
-					" join tbl_spec S "+
-					" on D.fk_snum = S.snum "+
-					" where pname = ? ) V";
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,fk_pname);
@@ -272,6 +265,17 @@ public class ReviewDAO implements InterReviewDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				
+				ProductDetailVO pdvo = new ProductDetailVO();
+				pdvo.setPname(rs.getString(2));
+				pdvo.setPrice(rs.getInt(3));
+				
+				SpecVO svo = new SpecVO();
+				svo.setSname(rs.getString(4));
+				
+				
+				
+				
 				
 				
 				
