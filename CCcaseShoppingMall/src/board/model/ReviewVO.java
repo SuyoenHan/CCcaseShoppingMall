@@ -1,5 +1,7 @@
 package board.model;
 
+import member.model.MemberVO;
+
 public class ReviewVO {
 	private int reviewno; 					// 리뷰순번
 	private String fk_odetailno; 		// 주문상세일련번호
@@ -15,11 +17,37 @@ public class ReviewVO {
 	private String fk_pname; 			// 제품상세명
 	private int likecount; 					// 도움됩니다 숫자     
 	
+	//////////////////////////////////////////////////////////////////////////////////////
+	private MemberVO mvo;	// 조인용
+	//////////////////////////////////////////////////////////////////////////////////////
+	
 	public ReviewVO () {
 		
 	}
 	
-	
+	public ReviewVO(int reviewno, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
+			String rupdatedate, int rviewcount, int satisfaction, String reviewimage1, String reviewimage2,
+			String reviewimage3, String fk_pname, int likecount, MemberVO mvo) {
+		super();
+		this.reviewno = reviewno;
+		this.fk_odetailno = fk_odetailno;
+		this.rvtitle = rvtitle;
+		this.rvcontent = rvcontent;
+		this.rregisterdate = rregisterdate;
+		this.rupdatedate = rupdatedate;
+		this.rviewcount = rviewcount;
+		this.satisfaction = satisfaction;
+		this.reviewimage1 = reviewimage1;
+		this.reviewimage2 = reviewimage2;
+		this.reviewimage3 = reviewimage3;
+		this.fk_pname = fk_pname;
+		this.likecount = likecount;
+		this.setMvo(mvo);
+	}
+
+
+
+
 	public int getReviewno() {
 		return reviewno;
 	}
@@ -121,6 +149,14 @@ public class ReviewVO {
 	
 	public void setLikecount(int likecount) {
 		this.likecount = likecount;
+	}
+
+	public MemberVO getMvo() {
+		return mvo;
+	}
+
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
 	}
 	
 	

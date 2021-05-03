@@ -173,7 +173,7 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// reviewimage1(썸네일) 값을 입력받아서 리뷰 1개에 대한 상세정보를 알아오기
 	@Override
-	public ReviewVO reviewOneDetail(String reviewimage1) throws SQLException {
+	public ReviewVO reviewOneDetail(String rvtitle) throws SQLException {
 		
 		ReviewVO rvo = null;
 		
@@ -186,7 +186,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " where reviewimage1 = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reviewimage1);
+			pstmt.setString(1, rvtitle);
 			
 			rs= pstmt.executeQuery();
 			
@@ -211,7 +211,45 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return rvo;
 	}
-
+	
+	// tbl_review 테이블에 리뷰정보 insert 하기
+	@Override
+	public int reviewInsert(ReviewVO rvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into(reviewno, fk_odetailno, rvtitle, rvcontent, satisfaction,reviewimage1,reviewimage2, reviewimage3, fk_pname) "
+					+ " values(seq_pdetail_reviewno.nextval,?,?,?,?,?,?,?,?) ";
+					
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,rvo.getFk_odetailno());
+			pstmt.setString(1,rvo.getRvtitle());
+			pstmt.setString(3, rvo.getRvcontent());
+			pstmt.setInt(4, rvo.getSatisfaction());
+			pstmt.setString(5, rvo.getReviewimage1());
+			pstmt.setString(6, rvo.getReviewimage2());
+			pstmt.setString(7, rvo.getReviewimage3());
+			pstmt.setString(8, rvo.getFk_pname());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
