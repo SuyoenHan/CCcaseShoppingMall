@@ -11,7 +11,6 @@
 		height: 40px;
 		padding-top: 10px;
 		border: none;
-		width: calc()		
 	}
 	
 	div#leftContainer div:hover{

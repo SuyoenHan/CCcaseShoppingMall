@@ -137,7 +137,7 @@
 		// 제품 클릭시 해당 제품 상세페이지로 이동
 		$("div.productInner").click(function(){		
 			var pIdForLink= $(this).find("input.linkInfo").val();
-			location.href="<%=ctxPath%>/product/productDetail.cc?productid="+pIdForLink;
+			location.href="<%=ctxPath%>/product/productDetail.cc?productid="+pIdForLink+"&goBackURL=${requestScope.goBackURL}";
 		});
 		
 		
