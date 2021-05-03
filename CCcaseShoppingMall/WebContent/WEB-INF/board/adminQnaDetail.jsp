@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,12 +27,20 @@
    td.title{
    		width: 20%;
    }
-   
+  
+  button {
+  		transition-duration: 0.4s;
+  }
+
+  button:hover {
+  		color: red;
+  }
+
   </style>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  
+  <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
   <script type="text/javascript">
 
     var goBackURL = "";
@@ -51,6 +58,14 @@
 	function goQnaList() {
 		location.href = "/CCcaseShoppingMall/"+goBackURL;
 	}// function goQnaList()----------------------------------------------------
+	
+	function replyDelete(){
+		
+		var cmtno_val = $("#cmtno").val();
+	    if(confirm("정말로 삭제하시겠습니까?")==true){
+          	location.href="adminQnaRepDel.cc?cmtno="+cmtno_val+"";
+      }
+	}
 	
   </script>
 	<jsp:include page="../adminheader.jsp" /> 
@@ -108,16 +123,18 @@
 		<div style="display:inline-block;">
 		<c:if test="${sessionScope.adminUser.adminid !=null }">
 			  <div>
-			  		<button type="button" onclick="goQnaList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">목록</button>
+			  		<button type="button" onclick="goQnaList()" style="margin: 30px 0 30px 0;  background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; ">목록</button>
 			  </div>
 		</c:if>	
 	
 		<!-- 답글이 있으면 답글 보여주고, 없으면 답글 버튼 보여주기 -->
 		<!-- 답글이 없을 때, 답글 작성 부분 시작 -->
+		<c:if test="${empty  requestScope.cmtList}">
 	    <div>
-		    <a data-toggle="collapse" href="#collapse1"><button type="button" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button></a>		 
+	    	<p style="font-size: 15px; color: red; font-weight: bold;">현재 등록된 답글이 없습니다. 답글을 등록해주세요.</p>
+		    <a data-toggle="collapse" href="#collapse1"><button type="button" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">답글</button></a>		 
 		</div>
-	
+		</c:if>
 		<div id="collapse1" class="panel-collapse collapse">
     	 <div class="panel-body">		
     	 <form method="post" action="adminQnaReply.cc" name="qnaReplyForm" id="qnaReply">    	 	
@@ -148,26 +165,30 @@
 	
     
 	<!-- 답글 보여주기 시작 -->
+	<c:if test="${not empty  requestScope.cmtList}">
 	  <div>	
-
   		<form name="qnaReplyDetailForm">
-  			<table style="width: 700px; border: 1px; border-color: lightgray;">
+  			<table id="repContent" style="width: 700px; border: 10px; border-color: blue;">
   			<c:forEach var="qcvo" items="${requestScope.cmtList }"> 
   				<tr>
-		            <td class="title">등록일</td>
-		            <td>${qcvo.cmtregisterday}</td>
+		            <td>등록일</td>
+		            <td><input type="text" value="${qcvo.cmtregisterday}" readonly></td>
+		            <td><input type="hidden" value="${qcvo.cmtno}" name="cmtno" id="cmtno"></td>
 		        </tr>
 		        <tr>
-		            <td id="title">
-		               글내용
-		            </td>           
-		            <td>${qcvo.cmtcontent}</td>        
+		            <td>글내용</td>           
+		            <td><textarea readonly>${qcvo.cmtcontent}</textarea></td>
+		            <td>
+		 	<%-- 	<i class="fas fa-edit fa-2x" onclick="replyEdit()"></i>    --%> 
+						<i class="fas fa-trash-alt fa-2x" onclick="replyDelete()" ></i>
+		            </td>        
 		        </tr>
-		        </c:forEach>						        	
+		        </c:forEach>					        	
   			</table>
-  		</form>
 
+  		</form>
   		</div>
+  	</c:if>
   	<!--  답글 보여주기 끝 -->
 	  		
 	</div>

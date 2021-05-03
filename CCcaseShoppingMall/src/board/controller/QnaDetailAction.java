@@ -1,5 +1,7 @@
 package board.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,6 +29,10 @@ public class QnaDetailAction extends AbstractController {
 		
 		request.setAttribute("qvo", qvo);
 		
+		List<QnaCmtVO> cmtList = qdao.getCmtList(qnano);
+
+		request.setAttribute("cmtList", cmtList);	
+
 		if( loginuser != null) { // 로그인했으면
 		
 		// 로그인 유저와 작성자 아이디가 다르면 조회수 증가
