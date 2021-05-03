@@ -46,6 +46,7 @@
 		// 제품등록 화면 페이지로 이동시, 추가등록 화면은 숨기기
 		$("div#register2").hide();
 		
+		// 상품관리에서 추가정보등록시, 기존에 입력했던 정보(productid가 같은것)가져오기
 		if("0"!="${requestScope.mapSize}"){
 			
 			var productid = "${requestScope.productid}";

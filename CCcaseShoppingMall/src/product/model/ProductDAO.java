@@ -757,6 +757,38 @@ public class ProductDAO implements InterProductDAO {
 	
 	}
 
+	// productid를 가져와, 제품등록 테이블에 특정행을 업데이트시켜주는 메소드
+	@Override
+	public int updateProduct(Map<String, String> promap) throws SQLException {
+		
+		int n = 0;
+		
+		
+		try {
+			conn = ds.getConnection();
+			String sql = "update tbl_product set productname = ?, modelname = ?, fk_mnum=?,fk_cnum=?,price=?,salepercent=?,pimage1=? "+
+						 "where productid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, promap.get("productname"));
+			pstmt.setString(2, promap.get("modelname"));
+			pstmt.setInt(3, Integer.parseInt(promap.get("fk_mnum")));
+			pstmt.setInt(4, Integer.parseInt(promap.get("fk_cnum")));
+			pstmt.setInt(5, Integer.parseInt(promap.get("price")));
+			pstmt.setDouble(6, Double.parseDouble((promap.get("salepercent"))));
+			pstmt.setString(7, promap.get("pimage1"));
+			pstmt.setString(8, promap.get("productid"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		
+		return n;
+	}
+
 
 	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
 
