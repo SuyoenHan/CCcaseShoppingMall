@@ -28,7 +28,6 @@ public class MemberGradeDAO implements InterMemberGradeDAO {
 		}
 	}
 	
-	
 	// 사용한 자원을 반납하는 close() 메소드 생성하기 
 	private void close() {
 		try {
@@ -39,5 +38,36 @@ public class MemberGradeDAO implements InterMemberGradeDAO {
 			e.printStackTrace();
 		}
 	}
+
+
+	
+	// ===================== 한수연 시작 ==========================
+	
+	// 회원아이디가 주어진 경우, 적립률 반환 
+	@Override
+	public int getPointPercent(String userid) throws SQLException {
+
+		int pointPercent=0;
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select ppercent from tbl_grade "+
+						" join (select fk_grade from tbl_member where userid= ? ) "+
+						" on grade= fk_grade ";
+			
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			if(rs.next())  pointPercent= rs.getInt(1);
+			
+		}finally {
+			close();
+		}
+		
+		return pointPercent;
+		
+	} // end of public int getPointPercent(String userid) throws SQLException {-------
+		
+	// ===================== 한수연 끝 ==========================
 	
 }

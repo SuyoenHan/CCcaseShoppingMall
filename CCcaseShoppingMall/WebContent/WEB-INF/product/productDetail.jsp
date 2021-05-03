@@ -50,7 +50,7 @@
 	
 	table#pdetailInfoTable tr{
 		border: solid 0px blue;
-		line-height: 55px;
+		line-height: 45px;
 	}
 	
 	table#pdetailInfoTable th{
@@ -122,6 +122,12 @@
 		font-size: 15pt;
 		margin-top:100px;
 	}
+	
+	input#pcnt{
+		width: 50px;
+		height: 20px;
+		text-align: center;
+	}
 </style>
 
 
@@ -170,7 +176,7 @@
 		$(window).scroll(function(){
 			
 			var scrollTop= $(window).scrollTop();
-			console.log(scrollTop);
+			// console.log(scrollTop);
 			
 			if(scrollTop<580){
 				$("div#rightSide").hide();// 상품상세설명  부분만 goUp아이콘이 나오도록 hide() 처리
@@ -219,8 +225,20 @@
 		// home.cc에서 넘어온 경우 해당 spec 또는 doption에 해당하는 옵션 값 입력해주기
 		
 		
+		// 장바구니 버튼 클릭 이벤트
+		$("div#wishListBt").click(function(){
+			
+			var productid= $("input#productid").val();
+			var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 ""
+			var pcnt= $("input#pcnt").val();
+			
+			location.href="<%=ctxPath%>/member/myCart.cc?productid="+productid+"&pnum="+pnum+"&pcnt="+pcnt;
+			
+		});
 		
 		
+		
+
 
 	}); // end of $(document).ready(function(){--------------------
 
@@ -267,27 +285,22 @@
 		<div class="pdetailTitle" style="width: 90px; margin-left: 20px;">
 			<img src="<%=ctxPath%>/images/product/heartIcon.png" width="70x" height="70px;" />
 		</div>
+		<input type="hidden" id="productid" value="${onePInfo.productid}">
 		<table id="pdetailInfoTable" style="margin: 10px 0px 0px 30px; ">
 			<tr>
-				<th>
-					할인판매가
-				</th>
+				<th>할인판매가</th>
 				<td>
 					${onePInfo.saleprice}원
 				</td>
 			</tr>
 			<tr>
-				<th>
-					판매가
-				</th>
+				<th>판매가</th>
 				<td>
 					${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
 				</td>
 			</tr>
 			<tr>
-				<th>
-					색상 옵션
-				</th>
+				<th>색상 옵션</th>
 				<td>
 					<select id="cOption">
 						<option value="">색상을 선택해 주세요</option>
@@ -298,17 +311,16 @@
 				</td>
 			</tr>
 			<tr>
-				<th>
-					배송방법
-				</th>
+				<th>수량</th>
 				<td>
-					택배
+					<input type="number" min="1" max="50" value="1" id="pcnt">&nbsp;&nbsp;개
 				</td>
+			<tr>
+				<th>배송방법</th>
+				<td>택배</td>
 			</tr>
 			<tr>
-				<th>
-					배송비
-				</th>
+				<th>배송비</th>
 				<td id="dOptionText"> <%-- ajax로 값이 달라진다--%>
 					색상에 따라 상이
 				</td>
@@ -316,7 +328,7 @@
 		</table>
 		
 		<div class="pdetailbt" style="margin-left: 0px;">바로구매</div>
-		<div class="pdetailbt">장바구니</div>
+		<div class="pdetailbt" id="wishListBt">장바구니</div>
 		<div class="pdetailbt">관심상품</div>
 	</div>
 
@@ -371,5 +383,7 @@
 		<div id="goBack">목록으로</div>
 	</div>
 </div>
+
+
 
 <jsp:include page="../footer.jsp" />
