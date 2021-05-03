@@ -366,6 +366,23 @@ public class ReviewDAO implements InterReviewDAO {
 		return n;
 	}
 	
+	// 리뷰 글내용 삭제하기(delete)
+	@Override
+	public int revDeleteOne(ReviewVO rvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			
+			
+			
+		} finally {
+			close();
+		}
+		return n;
+	}
+	
 	
 	
 	
