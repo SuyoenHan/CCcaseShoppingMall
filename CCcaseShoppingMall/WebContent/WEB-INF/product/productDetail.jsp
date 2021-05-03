@@ -110,7 +110,7 @@
 	
 	div#rightSide{
 		position: relative;
-		left: 400px;
+		left: 1000px;
 	}
 
 	div#goBack{
@@ -170,9 +170,17 @@
 		$(window).scroll(function(){
 			
 			var scrollTop= $(window).scrollTop();
-			// console.log(scrollTop);
+			console.log(scrollTop);
 			
-			if(scrollTop>1600){
+			if(scrollTop<580){
+				$("div#rightSide").hide();// 상품상세설명  부분만 goUp아이콘이 나오도록 hide() 처리
+			}
+			
+			if(scrollTop>580){
+				$("div#rightSide").show();
+			}
+			
+			if(scrollTop>2800){
 				return false; // footer 부분 침범하지 않도록 이벤트 종료
 			}
 			
@@ -180,14 +188,38 @@
 			
 		}); // end of scroll event--------------------
 		
+		$("div#rightSide").click(function(){
+			window.scrollTo(0,0);
+		});
 		
+		
+		// 목록으로 돌아가기		
 		var goBackURL= "${requestScope.goBackURL}";
 		goBackURL= goBackURL.replace(/ /gi, "&")
-		
+	
 		
 		$("div#goBack").click(function(){
 			location.href= "<%=ctxPath%>/"+goBackURL;
 		})
+		
+		
+		// 작은 이미지 클릭시 큰 이미지와 위치 변경
+		$("div#pImg img").click(function(){
+			
+			var imgPath= $(this).prop('src');
+			var bigImgPath= $("img#bigImg").prop('src');
+			
+			$("img#bigImg").prop('src',imgPath);
+			$(this).prop('src',bigImgPath);
+			
+		});
+		
+		
+		
+		// home.cc에서 넘어온 경우 해당 spec 또는 doption에 해당하는 옵션 값 입력해주기
+		
+		
+		
 		
 
 	}); // end of $(document).ready(function(){--------------------
@@ -200,10 +232,12 @@
 <jsp:include page="../productListLeftSide.jsp" />
 
 <div id="contents" style="margin: 80px 0px;">
-
+	<div style="margin-left:50px; width:50px; height:50px;" id="rightSide">
+			<img src="<%=ctxPath%>/images/product/goUpIcon.png" width="50px" height="50px" />
+	</div>
 	<div class="pdetail" id="pImg" style="width: 500px;">
 		<div id="primaryImg">
-			<img src="<%=ctxPath%>/images/${onePInfo.pimage1}" width="495px" height="350px" />
+			<img src="<%=ctxPath%>/images/${onePInfo.pimage1}" id="bigImg" width="495px" height="350px" />
 		</div>
 		<div>
 			<c:forEach var="primeFileName" items="${primePlusImgFile}" varStatus="status">
@@ -294,13 +328,13 @@
 	</div>
 	
 	<div id="pDescribe" align="center">
-		<div style="margin-left:50px; width:50px; height:50px;" id="rightSide">
-			<img src="<%=ctxPath%>/images/product/goUpIcon.png" width="50px" height="50px" />
-		</div>
 		<div style="margin-top: 50px;">
 			<img src="<%=ctxPath%>/images/homeMain/logo.png" width="300px" height="100px" />
 		</div>
 		<div>
+			<div id="primaryImg" style="margin-top:30px; margin-bottom:30px;">
+				<img src="<%=ctxPath%>/images/${onePInfo.pimage1}" width="300px" height="300px" />
+			</div>
 			<c:forEach var="primeFileName" items="${primePlusImgFile}" varStatus="status">
 				<c:if test="${status.index < 3}">
 					<c:if test="${status.index== 0}">

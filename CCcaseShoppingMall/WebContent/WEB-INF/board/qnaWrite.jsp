@@ -36,23 +36,29 @@
  <script type="text/javascript">
 	
 	 $(document).ready(function(){		
-		 
-		 $("#qnaPwd").hide();// 비공개글일 때만 글비번 보여주기
-		 
+		
 		 document.getElementById("qregisterdate").valueAsDate = new Date();// 입력일 현재 날짜로 설정
 
+		 $("#qnaPwd").hide();// 비공개글일 때만 글비번 보여주기
+		
 	 });
  
 	 // Function declaration
-	 
+
 	 // 비공개 글만 비밀번호칸 공개하기
-	 function setDisplay(){
+	 function setPwd(){
+		 
+		$("#qnaPwd").hide();// 비공개글일 때만 글비번 보여주기
+		 
 	    if($("input:radio[id=qstatus2]").is(":checked")){
 	        $("#qnaPwd").show();
+	        $("[name=pwdRegister]").attr("required", true);
 	    }
-	   else{
+	    else{
 	        $("#qnaPwd").hide();
+	        $("[name=pwdRegister]").attr("required", false);
 	    }
+		
 	}// end of function setDisplay()--------------------------------------
 
 	function on_load(){
@@ -72,7 +78,7 @@
         <tr>
             <td class="title">제목</td>
             <td>
-                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="50" value=""/>
+                <input name="qtitle" id="qtitle" type="text" size="70" maxlength="50" value="" required/>
             </td>        
         </tr>
         <tr>
@@ -89,17 +95,17 @@
         </tr>
         <tr>
             <td class="title">제품아이디</td>
-            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value=""/></td>
+            <td><input  id="fk_productid" name="fk_productid" type="text" size="70" maxlength="100" value="" /></td>
         </tr>
         
         <tr>
         	<td id="title">공개여부</td>
         	<td>
-        		<input type="radio" id="qstatus1" name="qstatus" value="0" checked="checked">
+        		<input type="radio" id="qstatus1" name="qstatus" value="0" checked="checked" onclick="setPwd()">
  				<label for="public">공개</label>&nbsp;&nbsp;
- 				<input type="radio" id="qstatus2" name="qstatus" value="1" onclick="setDisplay()">
+ 				<input type="radio" id="qstatus2" name="qstatus" value="1" onclick="setPwd()">
  				<label for="private">비공개</label>
- 				<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" name="qnapwd" maxlength="10"></div>
+ 					<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" name="pwdRegister" maxlength="10" required="required"></div>
         	</td>
        	</tr>
 
@@ -108,7 +114,7 @@
                글내용
             </td>
             <td>
-                <textarea name="qcontent" id="qcontent" cols="72" rows="15"></textarea>            
+                <textarea name="qcontent" id="qcontent" cols="72" rows="15" required></textarea>            
             </td>        
         </tr>
 

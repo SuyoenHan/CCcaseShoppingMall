@@ -112,7 +112,7 @@
 	    	</tbody>
 	    </table>
 
-<!-- 관리자가 로그인 했을 때만 이벤트 작성과 검색 보여주기 -->	    
+	<!-- 관리자가 로그인 했을 때만 이벤트 작성과 검색 보여주기 -->	    
 	<c:if test="${sessionScope.adminUser.adminid !=null }">
 	<form name="eventFrm" style="margin-top: 5%;">
 	      <select id="searchType" name="searchType">

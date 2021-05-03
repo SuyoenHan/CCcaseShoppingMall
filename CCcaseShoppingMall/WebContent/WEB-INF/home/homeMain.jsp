@@ -307,6 +307,24 @@
 						$('div#fNext').trigger('click');//이벤트 발생
 		  		  },2000);
 		
+		
+		
+		// 제품 이미지 클릭시 제품상세페이지로 넘어가기 => best, new에 해당하는 제품상세 정보 같이 넘겨서 미리 입력
+		$("div.productInnerBySpec").click(function(){		
+			var pIdForLink= $(this).find("input.linkInfo").val();
+			var snum= $(this).find("input.snum").val();
+			location.href="<%=ctxPath%>/product/productDetail.cc?productid="+pIdForLink+"&snum="+snum+"&goBackURL=${requestScope.goBackURL}";
+		});
+		
+		// 제품 이미지 클릭시 제품상세페이지로 넘어가기 => best, new에 해당하는 제품상세 정보 같이 넘겨서 미리 입력
+		$("div.productInnerByDOption").click(function(){		
+			var pIdForLink= $(this).find("input.linkInfo").val();
+			var doption= $(this).find("input.doption").val();
+			location.href="<%=ctxPath%>/product/productDetail.cc?productid="+pIdForLink+"&doption="+doption+"&goBackURL=${requestScope.goBackURL}";
+		});
+		
+		
+		
 	}); // end of $(document).ready(function(){-----------------------
 	
 	
@@ -330,29 +348,32 @@
 		<c:forEach var="pInfoMapBest" items="${pInfoListBest}" varStatus="statusB">
 			
 			<div class="productOuter" align="center" id="BEST${statusB.count}">
-				<input type="hidden" value="${pInfoMapBest.productid}" />
-				<img src="<%=ctxPath%>/images/${pInfoMapBest.pimage1}" class="pImg" id="${pInfoMapBest.productid}" width="210" height="200" />
-				<div class="productName">[${pInfoMapBest.cname}]&nbsp;[${pInfoMapBest.modelname}]<br>${pInfoMapBest.productname}</div>
-				
-				<div>
-					<span class="netPrice">정가: ${pInfoMapBest.price}</span>&nbsp;&nbsp;&nbsp;
-					<span class="salePrice">할인가: ${pInfoMapBest.saleprice}</span>
-				</div>
-				
-				<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
-				<div style="float: left">
-					<c:if test="${pInfoMapBest.spec == 'BEST'}">
-						<span class="best spec">BEST</span>
-					</c:if>
+				<div class="productInnerBySpec">
+					<input type="hidden" class="linkInfo" value="${pInfoMapBest.productid}" />
+					<input type="hidden" class="snum" value="0" />
+					<img src="<%=ctxPath%>/images/${pInfoMapBest.pimage1}" class="pImg" id="${pInfoMapBest.productid}" width="210" height="200" />
+					<div class="productName">[${pInfoMapBest.cname}]&nbsp;[${pInfoMapBest.modelname}]<br>${pInfoMapBest.productname}</div>
 					
-					<c:if test="${pInfoMapBest.spec == 'NEW'}">
-						<span class="new spec">NEW</span>
-					</c:if>
+					<div>
+						<span class="netPrice">정가: ${pInfoMapBest.price}</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: ${pInfoMapBest.saleprice}</span>
+					</div>
 					
-					<c:if test="${pInfoMapBest.spec == 'BEST/NEW'}">
-						<span class="best spec">BEST</span>
-						<span class="new spec">NEW</span>
-					</c:if>	
+					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
+					<div style="float: left">
+						<c:if test="${pInfoMapBest.spec == 'BEST'}">
+							<span class="best spec">BEST</span>
+						</c:if>
+						
+						<c:if test="${pInfoMapBest.spec == 'NEW'}">
+							<span class="new spec">NEW</span>
+						</c:if>
+						
+						<c:if test="${pInfoMapBest.spec == 'BEST/NEW'}">
+							<span class="best spec">BEST</span>
+							<span class="new spec">NEW</span>
+						</c:if>	
+					</div>
 				</div>
 		    </div>
 		</c:forEach>
@@ -374,29 +395,32 @@
 		<c:forEach var="pInfoMapNew" items="${pInfoListNew}" varStatus="statusN">
 			
 			<div class="productOuter" align="center" id="NEW${statusN.count}">
-				<input type="hidden" value="${pInfoMapNew.productid}" />
-				<img src="<%=ctxPath%>/images/${pInfoMapNew.pimage1}" class="pImg" id="${pInfoMapNew.productid}" width="210" height="200" />
-				<div class="productName">[${pInfoMapNew.cname}]&nbsp;[${pInfoMapNew.modelname}]<br>${pInfoMapNew.productname}</div>
-				
-				<div>
-					<span class="netPrice">정가: ${pInfoMapNew.price}</span>&nbsp;&nbsp;&nbsp;
-					<span class="salePrice">할인가: ${pInfoMapNew.saleprice}</span>
-				</div>
-				
-				<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
-				<div style="float: left">
-					<c:if test="${pInfoMapNew.spec == 'BEST'}">
-						<span class="best spec">BEST</span>
-					</c:if>
+				<div class="productInnerBySpec">
+					<input type="hidden" class="linkInfo" value="${pInfoMapNew.productid}" />
+					<input type="hidden" class="snum" value="1" />
+					<img src="<%=ctxPath%>/images/${pInfoMapNew.pimage1}" class="pImg" id="${pInfoMapNew.productid}" width="210" height="200" />
+					<div class="productName">[${pInfoMapNew.cname}]&nbsp;[${pInfoMapNew.modelname}]<br>${pInfoMapNew.productname}</div>
 					
-					<c:if test="${pInfoMapNew.spec == 'NEW'}">
-						<span class="new spec">NEW</span>
-					</c:if>
+					<div>
+						<span class="netPrice">정가: ${pInfoMapNew.price}</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: ${pInfoMapNew.saleprice}</span>
+					</div>
 					
-					<c:if test="${pInfoMapNew.spec == 'BEST/NEW'}">
-						<span class="best spec">BEST</span>
-						<span class="new spec">NEW</span>
-					</c:if>	
+					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
+					<div style="float: left">
+						<c:if test="${pInfoMapNew.spec == 'BEST'}">
+							<span class="best spec">BEST</span>
+						</c:if>
+						
+						<c:if test="${pInfoMapNew.spec == 'NEW'}">
+							<span class="new spec">NEW</span>
+						</c:if>
+						
+						<c:if test="${pInfoMapNew.spec == 'BEST/NEW'}">
+							<span class="best spec">BEST</span>
+							<span class="new spec">NEW</span>
+						</c:if>	
+					</div>
 				</div>
 		    </div>
 		</c:forEach>
@@ -421,30 +445,32 @@
 		<c:forEach var="pInfoMapFree" items="${pInfoListDFree}" varStatus="statusf">
 			
 			<div class="productOuter" align="center" id="FREE${statusf.count}">
-				<input type="hidden" value="${pInfoMapFree.productid}" />
-				<input type="hidden" value="${pInfoMapFree.pcolor}" />
-				<img src="<%=ctxPath%>/images/${pInfoMapFree.pimage1}" class="pImg" id="${pInfoMapFree.productid}" width="210" height="200" />
-				<div class="productName">[${pInfoMapFree.cname}]&nbsp;[${pInfoMapFree.modelname}]<br>${pInfoMapFree.productname}</div>
-				
-				<div>
-					<span class="netPrice">정가: ${pInfoMapFree.price}</span>&nbsp;&nbsp;&nbsp;
-					<span class="salePrice">할인가: ${pInfoMapFree.saleprice}</span>
-				</div>
-				
-				<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
-				<div style="float: left">
-					<c:if test="${pInfoMapFree.spec == 'BEST'}">
-						<span class="best spec">BEST</span>
-					</c:if>
+				<div class="productInnerByDOption">
+					<input type="hidden" class="linkInfo" value="${pInfoMapFree.productid}" />
+					<input type="hidden" class="doption" value="0" />
+					<img src="<%=ctxPath%>/images/${pInfoMapFree.pimage1}" class="pImg" id="${pInfoMapFree.productid}" width="210" height="200" />
+					<div class="productName">[${pInfoMapFree.cname}]&nbsp;[${pInfoMapFree.modelname}]<br>${pInfoMapFree.productname}</div>
 					
-					<c:if test="${pInfoMapFree.spec == 'NEW'}">
-						<span class="new spec">NEW</span>
-					</c:if>
+					<div>
+						<span class="netPrice">정가: ${pInfoMapFree.price}</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: ${pInfoMapFree.saleprice}</span>
+					</div>
 					
-					<c:if test="${pInfoMapFree.spec == 'BEST/NEW'}">
-						<span class="best spec">BEST</span>
-						<span class="new spec">NEW</span>
-					</c:if>	
+					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
+					<div style="float: left">
+						<c:if test="${pInfoMapFree.spec == 'BEST'}">
+							<span class="best spec">BEST</span>
+						</c:if>
+						
+						<c:if test="${pInfoMapFree.spec == 'NEW'}">
+							<span class="new spec">NEW</span>
+						</c:if>
+						
+						<c:if test="${pInfoMapFree.spec == 'BEST/NEW'}">
+							<span class="best spec">BEST</span>
+							<span class="new spec">NEW</span>
+						</c:if>	
+					</div>
 				</div>
 		    </div>
 		</c:forEach>
