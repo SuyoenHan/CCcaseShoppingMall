@@ -159,7 +159,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-	
+		
 		    $("button#btnlogin").click(function(){
 				location.href="<%= ctxPath%>/login/loginform.cc";
 			});
@@ -192,6 +192,16 @@
 			}) // end of hover event--------------------
 				
 			
+			// 나의 장바구니 이동 클릭이벤트
+			$("button#wishlist").click(function(){
+				
+				var frm= document.goCart;
+				frm.method="POST";
+				frm.action="<%=ctxPath%>/member/myCart.cc";
+				frm.submit();
+			});
+			
+			
 			
 	}); // $(documnet).ready(function(){--------------------------------
 	
@@ -208,7 +218,7 @@
 		
 		location.href="<%= request.getContextPath()%>/member/memberEditMain.cc?userid="+userid;
 	}
-
+	
 </script>
 
 </head>
@@ -411,9 +421,14 @@
 				</div>
 			</c:if>
 					
-				<div>
+			<div>
+				<form name="goCart" style="float:left;">
+					<input type="hidden" name="userid" value="${loginuser.userid}">
+				</form>
 					<button class="loginSection" id="wishlist">장바구니</button>
-					<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">마이페이지</button>
-				</div>
+				<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">
+					마이페이지
+				</button>
+			</div>
 			
 		</div>	
