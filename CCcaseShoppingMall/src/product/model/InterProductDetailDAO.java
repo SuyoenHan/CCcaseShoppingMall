@@ -15,10 +15,11 @@ public interface InterProductDetailDAO {
 	//////////////////백원빈 작업끝//////////////////
 
 	
+	// 제품리스트에서 특정행의 정보를 뽑아오기(select)
+	Map<String, String> proOneDetail(String pnum) throws SQLException;
 	
-	
-	
-	
+	// 제품리스트에서 특정행 update
+	int updateProductDetail(Map<String, String> pdetailmap) throws SQLException;
 	
 	
 	
@@ -35,6 +36,7 @@ public interface InterProductDetailDAO {
 	
 	// pnum이 주어진 경우, 이에 해당하는 배송옵션 반환 메소드
 	int getDOptionByPnum (String pnum) throws SQLException;
+
 	
 	// ====================== 한수연 끝 =========================
 

@@ -54,6 +54,9 @@ public interface InterProductDAO {
 
 	
 	
+	// productid를 가져와, 제품등록 테이블에 특정행을 업데이트시켜주는 메소드
+	int updateProduct(Map<String, String> promap) throws SQLException;
+	
 	
 	
 	

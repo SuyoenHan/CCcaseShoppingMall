@@ -110,7 +110,7 @@ public class ProductRegisterAction extends AbstractController {
 				
 				MultipartRequest mtrRequest = null;
 				session = request.getSession();
-				ServletContext svlCtx =  request.getServletContext();
+				ServletContext svlCtx =  session.getServletContext();
 				
 				String imagesDir = svlCtx.getRealPath("/images");
 				

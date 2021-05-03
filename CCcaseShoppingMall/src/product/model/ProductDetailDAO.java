@@ -102,7 +102,8 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 								" from tbl_imagefile "+
 								" ) I "+
 								" on D.pnum = I.fk_pnum" +
-								" ) V " ;
+							    " ) V " ;
+			                    
 								
 			String colname = paraMap.get("searchType");
 			// jsp에서 받아오는 searchType의 value값 
@@ -128,7 +129,8 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 			}
 								
 			sql +=	" ) T " +
-					" where rno between ? and ? ";
+					" where rno between ? and ? "+
+					"order by pnum ";
 			
 			int currentShowPageNo= Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage= Integer.parseInt(paraMap.get("sizePerPage"));
@@ -179,6 +181,8 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		}
 		return proList;
 	}	
+	
+	
 	////////////////////////////////////////////////
 	// 제품상세테이블로 insert하기 + 제품상세번호(primary)알아오기
 	@Override
@@ -196,7 +200,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pdetailmap.get("productid"));
 			pstmt.setString(2, pdetailmap.get("productid"));
-			pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("productname")+"-"+pdetailmap.get("modelname"));
+			pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
 			pstmt.setString(4, pdetailmap.get("pcolor"));
 			pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
 			pstmt.setInt(6, Integer.parseInt(pdetailmap.get("fk_snum")));
@@ -237,6 +241,127 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		}	
 		return getpnum;
 	}
+	
+	
+	
+	///////////////////////
+	// 특정제품 정보 조회해오기
+	@Override
+	public Map<String, String> proOneDetail(String pnum) throws SQLException {
+	
+		Map<String, String> detailMap = new HashMap<>();
+		
+		try {
+		
+		conn = ds.getConnection();
+		
+		//pnum = productid+제품상세테이블의 seq =>특정행의 primary키
+		String sql = "select P.productid,pnum, productname, M.mnum, modelname, C.cnum, price, salepercent, pname, pcolor, pqty ,S.snum, pinputdate, doption, pcontent, imgno "+
+					 "from "+
+					 "( "+
+					 	"select * "+
+					 	"from tbl_product"+
+					 ")P "+
+					 "join "+
+					 "( "+
+					 	"select * "+
+					 	"from tbl_category "+
+					 ")C "+
+					 "on P.fk_cnum = C.cnum "+
+					 "join "+
+					 "( "+
+					 	"select * "+
+					 	"from tbl_mobilecompany "+
+					 ")M "+
+					 "on P.fk_mnum = M.mnum "+
+					 "join "+
+					 "( "+
+						 "select * "+
+						 "from tbl_pdetail "+
+					 ")D "+
+					 "on P.productid = D.fk_productid "+
+					 "join "+
+					 "( "+
+					 	"select * "+
+					 	"from tbl_spec "+
+					 ") S "+
+					 "on D.fk_snum = S.snum "+
+					 "join "+
+					 "( "+
+						"select * "+
+						"from tbl_imagefile "+
+					 ") I "+
+					 "on D.pnum = I.fk_pnum "+
+					 "where pnum = ?";
+						
+		
+		pstmt = conn.prepareStatement(sql);	
+		pstmt.setString(1, pnum);
+		
+		rs = pstmt.executeQuery();
+		
+		
+		if(rs.next()) {
+			
+			detailMap.put("productid", rs.getString(1));
+			detailMap.put("pnum", rs.getString(2));
+			detailMap.put("productname", rs.getString(3));
+			detailMap.put("mnum", String.valueOf(rs.getInt(4)));
+			detailMap.put("modelname", rs.getString(5));
+			detailMap.put("cnum", String.valueOf(rs.getInt(6)));
+			detailMap.put("price", String.valueOf(rs.getInt(7)));
+			detailMap.put("salepercent", String.valueOf(rs.getDouble(8)));
+			detailMap.put("pname", rs.getString(9));
+			detailMap.put("pcolor", rs.getString(10));
+			detailMap.put("pqty", String.valueOf(rs.getInt(11)));
+			detailMap.put("snum", String.valueOf(rs.getInt(12)));
+			detailMap.put("pinputdate", rs.getString(13));
+			detailMap.put("doption", String.valueOf(rs.getInt(14)));
+			detailMap.put("pcontent", rs.getString(15));
+			detailMap.put("imgno", String.valueOf(rs.getInt(16)));
+			
+		}// end of if(rs.next()) {
+		
+		} finally {
+		close();
+		}
+		return detailMap;
+		
+	}// end of public Map<String, String> proOneDetail(String pnum)
+	
+	// 제품리스트에서 특정행 update하는 메소드
+	@Override
+	public int updateProductDetail(Map<String, String> pdetailmap) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "update tbl_pdetail set pname=?,pcolor=?,pqty=?,fk_snum=?,pcontent=?,pinputdate=?,doption=? "+
+						 "where pnum=? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
+			pstmt.setString(2, pdetailmap.get("pcolor"));
+			pstmt.setInt(3, Integer.parseInt(pdetailmap.get("pqty")));
+			pstmt.setInt(4, Integer.parseInt(pdetailmap.get("fk_snum")));
+			pstmt.setString(5, pdetailmap.get("pcontent"));
+			pstmt.setString(6, pdetailmap.get("pinputdate"));
+			pstmt.setInt(7, Integer.parseInt(pdetailmap.get("doption")));
+			pstmt.setString(8, pdetailmap.get("pnum"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		
+		return n;
+	}
+	
 	//////////////////백원빈 작업끝//////////////////
 
 
