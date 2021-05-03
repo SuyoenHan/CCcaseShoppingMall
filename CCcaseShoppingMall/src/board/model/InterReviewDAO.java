@@ -22,6 +22,17 @@ public interface InterReviewDAO {
 
 	// 구매한 제품 정보 가져오기(select)
 	ReviewVO selectProdOne(String fk_pname) throws SQLException;
+	
+	
+	int revEditUpdate(ReviewVO rvo) throws SQLException;
+	
+	//FAQ 글내용 수정을 위해 하나의 리뷰를 select해오기
+	ReviewVO revEditOneView(String reviewno) throws SQLException;
+
+	
+	
+	
+	
 
 	
 	

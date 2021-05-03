@@ -2,6 +2,7 @@ package board.model;
 
 import member.model.MemberVO;
 import product.model.ProductVO;
+import product.model.SpecVO;
 
 public class ReviewVO {
 	private int reviewno; 					// 리뷰순번
@@ -21,6 +22,7 @@ public class ReviewVO {
 	//////////////////////////////////////////////////////////////////////////////////////
 	private MemberVO mvo;	// 조인용
 	private ProductVO pvo;
+	private SpecVO svo;
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	public ReviewVO () {
@@ -29,7 +31,7 @@ public class ReviewVO {
 	
 	public ReviewVO(int reviewno, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
 			String rupdatedate, int rviewcount, int satisfaction, String reviewimage1, String reviewimage2,
-			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo) {
+			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo) {
 		super();
 		this.reviewno = reviewno;
 		this.fk_odetailno = fk_odetailno;
@@ -46,6 +48,7 @@ public class ReviewVO {
 		this.likecount = likecount;
 		this.mvo = mvo;
 		this.pvo = pvo;
+		this.svo = svo;
 	}
 
 
@@ -168,6 +171,14 @@ public class ReviewVO {
 
 	public void setPvo(ProductVO pvo) {
 		this.pvo = pvo;
+	}
+
+	public SpecVO getSvo() {
+		return svo;
+	}
+
+	public void setSvo(SpecVO svo) {
+		this.svo = svo;
 	}
 	
 	

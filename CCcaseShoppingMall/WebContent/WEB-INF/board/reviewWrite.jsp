@@ -154,10 +154,10 @@ div#title{
 				<td>
 					<select id="ratingType" name="ratingType">
 						<option value="choose">별점을 선택하세요.</option>
-						<option value="1">★</option>
-						<option value="2">★★</option>
-						<option value="3">★★★</option>
-						<option value="4">★★★★</option>
+						<option value="1">★☆☆☆☆</option>
+						<option value="2">★★☆☆☆</option>
+						<option value="3">★★★☆☆</option>
+						<option value="4">★★★★☆</option>
 						<option value="5">★★★★★</option>
 					</select>
 				</td>
