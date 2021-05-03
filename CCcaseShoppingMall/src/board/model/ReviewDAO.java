@@ -244,6 +244,46 @@ public class ReviewDAO implements InterReviewDAO {
 		return n;
 	}
 	
+	// 구매한 제품 정보 가져오기(select)
+	@Override
+	public ReviewVO selectProdOne(String fk_pname) throws SQLException {
+		
+		ReviewVO rvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select imgPlus1, pname, price, sname "+
+					" from "+
+					" ( "+
+					" select pname, to_char(price,'9,999,999')as price, pnum, sname, imgPlus1  "+
+					" from tbl_pdetail D "+
+					" join tbl_product P "+
+					" on D.pname = P.productname "+
+					" join tbl_imagefile I "+
+					" on D.pnum = I.fk_pnum "+
+					" join tbl_spec S "+
+					" on D.fk_snum = S.snum "+
+					" where pname = ? ) V";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,fk_pname);
+					
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return null;
+	}
+	
 	
 	
 	

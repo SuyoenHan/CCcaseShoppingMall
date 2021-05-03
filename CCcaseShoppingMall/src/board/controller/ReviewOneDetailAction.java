@@ -1,12 +1,12 @@
 package board.controller;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.*;
 import common.controller.AbstractController;
+import product.model.*;
 
 public class ReviewOneDetailAction extends AbstractController {
 
@@ -21,6 +21,13 @@ public class ReviewOneDetailAction extends AbstractController {
 		
 		InterReviewDAO rdao = new ReviewDAO();
 		ReviewVO rvo = rdao.reviewOneDetail(rvtitle);
+		
+		request.setAttribute("rvo", rvo);
+		
+		String fk_pname = request.getParameter("fk_pname");
+		rvo = rdao.selectProdOne(fk_pname);
+		
+		
 		
 		if(rvo == null) {
 			String message = "검색하신 리뷰는 존재하지 않습니다.";

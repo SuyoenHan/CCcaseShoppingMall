@@ -20,6 +20,9 @@ public interface InterReviewDAO {
 	// tbl_review 테이블에 리뷰정보 insert 하기
 	int reviewInsert(ReviewVO rvo) throws SQLException;
 
+	// 구매한 제품 정보 가져오기(select)
+	ReviewVO selectProdOne(String fk_pname) throws SQLException;
+
 	
 	
 	
