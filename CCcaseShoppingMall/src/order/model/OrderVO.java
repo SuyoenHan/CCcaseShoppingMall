@@ -1,5 +1,9 @@
 package order.model;
 
+import member.model.MemberVO;
+import product.model.ProductDetailVO;
+import product.model.ProductVO;
+
 public class OrderVO {
 
 	
@@ -15,9 +19,38 @@ public class OrderVO {
 	private int shipfee;          // 배송비
 	private int finalamount;      // 최종주문금액 (상품총액+배송비-할인금액)
 	
+	private MemberVO mvo;
+	private ODetailVO odvo;
+	private ProductDetailVO pdvo;
+	private ProductVO pvo;
 	
+	public OrderVO() {
+		// TODO Auto-generated constructor stub
+	}
 	
+
+	public OrderVO(String orderno, String fk_userid, int totalPrice, String orderdate, String shipstartdate,
+			String shipenddate, String depositdate, int shipstatus, int shipfee, int finalamount, MemberVO mvo,
+			ODetailVO odvo, ProductDetailVO pdvo, ProductVO pvo) {
+		super();
+		this.orderno = orderno;
+		this.fk_userid = fk_userid;
+		this.totalPrice = totalPrice;
+		this.orderdate = orderdate;
+		this.shipstartdate = shipstartdate;
+		this.shipenddate = shipenddate;
+		this.depositdate = depositdate;
+		this.shipstatus = shipstatus;
+		this.shipfee = shipfee;
+		this.finalamount = finalamount;
+		this.mvo = mvo;
+		this.odvo = odvo;
+		this.pdvo = pdvo;
+		this.pvo = pvo;
+	}
+
 	
+
 	public String getOrderno() {
 		return orderno;
 	}
@@ -97,6 +130,47 @@ public class OrderVO {
 	public void setFinalamount(int finalamount) {
 		this.finalamount = finalamount;
 	}
+
+
+	public MemberVO getMvo() {
+		return mvo;
+	}
+
+
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
+	}
+
+
+	public ODetailVO getOdvo() {
+		return odvo;
+	}
+
+
+	public void setOdvo(ODetailVO odvo) {
+		this.odvo = odvo;
+	}
+
+
+	public ProductDetailVO getPdvo() {
+		return pdvo;
+	}
+
+
+	public void setPdvo(ProductDetailVO pdvo) {
+		this.pdvo = pdvo;
+	}
+
+
+	public ProductVO getPvo() {
+		return pvo;
+	}
+
+
+	public void setPvo(ProductVO pvo) {
+		this.pvo = pvo;
+	}
+	
 	
 	
 	
