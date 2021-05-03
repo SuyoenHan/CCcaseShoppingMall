@@ -188,14 +188,14 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		String getpnum = null;
 		
 		try {
-			
+
 			conn = ds.getConnection();
 			String sql = " insert into tbl_pdetail(pnum,fk_productid,pname,pcolor,pqty,fk_snum,pcontent,pinputdate,doption) "+
 						 " values(?||'-'||seq_pdetail_pnum.nextval,?,?,?,?,?,?,?,?) ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pdetailmap.get("fk_productid"));
-			pstmt.setString(2, pdetailmap.get("fk_productid"));
+			pstmt.setString(1, pdetailmap.get("productid"));
+			pstmt.setString(2, pdetailmap.get("productid"));
 			pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("productname")+"-"+pdetailmap.get("modelname"));
 			pstmt.setString(4, pdetailmap.get("pcolor"));
 			pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
@@ -222,7 +222,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 						  " where pnum=?||'-'||? ";
 					
 					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, pdetailmap.get("fk_productid"));
+					pstmt.setString(1, pdetailmap.get("productid"));
 					pstmt.setString(2, getSequence);
 
 					rs = pstmt.executeQuery();
