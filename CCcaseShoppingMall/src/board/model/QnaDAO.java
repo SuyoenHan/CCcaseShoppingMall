@@ -47,13 +47,13 @@ public class QnaDAO implements InterQnaDAO {
 		try {
 			 conn = ds.getConnection();
 			 
-			 String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
+			 String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd, qstatus "+
 					 			" from " +
 					 			" ( "+
-					 			"    select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
+					 			"    select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd, qstatus "+
 					 			"    from "+
 					 			"    ( "+
-					 			"        select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
+					 			"        select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd, qstatus "+
 					 			"        from tbl_qna " ;
 			 
 			 	/////////// === 검색어가 있는 경우 시작 === ///////////
@@ -100,6 +100,7 @@ public class QnaDAO implements InterQnaDAO {
 				 qvo.setQregisterdate(rs.getString(4));
 				 qvo.setQviewcount(rs.getInt(5));
 				 qvo.setQnapwd(rs.getString(6));
+				 qvo.setQstatus(rs.getString(7));
 				 
 				 qnaList.add(qvo);
 				 
