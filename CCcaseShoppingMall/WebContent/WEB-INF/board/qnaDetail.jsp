@@ -48,13 +48,7 @@
 	
 	function goDelete(){
         if(confirm("정말로 삭제하시겠습니까?")==true){
-        	if("${requestScope.qvo.qnano}"=="${requestScope.qrvo.fk_qnano}"){
-        		alert("답글이 있는 글은 삭제할 수 없습니다.");
-        		location.href = "/CCcaseShoppingMall/"+goBackURL;
-       		 }
-        	else{	
             	location.href="qnaDelete.cc?qnano=${requestScope.qvo.qnano}";
-        	}
         }
 	}
 
