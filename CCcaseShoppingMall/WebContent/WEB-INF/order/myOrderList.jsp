@@ -9,7 +9,7 @@
 
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp" />    
+<jsp:include page="../mypageleftSide.jsp" />    
 
 
 <!DOCTYPE html>
@@ -30,6 +30,10 @@
 		background-color: #a6a6a6;
 		color:
 	}
+	
+	 div#myOrderList{
+		background-color: #ccffee;
+	}
 
 </style>
 
@@ -39,7 +43,7 @@
 
 	$(document).ready(function(){
 		
-		
+		//배송조회 버튼 클릭
 		$("button.shipstatusBtn").click(function(){
 			
 			//alert("배송조회");
@@ -47,6 +51,16 @@
 			location.href="<%=ctxPath%>/order/shipStatus.cc";
 			
 		});
+		
+		
+		//상품평관리 클릭
+		$("button.productReviewBtn").click(function(){
+			
+			//하나의 상품(내가 클릭한 곳)리뷰 다는 곳으로 이동 시켜준다.
+			location.href="<%=ctxPath%>/board/reviewList.cc";
+			
+		});
+		
 		
 		
 	});
@@ -59,14 +73,13 @@
 <body>
 
 <div id="contents">
-<form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" method="">
+<form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
 	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span>님 주문내역 조회</span></h2>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
 	  <table class="table table-hover">
 	    
 	    <thead>
-	    
 	      <div id="dateGroup" name="dateGroup"> -----구매날짜 ${ovo.orderdate}-----</div>
 	      <tr>
 	        <th>상품정보</th>

@@ -18,10 +18,8 @@ public class MyOrderListAction extends AbstractController {
 		HttpSession session =request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
-		//String method = request.getMethod();
-		
-		
-		
+		  
+	    	  
 			if(loginuser!=null) {
 				String userid = loginuser.getUserid();
 				
@@ -46,9 +44,5 @@ public class MyOrderListAction extends AbstractController {
 			}
 		
 		
-		
-		
-		
 	}
-
 }

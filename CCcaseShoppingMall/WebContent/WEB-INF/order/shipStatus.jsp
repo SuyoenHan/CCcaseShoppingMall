@@ -6,8 +6,17 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp" />   
 
+<style>
+
+div#container{
+	width: 80%;
+}
+
+</style>
+
+
 <div id="container">
-<h3>배송조회 페이지...</h3>
+<h1>배송조회 페이지 입니다</h1>
 
 
 </div>
