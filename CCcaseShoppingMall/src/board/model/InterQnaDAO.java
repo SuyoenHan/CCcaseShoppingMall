@@ -39,9 +39,9 @@ public interface InterQnaDAO {
 	
 
 
-	
-
 	//마이페이지에서 내가 쓴 게시물 보기
-	QnaVO qnaMywrite(String userid) throws SQLException;
+	List<QnaVO> qnaMywrite(Map<String, String> paraMap) throws SQLException;
+	//내가 쓴글 총페이지 보이기
+	int qnaMywriteTotalPage(String userid)throws SQLException;
 
 }
