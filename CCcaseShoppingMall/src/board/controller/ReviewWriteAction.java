@@ -34,7 +34,7 @@ public class ReviewWriteAction extends AbstractController {
 				ServletContext svlCtx = session.getServletContext();
 				String imagesDir = svlCtx.getRealPath("/images");
 				
-				imagesDir = "C:\\NCS\\workspace(jsp)\\MyMVC\\WebContent\\images";
+				imagesDir = "C:\\NCS\\workspace(jsp)\\\\WebContent\\images";
 				
 				try {
 					mtrequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
@@ -77,6 +77,8 @@ public class ReviewWriteAction extends AbstractController {
 				
 				rvo.setMvo(mvo);
 				
+				System.out.println(rvo);
+				
 				InterReviewDAO rdao = new ReviewDAO();
 				
 				// tbl_review 테이블에 제품정보 insert 하기
@@ -95,7 +97,7 @@ public class ReviewWriteAction extends AbstractController {
 				}
 				
 			}
-			else {
+			else {	// GET 방식일때
 				
 				String message = "로그인 후 사용하세요.";
 				String loc = "javascript:location.back()";

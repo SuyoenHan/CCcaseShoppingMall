@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<% String ctxPath = request.getContextPath(); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
@@ -84,21 +85,36 @@
 		
 		func_height();
 		
+		if("${fn:trim(requestScope.searchWord)}" != "") {
+			$("select#searchType").val("${requestScope.searchType}");
+			$("input#searchWord").val("${requestScope.searchWord}");
+		}
+		
+		$("a#searchBtn").click(function(){
+			goRSearch();
+		});
+		
+		
+		$("input#searchWord").bind("keyup",function(){
+			if(event.keyCode == 13) {
+				goRSearch();
+			}
+		
 		$("li#revDetail").click(function(){
 			
 			var revImg = $(this).text();
-			
-			if(${sessionScope.loginuser != null}){
-			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?subject="+revImg+"&goBackURL=${requestScope.goBackURL}";
-			}
-			else {
-				alert("로그인 후에 사용 가능합니다!");
-			}
+			// alert(revImg);
+			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?thumbnail="+revImg+"&goBackURL=${requestScope.goBackURL}";
 			
 		});
 		
 		$("button#btnWrite").click(function(){
-			location.href="<%=ctxPath%>/board/reviewWrite.cc";
+			if(${sessionScope.loginuser != null}){	
+				location.href="<%=ctxPath%>/board/reviewWrite.cc";
+			}
+			else {
+				alert("로그인 후에 사용 가능합니다!");
+			}
 		});
 		
 	});// end of $(document).ready(function(){})----------------------------------
@@ -151,7 +167,7 @@
 				<option value="rvcontent">글내용</option>
 			</select>
 			<input type="text" id="searchWord" style="vertical-align:top;"placeholder="제품명 입력"/>
-			<a onClick="goRSearch()"><img id="searchImg" src="../images/product/look.png"></a>
+			<a id="searchBtn"  style="cursor:pointer;"><img id="searchImg" src="../images/product/look.png"></a>
 		</form>
 		
 		<table class="table" style="float:right; ">
