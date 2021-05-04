@@ -41,6 +41,10 @@ public interface InterMemberDAO {
 	boolean isUserExist(Map<String, String> paraMap)throws SQLException;
 	//암호변경
 	int pwdUpdate(Map<String, String> paraMap)throws SQLException;
+	//휴면처리
+	int dormancyClear(String userid)throws SQLException;
+	//회원 삭제
+	int memberdelete(String userid)throws SQLException;
 
 	
 }

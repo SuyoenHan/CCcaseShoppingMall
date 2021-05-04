@@ -15,6 +15,9 @@ public class ProductDetailAction extends AbstractController {
 
 		String productid= request.getParameter("productid");
 		
+		// home.cc에서 넘어온 경우 snum 또는 doption값을 받아온다
+		String snum= request.getParameter("snum");
+		String doption= request.getParameter("doption");
 		
 		// 제품번호를 이용하여 상세정보페이지에서 필요한 정보 가져오기 
 		

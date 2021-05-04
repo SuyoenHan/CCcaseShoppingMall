@@ -85,6 +85,7 @@
 
 			<span class="menuSection" id="viewBoard" onclick="location.href='<%= ctxPath%>/board/eventList.cc';">EVENT 관리 </span>
 		
+
 		</div>
 		
 		<div id="login">

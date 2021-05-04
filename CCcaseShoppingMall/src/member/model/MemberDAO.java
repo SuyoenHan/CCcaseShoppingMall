@@ -470,6 +470,7 @@ public class MemberDAO implements InterMemberDAO{
 	//회원정보수정 패스워드 확인
 	@Override
 	public boolean passwdcheck(Map<String, String> paraMap) throws SQLException {
+		
 		boolean mvo = false;
 		
 		try {
@@ -582,6 +583,57 @@ public class MemberDAO implements InterMemberDAO{
 			
 			return n;
 		}
+		///휴면계정 처리
+		@Override
+		public int dormancyClear(String userid) throws SQLException {
+			int n = 0;
+			
+			try {
+				System.out.println(userid);
+				
+				 conn = ds.getConnection();
+				 
+				 
+				 String sql = "update tbl_loginhistory set logindate = sysdate "+
+						 "where fk_userid = ?";
+
+				 pstmt = conn.prepareStatement(sql);
+				 
+				 pstmt.setString(1,userid); 
+				 
+				 n = pstmt.executeUpdate();
+				 
+			} finally {
+				close();
+			}
+			return n;
+		}
+		//회원탈퇴 처리
+		@Override
+		public int memberdelete(String userid) throws SQLException {
+			int n = 0;
+			
+			try {
+				System.out.println(userid);
+				
+				 conn = ds.getConnection();
+				 
+				 
+				 String sql = "update tbl_member set status = 0 "+
+						 "where userid = ?";
+
+				 pstmt = conn.prepareStatement(sql);
+				 
+				 pstmt.setString(1,userid); 
+				 
+				 n = pstmt.executeUpdate();
+				 
+			} finally {
+				close();
+			}
+			return n;
+		}
+		
 
 
 

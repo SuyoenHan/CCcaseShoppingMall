@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import my.util.Myutil;
 import product.model.*;
 
 public class HomeAction extends AbstractController {
@@ -93,6 +94,12 @@ public class HomeAction extends AbstractController {
 		
 		request.setAttribute("pInfoListDFree",pInfoListDFree);
 		request.setAttribute("pFreeCnt",pFreeCnt);
+		
+		
+		// goBackURL 주소지정
+		String currentURL= Myutil.getCurrentURL(request);
+		currentURL= currentURL.replaceAll("&", " ");
+		request.setAttribute("goBackURL", currentURL);
 		
 				
 		super.setRedirect(false);
