@@ -46,20 +46,20 @@ public class EventDAO implements InterEventDAO {
 
 	// 페이징 처리를 한 모든 이벤트글 또는 검색한 이벤트글 보여주기
 	@Override
-	public List<EventVO> selectPagingQna(Map<String, String> paraMap) throws SQLException {
+	public List<EventVO> selectPagingEvent(Map<String, String> paraMap) throws SQLException {
 		
 		List<EventVO> eventList = new ArrayList<>();
 		
 		try {
 			 conn = ds.getConnection();
 			 
-			 String sql = " select eventno, fk_adminid, title, registerdate, startdate, enddate, viewcount "+
+			 String sql = " select eventno, fk_adminid, title, startdate, enddate, registerdate, viewcount "+
 					 			" from " +
 					 			" ( "+
-					 			"    select rownum AS rno, eventno, fk_adminid, title, registerdate, startdate, enddate, viewcount "+
+					 			"    select rownum AS rno, eventno, fk_adminid, title, startdate, enddate, registerdate, viewcount "+
 					 			"    from "+
 					 			"    ( "+
-					 			"        select eventno, fk_adminid, title, registerdate, startdate, enddate, viewcount "+
+					 			"        select eventno, fk_adminid, title, startdate, enddate, registerdate, viewcount "+
 					 			"        from tbl_event " ;
 			 
 			 	/////////// === 검색어가 있는 경우 시작 === ///////////
@@ -103,9 +103,9 @@ public class EventDAO implements InterEventDAO {
 				 evo.setEventno(rs.getInt(1));
 				 evo.setFk_adminid(rs.getString(2));
 				 evo.setTitle(rs.getString(3));
-				 evo.setRegisterdate(rs.getString(4));
-				 evo.setStartdate(rs.getString(6));
-				 evo.setEnddate(rs.getString(6));
+				 evo.setStartdate(rs.getString(4));
+				 evo.setEnddate(rs.getString(5));
+				 evo.setRegisterdate(rs.getString(6));
 				 evo.setViewcount(rs.getInt(7));
 				
 				 eventList.add(evo);
@@ -195,17 +195,16 @@ public class EventDAO implements InterEventDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_event (eventno, title, fk_adminid, startdate, enddate, registerdate, content ) "+
-								" values(seq_event_eventno.nextval, ?, ?, ?, ?, ?, ?, ?) ";
+								" values(seq_event_eventno.nextval, ?, ?, ?, ?, ?, ? ) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, evt.getEventno());
-			pstmt.setString(2, evt.getTitle());
-			pstmt.setString(3, evt.getFk_adminid());
-			pstmt.setString(4, evt.getStartdate());			
-			pstmt.setString(5, evt.getEnddate());
-			pstmt.setString(6, evt.getRegisterdate());
-			pstmt.setString(7, evt.getContent());
+			pstmt.setString(1, evt.getTitle());
+			pstmt.setString(2, evt.getFk_adminid());
+			pstmt.setString(3, evt.getStartdate());			
+			pstmt.setString(4, evt.getEnddate());
+			pstmt.setString(5, evt.getRegisterdate());
+			pstmt.setString(6, evt.getContent());
 			
 			n = pstmt.executeUpdate();
 			
@@ -284,7 +283,7 @@ public class EventDAO implements InterEventDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select eventno, title, startdate, enddate, registerdate, content "
+			String sql = " select eventno, fk_adminid, title, startdate, enddate, registerdate, content "
 							+ " from tbl_event "
 							+ " where eventno = ?" ;
 			
@@ -299,11 +298,12 @@ public class EventDAO implements InterEventDAO {
 				evo = new EventVO();
 				
 				evo.setEventno(rs.getInt(1));
-				evo.setTitle(rs.getString(2));
-				evo.setStartdate(rs.getString(3));
-				evo.setEnddate(rs.getString(4));
-				evo.setRegisterdate(rs.getString(5));
-				evo.setContent(rs.getString(6));
+				evo.setFk_adminid(rs.getString(2));
+				evo.setTitle(rs.getString(3));
+				evo.setStartdate(rs.getString(4));
+				evo.setEnddate(rs.getString(5));
+				evo.setRegisterdate(rs.getString(6));
+				evo.setContent(rs.getString(7));
 
 			}
 		} finally {
