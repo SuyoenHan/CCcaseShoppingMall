@@ -57,20 +57,10 @@ public class ReviewListAction extends AbstractController {
 		paraMap.put("searchType", searchType);
 		paraMap.put("searchWord", searchWord);
 		
-		// 조회수 증가시키기
-		String reviewno = request.getParameter("reviewno");
 		
-		InterReviewDAO rdao2 = new ReviewDAO();
-		
-		if(reviewno != null) {
-			rdao2.updateViewCount(reviewno);
-		}
-		else if(reviewno == null) {
-			
-		}
-		
-		request.setAttribute("reviewno", reviewno);
-		
+		// 리뷰 총 개수 알아오기
+		int rtotalCnt = rdao.selectRevCnt();
+		request.setAttribute("rtotalCnt", rtotalCnt);
 		
 		// 페이징처리를 위해서 전체리뷰에 대한 총페이지 개수 알아오기(select)
 		int totalPage = rdao.selectTotalPage(paraMap);

@@ -133,4 +133,70 @@ public class OrderDAO implements InterOrderDAO {
 	      return orderList;
 	}
 
+
+	
+	//배송 조회하기
+	@Override
+	public List<OrderVO> shipStatusView(String orderno) throws SQLException {
+		List<OrderVO> ovoList = new ArrayList<>();
+		
+		try {
+			
+			conn= ds.getConnection();
+			
+			String sql = " select O.orderno , productname, pcolor, odqty "+
+						 " from tbl_order O Left join tbl_odetail OD "+
+						 "      on O.orderno = OD.fk_orderno "+
+						 "                left join tbl_pdetail PD "+
+						 "      on OD.fk_pnum = PD.pnum "+
+						 "                  left join tbl_product P "+
+						 "      on PD.fk_productid = P.productid "+
+						 " where  orderno = ? ";
+			
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setString(1, orderno);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				OrderVO ovo = new OrderVO();
+				
+				ovo.setOrderno(rs.getString(1));
+				
+				ProductVO pvo = new ProductVO();
+				pvo.setProductname(rs.getString(2));
+				
+				ProductDetailVO pdvo = new ProductDetailVO();
+				pdvo.setPcolor(rs.getString(3));
+				
+				ODetailVO odvo = new ODetailVO();
+				odvo.setOdqty(rs.getInt(4));
+				
+				ovo.setPvo(pvo);
+				ovo.setPdvo(pdvo);
+				ovo.setOdvo(odvo);
+				
+				
+				ovoList.add(ovo);
+				
+			}
+			
+			
+		}finally {
+			close();
+		}
+		
+		return ovoList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

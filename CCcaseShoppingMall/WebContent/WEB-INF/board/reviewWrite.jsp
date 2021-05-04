@@ -34,7 +34,6 @@ div#title{
 		func_height();
 		
 		$("input#spinnerImgQty").spinner({
-			
 			spin:function(event, ui){
 				if(ui.value > 3){
 					$(this).spinner("value",3);
@@ -49,7 +48,6 @@ div#title{
 		
 		// #### 스피너의 이벤트는 click 도 아니고 change 도 아니고 "spinstop" 이다. #### //
 		$("input#spinnerImgQty").bind("spinstop", function(){
-			
 			var html = "";
 			var cnt = $(this).val();
 			
@@ -146,7 +144,7 @@ div#title{
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					<%-- 제품 연결..ㅠ --%>
+					
 				</td>
 			</tr>
 			<tr>

@@ -25,7 +25,7 @@ public class Myutil {
 		//		/MyMVC
 		
 		int beginIndex = currentURL.indexOf(ctxPath) + ctxPath.length();
-		//		27 = 									21					+		6
+		//		27 = 			21					+		6
 		
 		currentURL = currentURL.substring(beginIndex + 1); 
 		// member/memberList.up?currentShowPageNo=6&sizePerPage=10&searchType=name&searchWord=영

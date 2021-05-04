@@ -50,12 +50,14 @@ public class ImageFileDAO implements InterImageFileDAO {
 		try {
 			
 			conn = ds.getConnection();
-			String sql = " insert into tbl_imagefile(imgno,fk_pnum,imgPlus1) "+
-						 " values(seq_imagefile_imgno.nextval,?,?) ";
+			String sql = " insert into tbl_imagefile(imgno,fk_pnum,imgPlus1,imgPlus2,imgPlus3) "+
+						 " values(seq_imagefile_imgno.nextval,?,?,?,?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,plusimgmap.get("getpnum"));
 			pstmt.setString(2,plusimgmap.get("imgPlus1"));
+			pstmt.setString(3,plusimgmap.get("imgPlus2"));
+			pstmt.setString(4,plusimgmap.get("imgPlus3"));
 			
 			n = pstmt.executeUpdate();
 			

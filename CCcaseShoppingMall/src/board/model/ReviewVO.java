@@ -6,6 +6,7 @@ import product.model.SpecVO;
 
 public class ReviewVO {
 	private int reviewno; 					// 리뷰순번
+	private String fk_userid;				// 작성자 아이디
 	private String fk_odetailno; 		// 주문상세일련번호
 	private String rvtitle; 					// 글제목
 	private String rvcontent; 			// 글내용
@@ -29,11 +30,12 @@ public class ReviewVO {
 		
 	}
 	
-	public ReviewVO(int reviewno, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
+	public ReviewVO(int reviewno, String fk_userid, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
 			String rupdatedate, int rviewcount, int satisfaction, String reviewimage1, String reviewimage2,
 			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo) {
 		super();
 		this.reviewno = reviewno;
+		this.fk_userid = fk_userid;
 		this.fk_odetailno = fk_odetailno;
 		this.rvtitle = rvtitle;
 		this.rvcontent = rvcontent;
@@ -50,9 +52,6 @@ public class ReviewVO {
 		this.pvo = pvo;
 		this.svo = svo;
 	}
-
-
-
 
 	public int getReviewno() {
 		return reviewno;
@@ -179,6 +178,14 @@ public class ReviewVO {
 
 	public void setSvo(SpecVO svo) {
 		this.svo = svo;
+	}
+
+	public String getFk_userid() {
+		return fk_userid;
+	}
+
+	public void setFk_userid(String fk_userid) {
+		this.fk_userid = fk_userid;
 	}
 	
 	

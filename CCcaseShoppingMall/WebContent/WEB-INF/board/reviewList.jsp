@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<% String ctxPath = request.getContextPath(); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
 <style>
 	
+	#rcontainer {
+		float: right;
+		width: 84%;
+	}
+	
 	div#title{
-	/* 	border:solid 1px gray; */
 		background-color: #ccc;
 		width:100%;
 		height:60px;
@@ -20,8 +25,28 @@
 		font-size: 20pt;
 	}
 	
+	#btnGroup button{
+		float: right;
+		background-color: black;  
+		color: white; 
+		padding: 1px;
+		align: right;
+		font-weight: bold;
+		box-shadow: 3px 3px 3px gray;
+	}
+	
+	#revDetail {
+		cursor:pointer;
+	}
+	
+	#photoReview {
+		float: right;
+		width: 100%;
+		background-color: #f2f2f2;
+	}
+	
 	#description {
-		font-size: 12pt;
+		font-size: 12pt !important;
 		color: #a6a6a6;
 	}
 	
@@ -36,7 +61,21 @@
 		margin-right: 0;
 		vertical-align: middle; 
 	}
-
+	
+	#container > table {
+		border-top: solid 1px gray;
+		border-botton: solid 1px gray;
+		border-collapse: collapse;
+	}
+	
+	tr {
+		width: 84%;
+	}
+	
+	tr > td {
+		vertical-align: middle;
+	}
+	
 </style>
 
 
@@ -46,19 +85,36 @@
 		
 		func_height();
 		
+		if("${fn:trim(requestScope.searchWord)}" != "") {
+			$("select#searchType").val("${requestScope.searchType}");
+			$("input#searchWord").val("${requestScope.searchWord}");
+		}
+		
+		$("a#searchBtn").click(function(){
+			goRSearch();
+		});
+		
+		
+		$("input#searchWord").bind("keyup",function(){
+			if(event.keyCode == 13) {
+				goRSearch();
+			}
+		
 		$("li#revDetail").click(function(){
 			
-			if(${sessionScope.loginuser != null}){
-			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?subject="+subject+"&goBackURL=";
-			}
-			else {
-				alert("로그인 후에 사용 가능합니다!");
-			}
+			var revImg = $(this).text();
+			// alert(revImg);
+			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?thumbnail="+revImg+"&goBackURL=${requestScope.goBackURL}";
 			
 		});
 		
 		$("button#btnWrite").click(function(){
-			location.href="<%=ctxPath%>/board/reviewWrite.cc";
+			if(${sessionScope.loginuser != null}){	
+				location.href="<%=ctxPath%>/board/reviewWrite.cc";
+			}
+			else {
+				alert("로그인 후에 사용 가능합니다!");
+			}
 		});
 		
 	});// end of $(document).ready(function(){})----------------------------------
@@ -75,53 +131,72 @@
 	
 </script>
 
-<div id="title"> 
+<div id="title" style="float: left; width:84%;"> 
 	커뮤니티
 </div>
 
-<h3>고객리뷰</h3>
+<div id="rcontainer">
+<h2 style="font-weight:bolder;">고객리뷰</h2>
 
-		<div>포토리뷰 모아보기(<span></span>)&nbsp;&nbsp;&nbsp;<span id="description">최근 1년간의 포토리뷰를 확인하세요</span></div>
+		<div style="font-size: 15pt;">포토리뷰 모아보기(<span id="rtotalCnt">${requestScope.rtotalCnt}</span>)&nbsp;&nbsp;&nbsp;<span id="description">최근 1년간의 포토리뷰를 확인하세요</span></div>
 		
-		<ul class="pager" style="align: right"><li><button type=button>&lt;</button></li><li><button type=button>&gt;</button></li></ul>
-		<ul>
+		<div id="btnGroup">
+			<button id="btnNext" >&nbsp;&gt;&nbsp;</button>&nbsp;<button id="btnPrev" style="right;">&nbsp;&lt;&nbsp;</button>
+		</div>
+		
+		<br>
+		
+		<div id="photoReview">
+		<ul style="list-style:none; margin-top: 10px;">
 			<c:forEach var="rvo" items="${requestScope.revList}">
-				<li id="revDetail">
-					<c:if test="${rvo.reviewimage1 != null}"><a><img src="${rvo.reviewimage1}"></a></c:if>
-					<c:if test="${rvo.reviewimage eq null}"><a><img src="../images/noimage.png"></a></c:if>
+				<li id="revDetail" style="display : inline;">
+					<c:if test="${rvo.reviewimage1 != null}"><a><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px"></a></c:if>
 				</li>
 			</c:forEach>
 		</ul>
+		</div>
 		
-		<form name="searchReviewFrm">
+		<br>		
 		
-			<select id="searchType" name="searchType" style="height: 30px;">
+		<form name="searchReviewFrm" style="float:right; margin: 40px 0;">
+		
+			<select id="searchType" name="searchType" style="height: 31px; vertical-align:top;">
 				<option value="choose">선택</option>
 				<option value="fk_pname">제품명</option>
 				<option value="rvtitle">글제목</option>
 				<option value="rvcontent">글내용</option>
 			</select>
-			<input type="text" id="searchWord" placeholder="제품명 입력"/>
-			<a onClick="goRSearch()"><img id="searchImg" src="../images/product/look.png"></a>
+			<input type="text" id="searchWord" style="vertical-align:top;"placeholder="제품명 입력"/>
+			<a id="searchBtn"  style="cursor:pointer;"><img id="searchImg" src="../images/product/look.png"></a>
 		</form>
 		
-		<table>
+		<table class="table" style="float:right; ">
 			<tbody>
 				<c:forEach var="rvo" items="${requestScope.revList}">
 				<tr class="reviewInfo">
-					<td>${rvo.reviewimage1}</td>
-					<td class="rvtitle">${rvo.rvtitle}</td>
-					<td>${rvo.rvcontent}</td>
-					<td>${rvo.rregisterdate}</td>
+					<td style="vertical-align:middle; text-align: center;">${rvo.reviewno}</td>
+					<td style="vertical-align:middle; width:20%; text-align: left;">
+						<c:if test="${rvo.reviewimage1 eq null}"><img src="../images/review/noimage.png"></c:if>
+						<c:if test="${rvo.reviewimage1 != null}"><img src="../images/${rvo.reviewimage1}" style="width:200px; height:150px;"></c:if>
+					</td>
+					<td class="rvtitle" style="text-align:left; vertical-align:middle;"><span style="font-weight:bold; font-size:14pt;">${rvo.rvtitle}</span><br>
+						${rvo.rvcontent}</td>
+					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br><br>
+						<span style="font-weight:bold;">${rvo.fk_userid}</span></td>
 				</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		
-		<div style="text-align:center; padding: 20px 0;">
+		<br>
+		
+		<div id="pager" style="text-align:center; padding: 20px 0; clear:both;">
 				${requestScope.pageBar}
 		</div>
-
-		<button type="button" id="btnWrite" style="align: right;">글쓰기</button>
-
+		
+		<br>
+		
+		<button type="button" id="btnWrite" style="float: right; margin-bottom: 30px; border: none; background-color:#33ccff; color:white; padding: 7px 7px; font: 15pt bold;">글쓰기</button>
+		
+</div>
 <jsp:include page="../footer.jsp" />

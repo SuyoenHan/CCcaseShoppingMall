@@ -9,7 +9,7 @@
 
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp" />    
+<jsp:include page="../mypageleftSide.jsp" />    
 
 
 <!DOCTYPE html>
@@ -30,6 +30,10 @@
 		background-color: #a6a6a6;
 		color:
 	}
+	
+	 div#myOrderList{
+		background-color: #ccffee;
+	}
 
 </style>
 
@@ -39,14 +43,32 @@
 
 	$(document).ready(function(){
 		
-		
+		//배송조회 버튼 클릭
 		$("button.shipstatusBtn").click(function(){
 			
-			//alert("배송조회");
+			var orderno =$(this).parent().parent().find("td#orderno").text();
+			
 			//배송조회 페이지로 이동 시켜준다.
-			location.href="<%=ctxPath%>/order/shipStatus.cc";
+			var frm = document.orderListFrm;
+			frm.action="<%=ctxPath%>/order/shipStatus.cc?orderno="+orderno;
+			frm.method="POST"; // 나중에 POST로 바꿔!?
+			frm.submit(); 
+			
 			
 		});
+		
+		
+		//상품평관리 클릭
+		$("button.productReviewBtn").click(function(){
+			
+			//하나의 상품(내가 클릭한 곳)리뷰 다는 곳으로 이동 시켜준다.
+			var frm = document.orderListFrm;
+			frm.action="<%=ctxPath%>/board/reviewWrite.cc";
+			frm.method="GET"; // 나중에 POST로 바꿔!?
+			frm.submit();
+			
+		});
+		
 		
 		
 	});
@@ -59,14 +81,13 @@
 <body>
 
 <div id="contents">
-<form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" method="">
+<form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
 	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span>님 주문내역 조회</span></h2>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
 	  <table class="table table-hover">
 	    
 	    <thead>
-	    
 	      <div id="dateGroup" name="dateGroup"> -----구매날짜 ${ovo.orderdate}-----</div>
 	      <tr>
 	        <th>상품정보</th>
@@ -82,13 +103,13 @@
 		      <tr>
 		        <td>
 		        	<span><img src="/CCcaseShoppingMall/images/product/${ovo.pvo.pimage1}" name="pimage1"id="pimage1"style="width:55px; height:55px; float:left"/></span>
-		        	<span id="productname" name="productname">${ovo.pvo.productname}-${ovo.pdvo.pcolor}</span><br>
+		        	<span id="productname" name="productname">${ovo.pvo.productname}</span>&nbsp;&nbsp;<span id="pcolor" name="pcolor">${ovo.pdvo.pcolor}</span><br>
 		        	<span id="modelname" name="modelname">옵션:${ovo.pvo.modelname}</span>
 		        </td>	
 		        <td id="orderdate" name="orderdate">주문일자 ${ovo.orderdate}</td>
-		        <td id="orderno" name="orderno">주문번호:${ovo.orderno}</td>
+		        <td id="orderno" name="orderno">${ovo.orderno}</td>
 		        <td id="totalPrice" name="totalPrice">주문금액${ovo.totalPrice}원</td>
-		        <td id="odqty" name="odqty">주문수량 ${ovo.odvo.odqty} 개</td>
+		        <td id="odqty" name="odqty">${ovo.odvo.odqty}</td>
 		        <td>
 		       
 		        	 <c:if test="${ovo.shipstatus==0}">   
@@ -110,10 +131,8 @@
 			        	<button type="button" class="productReviewBtn" name="productReviewBtn">상품평관리</button>
 		        	 </c:if> 
 		        	 <c:if test="${ovo.shipstatus==5}"> 
-			        	<span>교환</span><br>
-		        	 </c:if> 
-		        	 <c:if test="${ovo.shipstatus==6}"> 
 			        	<span>환불</span><br>
+			        	<button type="button" class="productDelete" name="productDelete">환불신청</button>
 		        	 </c:if> 
 		        	 
 		        </td>
