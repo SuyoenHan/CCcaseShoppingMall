@@ -63,6 +63,12 @@
 	
 	div.bottomBt{border: solid 1px red;}
 	
+	input.pcnt{
+		width:50px;
+		height: 20px;
+		text-align: center;
+	}
+	
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -72,6 +78,33 @@
 	$(document).ready(function(){
 		
 		func_height();
+		
+		// 수량 선택시 직접 입력한 경우 유효성 검사
+		 $("input.pcnt").blur(function(){
+			 
+			 var cnt= $(this).val();
+			 cnt= parseInt(cnt);
+			 
+			 var regExp= /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+		   	 var bool= regExp.test(cnt);
+		   	
+	   		if(!bool){ // 문자로 입력한 경우
+		   		alert("제품선택수량은 1개 이상이어야 합니다.");
+		   	    $(this).val("1")
+		        $(this).focus();
+		        return; 
+	   		}
+	   		
+	        if(cnt < 1 || cnt > 50) {
+	           alert("제품선택수량은 최소 1개 이상 50개 이하만 가능합니다.");
+	           $(this).val("1")
+		       $(this).focus();
+		       return;
+	        }
+			 
+		 }); // end of $("input.pcnt").input(function(){
+		
+
 		
 	}); // end of $(document).ready(function(){-------------------------
 
@@ -104,7 +137,9 @@
 				<td>${cartRequiredInfo.productname}</td>
 				<td>${cartRequiredInfo.pcolor}</td>
 				<td style="text-decoration: line-through;">${cartRequiredInfo.price}원</td>
-				<td rowspan="2">${cartRequiredInfo.cinputcnt}개</td>
+				<td rowspan="2">
+					<input type="number" min="1" max="50" value="${cartRequiredInfo.cinputcnt}"개 class="pcnt">&nbsp;&nbsp;개
+				</td>
 				<td rowspan="2">${cartRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${cartRequiredInfo.doption eq '0'}">
 					<td rowspan="2">무료배송</td>
@@ -119,7 +154,12 @@
 			</tr>
 			<tr>
 				<td style="border-top:solid 1px #a0aca0;">[${cartRequiredInfo.cname}]&nbsp;[${cartRequiredInfo.modelname}]</td>
-				<td class="cartUpdate"><span>변경하기</span></td>
+				<c:if test="${cartRequiredInfo.pcolor eq '-'}">
+					<td class="cartUpdate"><span>선택하기</span></td>
+				</c:if>	
+				<c:if test="${cartRequiredInfo.pcolor ne '-'}">
+					<td class="cartUpdate"><span>변경하기</span></td>
+				</c:if>
 				<td style="color:red;">${cartRequiredInfo.saleprice}원</td>
 			</tr>
 			<tr>

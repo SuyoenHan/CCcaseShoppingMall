@@ -225,6 +225,34 @@
 		// home.cc에서 넘어온 경우 해당 spec 또는 doption에 해당하는 옵션 값 입력해주기
 		
 		
+		
+		
+		// 수량 선택시 직접 입력한 경우 유효성 검사
+		 $("input#pcnt").blur(function(){
+			 
+			 var cnt= $("input#pcnt").val();
+			 cnt= parseInt(cnt);
+			 
+			 var regExp= /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+		   	 var bool= regExp.test(cnt);
+		   	
+	   		if(!bool){ // 문자로 입력한 경우
+		   		alert("제품선택수량은 1개 이상이어야 합니다.");
+		   	    $("input#pcnt").val("1")
+		        $("input#pcnt").focus();
+		        return; 
+	   		}
+	   		
+	        if(cnt < 1 || cnt > 50) {
+	           alert("제품선택수량은 최소 1개 이상 50개 이하만 가능합니다.");
+	           $("input#pcnt").val("1")
+		       $("input#pcnt").focus();
+		       return;
+	        }
+			 
+		 }); // end of $("input#pcnt").input(function(){
+		
+			 
 		// 장바구니 버튼 클릭 시 장바구니 테이블에 insert
 		$("div#wishListBt").click(function(){
 			

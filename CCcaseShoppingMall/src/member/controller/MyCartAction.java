@@ -68,7 +68,7 @@ public class MyCartAction extends AbstractController {
 						onePInfo.put("pnum", "-1"); 
 						onePInfo.put("pcolor", "-");
 						onePInfo.put("doption", "색상에 따라 상이");
-					}
+					}					
 					
 					// 예상적립금
 					int point= (int)((Integer.parseInt(cinputcnt)*Integer.parseInt(onePInfo.get("saleprice")))*pointPercent);
