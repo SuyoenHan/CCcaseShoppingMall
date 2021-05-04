@@ -70,7 +70,7 @@
 	
 	// Function Declaration
 	function goQnaList() {
-		location.href = "/CCcaseShoppingMall/"+goBackURL;
+		location.href = "/CCcaseShoppingMall/board/qnaList.cc";
 	}// function goQnaList()----------------------------------------------------
 	
 	function replyDelete(){
