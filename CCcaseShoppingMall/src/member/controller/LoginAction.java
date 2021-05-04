@@ -92,7 +92,16 @@ public class LoginAction extends AbstractController {
 				
 				else {
 					super.setRedirect(true);
+					
+					String goBackURL=(String) session.getAttribute("goBackURL");
+					
+					if(goBackURL != null) {
+						super.setViewPage(request.getContextPath()+"/"+goBackURL);
+						session.removeAttribute("goBackURL");
+					}
+					else {
 					super.setViewPage(request.getContextPath()+"/home.cc");
+					}
 				}
 			
 			}
