@@ -82,7 +82,7 @@ public class ReviewDAO implements InterReviewDAO {
 		return totalPage;
 	}
 
-	// 페이징 처리를 한 모든 리부 또는 제품명으로 검색한 리뷰 목록 보여주기
+	// 페이징 처리를 한 모든 리뷰 또는 검색한 리뷰 목록 보여주기
 	@Override
 	public List<ReviewVO> selectPagingReview(Map<String, String> paraMap) throws SQLException {
 		List<ReviewVO> revList = new ArrayList<>();
@@ -111,7 +111,7 @@ public class ReviewDAO implements InterReviewDAO {
 				    + " where reviewno between ? and ? ";
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = 	Integer.parseInt(paraMap.get("sizePerPage"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
 			pstmt = conn.prepareStatement(sql);
 			
