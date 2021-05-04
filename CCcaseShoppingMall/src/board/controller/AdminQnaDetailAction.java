@@ -25,7 +25,7 @@ public class AdminQnaDetailAction extends AbstractController {
 				HttpSession session = request.getSession();
 				AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 				
-				// qnano 데이터 받아오기
+				// qna 글 불러오기
 				String qnano = request.getParameter("qnano");
 				
 				InterQnaDAO qdao = new QnaDAO();
@@ -33,9 +33,17 @@ public class AdminQnaDetailAction extends AbstractController {
 				
 				request.setAttribute("qvo", qvo);
 			
+				// qna 답글 불러오기
 				List<QnaCmtVO> cmtList = qdao.getCmtList(qnano);
 
 				request.setAttribute("cmtList", cmtList);	
+				
+				// qna 이전글, 다음글 불러오기
+				QnaVO pqna = qdao.prevQna(qnano);
+				QnaVO nqna = qdao.nextQna(qnano);
+				
+				request.setAttribute("pqna", pqna);
+				request.setAttribute("nqna", nqna);
 
 				if( adminUser != null) { // 로그인했으면
 				

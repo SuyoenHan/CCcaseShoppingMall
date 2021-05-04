@@ -35,6 +35,20 @@
   button:hover {
   		color: red;
   }
+  
+	.prev_next {
+		margin: 5% 0 5% 0;
+	    width: 80%;
+	    border-top: 1px solid #444444;
+	    border-collapse: collapse;
+	}
+	
+  .prev_next >  thead > tr > th, 
+  .prev_next >  tbody > tr > td {
+	    border-bottom: 1px solid #444444;
+	    padding: 10px;
+	    text-align: center;
+  }
 
   </style>
   
@@ -65,7 +79,15 @@
 	    if(confirm("정말로 삭제하시겠습니까?")==true){
           	location.href="adminQnaRepDel.cc?cmtno="+cmtno_val+"";
       }
-	}
+	}// end of function replyDelete()-----------------------------------------
+	
+	function goPrev(){
+		location.href= "qnaDetail.cc?qnano=${requestScope.pqna.qnano}";
+	}// end of function goPev()-------------------------------------------------
+	
+	function goNext(){
+		location.href= "qnaDetail.cc?qnano=${requestScope.nqna.qnano}";
+	}// end of function goNext()------------------------------------------------
 	
   </script>
 	<jsp:include page="../adminheader.jsp" /> 
@@ -190,6 +212,48 @@
   		</div>
   	</c:if>
   	<!--  답글 보여주기 끝 -->
+  	
+  	<!-- 이전글, 다음글 조회 -->
+	<div>
+		<table class="prev_next">
+			<thead>
+				<tr>
+					<th>구분</th>
+					<th>글번호</th>
+					<th>글제목</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="font-weight: bold;">이전글</td>
+					<c:choose>
+						<c:when test="${requestScope.pqna.qnano eq null}">
+							<td colspan="2" style="color: red; border: medium;"> 이전 글이 없습니다. </td>
+						</c:when>
+						<c:when test="${requestScope.pqna.qnano ne null}">
+							<td>${requestScope.pqna.qnano}</td>
+							<td onclick="goPrev()" style="cursor: pointer;">${requestScope.pqna.qtitle}</td>
+						</c:when>
+					</c:choose>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">다음글</td>
+					<c:choose>
+						<c:when test="${requestScope.nqna.qnano eq null}">
+							<td colspan="2" style="color: red; border-bottom: 1px solid #444444; padding: 10px; text-align: center;">
+								 다음 글이 없습니다. 
+							</td>
+						</c:when>
+						<c:when test="${requestScope.nqna.qnano ne null}">
+							<td>${requestScope.nqna.qnano}</td>
+							<td onclick="goNext()" style="cursor: pointer;">${requestScope.nqna.qtitle}</td>
+						</c:when>
+					</c:choose>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- 이전글, 다음글 끝 -->
 	  		
 	</div>
 </body>
