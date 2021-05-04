@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
 import my.util.Myutil;
@@ -17,10 +19,19 @@ public class EventListAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 1.		
-		InterEventDAO edao = new EventDAO();
+		// *** 일반회원 로그인 or 로그인 안했으면 유저페이지로, 관리자 아이디 로그인시 관리자 페이지로 연결
+
+		HttpSession session = request.getSession();
 		
+		AdminVO adminUser = (AdminVO)session.getAttribute("adminUser");		
+		
+		InterEventDAO edao = new EventDAO();
+			
 		super.setViewPage("/WEB-INF/board/eventList.jsp");
 
+		if(adminUser != null) {
+			super.setViewPage("/WEB-INF/board/adminEventList.jsp");
+		}
 		
 		// 2.
 		// *** 한 페이지당 보여줄 QNA 글 수 설정 
@@ -72,7 +83,7 @@ public class EventListAction extends AbstractController {
 			paraMap.put("currentShowPageNo", currentShowPageNo);
 		}
 
-		List<EventVO> eventList = edao.selectPagingQna(paraMap);
+		List<EventVO> eventList = edao.selectPagingEvent(paraMap);
 		
 		request.setAttribute("eventList", eventList);
 		request.setAttribute("sizePerPage", sizePerPage);
