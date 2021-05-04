@@ -29,7 +29,7 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-	
+		
 		$("select#sizePerPage").val("${requestScope.sizePerPage}");
 		
 		if("${requestScope.searchType}"!=""){

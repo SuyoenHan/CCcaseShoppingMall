@@ -287,7 +287,7 @@
 				</table>
 				
 				<div id="buttons">
-					<button type="reset" id="goback()" class="proButton">목록으로</button>
+					<button type="reset" id="goback" class="proButton">목록으로</button>
 					<button type="button" id="goUpdate" class="proButton">수정하기</button>
 				</div>
 				
