@@ -225,16 +225,84 @@
 		// home.cc에서 넘어온 경우 해당 spec 또는 doption에 해당하는 옵션 값 입력해주기
 		
 		
-		// 장바구니 버튼 클릭 이벤트
+		
+		
+		// 수량 선택시 직접 입력한 경우 유효성 검사
+		 $("input#pcnt").blur(function(){
+			 
+			 var cnt= $("input#pcnt").val();
+			 cnt= parseInt(cnt);
+			 
+			 var regExp= /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+		   	 var bool= regExp.test(cnt);
+		   	
+	   		if(!bool){ // 문자로 입력한 경우
+		   		alert("제품선택수량은 1개 이상이어야 합니다.");
+		   	    $("input#pcnt").val("1")
+		        $("input#pcnt").focus();
+		        return; 
+	   		}
+	   		
+	        if(cnt < 1 || cnt > 50) {
+	           alert("제품선택수량은 최소 1개 이상 50개 이하만 가능합니다.");
+	           $("input#pcnt").val("1")
+		       $("input#pcnt").focus();
+		       return;
+	        }
+			 
+		 }); // end of $("input#pcnt").input(function(){
+		
+			 
+		// 장바구니 버튼 클릭 시 장바구니 테이블에 insert
 		$("div#wishListBt").click(function(){
 			
-			var productid= $("input#productid").val();
-			var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 ""
-			var pcnt= $("input#pcnt").val();
+			if("${loginuser}"!=null){ // 로그인 한 경우
+
+				var productid= $("input#productid").val();
+				var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 ""
+				var pcnt= $("input#pcnt").val();
+
+				$.ajax({
+					url: "<%=ctxPath%>/member/myCartInsert.cc",
+					type: "get",
+					data: {"productid":productid,"pnum":pnum,"pcnt":pcnt,"userid":"${loginuser.userid}"},
+					dataType: "JSON",
+					success:function(json){
 			
-			location.href="<%=ctxPath%>/member/myCart.cc?productid="+productid+"&pnum="+pnum+"&pcnt="+pcnt;
+						if(json.n==1){
+							
+							// 확인 또는 취소를 선택할 수 있는 있는 선택창
+							var productname= "${onePInfo.productname}";
+							var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
+									           +"장바구니로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}
+						}
+						
+						else{
+							alert(json.message);
+							opener.location.reload(true);
+						}
+						
+					},
+					error: function(request, status, error){
+				           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				    }
+				
+				}); // end of $.ajax({----------------------------------
+	
+			} // end of if---------------------------------------------
 			
-		});
+			else{ // 로그인 하지 않은 경우
+				alert("로그인 후 이용 가능합니다.");
+				response.sendRedirect("javascript:history.back()");
+			}
+		}); // end of $("div#wishListBt").click(function(){----------------------------
 		
 		
 		

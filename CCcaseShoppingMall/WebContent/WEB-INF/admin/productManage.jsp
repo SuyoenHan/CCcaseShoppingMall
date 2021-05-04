@@ -11,13 +11,18 @@
 	}
 	
 	th{
-		border:solid 1px red;
-		width:150px;
+		border:solid 1px black;
+		width:170px;
+		text-align: center !important;
 	}
 	
 	td{
-		border:solid 1px red;
-		text-align: left;
+		border:solid 1px black;
+		text-align: center;
+	}
+	
+	table{
+		padding-left: 100px;
 	}
 </style>
 
@@ -27,6 +32,10 @@
 	
 		$("select#sizePerPage").val("${requestScope.sizePerPage}");
 		
+		if("${requestScope.searchType}"!=""){
+			$("select#searchType").val("${requestScope.searchType}");
+		}
+		$("input#searchWord").val("${requestScope.searchWord}");
 		
 		var frm = document.search;
 
@@ -65,13 +74,25 @@
 		
 		 
 		// 추가상품등록하기 버튼을 클릭했을때
-		$("button.moreRegister").click(function(){
+		$("button.proMoreRegister").click(function(){
 			
 			var productid =$(this).parent().prop('class');
 			
 			location.href="<%= request.getContextPath() %>/admin/productRegister.cc?productid="+productid; 					
 			
 		});// end of $("button#moreRegister").click(function(){
+			
+		
+		// 더보기 및 수정버튼을 클릭했을때
+		$("button.prodetailOrUpdate").click(function(){
+			
+			// 해당행의 제품상세번호(pnum)를 get방식으로 넘겨주기.
+			var pnum = $(this).parent().prop('class');
+			
+			location.href="<%= request.getContextPath()%>/admin/prodetailOrUpdate.cc?pnum="+pnum;
+		
+		});// end of $("button.moreOrUpdate").click(function(){
+		
 		
 	}); // end of $(document).ready(function(){
 	
@@ -83,14 +104,14 @@
 	<table>
 		<thead>
 			<tr> 
-				<th>상품번호</th>
-				<th colspan="2">상품명</th>
-				<th>색상</th>
-				<th>제품정가</th>
-				<th>제품판매가</th>
-				<th>재고량</th>
-				<th>제품입고일자</th>
-				<th>배송조건</th>
+				<th style="width:110px;">상품번호</th>
+				<th colspan="2" style="width:220px;">상품명</th>
+				<th style="width:90px;">색상</th>
+				<th style="width:110px;">제품정가</th>
+				<th style="width:110px;">제품판매가</th>
+				<th style="width:90px;">재고량</th>
+				<th style="width:110px;">제품입고일자</th>
+				<th style="width:90px;">배송조건</th>
 				<th colspan="2">추가 정보</th>
 			</tr>
 		</thead>
@@ -110,16 +131,19 @@
 							<c:when test="${proMap.doption eq '0'}">무료</c:when> 
 							<c:when test="${proMap.doption eq '1'}">유료</c:when>
 						 </c:choose>
-					</td> 
-					<td><button type="button" class="moreOrUpdate">더보기 및 수정</button></td>
-					<td class="${proMap.productid}"><button type="button" class="moreRegister">추가상품 등록</button></td>
+					</td>
+					<%-- id값이 아닌 class값으로 넣어주는 이유는 반복문이여서 id값 중복방지를 위해,
+					 안되는건 아니지만, 관례상 id값은 한개만! --%> 
+					<td class="${proMap.pnum}"><button type="button" class="prodetailOrUpdate">더보기 및 수정</button></td>
+					<td class="${proMap.productid}"><button type="button" class="proMoreRegister">추가상품 등록</button></td>
 
 				</tr>	
 			</c:forEach>	
 			
 		</tbody>
 	
-	</table>	
+	</table>
+	<br>	
 	<form name="search">
 		<input type="hidden" name="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
 		<select name="sizePerPage" id="sizePerPage">
@@ -128,7 +152,7 @@
 			<option value="3">3</option>
 		</select>
 		
-		<select name="searchType">
+		<select name="searchType" id="searchType">
 			<option value="pnum">상품번호</option>
 			<option value="pname">상품명</option>
 			<option value="pcolor">색상</option>

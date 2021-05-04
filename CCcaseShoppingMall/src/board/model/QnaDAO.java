@@ -138,7 +138,7 @@ public class QnaDAO implements InterQnaDAO {
           
           pstmt = conn.prepareStatement(sql);
           pstmt.setString(1, paraMap.get("sizePerPage"));
-          
+     
           if( searchWord != null && !searchWord.trim().isEmpty() ) {
              // 검색어를 입력을 해주는데 공백만이 아닌 실제 검색어를 입력한 경우
              pstmt.setString(2, searchWord);
@@ -410,41 +410,87 @@ public class QnaDAO implements InterQnaDAO {
       }
    }
 
+
    //마이페이지 게시물관리에서 내가쓴 글 보기
 	@Override
-	public QnaVO qnaMywrite(String userid) throws SQLException {
-		QnaVO qvo = null;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select qnano, qtitle, fk_userid, qregisterdate, email, fk_productid, qstatus, qcontent "
-							+ " from tbl_qna "
-							+ " where fk_userid = ? " ;
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1,userid);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				qvo = new QnaVO();
-				
-				qvo.setQnano(rs.getInt(1));
-				qvo.setQtitle(rs.getString(2));
-				qvo.setFk_userid(rs.getString(3));
-				qvo.setQregisterdate(rs.getString(4));
-				qvo.setEmail(rs.getString(5));
-				qvo.setFk_productid(rs.getString(6));
-				qvo.setQstatus(rs.getString(7));
-				qvo.setQcontent(rs.getString(8));
-			}
-		} finally {
-			close();
-		}		
-		return qvo;
+	public List<QnaVO> qnaMywrite(Map<String, String> paraMap) throws SQLException {
+		 List<QnaVO> qnaList = new ArrayList<>();
+		  
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount   "+
+	        		  " from ( select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount "+
+	        		  " from "+
+	        		  " (   select qnano, qtitle, fk_userid, qregisterdate, qviewcount  "+
+	        		  "     from tbl_qna "+
+	        		  "     where fk_userid= ? "+
+	        		  "     order by qregisterdate desc "+
+	        		  " ) V 	                  "+
+	        		  " ) T   "+
+	        		  " where rno between ? and ? ";
+
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          
+	          int currentShowPageNo = Integer.parseInt( paraMap.get("currentShowPageNo") );
+	          int sizePerPage = 5; 
+	          
+	          pstmt.setString(1, paraMap.get("userid"));
+	          pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+	          pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 공식 
+	          
+	          rs = pstmt.executeQuery();
+	
+	          while(rs.next()) {
+	             
+	             QnaVO qvo = new QnaVO();
+	             qvo.setQnano(rs.getInt("qnano"));
+	             qvo.setQtitle(rs.getString("qtitle"));
+	             qvo.setFk_userid(rs.getString("fk_userid"));
+	             qvo.setQregisterdate(rs.getString("qregisterdate"));
+	             qvo.setQviewcount(rs.getInt("qviewcount"));
+	             
+	             qnaList.add(qvo);
+	            
+	          }// end of while(rs.next()) ------------------------------------------------------------------------
+	          
+	      } finally {
+	         close();
+	      }      
+	      return qnaList;
+	  
+	}
+
+
+
+	///페이징 처리
+	@Override
+	public int qnaMywriteTotalPage(String userid) throws SQLException {
+	  int totalPage = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select ceil(count(*)/5) "  // 10 이 sizePerPage 이다.
+	                  + " from tbl_qna "
+	                  + " where fk_userid = ? "; 
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, userid);
+	               
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalPage = rs.getInt(1);
+	         
+	      } finally {
+	         close();
+	      }      
+	      
+	      return totalPage;
 	}
 
 }
