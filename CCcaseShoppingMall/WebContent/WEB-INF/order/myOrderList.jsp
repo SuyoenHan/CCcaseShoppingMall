@@ -46,9 +46,15 @@
 		//배송조회 버튼 클릭
 		$("button.shipstatusBtn").click(function(){
 			
-			//alert("배송조회");
+			var orderno =$(this).parent().parent().find("td#orderno").text();
+			var productname =$(this).parent().parent().find("span#productname").text();
+			var pcolor =$(this).parent().parent().find("span#pcolor").text();
+			var odqty =$(this).parent().parent().find("td#odqty").text();
+			
+			//alert(orderno+productname+pcolor+odqty);
+			
 			//배송조회 페이지로 이동 시켜준다.
-			location.href="<%=ctxPath%>/order/shipStatus.cc";
+			 location.href="<%=ctxPath%>/order/shipStatus.cc?orderno="+orderno+"&productname="+productname+"&pcolor="+pcolor+"&odqty="+odqty;    
 			
 		});
 		
@@ -57,7 +63,10 @@
 		$("button.productReviewBtn").click(function(){
 			
 			//하나의 상품(내가 클릭한 곳)리뷰 다는 곳으로 이동 시켜준다.
-			location.href="<%=ctxPath%>/board/reviewList.cc";
+			var frm = document.orderListFrm;
+			frm.action="<%=ctxPath%>/board/reviewList.cc";
+			frm.method="GET"; // 나중에 POST로 바꿔!?
+			frm.submit();
 			
 		});
 		
@@ -95,13 +104,13 @@
 		      <tr>
 		        <td>
 		        	<span><img src="/CCcaseShoppingMall/images/product/${ovo.pvo.pimage1}" name="pimage1"id="pimage1"style="width:55px; height:55px; float:left"/></span>
-		        	<span id="productname" name="productname">${ovo.pvo.productname}-${ovo.pdvo.pcolor}</span><br>
+		        	<span id="productname" name="productname">${ovo.pvo.productname}</span>&nbsp;&nbsp;<span id="pcolor" name="pcolor">${ovo.pdvo.pcolor}</span><br>
 		        	<span id="modelname" name="modelname">옵션:${ovo.pvo.modelname}</span>
 		        </td>	
 		        <td id="orderdate" name="orderdate">주문일자 ${ovo.orderdate}</td>
-		        <td id="orderno" name="orderno">주문번호:${ovo.orderno}</td>
+		        <td id="orderno" name="orderno">${ovo.orderno}</td>
 		        <td id="totalPrice" name="totalPrice">주문금액${ovo.totalPrice}원</td>
-		        <td id="odqty" name="odqty">주문수량 ${ovo.odvo.odqty} 개</td>
+		        <td id="odqty" name="odqty">${ovo.odvo.odqty}</td>
 		        <td>
 		       
 		        	 <c:if test="${ovo.shipstatus==0}">   
@@ -123,10 +132,8 @@
 			        	<button type="button" class="productReviewBtn" name="productReviewBtn">상품평관리</button>
 		        	 </c:if> 
 		        	 <c:if test="${ovo.shipstatus==5}"> 
-			        	<span>교환</span><br>
-		        	 </c:if> 
-		        	 <c:if test="${ovo.shipstatus==6}"> 
 			        	<span>환불</span><br>
+			        	<button type="button" class="productDelete" name="productDelete">환불신청</button>
 		        	 </c:if> 
 		        	 
 		        </td>
