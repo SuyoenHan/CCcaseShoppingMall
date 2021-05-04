@@ -53,9 +53,11 @@ public class MyCartAction extends AbstractController {
 					String productid= cartInfoMap.get("fk_productid");
 					String pnum= cartInfoMap.get("fk_pnum");
 					String cinputcnt= cartInfoMap.get("cinputcnt");
+					String cartno= cartInfoMap.get("cartno");
 					
 					Map<String,String> onePInfo= pdao.getOnePInfo(productid);
 					onePInfo.put("cinputcnt", cinputcnt);
+					onePInfo.put("cartno", cartno);
 					
 					Map<String,String> colorDeliveryMap= pddao.getColorDelivery(pnum);
 					
