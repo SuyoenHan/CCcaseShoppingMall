@@ -18,7 +18,7 @@ public class MyOrderListAction extends AbstractController {
 		HttpSession session =request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
-		String method = request.getMethod();
+		//String method = request.getMethod();
 		
 		
 		
