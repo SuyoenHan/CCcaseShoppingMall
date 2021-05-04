@@ -358,7 +358,7 @@
 	  		</div>
 	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
-	  		 	<button class="menuEach case" id="hardCase" value="1">하드케이스</button>
+	  		 	<button type="button" class="menuEach case" id="hardCase" value="1">하드케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=1" class="dropMenu"><span>삼성</span>${paraMap.hardSamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=1" class="dropMenu"><span>애플</span>${paraMap.hardAppCnt}개</a>
@@ -367,7 +367,7 @@
 	  		</div>
 	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 560px;">
-		  		<button class="menuEach case" id="jellyCase" value="2">젤리케이스</button>
+		  		<button type="button" class="menuEach case" id="jellyCase" value="2">젤리케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=2" class="dropMenu"><span>삼성</span>${paraMap.jellySamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=2" class="dropMenu"><span>애플</span>${paraMap.jellyAppCnt}개</a>
@@ -376,7 +376,7 @@
 	  		</div>
 	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 710px;">
-	  		 	<button class="menuEach case" id="bumperCase" value="3">범퍼케이스</button>
+	  		 	<button type="button" class="menuEach case" id="bumperCase" value="3">범퍼케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=3" class="dropMenu"><span>삼성</span>${paraMap.bumpSamCnt}개</a>
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=2000&cnum=3" class="dropMenu"><span>애플</span>${paraMap.bumpAppCnt}개</a>
@@ -385,7 +385,7 @@
 	  		</div>
 	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 860px;">
-	  		 	<button class="menuEach">악세사리</button>
+	  		 	<button type="button" class="menuEach">악세사리</button>
 		  		<div class="menuSort">
 		  			<a href="" class="dropMenu">에어팟케이스&nbsp;&nbsp;&nbsp;수량</a>
 		  			<a href="" class="dropMenu">버즈케이스&nbsp;&nbsp;&nbsp;수량</a>
@@ -394,7 +394,7 @@
 	  		</div>
 	  		
 	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 1010px;">
-	  		 	<button class="menuEach" id="commu">커뮤니티</button>
+	  		 	<button type="button" class="menuEach" id="commu">커뮤니티</button>
 		  		<div class="menuSort">
 		  			<a href="<%=ctxPath%>/board/faqList.cc" class="dropMenu">FAQ</a>
 		  			<a href="<%=ctxPath%>/board/qnaList.cc" class="dropMenu">Q&A</a>

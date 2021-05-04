@@ -5,7 +5,6 @@
 <% String ctxPath=request.getContextPath(); %>
 
 <jsp:include page="../adminheader.jsp" />  
-<jsp:include page="../adminleftSide.jsp" />
 
 <style>
 	tr{

@@ -15,7 +15,8 @@ public class HomeAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임. 
-				super.goBackURL(request);
+		super.goBackURL(request);
+				
 		// =========================== 한수연 시작 ======================================
 		InterProductDAO pdao= new ProductDAO();
 		InterProductDetailDAO pddao= new ProductDetailDAO();
@@ -96,6 +97,7 @@ public class HomeAction extends AbstractController {
 		request.setAttribute("pInfoListDFree",pInfoListDFree);
 		request.setAttribute("pFreeCnt",pFreeCnt);
 		
+		// =========================== 한수연 끝 ======================================
 		
 		// goBackURL 주소지정
 		String currentURL= Myutil.getCurrentURL(request);
@@ -105,7 +107,7 @@ public class HomeAction extends AbstractController {
 				
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/home/homeMain.jsp");
-		// =========================== 한수연 끝 ======================================
+		
 	}
 
 }
