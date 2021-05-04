@@ -12,6 +12,25 @@ public class EventVO {
 	private String content;			// 이벤트 내용
 	
 	
+	public EventVO() {}
+	
+	public EventVO(String title, String fk_adminid, String startdate, String enddate, String registerdate, 
+			String content) {
+		this.title = title;
+		this.fk_adminid = fk_adminid;
+		this.startdate = startdate;
+		this.enddate = enddate;
+		this.registerdate = registerdate;
+		this.content = content;
+	}
+
+	public EventVO(int eventno, String title, String enddate, String content) {
+		this.eventno = eventno;
+		this.title = title;
+		this.enddate = enddate;
+		this.content = content;
+	}
+
 	public int getEventno() {
 		return eventno;
 	}

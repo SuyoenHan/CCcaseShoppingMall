@@ -8,8 +8,8 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<jsp:include page="../header.jsp" />
-<jsp:include page="../communityLeftSide.jsp"/>
+<jsp:include page="../adminheader.jsp" />
+<jsp:include page="../adminleftSide.jsp"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
@@ -111,6 +111,18 @@
 	    		</c:forEach>
 	    	</tbody>
 	    </table>
+
+<!-- 관리자가 로그인 했을 때만 이벤트 작성과 검색 보여주기 -->	    
+	<form name="eventFrm" style="margin-top: 5%;">
+	      <select id="searchType" name="searchType">
+		      <option value="title">제목</option>
+	      </select>      
+	      <input type="text"  id="searchWord"  name="searchWord" />
+	      <input type="text"  style="display: none;">
+	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
+	      
+	      <button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">이벤트 등록</button>
+    </form>
 	
 	    <div style="width:30%; margin: 0 auto;">
 	    	${requestScope.pageBar}
