@@ -47,14 +47,13 @@
 		$("button.shipstatusBtn").click(function(){
 			
 			var orderno =$(this).parent().parent().find("td#orderno").text();
-			var productname =$(this).parent().parent().find("span#productname").text();
-			var pcolor =$(this).parent().parent().find("span#pcolor").text();
-			var odqty =$(this).parent().parent().find("td#odqty").text();
-			
-			//alert(orderno+productname+pcolor+odqty);
 			
 			//배송조회 페이지로 이동 시켜준다.
-			 location.href="<%=ctxPath%>/order/shipStatus.cc?orderno="+orderno+"&productname="+productname+"&pcolor="+pcolor+"&odqty="+odqty;    
+			var frm = document.orderListFrm;
+			frm.action="<%=ctxPath%>/order/shipStatus.cc?orderno="+orderno;
+			frm.method="POST"; // 나중에 POST로 바꿔!?
+			frm.submit(); 
+			
 			
 		});
 		
@@ -64,7 +63,7 @@
 			
 			//하나의 상품(내가 클릭한 곳)리뷰 다는 곳으로 이동 시켜준다.
 			var frm = document.orderListFrm;
-			frm.action="<%=ctxPath%>/board/reviewList.cc";
+			frm.action="<%=ctxPath%>/board/reviewWrite.cc";
 			frm.method="GET"; // 나중에 POST로 바꿔!?
 			frm.submit();
 			
