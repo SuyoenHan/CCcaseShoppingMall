@@ -47,6 +47,56 @@
 		document.eventWriteForm.title.focus();
 	}
 	
+	//입력 날짜 체크
+	function checkDate(){
+
+		 var now = new Date();
+		 year = now.getYear();          		// 현재 년도 가져오기
+		 month = now.getMonth()+1;       // 현재 월 가져오기 (+1)
+		
+		 if((month+"").length < 2){         //월이 '7'로 찍히지 않고 '07'로 찍히도록 길이를 받아온다
+		      month = "0" +month;         	//길이가 1이라면 앞에 0을 붙여서 '07'형태로 나오게 한다
+		 }
+		
+		 date = now.getDate();       			// 현재 날짜 가져오기
+		 
+		if((date+"").length < 2){         		//일이 '7'로 찍히지 않고 '07'로 찍히도록 길이를 받아온다
+		  date = "0" +date;           			//길이가 1이라면 앞에 0을 붙여서 '07'형태로 나오게 한다
+		 }
+		 today = year +""+ month +""+ date ;          	 //오늘 날짜 ex) 20080801
+	
+		 var InputStartDate = document.eventWriteForm.startdate.value;    //입력된 시작일 받아오기
+		 var InputEndDate = document.eventWriteForm.enddate.value;    	//입력된  종료일 받아오기
+		 
+		 var startdateSplit = InputStartDate.split("-");         								//입력값을 '-'을 기준으로 나누어 배열에 저장해 주는 함수 split
+		 var enddateSplit = InputEndDate.split("-");
+		 
+		 startyear = startdateSplit[0];      //첫번째 배열은 년
+		 startmonth = startdateSplit[1];  	//월
+		 startday = startdateSplit[2];   		//일
+	
+		 endyear = enddateSplit[0];      	//첫번째 배열은 년
+		 endmonth = enddateSplit[1];  		//월
+		 endday = enddateSplit[2];   		//일
+		 
+		 InputStartDate = startyear +""+ startmonth +""+ startday;       //입력된 값을 더해준다.
+		 InputEndDate = endyear +""+ endmonth +""+ endday; 
+		 
+		 if (parseInt(InputStartDate) < parseInt(today) ){          //int형으로 변환하여 비교한다
+		      alert("시작일이 오늘 날짜보다 이전 날짜입니다.");
+		      document.eventWriteForm.startdate.value = "";         //이전 날짜라면 입력폼 리셋처리
+		 }
+		 if (parseInt(InputEndDate) < parseInt(today) ){          
+		      alert("종료일이 오늘 날짜보다 이전 날짜입니다.");
+		      document.eventWriteForm.enddate.value = "";        
+		 }
+		 
+		 if(parseInt(InputStartDate) > parseInt(InputEndDate)){
+			 alert("종료일이 시작일보다 이전 날짜입니다.");
+		     document.eventWriteForm.enddate.value = "";
+		 }
+	}
+	
 </script>
 </head>
 
@@ -69,11 +119,11 @@
         </tr>
 		<tr>
             <td class="title">이벤트 시작일</td>
-            <td><input type="date" size="70" id="startdate" name="startdate" ></td>
+            <td><input type="date" size="70" class="startdate" name="startdate" value="yyyy-mm-dd" onchange="javascript:checkDate(this)"></td>
          </tr>
          <tr>
             <td class="title">이벤트 종료일</td>
-            <td><input type="date" size="70" id="enddate" name="enddate" ></td>
+            <td><input type="date" size="70" class="enddate" name="enddate" value="yyyy-mm-dd" onchange="javascript:checkDate(this)"></td>
         </tr>
         <tr>
             <td class="title">등록일</td>
