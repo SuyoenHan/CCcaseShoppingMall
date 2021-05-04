@@ -194,7 +194,7 @@
 			
 			// 나의 장바구니 이동 클릭이벤트
 			$("button#wishlist").click(function(){
-				frm.action="<%=ctxPath%>/member/myCart.cc";
+				location.href="<%=ctxPath%>/member/myCart.cc";
 			});
 			
 			
@@ -348,7 +348,10 @@
 		  					</a>
 		  					<li class="mainAllCom mainAllCommu">이벤트</li>
 		  					<li class="mainAllCom mainAllCommu">공지사항</li>
-		  					<li class="mainAllCom mainAllCommu">고객리뷰</li>
+		  					<li class="mainAllCom mainAllCommu">
+		  						<a href="<%=ctxPath%>/board/reviewList.cc">고객리뷰</a>
+		  					</li>
+		  					
 		  				</ul>
 		  			</div>
 		  		</div>
@@ -418,11 +421,7 @@
 			</c:if>
 					
 			<div>
-				<form name="goCart" style="float:left;">
-					<input type="hidden" name="userid" value="${loginuser.userid}">
-					<input type="hidden" name="name" value="${loginuser.name}">
-				</form>
-					<button class="loginSection" id="wishlist">장바구니</button>
+				<button class="loginSection" id="wishlist">장바구니</button>
 				<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">
 					마이페이지
 				</button>

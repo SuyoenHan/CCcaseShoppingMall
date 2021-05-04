@@ -67,7 +67,28 @@ public class ImageFileDAO implements InterImageFileDAO {
 		
 		return n;
 	}
+	
+	// 제품리스트에서 특정행 클릭 후 이미지테이블 update
+	@Override
+	public int updateImage(Map<String, String> plusimgmap) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			String sql = "update tbl_imagefile set imgPlus1=? "+
+						 "where imgno=? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, plusimgmap.get("imgPlus1"));
+			pstmt.setInt(2, Integer.parseInt(plusimgmap.get("imgno")));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
 
+		return n;
+	}
 	
 	////////////////////백원빈 작업 끝 ///////////////////////////
 	
@@ -112,6 +133,7 @@ public class ImageFileDAO implements InterImageFileDAO {
 		   pnum에 해당하는 추가이미지가 존재하는 경우: imgFileByPnumList.size() > 0    
 		*/
 	}
+
 
 		
 		

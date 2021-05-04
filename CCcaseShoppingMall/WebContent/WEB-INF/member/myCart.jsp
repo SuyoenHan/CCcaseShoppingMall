@@ -8,12 +8,32 @@
 
 <style type="text/css">
 
+	div#cartTitle{
+		border: solid 0px red;
+		height: 90px;
+		font-size: 25pt;
+		padding-left: 100px;
+	}
+	
+	table.eachWishList{
+		margin-bottom:30px;
+		margin-left: 100px;
+		width: 90%;
+		text-align: center;
+	}
+	
 	table.eachWishList tr{
-		border: solid 1px red;
+		border: solid 0px red;
+		line-height: 60px;
 	}
 
-	div#cartTitle{
-		border: solid 1px red;
+	table.eachWishList th{
+		border: solid 0px red;
+		text-align: center;
+	}
+	
+	img.cartImg{
+		border-radius: 20%;
 	}
 	
 	div#deleteEach{
@@ -26,6 +46,15 @@
 		float:right;
 	}
 	
+	td.cartUpdate > span{
+		background-color: #a0aca0;
+	}
+	
+	td.cartUpdate > span:hover{
+		background-color: #ecffb3;
+	}
+	
+	
 	div#deleteSelected{border: solid 1px red;}
 	
 	div#deleteAll{border: solid 1px red;}
@@ -33,6 +62,12 @@
 	table#priceInfo tr{border: solid 1px red;}
 	
 	div.bottomBt{border: solid 1px red;}
+	
+	input.pcnt{
+		width:50px;
+		height: 20px;
+		text-align: center;
+	}
 	
 </style>
 
@@ -42,45 +77,96 @@
 	
 	$(document).ready(function(){
 		
+		func_height();
 		
+		// 수량 선택시 직접 입력한 경우 유효성 검사
+		 $("input.pcnt").blur(function(){
+			 
+			 var cnt= $(this).val();
+			 cnt= parseInt(cnt);
+			 
+			 var regExp= /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+		   	 var bool= regExp.test(cnt);
+		   	
+	   		if(!bool){ // 문자로 입력한 경우
+		   		alert("제품선택수량은 1개 이상이어야 합니다.");
+		   	    $(this).val("1")
+		        $(this).focus();
+		        return; 
+	   		}
+	   		
+	        if(cnt < 1 || cnt > 50) {
+	           alert("제품선택수량은 최소 1개 이상 50개 이하만 가능합니다.");
+	           $(this).val("1")
+		       $(this).focus();
+		       return;
+	        }
+			 
+		 }); // end of $("input.pcnt").input(function(){
 		
+
 		
 	}); // end of $(document).ready(function(){-------------------------
 
 </script>
 
 <jsp:include page="../header.jsp" />
-<div id="contents" style="clear:both; border: solid 1px blue; width:100%;">
+<div id="contents" style="clear:both; border: solid 1px blue; margin-top:50px; width:100%;">
 	
-	<div id="cartTitle"> ${name}&nbsp;님의&nbsp;장바구니</div>
-	<table class="eachWishList">
-		<tr>
-			<td colspan="8"></td>
-		</tr>
-		<tr>
-			<th>체크박스</th>
-			<th>이미지</th>
-			<th>상품정보</th>
-			<th>판매가</th>
-			<th>수량</th>
-			<th>예상적립금</th>
-			<th>배송비</th>
-			<th>합계</th>
-		</tr>
-		<tr>
-			<td>체크박스</td>
-			<td>이미지</td>
-			<td>상품정보</td>
-			<td>판매가</td>
-			<td>수량</td>
-			<td>예상적립금</td>
-			<td>배송비</td>
-			<td>합계</td>
-		</tr>
-		<tr>
-			<td colspan="8"></td>
-		</tr>
-	</table>
+	<div id="cartTitle"><span style="color:blue;">${name}</span>님의&nbsp;장바구니</div>
+	
+	<c:forEach var="cartRequiredInfo" items="${cartRequiredInfoList}">
+		<table class="eachWishList">
+			<tr>
+				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px;"></div></td>
+			</tr>
+			<tr style="border-top: solid 1px #a0aca0; border-bottom: solid 1px #a0aca0;">
+				<th style="width: 70px;">선택</th>
+				<th style="width: 160px;">이미지</th>
+				<th style="width: 230px;">상품정보</th>
+				<th style="width: 90px;">색상</th>
+				<th style="width: 130px;">판매가</th>
+				<th style="width: 110px;">수량</th>
+				<th style="width: 130px;">예상적립금</th>
+				<th style="width: 150px;">배송비</th>
+				<th>합계</th>
+			</tr>
+			<tr>
+				<td rowspan="2"><input type="checkbox" name="checkList" value="${cartRequiredInfo.pnum}" /></td>
+				<td rowspan="2"><img src="<%=ctxPath%>/images/${cartRequiredInfo.pimage1}" width="110px" height="100px" class="cartImg" /></td>
+				<td>${cartRequiredInfo.productname}</td>
+				<td>${cartRequiredInfo.pcolor}</td>
+				<td style="text-decoration: line-through;">${cartRequiredInfo.price}원</td>
+				<td rowspan="2">
+					<input type="number" min="1" max="50" value="${cartRequiredInfo.cinputcnt}"개 class="pcnt">&nbsp;&nbsp;개
+				</td>
+				<td rowspan="2">${cartRequiredInfo.point}&nbsp;point</td>
+				<c:if test="${cartRequiredInfo.doption eq '0'}">
+					<td rowspan="2">무료배송</td>
+				</c:if>
+				<c:if test="${cartRequiredInfo.doption eq '1'}">
+					<td rowspan="2">3,000원</td>
+				</c:if>
+				<c:if test="${cartRequiredInfo.doption eq '색상에 따라 상이'}">
+					<td rowspan="2">색상에 따라 상이</td>
+				</c:if>
+				<td rowspan="2">${cartRequiredInfo.totalPrice}원</td>
+			</tr>
+			<tr>
+				<td style="border-top:solid 1px #a0aca0;">[${cartRequiredInfo.cname}]&nbsp;[${cartRequiredInfo.modelname}]</td>
+				<c:if test="${cartRequiredInfo.pcolor eq '-'}">
+					<td class="cartUpdate"><span>선택하기</span></td>
+				</c:if>	
+				<c:if test="${cartRequiredInfo.pcolor ne '-'}">
+					<td class="cartUpdate"><span>변경하기</span></td>
+				</c:if>
+				<td style="color:red;">${cartRequiredInfo.saleprice}원</td>
+			</tr>
+			<tr>
+				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px; border-top: solid 1px #a0aca0; "></div></td>
+			</tr>
+		</table>
+	</c:forEach>
 	
 	<div id="deleteSelected">선택상품삭제하기</div>
 	<div id="deleteAll">장바구니 비우기</div>
