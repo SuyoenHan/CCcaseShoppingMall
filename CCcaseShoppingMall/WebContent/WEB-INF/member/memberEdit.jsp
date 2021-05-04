@@ -13,7 +13,7 @@
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script> 
     
 <jsp:include page="../../WEB-INF/header.jsp" />
-<jsp:include page="../../WEB-INF/member/myPageHeader.jsp"/>
+
 <jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -62,9 +62,12 @@ var b_flagEmailDuplicateClick = true;
 		
 		$("span.error").hide();
 		
-		 $("span.emailcheck").hide();
+		$("span.emailcheck").hide();
 		$("div#emailEditclick").hide();
 		$("span.emailEditBack").hide();
+		
+		$("tr#pwdEditclick").hide();
+		$("span.pwdEditBack").hide();
 		
 		$("button#emailCheckButton").prop("disabled",true);
 		
@@ -296,6 +299,20 @@ var b_flagEmailDuplicateClick = true;
   
    }// end of function isExistEmailCheck()---------------------------
 	
+   function  pwdEdit() {
+	   $("span.pwdEdit").hide();
+	   $("span.pwdEditBack").show();
+	   $("tr#pwdEditclick").show();
+	   
+	 
+	   	  
+    }
+   function  pwdEditBack() {
+	   $("span.pwdEdit").show();
+	   $("span.pwdEditBack").hide();
+	   $("tr#pwdEditclick").hide();
+   }
+   
    function emailEdit(){
 	  
 	   $("span.emailEdit").hide();
@@ -311,6 +328,7 @@ var b_flagEmailDuplicateClick = true;
 	   $("span.emailEditBack").hide();
 	   b_flagEmailDuplicateClick = true;
    }
+  
 	
    function goEdit() {
 	 
@@ -319,8 +337,7 @@ var b_flagEmailDuplicateClick = true;
 	    	alert("이메일중복확인 클릭하여 이메일중복검사를 하세요!!");
 	    	return; // 종료
 	  }
-	 
-      var flagBool=false;
+	  var flagBool=false;
    	  $(".requiredInfo").each(function(index,item){
    		  
    		  var data = $(item).val().trim();
@@ -331,6 +348,7 @@ var b_flagEmailDuplicateClick = true;
 
    		   }
    	   });
+     
    
   	
    	  if(flagBool){
@@ -374,18 +392,27 @@ var b_flagEmailDuplicateClick = true;
 			</td> 
 		</tr>
 		<tr>
-			<td style="width: 20%; font-weight: bold;">비밀번호&nbsp;<span class="star">*</span></td>
-			<td style="width: 80%; text-align: left;">
-			<input type="password" name="pwd" id="pwd" class="requiredInfo" value="${sessionScope.loginuser.pwd}" placeholder="●●●●" />
-				<span class="error">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로 입력하세요.</span>
+			<td style="width: 20%; font-weight: bold;">비밀번호</td>
+			<td style="width: 80%; text-align: left;"><input type="hidden" name="pwd" value="${sessionScope.loginuser.pwd}"/>●●●●●● ${sessionScope.loginuser.pwd}
+			<span class="pwdEdit"style="display: inline-block; width: 100px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="pwdEdit();">비밀번호 변경하기</span> 
+			 <span class="pwdEditBack"style="display: inline-block; width: 100px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="pwdEditBack();">비밀번호 변경취소</span> 
 			</td>
 		</tr>
-		<tr>
-			<td style="width: 20%; font-weight: bold;">비밀번호확인&nbsp;<span class="star">*</span></td>
-			<td style="width: 80%; text-align: left;"><input type="password" id="pwdcheck" class="requiredInfo" value="${sessionScope.loginuser.pwd}" placeholder="●●●●" /> 
-				<span class="error">암호가 일치하지 않습니다.</span>
-			</td>
-		</tr>
+	
+			<tr id="pwdEditclick">
+				<td style="width: 20%; font-weight: bold;">새 비밀번호&nbsp;<span class="star">*</span></td>
+				<td style="width: 80%; text-align: left;">
+				<input type="password" name="pwd" id="pwd" value="${sessionScope.loginuser.pwd}"placeholder="●●●●" />
+					<span class="error">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로 입력하세요.</span>
+				</td>
+			</tr>
+			<tr id="pwdEditclick">
+				<td style="width: 20%; font-weight: bold;">새 비밀번호확인&nbsp;<span class="star">*</span></td>
+				<td style="width: 80%; text-align: left;"><input type="password" id="pwdcheck"  value="${sessionScope.loginuser.pwd}"placeholder="●●●●" /> 
+					<span class="error">암호가 일치하지 않습니다.</span>
+				</td>
+			</tr>
+
 		<tr>
 			<td style="width: 20%; font-weight: bold;">성명&nbsp;<span class="star">*</span></td>
 			<td style="width: 80%; text-align: left;">

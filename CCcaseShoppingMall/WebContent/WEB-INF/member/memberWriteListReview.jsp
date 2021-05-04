@@ -46,7 +46,7 @@
 	$(document).ready(function(){
 	
 		func_height();//footer.jsp에 있음!
-
+		$("input#qna").prop("checked", true);
 		
 		if("${requestScope.sizePerPage}" !=""){
 			$("select#sizePerPage").val("${requestScope.sizePerPage}");
@@ -58,6 +58,8 @@
 		location.href ="<%= request.getContextPath()%>/board/qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
 		});// end of $("tr.qnaInfo").click
 
+
+	
 		
 	});// end of $(document).ready(function(){})--------------
 	
@@ -68,8 +70,7 @@
 	}	
 	function review(userid){
 		$("input#qna").prop("checked", false);
-		$("input#review").prop("checked", true);
-		location.href="<%= request.getContextPath()%>/member/memberWriteListReview.cc?userid="+userid;
+		location.href="<%= request.getContextPath()%>/home.cc";
 		
 	}
 

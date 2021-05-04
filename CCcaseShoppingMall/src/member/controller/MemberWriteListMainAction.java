@@ -57,6 +57,7 @@ public class MemberWriteListMainAction extends AbstractController {
 		
 		// !!!! 다음은 pageNo 를 구하는 공식이다. !!!! //    
 		pageNo= ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1 ;
+		
 		System.out.println(pageNo);
 		//***[맨처음] [이전] 만들기***//
 		if(pageNo != 1) {
