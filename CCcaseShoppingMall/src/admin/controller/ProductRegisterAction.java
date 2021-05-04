@@ -142,7 +142,9 @@ public class ProductRegisterAction extends AbstractController {
 				String doption = mtrRequest.getParameter("doption"); 		 	// 배송조건(제품상세테이블)
 				String pqty = mtrRequest.getParameter("pqty"); 				    // 재고량(제품상세테이블)
 				String pimage1 = mtrRequest.getFilesystemName("pimage1");       // 제품대표이미지(제품테이블)
-				String imgPlus1 = mtrRequest.getFilesystemName("imgPlus1"); // 제품추가이미지(이미지추가테이블)
+				String imgPlus1 = mtrRequest.getFilesystemName("imgPlus1");     // 제품추가이미지1(이미지추가테이블)
+				String imgPlus2 = mtrRequest.getFilesystemName("imgPlus2");		// 제품추가이미지2(이미지추가테이블)
+				String imgPlus3 = mtrRequest.getFilesystemName("imgPlus3");		// 제품추가이미지3(이미지추가테이블)
 				String pcontent = mtrRequest.getParameter("pcontent"); 			// 제품설명란(제품상세테이블)
 
 				// 크로스 사이트 스크립트 공격 방지
@@ -199,6 +201,8 @@ public class ProductRegisterAction extends AbstractController {
 
 	            // 제품추가이미지테이블로 전달하기위한 plusimgmap
 	            plusimgmap.put("imgPlus1", imgPlus1);
+	            plusimgmap.put("imgPlus2", imgPlus2);
+	            plusimgmap.put("imgPlus3", imgPlus3);
 	            plusimgmap.put("getpnum", getpnum);
 
 	            // 제품추가이미지테이블로 insert하기
