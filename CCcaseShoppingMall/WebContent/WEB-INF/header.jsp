@@ -348,7 +348,10 @@
 		  					</a>
 		  					<li class="mainAllCom mainAllCommu">이벤트</li>
 		  					<li class="mainAllCom mainAllCommu">공지사항</li>
-		  					<li class="mainAllCom mainAllCommu">고객리뷰</li>
+		  					<li class="mainAllCom mainAllCommu">
+		  						<a href="<%=ctxPath%>/board/reviewList.cc">고객리뷰</a>
+		  					</li>
+		  					
 		  				</ul>
 		  			</div>
 		  		</div>

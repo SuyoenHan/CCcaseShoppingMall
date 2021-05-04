@@ -113,6 +113,13 @@ public class FaqListAction extends AbstractController {
 				// !!!! 다음은 pageNo 를 구하는 공식이다. !!!! //    
 				pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1 ;
 				
+				
+				if(pageNo != 1) {
+					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo=1&sizePerPage="+sizePerPage+"'>[맨처음]</a>&nbsp;";   
+					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+(pageNo-1) +"&sizePerPage="+sizePerPage+"'>[이전]</a>&nbsp";    
+				}
+				
+				
 				while( !(loop > blockSize || pageNo > totalPage ) ) { // loop 가 blockSize보다 커지면 빠져나오라는 말.
 					
 					if( pageNo == Integer.parseInt(currentShowPageNo) ) {
@@ -132,13 +139,12 @@ public class FaqListAction extends AbstractController {
 				
 				}//end of while------------------------------
 				
-				/*
-				 * if( pageNo <= totalPage ) { pageBar +=
-				 * "&nbsp;<a href='memberList.up?currentShowPageNo="+ pageNo
-				 * +"'>[다음]</a>&nbsp;"; pageBar +=
-				 * "&nbsp;<a href='memberList.up?currentShowPageNo="+ totalPage
-				 * +"'>[마지막]</a>&nbsp;"; }
-				 */
+			
+				if( pageNo <= totalPage ) {
+					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"&sizePerPage="+sizePerPage+"'>[다음]</a>&nbsp;";    
+					pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ totalPage +"&sizePerPage="+sizePerPage+"'>[마지막]</a>&nbsp;";    
+				}
+				
 				
 				
 			  //  *** 현재페이지를 돌아갈 페이지(goBack)로 주소 지정하기 *** //

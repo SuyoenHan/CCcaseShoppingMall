@@ -36,6 +36,21 @@
 <script type="text/javascript">
 
 
+
+	$(document).ready(function(){
+		
+		
+		$("button.shipstatusBtn").click(function(){
+			
+			//alert("배송조회");
+			//배송조회 페이지로 이동 시켜준다.
+			location.href="<%=ctxPath%>/order/shipStatus.cc";
+			
+		});
+		
+		
+	});
+
 </script>
   
   
@@ -75,14 +90,30 @@
 		        <td id="totalPrice" name="totalPrice">주문금액${ovo.totalPrice}원</td>
 		        <td id="odqty" name="odqty">주문수량 ${ovo.odvo.odqty} 개</td>
 		        <td>
+		       
+		        	 <c:if test="${ovo.shipstatus==0}">   
+			        	<span>입금대기</span><br>
+		        	 </c:if> 
+		        	 <c:if test="${ovo.shipstatus==1}"> 
+			        	<span>입금완료</span><br>
+		        	 </c:if>
+		        
 		        	 <c:if test="${ovo.shipstatus==2}"> 
 			        	<span id="shipstatus" name="shipstatus">주문상태:배송중</span><br>
 			        	<button type="button" class="shipstatusBtn" name="shipstatusBtn" >배송조회</button>
 		        	 </c:if> 
-		        	 
+		        	 <c:if test="${ovo.shipstatus==3}"> 
+			        	<span>배송완료</span><br>
+		        	 </c:if> 
 		        	 <c:if test="${ovo.shipstatus==4}"> 
 			        	<span id="shipstatus" name="shipstatus">주문상태:구매확정 </span><br>
-			        	<button type="button" class="productReview" name="productReview">상품평관리</button>
+			        	<button type="button" class="productReviewBtn" name="productReviewBtn">상품평관리</button>
+		        	 </c:if> 
+		        	 <c:if test="${ovo.shipstatus==5}"> 
+			        	<span>교환</span><br>
+		        	 </c:if> 
+		        	 <c:if test="${ovo.shipstatus==6}"> 
+			        	<span>환불</span><br>
 		        	 </c:if> 
 		        	 
 		        </td>
