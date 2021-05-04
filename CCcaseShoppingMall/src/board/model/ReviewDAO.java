@@ -8,6 +8,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import product.model.ProductVO;
+import product.model.SpecVO;
+
 public class ReviewDAO implements InterReviewDAO {
 	
 	private DataSource ds;
@@ -87,10 +90,10 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewno, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate "
+			String sql = " select reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "
 							+ " from "
 							+ " ( "
-							+ " select reviewno, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate "
+							+ " select reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "
 							+ " from tbl_review ";
 							
 			// ==== 검색어가 있는 경우 시작 ==== //
@@ -128,11 +131,14 @@ public class ReviewDAO implements InterReviewDAO {
 			 while(rs.next()) {
 				 
 				 ReviewVO rvo = new ReviewVO();
-				 rvo.setReviewimage1(rs.getString(1));
-				 rvo.setFk_pname(rs.getString(2));
-				 rvo.setRvtitle(rs.getString(3));
-				 rvo.setRvcontent(rs.getString(4));
-				 rvo.setRregisterdate(rs.getString(5));
+				 rvo.setReviewno(rs.getInt(1));
+				 rvo.setFk_userid(rs.getString(2));
+				 rvo.setReviewimage1(rs.getString(3));
+				 rvo.setFk_pname(rs.getString(4));
+				 rvo.setRvtitle(rs.getString(5));
+				 rvo.setRvcontent(rs.getString(6));
+				 rvo.setRregisterdate(rs.getString(7));
+				 rvo.setRviewcount(rs.getInt(8));
 				 
 				 revList.add(rvo);
 			 }// end of while(rs.next())------------------------------------------------
@@ -171,7 +177,7 @@ public class ReviewDAO implements InterReviewDAO {
 		
 	}
 	
-	// reviewimage1(썸네일) 값을 입력받아서 리뷰 1개에 대한 상세정보를 알아오기
+	// reviewimage1(썸네일) 값을 입력받아서 사진 리뷰 1개에 대한 상세정보를 알아오기
 	@Override
 	public ReviewVO reviewOneDetail(String reviewimage1) throws SQLException {
 		
@@ -211,7 +217,224 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return rvo;
 	}
+	
+	// tbl_review 테이블에 리뷰정보 insert 하기
+	@Override
+	public int reviewInsert(ReviewVO rvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into(reviewno, fk_odetailno, rvtitle, rvcontent, satisfaction,reviewimage1,reviewimage2, reviewimage3, fk_pname) "
+					+ " values(seq_pdetail_reviewno.nextval,?,?,?,?,?,?,?,?) ";
+					
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,rvo.getFk_odetailno());
+			pstmt.setString(1,rvo.getRvtitle());
+			pstmt.setString(3, rvo.getRvcontent());
+			pstmt.setInt(4, rvo.getSatisfaction());
+			pstmt.setString(5, rvo.getReviewimage1());
+			pstmt.setString(6, rvo.getReviewimage2());
+			pstmt.setString(7, rvo.getReviewimage3());
+			pstmt.setString(8, rvo.getFk_pname());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+	
+	// 구매한 제품 정보 가져오기(select)
+	@Override
+	public ReviewVO selectProdOne(String fk_pname) throws SQLException {
+		
+		ReviewVO rvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pimage1, productname, price, sname "+
+								" from "+
+								" (select pimage1, productname, to_char(price, '9,999,999') as price, sname "+
+								" from tbl_product P "+
+								" JOIN tbl_pdetail D "+
+								" ON p.productname = D.pname "+
+								" JOIN tbl_spec S "+
+								" ON D.fk_snum = S.snum "+
+								" where productname = ? ) V";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,fk_pname);
+					
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				rvo = new ReviewVO();
+				
+				ProductVO pvo = new ProductVO();
+				pvo.setPimage1(rs.getString(1));
+				pvo.setProductname(rs.getString(2));
+				pvo.setPrice(rs.getInt(3));
+				
+				rvo.setPvo(pvo);
+				
+				SpecVO svo = new SpecVO();
+				svo.setSname(rs.getString(4));
+				
+				rvo.setSvo(svo);
+				
+			}
+			
+		} finally {
+			close();
+		}
+		return rvo;
+	}
+	
+	//FAQ 글내용 수정을 위해 하나의 리뷰를 select해오기
+		@Override
+		public ReviewVO revEditOneView(String reviewno) throws SQLException {
+			
+			ReviewVO rvo = null;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select reviewno, rvtitle, satisfaction, rvcontent, reviewimage1, reviewimage2, reviewimage3 "
+								+ " from tbl_review"
+								+ " where reviewno = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, reviewno);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					rvo = new ReviewVO();
+					
+					rvo.setReviewno(rs.getInt(1));
+					rvo.setRvtitle(rs.getString(2));
+					rvo.setSatisfaction(rs.getInt(3));
+					rvo.setRvcontent(rs.getString(4));
+					rvo.setReviewimage1(rs.getString(5));
+					rvo.setReviewimage2(rs.getString(6));
+					rvo.setReviewimage3(rs.getString(7));
+					
+				}
+				
+			} finally {
+				close();
+			}
+			
+			return rvo;
+		}
+	
+	// 리뷰 내용 수정하기(update)
+	@Override
+	public int revEditUpdate(ReviewVO rvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_review set rvtitle = ? "
+																+ " , satisfaction = ? "
+																+ " , rupdatedate = sysdate "
+																+ " , rvcontent = ? "
+																+ " where reviewno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rvo.getRvtitle());
+			pstmt.setInt(2, rvo.getSatisfaction());
+			pstmt.setString(4, rvo.getRvcontent());
+			pstmt.setInt(4, rvo.getReviewno());
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				conn.commit();
+			}
+			
+		} finally {
+			close();
+		}
+		return n;
+	}
+	
+	// 리뷰 글내용 삭제하기(delete)
+	@Override
+	public int revDeleteOne(ReviewVO rvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_review "
+							+ " where reviewno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rvo.getReviewno());
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				conn.commit();
+			}
+			
+		} finally {
+			close();
+		}
+		return n;
+	}
+	
+	// 사진리뷰 총 개수 알아오기
+	@Override
+	public int selectRevCnt() throws SQLException {
+		int rtotalCnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(*)\n"+
+								"from tbl_review\n"+
+								"where reviewimage1 is not null or reviewimage2 is not null " +
+							    " or reviewimage3 is not null";
 
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			rtotalCnt = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		return rtotalCnt;
+	}
+
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

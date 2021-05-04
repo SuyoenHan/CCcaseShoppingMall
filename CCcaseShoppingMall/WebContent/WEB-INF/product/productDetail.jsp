@@ -50,7 +50,7 @@
 	
 	table#pdetailInfoTable tr{
 		border: solid 0px blue;
-		line-height: 55px;
+		line-height: 45px;
 	}
 	
 	table#pdetailInfoTable th{
@@ -122,6 +122,12 @@
 		font-size: 15pt;
 		margin-top:100px;
 	}
+	
+	input#pcnt{
+		width: 50px;
+		height: 20px;
+		text-align: center;
+	}
 </style>
 
 
@@ -170,7 +176,7 @@
 		$(window).scroll(function(){
 			
 			var scrollTop= $(window).scrollTop();
-			console.log(scrollTop);
+			// console.log(scrollTop);
 			
 			if(scrollTop<580){
 				$("div#rightSide").hide();// 상품상세설명  부분만 goUp아이콘이 나오도록 hide() 처리
@@ -221,6 +227,95 @@
 		
 		
 		
+		// 수량 선택시 직접 입력한 경우 유효성 검사
+		 $("input#pcnt").blur(function(){
+			 
+			 var cnt= $("input#pcnt").val();
+			 cnt= parseInt(cnt);
+			 
+			 var regExp= /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+		   	 var bool= regExp.test(cnt);
+		   	
+	   		if(!bool){ // 문자로 입력한 경우
+		   		alert("제품선택수량은 1개 이상이어야 합니다.");
+		   	    $("input#pcnt").val("1")
+		        $("input#pcnt").focus();
+		        return; 
+	   		}
+	   		
+	        if(cnt < 1 || cnt > 50) {
+	           alert("제품선택수량은 최소 1개 이상 50개 이하만 가능합니다.");
+	           $("input#pcnt").val("1")
+		       $("input#pcnt").focus();
+		       return;
+	        }
+			 
+		 }); // end of $("input#pcnt").input(function(){
+		
+			 
+		// 장바구니 버튼 클릭 시 장바구니 테이블에 insert
+		$("div#wishListBt").click(function(){
+			
+			if("${loginuser}"!=null){ // 로그인 한 경우
+
+				var productid= $("input#productid").val();
+				var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 ""
+				var pcnt= $("input#pcnt").val();
+
+				$.ajax({
+					url: "<%=ctxPath%>/member/myCartInsert.cc",
+					type: "post",
+					data: {"productid":productid,"pnum":pnum,"pcnt":pcnt,"userid":"${loginuser.userid}"},
+					dataType: "JSON",
+					success:function(json){
+			
+						if(json.n==1){
+							
+							// 확인 또는 취소를 선택할 수 있는 있는 선택창
+							var productname= "${onePInfo.productname}";
+							var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
+									           +"장바구니로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}
+						}
+						else if(json.n==2){
+							var result= confirm(json.message+"\n장바구니로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}							
+						}
+						else{
+							alert(json.message);
+							opener.location.reload(true);
+						}
+						
+					},
+					error: function(request, status, error){
+				           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				    }
+				
+				}); // end of $.ajax({----------------------------------
+	
+			} // end of if---------------------------------------------
+			
+			else{ // 로그인 하지 않은 경우
+				alert("로그인 후 이용 가능합니다.");
+				response.sendRedirect("javascript:history.back()");
+			}
+		}); // end of $("div#wishListBt").click(function(){----------------------------
+		
+		
+		
+
 
 	}); // end of $(document).ready(function(){--------------------
 
@@ -267,30 +362,25 @@
 		<div class="pdetailTitle" style="width: 90px; margin-left: 20px;">
 			<img src="<%=ctxPath%>/images/product/heartIcon.png" width="70x" height="70px;" />
 		</div>
+		<input type="hidden" id="productid" value="${onePInfo.productid}">
 		<table id="pdetailInfoTable" style="margin: 10px 0px 0px 30px; ">
 			<tr>
-				<th>
-					할인판매가
-				</th>
+				<th>할인판매가</th>
 				<td>
 					${onePInfo.saleprice}원
 				</td>
 			</tr>
 			<tr>
-				<th>
-					판매가
-				</th>
+				<th>판매가</th>
 				<td>
 					${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
 				</td>
 			</tr>
 			<tr>
-				<th>
-					색상 옵션
-				</th>
+				<th>색상 옵션</th>
 				<td>
 					<select id="cOption">
-						<option value="">색상을 선택해 주세요</option>
+						<option value="-">색상을 선택해 주세요</option>
 						<c:forEach var="pDetailInfo" items="${onePDetailInfoList}" >
 							<option value="${pDetailInfo.pnum}">${pDetailInfo.pcolor}</option>
 						</c:forEach>
@@ -298,17 +388,16 @@
 				</td>
 			</tr>
 			<tr>
-				<th>
-					배송방법
-				</th>
+				<th>수량</th>
 				<td>
-					택배
+					<input type="number" min="1" max="50" value="1" id="pcnt">&nbsp;&nbsp;개
 				</td>
+			<tr>
+				<th>배송방법</th>
+				<td>택배</td>
 			</tr>
 			<tr>
-				<th>
-					배송비
-				</th>
+				<th>배송비</th>
 				<td id="dOptionText"> <%-- ajax로 값이 달라진다--%>
 					색상에 따라 상이
 				</td>
@@ -316,7 +405,7 @@
 		</table>
 		
 		<div class="pdetailbt" style="margin-left: 0px;">바로구매</div>
-		<div class="pdetailbt">장바구니</div>
+		<div class="pdetailbt" id="wishListBt">장바구니</div>
 		<div class="pdetailbt">관심상품</div>
 	</div>
 
@@ -371,5 +460,7 @@
 		<div id="goBack">목록으로</div>
 	</div>
 </div>
+
+
 
 <jsp:include page="../footer.jsp" />

@@ -7,7 +7,7 @@ import java.util.Map;
 public interface InterEventDAO {
 
 	// 페이징 처리를 한 모든 이벤트글 또는 검색한 이벤트글 보여주기
-	List<EventVO> selectPagingQna(Map<String, String> paraMap) throws SQLException;
+	List<EventVO> selectPagingEvent(Map<String, String> paraMap) throws SQLException;
 	
 	// 페이징처리를 위해서 이벤트글에 대한 총페이지 개수 알아오기(select)
 	int selectTotalPage(Map<String, String> paraMap) throws SQLException;

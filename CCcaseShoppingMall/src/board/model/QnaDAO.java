@@ -38,72 +38,74 @@ public class QnaDAO implements InterQnaDAO {
       }
    }
 
-   // 페이징 처리를 한 모든 QNA글 또는 검색한 QNA글 보여주기
-   @Override
-   public List<QnaVO> selectPagingQna(Map<String, String> paraMap) throws SQLException {
-      
-      List<QnaVO> qnaList = new ArrayList<>();
-      
-      try {
-          conn = ds.getConnection();
-          
-          String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
-                         " from " +
-                         " ( "+
-                         "    select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
-                         "    from "+
-                         "    ( "+
-                         "        select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd "+
-                         "        from tbl_qna " ;
-          
-             /////////// === 검색어가 있는 경우 시작 === ///////////
-          
-             String colname = paraMap.get("searchType");
-             String searchWord = paraMap.get("searchWord");
-             
-             if( searchWord != null && !searchWord.trim().isEmpty() ) {
-                // 검색어를 입력을 해주는데 공백만이 아닌 실제 검색어를 입력한 경우
-                sql += " where "+colname+" like '%'|| ? ||'%' ";
-             }
-             
-             /////////// === 검색어가 있는 경우 끝 === ///////////
-            
-            sql += "        order by qregisterdate desc "+
-                       "    ) V "+
-                      " ) T "+
-                      " where rno between ? and ? "; 
-         
-          
-          int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-          int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage")); 
-          
-          pstmt = conn.prepareStatement(sql);
-          
-          if(searchWord!=null && !searchWord.trim().isEmpty()) {// 검색어 있는 경우
-             pstmt.setString(1, searchWord);
-             pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
-             pstmt.setInt(3, (currentShowPageNo * sizePerPage));       
-          }
-          else {// 검색어 없는 경우
-             pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
-             pstmt.setInt(2, (currentShowPageNo * sizePerPage));       
-          }
-          
-          rs = pstmt.executeQuery();
+	// 페이징 처리를 한 모든 QNA글 또는 검색한 QNA글 보여주기
+	@Override
+	public List<QnaVO> selectPagingQna(Map<String, String> paraMap) throws SQLException {
+		
+		List<QnaVO> qnaList = new ArrayList<>();
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd, qstatus "+
+					 			" from " +
+					 			" ( "+
+					 			"    select rownum AS rno, qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd, qstatus "+
+					 			"    from "+
+					 			"    ( "+
+					 			"        select qnano, qtitle, fk_userid, qregisterdate, qviewcount, qnapwd, qstatus "+
+					 			"        from tbl_qna " ;
+			 
+			 	/////////// === 검색어가 있는 경우 시작 === ///////////
+			 
+				 String colname = paraMap.get("searchType");
+				 String searchWord = paraMap.get("searchWord");
+				 
+				 if( searchWord != null && !searchWord.trim().isEmpty() ) {
+					 // 검색어를 입력을 해주는데 공백만이 아닌 실제 검색어를 입력한 경우
+					 sql += " where "+colname+" like '%'|| ? ||'%' ";
+				 }
+				 
+				 /////////// === 검색어가 있는 경우 끝 === ///////////
+				
+				sql += "        order by qregisterdate desc "+
+			 	 			"    ) V "+
+			 				" ) T "+
+			 				" where rno between ? and ? "; 
+			
+			 
+			 int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			 int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage")); 
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 if(searchWord!=null && !searchWord.trim().isEmpty()) {// 검색어 있는 경우
+				 pstmt.setString(1, searchWord);
+				 pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				 pstmt.setInt(3, (currentShowPageNo * sizePerPage));		 
+			 }
+			 else {// 검색어 없는 경우
+				 pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				 pstmt.setInt(2, (currentShowPageNo * sizePerPage));		 
+			 }
+			 
+			 rs = pstmt.executeQuery();
 
-          while(rs.next()) {
-             
-             QnaVO qvo = new QnaVO();
-             qvo.setQnano(rs.getInt(1));
-             qvo.setQtitle(rs.getString(2));
-             qvo.setFk_userid(rs.getString(3));
-             qvo.setQregisterdate(rs.getString(4));
-             qvo.setQviewcount(rs.getInt(5));
-             qvo.setQnapwd(rs.getString(6));
-             
-             qnaList.add(qvo);
-             
-          }// end of while(rs.next()) ------------------------------------------------------------------------
+			 while(rs.next()) {
+				 
+				 QnaVO qvo = new QnaVO();
+				 
+				 qvo.setQnano(rs.getInt(1));
+				 qvo.setQtitle(rs.getString(2));
+				 qvo.setFk_userid(rs.getString(3));
+				 qvo.setQregisterdate(rs.getString(4));
+				 qvo.setQviewcount(rs.getInt(5));
+				 qvo.setQnapwd(rs.getString(6));
+				 qvo.setQstatus(rs.getString(7));
+				 
+				 qnaList.add(qvo);
+				 
+			 }// end of while(rs.next()) ------------------------------------------------------------------------
           
       } finally {
          close();
@@ -121,7 +123,7 @@ public class QnaDAO implements InterQnaDAO {
           conn = ds.getConnection();
           
           String sql = " select ceil( count(*)/? ) "+
-                         " from tbl_qna "; 
+                         	" from tbl_qna "; 
           
           /////////// === 검색어가 있는 경우 시작 === ///////////
           

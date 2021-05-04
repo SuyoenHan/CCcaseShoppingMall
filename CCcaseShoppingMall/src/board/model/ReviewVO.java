@@ -1,7 +1,12 @@
 package board.model;
 
+import member.model.MemberVO;
+import product.model.ProductVO;
+import product.model.SpecVO;
+
 public class ReviewVO {
 	private int reviewno; 					// 리뷰순번
+	private String fk_userid;				// 작성자 아이디
 	private String fk_odetailno; 		// 주문상세일련번호
 	private String rvtitle; 					// 글제목
 	private String rvcontent; 			// 글내용
@@ -15,11 +20,39 @@ public class ReviewVO {
 	private String fk_pname; 			// 제품상세명
 	private int likecount; 					// 도움됩니다 숫자     
 	
+	//////////////////////////////////////////////////////////////////////////////////////
+	private MemberVO mvo;	// 조인용
+	private ProductVO pvo;
+	private SpecVO svo;
+	//////////////////////////////////////////////////////////////////////////////////////
+	
 	public ReviewVO () {
 		
 	}
 	
-	
+	public ReviewVO(int reviewno, String fk_userid, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
+			String rupdatedate, int rviewcount, int satisfaction, String reviewimage1, String reviewimage2,
+			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo) {
+		super();
+		this.reviewno = reviewno;
+		this.fk_userid = fk_userid;
+		this.fk_odetailno = fk_odetailno;
+		this.rvtitle = rvtitle;
+		this.rvcontent = rvcontent;
+		this.rregisterdate = rregisterdate;
+		this.rupdatedate = rupdatedate;
+		this.rviewcount = rviewcount;
+		this.satisfaction = satisfaction;
+		this.reviewimage1 = reviewimage1;
+		this.reviewimage2 = reviewimage2;
+		this.reviewimage3 = reviewimage3;
+		this.fk_pname = fk_pname;
+		this.likecount = likecount;
+		this.mvo = mvo;
+		this.pvo = pvo;
+		this.svo = svo;
+	}
+
 	public int getReviewno() {
 		return reviewno;
 	}
@@ -121,6 +154,38 @@ public class ReviewVO {
 	
 	public void setLikecount(int likecount) {
 		this.likecount = likecount;
+	}
+
+	public MemberVO getMvo() {
+		return mvo;
+	}
+
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
+	}
+
+	public ProductVO getPvo() {
+		return pvo;
+	}
+
+	public void setPvo(ProductVO pvo) {
+		this.pvo = pvo;
+	}
+
+	public SpecVO getSvo() {
+		return svo;
+	}
+
+	public void setSvo(SpecVO svo) {
+		this.svo = svo;
+	}
+
+	public String getFk_userid() {
+		return fk_userid;
+	}
+
+	public void setFk_userid(String fk_userid) {
+		this.fk_userid = fk_userid;
 	}
 	
 	

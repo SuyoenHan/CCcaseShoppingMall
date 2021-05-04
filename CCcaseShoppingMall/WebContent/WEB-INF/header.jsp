@@ -159,7 +159,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-	
+		
 		    $("button#btnlogin").click(function(){
 				location.href="<%= ctxPath%>/login/loginform.cc";
 			});
@@ -192,6 +192,12 @@
 			}) // end of hover event--------------------
 				
 			
+			// 나의 장바구니 이동 클릭이벤트
+			$("button#wishlist").click(function(){
+				location.href="<%=ctxPath%>/member/myCart.cc";
+			});
+			
+			
 			
 	}); // $(documnet).ready(function(){--------------------------------
 	
@@ -208,7 +214,7 @@
 		
 		location.href="<%= request.getContextPath()%>/member/memberEditMain.cc?userid="+userid;
 	}
-
+	
 </script>
 
 </head>
@@ -342,7 +348,10 @@
 		  					</a>
 		  					<li class="mainAllCom mainAllCommu">이벤트</li>
 		  					<li class="mainAllCom mainAllCommu">공지사항</li>
-		  					<li class="mainAllCom mainAllCommu">고객리뷰</li>
+		  					<li class="mainAllCom mainAllCommu">
+		  						<a href="<%=ctxPath%>/board/reviewList.cc">고객리뷰</a>
+		  					</li>
+		  					
 		  				</ul>
 		  			</div>
 		  		</div>
@@ -411,9 +420,11 @@
 				</div>
 			</c:if>
 					
-				<div>
-					<button class="loginSection" id="wishlist">장바구니</button>
-					<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">마이페이지</button>
-				</div>
+			<div>
+				<button class="loginSection" id="wishlist">장바구니</button>
+				<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">
+					마이페이지
+				</button>
+			</div>
 			
 		</div>	
