@@ -94,6 +94,7 @@ public class QnaDAO implements InterQnaDAO {
 			 while(rs.next()) {
 				 
 				 QnaVO qvo = new QnaVO();
+				 
 				 qvo.setQnano(rs.getInt(1));
 				 qvo.setQtitle(rs.getString(2));
 				 qvo.setFk_userid(rs.getString(3));
@@ -122,7 +123,7 @@ public class QnaDAO implements InterQnaDAO {
           conn = ds.getConnection();
           
           String sql = " select ceil( count(*)/? ) "+
-                         " from tbl_qna "; 
+                         	" from tbl_qna "; 
           
           /////////// === 검색어가 있는 경우 시작 === ///////////
           
