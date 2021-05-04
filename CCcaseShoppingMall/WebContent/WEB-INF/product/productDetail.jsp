@@ -139,6 +139,9 @@
 	$(document).ready(function(){
 		
 		func_height();
+		
+		$("div#rightSide").hide();
+		
 		// 색상옵션에 따라 배송비 ajax로 넣어주기
 		$("select#cOption").change(function(){
 			
@@ -201,12 +204,12 @@
 		
 		// 목록으로 돌아가기		
 		var goBackURL= "${requestScope.goBackURL}";
-		goBackURL= goBackURL.replace(/ /gi, "&")
+		goBackURL= goBackURL.replace(/ /gi, "&");
 	
 		
 		$("div#goBack").click(function(){
 			location.href= "<%=ctxPath%>/"+goBackURL;
-		})
+		});
 		
 		
 		// 작은 이미지 클릭시 큰 이미지와 위치 변경
@@ -256,55 +259,86 @@
 		// 장바구니 버튼 클릭 시 장바구니 테이블에 insert
 		$("div#wishListBt").click(function(){
 			
-			if("${loginuser}"!=null){ // 로그인 한 경우
-
-				var productid= $("input#productid").val();
-				var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 ""
-				var pcnt= $("input#pcnt").val();
-
-				$.ajax({
-					url: "<%=ctxPath%>/member/myCartInsert.cc",
-					type: "post",
-					data: {"productid":productid,"pnum":pnum,"pcnt":pcnt,"userid":"${loginuser.userid}"},
-					dataType: "JSON",
-					success:function(json){
-			
-						if(json.n==1){
-							
-							// 확인 또는 취소를 선택할 수 있는 있는 선택창
-							var productname= "${onePInfo.productname}";
-							var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
-									           +"장바구니로 이동하시겠습니까?");
-							if(result){ // 확인버튼
-								location.href="<%=ctxPath%>/member/myCart.cc";
-								return;
-							}
-							else{ // 취소버튼
-								opener.location.reload(true);
-							}
-						}
-						else if(json.n==2){
-							var result= confirm(json.message+"\n장바구니로 이동하시겠습니까?");
-							if(result){ // 확인버튼
-								location.href="<%=ctxPath%>/member/myCart.cc";
-								return;
-							}
-							else{ // 취소버튼
-								opener.location.reload(true);
-							}							
-						}
-						else{
-							alert(json.message);
-							opener.location.reload(true);
-						}
-						
-					},
-					error: function(request, status, error){
-				           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				    }
+			if("${sessionScope.loginuser}"!=""){ // 로그인 한 경우
 				
-				}); // end of $.ajax({----------------------------------
-	
+				var productid= $("input#productid").val();
+				var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 존제
+				var pcnt= $("input#pcnt").val();
+				
+				if($("select#cOption > option:selected").val()!=("${pnum}") && "${pnum}"!="null"
+				   || $("input#pcnt").val()!=("${cinputcnt}") && "${cinputcnt}"!="null"){
+					
+					$.ajax({
+						url: "<%=ctxPath%>/member/myCartDelete.cc",
+						type: "post",
+						data: {"cartno":"${cartno}","productid":productid,"pnum":pnum,"pcnt":pcnt,"userid":"${loginuser.userid}"},
+						dataType: "JSON",
+						success:function(json){
+							if(json.n==1){
+								var result= confirm("장바구니에 담긴 기존상품의 색상 및 수량옵션이 변경되었습니다."
+													 + "\n장바구니로 이동하시겠습니까?");
+								if(result){ // 확인버튼
+									location.href="<%=ctxPath%>/member/myCart.cc";
+									return;
+								}
+								else{ // 취소버튼
+									opener.location.reload(true);
+									return;
+								}
+							}
+						},
+						error: function(request, status, error){
+					           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					    }
+					
+					}); // end of $.ajax({----------------------------------
+						
+				} // end of if--------------------------------------------
+				
+				else{
+					$.ajax({
+						url: "<%=ctxPath%>/member/myCartInsert.cc",
+						type: "post",
+						data: {"productid":productid,"pnum":pnum,"pcnt":pcnt,"userid":"${loginuser.userid}"},
+						dataType: "JSON",
+						success:function(json){
+				
+							if(json.n==1){
+								
+								// 확인 또는 취소를 선택할 수 있는 있는 선택창
+								var productname= "${onePInfo.productname}";
+								var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
+										           +"장바구니로 이동하시겠습니까?");
+								if(result){ // 확인버튼
+									location.href="<%=ctxPath%>/member/myCart.cc";
+									return;
+								}
+								else{ // 취소버튼
+									opener.location.reload(true);
+								}
+							}
+							else if(json.n==2){
+								var result= confirm(json.message+"\n장바구니로 이동하시겠습니까?");
+								if(result){ // 확인버튼
+									location.href="<%=ctxPath%>/member/myCart.cc";
+									return;
+								}
+								else{ // 취소버튼
+									opener.location.reload(true);
+								}							
+							}
+							else{
+								alert(json.message);
+								opener.location.reload(true);
+							}
+							
+						},
+						error: function(request, status, error){
+					           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					    }
+					
+					}); // end of $.ajax({----------------------------------
+				}	
 			} // end of if---------------------------------------------
 			
 			else{ // 로그인 하지 않은 경우
@@ -314,9 +348,17 @@
 		}); // end of $("div#wishListBt").click(function(){----------------------------
 		
 		
+		// member/mycart.cc 에서 넘어온 값들이 존재하면 선택값에 넣어준다
+		if("${pnum}"!="null"){
+			$("select#cOption").val("${pnum}");
+		}
 		
+		if("${cinputcnt}"!="null"){
+			$("input#pcnt").val("${cinputcnt}");
+		}
 
-
+		
+		
 	}); // end of $(document).ready(function(){--------------------
 
 

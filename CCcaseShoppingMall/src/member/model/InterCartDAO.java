@@ -14,6 +14,9 @@ public interface InterCartDAO {
 
 	// cartno가 주어졌을 때 해당 행 delete
 	int deleteOneRow(int cartno) throws SQLException;
+
+	// userid가 주어졌을 떄 이에 해당하는 장바구니 데이터들 모두 delete
+	int deleteAllRowByUserId(String userid) throws SQLException;
 	
 	// ========================== 한수연 끝 ============================
 }

@@ -16,9 +16,30 @@ public class ProductDetailAction extends AbstractController {
 		super.goBackURL(request);
 		String productid= request.getParameter("productid");
 		
+		
+		
+		
+		
+		
 		// home.cc에서 넘어온 경우 snum 또는 doption값을 받아온다
 		String snum= request.getParameter("snum");
 		String doption= request.getParameter("doption");
+		
+		// member/mycart.cc에서 넘어온 cartno, pnum, cinputcnt를 받아온다
+		String cartno= request.getParameter("cartno");
+		String pnum= request.getParameter("pnum");
+		String cinputcnt= request.getParameter("cinputcnt");
+		
+		if(cartno==null) {
+			cartno="null";
+			pnum="null";
+			cinputcnt="null";
+		}
+		
+		
+		request.setAttribute("cartno", cartno);
+		request.setAttribute("pnum", pnum);
+		request.setAttribute("cinputcnt", cinputcnt);
 		
 		// 제품번호를 이용하여 상세정보페이지에서 필요한 정보 가져오기 
 		
@@ -37,7 +58,7 @@ public class ProductDetailAction extends AbstractController {
 		
 		for(Map<String, String> pDetailInfoMap : onePDetailInfoList) {
 			
-			String pnum= pDetailInfoMap.get("pnum");
+			pnum= pDetailInfoMap.get("pnum");
 			List<Map<String, String>> imgFileByPnum= idao.selectImgFileByPnum(pnum);
 			
 			for(int i=0;i<imgFileByPnum.size();i++) {

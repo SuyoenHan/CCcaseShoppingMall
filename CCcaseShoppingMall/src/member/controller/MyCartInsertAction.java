@@ -56,7 +56,7 @@ public class MyCartInsertAction extends AbstractController {
 					message="장바구니에 담았습니다.";
 				}
 				else if(n==2) {
-					message="장바구니에 담긴 옵션 또는 수량이 변경되었습니다.";
+					message="장바구니에 담긴 기존상품의 색상 및 수량옵션이 변경되었습니다.";
 				}
 				else {
 					message="장바구니에 상품 담기가 실패되었습니다.";
