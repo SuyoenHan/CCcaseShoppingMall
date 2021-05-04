@@ -493,4 +493,140 @@ public class QnaDAO implements InterQnaDAO {
 	      return totalPage;
 	}
 
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////// 백원빈 시작////////////////////
+	@Override
+	public int getCntQnaCmt(String sCntQna) throws SQLException {
+		
+		int cntQnaCmt = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select count(*) ";
+			sql += sCntQna;
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				cntQnaCmt=rs.getInt(1);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return cntQnaCmt;
+	}
+	
+	
+	///////////// 백원빈 끝////////////////////	
 }

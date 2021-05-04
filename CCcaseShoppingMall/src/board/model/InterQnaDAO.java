@@ -44,4 +44,23 @@ public interface InterQnaDAO {
 	//내가 쓴글 총페이지 보이기
 	int qnaMywriteTotalPage(String userid)throws SQLException;
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////// 백원빈 시작 //////////////////////////////
+	// QNA글 갯수 및 댓글 갯수 알아오기
+	int getCntQnaCmt(String sCntQna) throws SQLException;
+	
+	
+	//////////////////백원빈 끝 //////////////////////////////
 }

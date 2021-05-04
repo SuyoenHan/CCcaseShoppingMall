@@ -8,6 +8,10 @@
 
 <style>
 	
+	div#leftSide{
+		height:700px !important;
+	}
+	
 	label.Infoname {
 		width: 300px;
 		height: 50px;
@@ -33,6 +37,14 @@
 		width: 500px;
 	}
 	
+	div#proregister{
+		margin-bottom: 70px;
+	}
+	
+	table {
+		margin-left: 50px;
+	}
+	
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
@@ -42,6 +54,9 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
+		
+		// leftside랑 길이맞추기
+		func_height();
 		
 		// 제품등록 화면 페이지로 이동시, 추가등록 화면은 숨기기
 		$("div#register2").hide();
@@ -254,7 +269,7 @@
 					</tbody>
 				</table>
 				<br>
-				<div style="color:red;"> * 상품 상세정보까지 입력하셔야 성공적으로 상품이 최종 등록됩니다 </div>
+				<div style="color:red; margin-left:30px;"> * 상품 상세정보까지 입력하셔야 성공적으로 상품이 최종 등록됩니다 </div>
 				
 				<div id="buttons">
 					<button type="button" id="goregister2" class="proButton">상품상세정보 등록하기</button>
