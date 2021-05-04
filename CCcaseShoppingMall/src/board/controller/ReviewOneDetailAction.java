@@ -1,59 +1,45 @@
 package board.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import product.model.*;
+import member.model.MemberVO;
 
 public class ReviewOneDetailAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String method = request.getMethod();
+		// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** //
+		String goBackURL = request.getParameter("goBackURL");
+		request.setAttribute("goBackURL", goBackURL);
 		
-		if("GET".equalsIgnoreCase(method)) {
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String rvtitle = request.getParameter("rvtitle");
+		String reviewimage1 = request.getParameter("reviewimage1");
 		
 		InterReviewDAO rdao = new ReviewDAO();
-		ReviewVO rvo = rdao.reviewOneDetail(rvtitle);
+		ReviewVO rvo = rdao.reviewOneDetail(reviewimage1);
 		
 		request.setAttribute("rvo", rvo);
+		request.setAttribute("loginuser", loginuser);
 		
-		String fk_pname = request.getParameter("fk_pname");
-		rvo = rdao.selectProdOne(fk_pname);
+		String reviewno = request.getParameter("reviewno");
 		
-		
-		
-		if(rvo == null) {
-			String message = "검색하신 리뷰는 존재하지 않습니다.";
-			String loc = "javascript:history.back()";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-			
-			return;
+		// 조회수 증가시키기
+		if(reviewno != null) {
+			rdao.updateViewCount(reviewno);
 		}
-		else {
-			request.setAttribute("rvo", rvo);
-			// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** //
-			String goBackURL = request.getParameter("goBackURL");
-			request.setAttribute("goBackURL", goBackURL);
-			// super.setRedirect(false);
+		
+		// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/reviewOneDetail.jsp");
-		}
-		
-		
 
 		}
 		
 	}
 
-}
+

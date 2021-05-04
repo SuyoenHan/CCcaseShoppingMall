@@ -26,14 +26,12 @@ public class ReviewWriteAction extends AbstractController {
 		
 			String method = request.getMethod();
 		
-			if(!"GET".equalsIgnoreCase(method)) {
+			if("POST".equalsIgnoreCase(method)) {
 				
 				MultipartRequest mtrequest = null;
 				
 				// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다.
-				HttpSession sesssion = request.getSession();
-				
-				ServletContext svlCtx = sesssion.getServletContext();
+				ServletContext svlCtx = session.getServletContext();
 				String imagesDir = svlCtx.getRealPath("/images");
 				
 				imagesDir = "C:\\NCS\\workspace(jsp)\\MyMVC\\WebContent\\images";
@@ -42,7 +40,7 @@ public class ReviewWriteAction extends AbstractController {
 					mtrequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 				} catch(IOException e) {
 					request.setAttribute("message", "업로드 되어질 경로가 잘못되었거나 또는 최대용량 10MB를 초과했으므로 파일업로드 실패함!!");
-					request.setAttribute("loc", request.getContextPath()+"/shop/admin/productRegister.up"); 
+					request.setAttribute("loc", request.getContextPath()+"/board/reviewWrite.up"); 
 			   	  
 					super.setViewPage("/WEB-INF/msg.jsp");
 					return; // 종료 
@@ -56,6 +54,7 @@ public class ReviewWriteAction extends AbstractController {
 				String reviewimage1 = mtrequest.getParameter("reviewimage1");
 				String reviewimage2 = mtrequest.getParameter("reviewimage2");
 				String reviewimage3 = mtrequest.getParameter("reviewimage3");
+				String fk_userid = mtrequest.getParameter("fk_userid");
 				
 				// !!!! 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어코드) 작성하기 !!!! //
 				String rvcontent = mtrequest.getParameter("rvcontent");
@@ -64,9 +63,6 @@ public class ReviewWriteAction extends AbstractController {
 				rvcontent = rvcontent.replaceAll(">","&gt;");
 				rvcontent = rvcontent.replaceAll("\r\n", "<br>");
 				
-				
-				InterReviewDAO rdao = new ReviewDAO();
-				
 				ReviewVO rvo = new ReviewVO();
 				rvo.setRvtitle(rvtitle);
 				rvo.setSatisfaction(Integer.parseInt(satisfaction));
@@ -74,14 +70,15 @@ public class ReviewWriteAction extends AbstractController {
 				rvo.setReviewimage2(reviewimage2);
 				rvo.setReviewimage3(reviewimage3);
 				rvo.setRvcontent(rvcontent);
-	
-		/*		
+				rvo.setFk_userid(fk_userid);
+			
 				MemberVO mvo = new MemberVO();
-				mvo.setUserid(loginuser.getUserid());
 				mvo.setEmail(loginuser.getEmail());
 				
 				rvo.setMvo(mvo);
-		*/		
+				
+				InterReviewDAO rdao = new ReviewDAO();
+				
 				// tbl_review 테이블에 제품정보 insert 하기
 				int n = rdao.reviewInsert(rvo);
 				

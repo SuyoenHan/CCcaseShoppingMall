@@ -80,7 +80,7 @@
 					<c:when test="${requestScope.rvo.satisfaction eq '3'}">
 						★★★☆☆
 					</c:when>
-					<c:when test="${requestScope.rvo.satisfaction eq '3'}">
+					<c:when test="${requestScope.rvo.satisfaction eq '4'}">
 						★★★★☆
 					</c:when>
 					<c:otherwise>

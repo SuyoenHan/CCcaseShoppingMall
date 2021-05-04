@@ -15,7 +15,7 @@ public interface InterReviewDAO {
 	void updateViewCount(String reviewno) throws SQLException;
 	
 	// reviewimage1(썸네일) 값을 입력받아서 리뷰 1개에 대한 상세정보를 알아오기
-	ReviewVO reviewOneDetail(String rvtitle) throws SQLException;
+	ReviewVO reviewOneDetail(String reviewimage1) throws SQLException;
 	
 	// tbl_review 테이블에 리뷰정보 insert 하기
 	int reviewInsert(ReviewVO rvo) throws SQLException;
@@ -31,7 +31,11 @@ public interface InterReviewDAO {
 	
 	// 리뷰 글내용 삭제하기(delete)
 	int revDeleteOne(ReviewVO rvo) throws SQLException;
-
+	
+	// 리뷰 총 개수 알아오기
+	int selectRevCnt() throws SQLException;
+	
+	
 	
 	
 	

@@ -90,10 +90,10 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewno, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate "
+			String sql = " select reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "
 							+ " from "
 							+ " ( "
-							+ " select reviewno, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate "
+							+ " select reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "
 							+ " from tbl_review ";
 							
 			// ==== 검색어가 있는 경우 시작 ==== //
@@ -131,11 +131,14 @@ public class ReviewDAO implements InterReviewDAO {
 			 while(rs.next()) {
 				 
 				 ReviewVO rvo = new ReviewVO();
-				 rvo.setReviewimage1(rs.getString(1));
-				 rvo.setFk_pname(rs.getString(2));
-				 rvo.setRvtitle(rs.getString(3));
-				 rvo.setRvcontent(rs.getString(4));
-				 rvo.setRregisterdate(rs.getString(5));
+				 rvo.setReviewno(rs.getInt(1));
+				 rvo.setFk_userid(rs.getString(2));
+				 rvo.setReviewimage1(rs.getString(3));
+				 rvo.setFk_pname(rs.getString(4));
+				 rvo.setRvtitle(rs.getString(5));
+				 rvo.setRvcontent(rs.getString(6));
+				 rvo.setRregisterdate(rs.getString(7));
+				 rvo.setRviewcount(rs.getInt(8));
 				 
 				 revList.add(rvo);
 			 }// end of while(rs.next())------------------------------------------------
@@ -174,9 +177,9 @@ public class ReviewDAO implements InterReviewDAO {
 		
 	}
 	
-	// reviewimage1(썸네일) 값을 입력받아서 리뷰 1개에 대한 상세정보를 알아오기
+	// reviewimage1(썸네일) 값을 입력받아서 사진 리뷰 1개에 대한 상세정보를 알아오기
 	@Override
-	public ReviewVO reviewOneDetail(String rvtitle) throws SQLException {
+	public ReviewVO reviewOneDetail(String reviewimage1) throws SQLException {
 		
 		ReviewVO rvo = null;
 		
@@ -189,7 +192,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " where reviewimage1 = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, rvtitle);
+			pstmt.setString(1, reviewimage1);
 			
 			rs= pstmt.executeQuery();
 			
@@ -374,8 +377,17 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
+			String sql = " delete from tbl_review "
+							+ " where reviewno = ? ";
 			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rvo.getReviewno());
 			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				conn.commit();
+			}
 			
 		} finally {
 			close();
@@ -383,6 +395,37 @@ public class ReviewDAO implements InterReviewDAO {
 		return n;
 	}
 	
+	// 사진리뷰 총 개수 알아오기
+	@Override
+	public int selectRevCnt() throws SQLException {
+		int rtotalCnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(*)\n"+
+								"from tbl_review\n"+
+								"where reviewimage1 is not null or reviewimage2 is not null " +
+							    " or reviewimage3 is not null";
+
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			rtotalCnt = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		return rtotalCnt;
+	}
+
+	
+	
+
 	
 	
 	
