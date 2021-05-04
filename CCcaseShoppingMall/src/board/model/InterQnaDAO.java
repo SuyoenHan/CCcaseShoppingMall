@@ -27,6 +27,12 @@ public interface InterQnaDAO {
 	// qnano로 qna 글 불러오기
 	QnaVO qnaDetail(String qnano) throws SQLException;
 	
+	// qnano로 이전 qna 글 불러오기
+	QnaVO prevQna(String qnano) throws SQLException;
+	
+	// qnano로 다음 qna 글 불러오기
+	QnaVO nextQna(String qnano) throws SQLException;
+	
 	// ADMIN 용 메소드
 	// qna 답글 작성하기(admin)
 	int replyQna(QnaCmtVO qcvo) throws SQLException;
@@ -36,8 +42,6 @@ public interface InterQnaDAO {
 
 	// qna 답글 삭제하기
 	int deleteQnaRep(int cmtno) throws SQLException; 
-	
-
 
 	//마이페이지에서 내가 쓴 게시물 보기
 	List<QnaVO> qnaMywrite(Map<String, String> paraMap) throws SQLException;
