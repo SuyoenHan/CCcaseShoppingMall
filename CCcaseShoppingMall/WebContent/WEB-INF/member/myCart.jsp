@@ -48,6 +48,7 @@
 	
 	td.cartUpdate > span{
 		background-color: #a0aca0;
+		text-align: center;
 	}
 	
 	td.cartUpdate > span:hover{
@@ -65,7 +66,7 @@
 	
 	input.pcnt{
 		width:50px;
-		height: 20px;
+		height: 30px;
 		text-align: center;
 	}
 	
@@ -104,6 +105,17 @@
 			 
 		 }); // end of $("input.pcnt").input(function(){
 		
+			 
+		// 색상 및 수량 변경 버튼 클릭 이벤트	 
+	 	$("div.cartUpdate > span").click(function(){
+	 		var cartno= $(this).parent().parent().partent().prev().val();
+				 		
+	 		
+	 		
+	 		
+	 	
+	 	}); // end of $("div.cartUpdate > span").click(function(){-----------
+	 	
 
 		
 	}); // end of $(document).ready(function(){-------------------------
@@ -116,6 +128,7 @@
 	<div id="cartTitle"><span style="color:blue;">${name}</span>님의&nbsp;장바구니</div>
 	
 	<c:forEach var="cartRequiredInfo" items="${cartRequiredInfoList}">
+		<input type="hidden" class="cartno" value="${cartRequiredInfo.cartno}">
 		<table class="eachWishList">
 			<tr>
 				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px;"></div></td>
@@ -125,8 +138,8 @@
 				<th style="width: 160px;">이미지</th>
 				<th style="width: 230px;">상품정보</th>
 				<th style="width: 90px;">색상</th>
-				<th style="width: 130px;">판매가</th>
-				<th style="width: 110px;">수량</th>
+				<th style="width: 130px;">수량</th>
+				<th style="width: 110px;">판매가</th>
 				<th style="width: 130px;">예상적립금</th>
 				<th style="width: 150px;">배송비</th>
 				<th>합계</th>
@@ -136,10 +149,10 @@
 				<td rowspan="2"><img src="<%=ctxPath%>/images/${cartRequiredInfo.pimage1}" width="110px" height="100px" class="cartImg" /></td>
 				<td>${cartRequiredInfo.productname}</td>
 				<td>${cartRequiredInfo.pcolor}</td>
-				<td style="text-decoration: line-through;">${cartRequiredInfo.price}원</td>
-				<td rowspan="2">
+				<td>
 					<input type="number" min="1" max="50" value="${cartRequiredInfo.cinputcnt}"개 class="pcnt">&nbsp;&nbsp;개
 				</td>
+				<td style="text-decoration: line-through;">${cartRequiredInfo.price}원</td>
 				<td rowspan="2">${cartRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${cartRequiredInfo.doption eq '0'}">
 					<td rowspan="2">무료배송</td>
@@ -154,12 +167,7 @@
 			</tr>
 			<tr>
 				<td style="border-top:solid 1px #a0aca0;">[${cartRequiredInfo.cname}]&nbsp;[${cartRequiredInfo.modelname}]</td>
-				<c:if test="${cartRequiredInfo.pcolor eq '-'}">
-					<td class="cartUpdate"><span>선택하기</span></td>
-				</c:if>	
-				<c:if test="${cartRequiredInfo.pcolor ne '-'}">
-					<td class="cartUpdate"><span>변경하기</span></td>
-				</c:if>
+				<td colspan="2" class="cartUpdate"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색상 및 수량 변경&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 				<td style="color:red;">${cartRequiredInfo.saleprice}원</td>
 			</tr>
 			<tr>

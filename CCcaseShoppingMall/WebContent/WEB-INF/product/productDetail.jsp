@@ -264,7 +264,7 @@
 
 				$.ajax({
 					url: "<%=ctxPath%>/member/myCartInsert.cc",
-					type: "get",
+					type: "post",
 					data: {"productid":productid,"pnum":pnum,"pcnt":pcnt,"userid":"${loginuser.userid}"},
 					dataType: "JSON",
 					success:function(json){
@@ -283,7 +283,16 @@
 								opener.location.reload(true);
 							}
 						}
-						
+						else if(json.n==2){
+							var result= confirm(json.message+"\n장바구니로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}							
+						}
 						else{
 							alert(json.message);
 							opener.location.reload(true);
@@ -371,7 +380,7 @@
 				<th>색상 옵션</th>
 				<td>
 					<select id="cOption">
-						<option value="">색상을 선택해 주세요</option>
+						<option value="-">색상을 선택해 주세요</option>
 						<c:forEach var="pDetailInfo" items="${onePDetailInfoList}" >
 							<option value="${pDetailInfo.pnum}">${pDetailInfo.pcolor}</option>
 						</c:forEach>

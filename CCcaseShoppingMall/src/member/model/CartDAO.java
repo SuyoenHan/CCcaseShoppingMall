@@ -47,39 +47,81 @@ public class CartDAO implements InterCartDAO {
 
    // ============================ 한수연 시작 ===============================
    
-   // 선택한 상품  tbl_cart 테이블로 insert
+   // 선택한 상품  tbl_cart 테이블로 insert 또는 update
    
    @Override
-	public int insertWishList(CartVO ctvo) throws SQLException {
+	public int insertUpdateWishList(CartVO ctvo) throws SQLException {
 	   
 	   int n=0;
+	   int m=0;
 	   
 	   try {
 		   
 		   conn=ds.getConnection();
-		   String sql= "";
+		   conn.setAutoCommit(false);
 		   
-		   if("".equals(ctvo.getFk_pnum())) { // 색상을 선택하지 않은 경우
-			   sql=" insert into tbl_cart(cartno, fk_userid, fk_productid, cinputcnt, cinputdate) "+
-				   " values(seq_cart_cartno.nextval, ?, ?, ?, sysdate) ";
-		   }
+		   String sql= " select cartno from tbl_cart where fk_userid= ? "+
+				   	   " and fk_productid= ? and fk_pnum= ? ";
 		   
-		   else { // 색상을 선택한 경우
-			   sql=" insert into tbl_cart(cartno, fk_userid, fk_productid, cinputcnt, fk_pnum, cinputdate) "+
-				   " values(seq_cart_cartno.nextval, ?, ?, ?, ?, sysdate) ";
-		   }
-
-		   pstmt= conn.prepareStatement(sql);
+		   pstmt=conn.prepareStatement(sql);
 		   pstmt.setString(1, ctvo.getFk_userid());
 		   pstmt.setString(2, ctvo.getFk_productid());
-		   pstmt.setInt(3, ctvo.getCinputcnt());
+		   pstmt.setString(3, ctvo.getFk_pnum());
 		   
-		   if(!"".equals(ctvo.getFk_pnum())) {
-			   pstmt.setString(4, ctvo.getFk_pnum());
+		   rs= pstmt.executeQuery();
+		   
+		   if(rs.next()) {  // 장바구니 테이블에 존재하는 경우 update
+			   
+			   int cartno= rs.getInt(1);
+			   
+			   
+			   sql=" update tbl_cart set cinputcnt= cinputcnt+ ? " +
+				   " where cartno = ? ";
+			   
+			   pstmt=conn.prepareStatement(sql);
+			   pstmt.setInt(1, ctvo.getCinputcnt());
+			   pstmt.setInt(2, cartno);
+			   n= pstmt.executeUpdate();   
+			   
+			   sql=" update tbl_cart set cinputdate= sysdate " +
+				   " where cartno = ? ";
+				   
+				   pstmt=conn.prepareStatement(sql);
+				   pstmt.setInt(1, cartno);
+				   m= pstmt.executeUpdate();   
+				   
+			   if((m*n) ==1) {
+				   conn.commit();
+				   n=2;
+			   }
+			   
 		   }
 		   
-		   n= pstmt.executeUpdate();
-
+		   else {  // 장바구니 테이블에 존재하지 않는 경우 insert
+			 
+			   if("-".equals(ctvo.getFk_pnum())) { // 색상을 선택하지 않은 경우
+				   sql=" insert into tbl_cart(cartno, fk_userid, fk_productid, cinputcnt, cinputdate) "+
+					   " values(seq_cart_cartno.nextval, ?, ?, ?, sysdate) ";
+			   }
+			   
+			   else { // 색상을 선택한 경우
+				   sql=" insert into tbl_cart(cartno, fk_userid, fk_productid, cinputcnt, fk_pnum, cinputdate) "+
+					   " values(seq_cart_cartno.nextval, ?, ?, ?, ?, sysdate) ";
+			   }
+   			   
+			   pstmt= conn.prepareStatement(sql);
+			   pstmt.setString(1, ctvo.getFk_userid());
+			   pstmt.setString(2, ctvo.getFk_productid());
+			   pstmt.setInt(3, ctvo.getCinputcnt());
+			   
+			   if(!"-".equals(ctvo.getFk_pnum())) {
+				   pstmt.setString(4, ctvo.getFk_pnum());
+			   }
+			   
+			   n= pstmt.executeUpdate();
+			   if(n==1) conn.commit();
+		   }
+		   
 	   }finally {
 		   close();
 	   }
@@ -88,7 +130,8 @@ public class CartDAO implements InterCartDAO {
 	   
 	   /* 
 	    	insert 성공: n==1
-	    	insert 실패: n==0
+	    	update 성공: n==2
+	    	insert 또는 update 실패: n==0
 	   */
 	}
 
@@ -102,7 +145,7 @@ public class CartDAO implements InterCartDAO {
 		try {
 			
 			conn=ds.getConnection();
-			String sql= " select fk_productid, nvl(fk_pnum,'-1') as fk_pnum, cinputcnt "+
+			String sql= " select cartno, fk_productid, nvl(fk_pnum,'-1') as fk_pnum, cinputcnt "+
 						" from tbl_cart "+
 						" where fk_userid= ? ";
 
@@ -114,9 +157,10 @@ public class CartDAO implements InterCartDAO {
 			while(rs.next()) {
 				
 				Map<String, String> cartInfoMap= new HashMap<>();
-				cartInfoMap.put("fk_productid", rs.getString(1));
-				cartInfoMap.put("fk_pnum", rs.getString(2));
-				cartInfoMap.put("cinputcnt", String.valueOf(rs.getInt(3)));
+				cartInfoMap.put("cartno", String.valueOf(rs.getInt(1)));
+				cartInfoMap.put("fk_productid", rs.getString(2));
+				cartInfoMap.put("fk_pnum", rs.getString(3));
+				cartInfoMap.put("cinputcnt", String.valueOf(rs.getInt(4)));
 				
 				cartInfoList.add(cartInfoMap);
 			}
@@ -133,6 +177,33 @@ public class CartDAO implements InterCartDAO {
 		 	특정회원의 장비구니 정보가 존재하는 경우: cartInfoList.size()>0
 		*/
 	
+	}
+
+	// cartno가 주어졌을 때 해당 행 delete
+	@Override
+	public int deleteOneRow(int cartno) throws SQLException {
+		
+		int n=0;
+		
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " delete from tbl_cart where cartno= ? ";
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setInt(1, cartno);
+			
+			n= pstmt.executeUpdate();
+			
+		}finally{
+			close();
+		}
+		
+		return n;
+		
+		/*
+		 	삭제성공: n==1
+		 	삭제실패: n==0
+		*/
 	}
 	   
    // ============================ 한수연 끝 ===============================	   
