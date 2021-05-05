@@ -117,11 +117,11 @@ public class OrderDAO implements InterOrderDAO {
 	          conn = ds.getConnection();
 	          
 	          String sql = " select orderno,  pimage1 , modelname, productname, pcolor, fk_cnum , " + 
-	          			   "       fk_userid, totalPrice, orderdate, shipstatus ,shipfee,finalamount ,odqty ,pnum" + 
+	          			   "       fk_userid, totalPrice, orderdate, shipstatus ,shipfee,finalamount ,odqty ,pnum ,odetailno " + 
 	          			   " from " + 
 	          			   " ( " + 
-	          			   " select row_number() over(order by orderdate desc) AS RNO ,O.orderno,PD.pnum, pimage1 , P.modelname, P.productname,pcolor, P.fk_cnum , " + 
-			          	   "       fk_userid, totalPrice, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,shipfee,finalamount ,odqty " + 
+	          			   " select row_number() over(order by orderdate desc) AS RNO ,O.orderno, pimage1 , P.modelname, P.productname,pcolor, P.fk_cnum , " + 
+			          	   "       fk_userid, totalPrice, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,shipfee,finalamount ,odqty ,PD.pnum ,odetailno " + 
 			          	   " from tbl_order O Left join tbl_odetail OD " + 
 			          	   "      on O.orderno = OD.fk_orderno " + 
 			          	   "                  left join tbl_pdetail PD " + 
@@ -156,7 +156,9 @@ public class OrderDAO implements InterOrderDAO {
 		             int finalamount = rs.getInt("finalamount");
 		             int odqty = rs.getInt("odqty");
 		             String pnum = rs.getString("pnum");
-		                                     
+		             String odetailno = rs.getString("odetailno");
+		             
+		             
 		             OrderVO ovo = new OrderVO();
 		             ovo.setOrderno(orderno);
 		             ovo.setFk_userid(fk_userid);
@@ -178,13 +180,14 @@ public class OrderDAO implements InterOrderDAO {
 		             pdvo.setPcolor(pcolor);		 
 		             pdvo.setPnum(pnum);
 		             
-		             ovo.setPdvo(pdvo);
+		             
 		             
 		             ODetailVO odvo = new ODetailVO();
 		             odvo.setOdqty(odqty);
+		             odvo.setOdetailno(odetailno);
 		             
+		             ovo.setPdvo(pdvo);
 		             ovo.setOdvo(odvo);
-		             
 		             orderList.add(ovo);
 		             
 	          }      

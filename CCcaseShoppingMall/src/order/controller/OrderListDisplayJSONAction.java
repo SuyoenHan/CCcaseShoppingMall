@@ -68,7 +68,7 @@ public class OrderListDisplayJSONAction extends AbstractController {
 	            jsonObj.put("pnum", ovo.getPdvo().getPnum());
 	            
 	            jsonObj.put("odqty", ovo.getOdvo().getOdqty());
-
+	            jsonObj.put("odetailno", ovo.getOdvo().getOdetailno());
 	            
 	            jsonArr.put(jsonObj);
 	            

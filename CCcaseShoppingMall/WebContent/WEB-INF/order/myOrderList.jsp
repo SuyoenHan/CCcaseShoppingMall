@@ -188,10 +188,11 @@
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
   							   "     <td id='totalPrice' name='totalPrice'>주문금액"+item.totalPrice+"원</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
-  							   "     <td>"+shipstatus+"</td> "
-  						       "</tr>" ;
-	            	  	                          
-	                          
+  							   "     <td>"+shipstatus+"</td> " +
+  						       "</tr>" + 
+  						       "<tr><td><input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"'/><td></tr>";
+	            	  	        //console.log(item.odetailno);        
+  	             	
 	
 	                  
 	               }); 
