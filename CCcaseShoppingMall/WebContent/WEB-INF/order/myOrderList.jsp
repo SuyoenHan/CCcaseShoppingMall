@@ -140,8 +140,8 @@
                // 데이터가 존재하는 경우
              
                $.each(json, function(index, item){
-            	  // - 배송상태 (/ 0 입금완료 / 1 배송중 / 2 배송완료 / 3 구매확정 / 4 교환처리중  5 환불처리중 6.교환완료 7ㄴ.환불완료 )
-            	  // var shipstatus ="";
+            	
+            	   var shipstatus ="";
  	            	  if(item.shipstatus==0){
  	            		  shipstatus = "<span>입금완료</span>";
  	            		  
@@ -249,6 +249,23 @@
 					});
 		
 	               
+					// 교화접수 클릭 - 팝업창 띄우기
+					$("button#shipchangeBtn").click(fucntion(){
+						
+						var orderno =$(this).parent().parent().find("td#orderno").text();
+						var orderno =$(this).parent().parent().find("td#productname").text();
+						var orderno =$(this).parent().parent().find("td#modelname").text();
+						
+						//alert("faqno"+faqno);
+						var url = "<%=ctxPath%>/board/faqEdit.cc?faqno="+faqno;
+						 
+						  	
+						  window.open(url, "faqEdit",
+								           "lefe=350p, top=100px,width=700px, height=450px");
+						
+						
+					});
+					
 	               
 	               
 	           

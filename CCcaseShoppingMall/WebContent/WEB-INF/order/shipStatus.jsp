@@ -28,11 +28,16 @@ table{
 }
 th ,td{
 border: solid 1px gray;
+font-size: 18px;
 }
 
-img
+td#orderno{
+	font-weight: bold;
+}
 
-
+img{
+margin:50px auto;
+}
 
 </style>
 
@@ -52,8 +57,8 @@ img
 
 <table>
 	 <tr>
-		<th style="width:100px;">주문번호:</th>
-		<td>${requestScope.orderno}</td>
+		<th style="width:100px; font-weight: border;">주문번호:</th>
+		<td id="orderno">${requestScope.orderno}</td>
 	 </tr>
 	<c:forEach var="ovoList" items="${requestScope.ovoList}">
 		<tr>
