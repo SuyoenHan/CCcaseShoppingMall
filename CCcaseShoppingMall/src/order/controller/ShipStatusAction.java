@@ -27,6 +27,8 @@ public class ShipStatusAction extends AbstractController {
 			
 			request.setAttribute("ovoList", ovoList);
 			
+			String orderno1 = ovoList.get(Integer.parseInt("orderno"));
+			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/order/shipStatus.jsp");
 			

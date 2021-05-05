@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -48,17 +49,79 @@ public class OrderDAO implements InterOrderDAO {
 	}
 	
 	
-	// 나의 주문내역  select 해오기
+
+	//배송 조회하기
 	@Override
-	public List<OrderVO> myOrderList(String userid) throws SQLException {
+	public List<OrderVO> shipStatusView(String orderno) throws SQLException {
+		List<OrderVO> ovoList = new ArrayList<>();
+		
+		try {
+			
+			conn= ds.getConnection();
+			
+			String sql = " select O.orderno , productname, pcolor, odqty "+
+						 " from tbl_order O Left join tbl_odetail OD "+
+						 "      on O.orderno = OD.fk_orderno "+
+						 "                left join tbl_pdetail PD "+
+						 "      on OD.fk_pnum = PD.pnum "+
+						 "                  left join tbl_product P "+
+						 "      on PD.fk_productid = P.productid "+
+						 " where  orderno = ? ";
+			
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setString(1, orderno);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				OrderVO ovo = new OrderVO();
+				
+				ovo.setOrderno(rs.getString(1));
+				
+				ProductVO pvo = new ProductVO();
+				pvo.setProductname(rs.getString(2));
+				
+				ProductDetailVO pdvo = new ProductDetailVO();
+				pdvo.setPcolor(rs.getString(3));
+				
+				ODetailVO odvo = new ODetailVO();
+				odvo.setOdqty(rs.getInt(4));
+				
+				ovo.setPvo(pvo);
+				ovo.setPdvo(pdvo);
+				ovo.setOdvo(odvo);
+				
+				
+				ovoList.add(ovo);
+				
+			}
+			
+			
+		}finally {
+			close();
+		}
+		
+		return ovoList;
+	}
+
+
+	// 나의 주문내역  더보기페이징 방식으로 select 해오기
+	@Override
+	public List<OrderVO> selectByOrderList(Map<String, String> paraMap) throws SQLException {
+		
 		List<OrderVO> orderList = new ArrayList<>();
 	      
 	      
 	      try {
 	          conn = ds.getConnection();
 	          
-	          String sql = "select O.orderno,pimage1 , P.modelname, P.productname, pcolor, P.fk_cnum , " + 
-	          			   "       fk_userid, totalPrice, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,shipfee,finalamount ,OD.odqty " + 
+	          String sql = " select orderno, pimage1 , modelname, productname, pcolor, fk_cnum , " + 
+	          			   "       fk_userid, totalPrice, orderdate, shipstatus ,shipfee,finalamount ,odqty " + 
+	          			   " from " + 
+	          			   " ( " + 
+	          			   " select row_number() over(order by orderdate desc) AS RNO ,O.orderno,pimage1 , P.modelname, P.productname,pcolor, P.fk_cnum , " + 
+			          	   "       fk_userid, totalPrice, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,shipfee,finalamount ,odqty " + 
 			          	   " from tbl_order O Left join tbl_odetail OD " + 
 			          	   "      on O.orderno = OD.fk_orderno " + 
 			          	   "                  left join tbl_pdetail PD " + 
@@ -66,10 +129,13 @@ public class OrderDAO implements InterOrderDAO {
 			          	   "                  left join tbl_product P " + 
 			          	   "      on PD.fk_productid = P.productid " + 
 			          	   " where O.fk_userid= ? and to_char(orderdate,'yyyymm')>= to_char(add_months(sysdate,-3),'yyyymm')  " + 
-			          	   " order by orderdate desc ";
+			          	   " )V " + 
+			          	   " where RNO between ? and ? " ;
 	          
 	          pstmt = conn.prepareStatement(sql);
-	          pstmt.setString(1, userid);
+	          pstmt.setString(1, paraMap.get("fk_userid"));
+	          pstmt.setString(2, paraMap.get("start"));
+	          pstmt.setString(3,  paraMap.get("end"));
 	          
 	          
 	          rs = pstmt.executeQuery();
@@ -134,60 +200,33 @@ public class OrderDAO implements InterOrderDAO {
 	}
 
 
-	
-	//배송 조회하기
+	// Ajax(JSON)를 사용하여 주문내역을 "더보기" 방식으로 페이징처리 해주기 위해  아이디별로 전체개수 알아오기 // 
 	@Override
-	public List<OrderVO> shipStatusView(String orderno) throws SQLException {
-		List<OrderVO> ovoList = new ArrayList<>();
-		
-		try {
-			
-			conn= ds.getConnection();
-			
-			String sql = " select O.orderno , productname, pcolor, odqty "+
-						 " from tbl_order O Left join tbl_odetail OD "+
-						 "      on O.orderno = OD.fk_orderno "+
-						 "                left join tbl_pdetail PD "+
-						 "      on OD.fk_pnum = PD.pnum "+
-						 "                  left join tbl_product P "+
-						 "      on PD.fk_productid = P.productid "+
-						 " where  orderno = ? ";
-			
-			pstmt =conn.prepareStatement(sql);
-			pstmt.setString(1, orderno);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
-				OrderVO ovo = new OrderVO();
-				
-				ovo.setOrderno(rs.getString(1));
-				
-				ProductVO pvo = new ProductVO();
-				pvo.setProductname(rs.getString(2));
-				
-				ProductDetailVO pdvo = new ProductDetailVO();
-				pdvo.setPcolor(rs.getString(3));
-				
-				ODetailVO odvo = new ODetailVO();
-				odvo.setOdqty(rs.getInt(4));
-				
-				ovo.setPvo(pvo);
-				ovo.setPdvo(pdvo);
-				ovo.setOdvo(odvo);
-				
-				
-				ovoList.add(ovo);
-				
-			}
-			
-			
-		}finally {
-			close();
-		}
-		
-		return ovoList;
+	public int totalOrderListCount(String userid) throws SQLException {
+		int totalCount = 0;
+	      
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select count(*) "+
+	        		  	   " from tbl_order O left join tbl_odetail OD "+
+	        		  	   "      on  O.orderno = OD.fk_orderno "+
+	        		  	   " where fk_userid = ? and to_char(orderdate,'yyyymm')>= to_char(add_months(sysdate,-3),'yyyymm')";   
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setString(1, userid);
+	          
+	          rs = pstmt.executeQuery();
+	          
+	          rs.next();
+	          
+	          totalCount = rs.getInt(1);
+	          
+	      } finally {
+	         close();
+	      }      
+	      
+	      return totalCount;
 	}
 	
 	

@@ -51,11 +51,11 @@ img
 
 
 <table>
-<c:forEach var="ovoList" items="${requestScope.ovoList}">
-	<tr>
+	 <tr>
 		<th style="width:100px;">주문번호:</th>
-		<td>${ovoList.orderno}</td>
-	</tr>
+		<td>${requestScope.orderno}</td>
+	 </tr>
+	<c:forEach var="ovoList" items="${requestScope.ovoList}">
 		<tr>
 			<th>상품명</th>
 			<td>${ovoList.pvo.productname}-${ovoList.pdvo.pcolor}</td>
