@@ -78,7 +78,7 @@
 			
 			var productid =$(this).parent().prop('class');
 			
-			location.href="<%= request.getContextPath() %>/admin/productRegister.cc?productid="+productid; 					
+			location.href="<%= request.getContextPath() %>/admin/productRegister.cc?productid="+productid+"&goBackURL=${requestScope.goBackURL}"; 					
 			
 		});// end of $("button#moreRegister").click(function(){
 			
@@ -88,9 +88,9 @@
 			
 			// 해당행의 제품상세번호(pnum)를 get방식으로 넘겨주기.
 			var pnum = $(this).parent().prop('class');
-			
-			location.href="<%= request.getContextPath()%>/admin/prodetailOrUpdate.cc?pnum="+pnum;
-		
+			console.log()
+			location.href="<%= request.getContextPath()%>/admin/prodetailOrUpdate.cc?pnum="+pnum+"&goBackURL=${requestScope.goBackURL}";
+			// goBackURL에 공백처리된 값이 들어갔다.
 		});// end of $("button.moreOrUpdate").click(function(){
 		
 		

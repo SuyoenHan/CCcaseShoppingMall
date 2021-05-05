@@ -183,16 +183,16 @@
 			 				type: "post",
 			 				data: {"cartno":cartno},
 			 				dataType: "JSON",
-			 				success:function(){},
+			 				success:function(json){},
 			 				error: function(request, status, error){
 						           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 						    }
 			 			}); // end of $.ajax(function(){----------
 			 				
 			 		}); // end of each-------------------
-		 			
-			 		alert(checkcnt+"개의 항목을 삭제했습니다.");
-			 		location.href="<%=ctxPath%>/member/myCart.cc"
+			 		
+			 		alert(checkcnt+"개의 항목을 삭제했습니다."); // alert 1번만 띄우기 위해 each 밖에서 실행
+				 	location.href="<%=ctxPath%>/member/myCart.cc";		
 		 		}
 		 	}
 	 	}); // end of $("span#deleteSelected").click(function(){-----------------------
@@ -266,18 +266,18 @@
 	 		
 	 	// 선택된 상품들의 총상품금액, 총배송비, 총할인금액, 결제예정금액 구하기
 	 	
-		 	totalPrice=0;
-		 	dFee="-";
-		 	totalDiscountPrice=0;
-		 	finalPrice=0;
+	 	totalPrice=0;
+	 	dFee="-";
+	 	totalDiscountPrice=0;
+	 	finalPrice=0;
+	 	
+		$("td#totalPrice").text(totalPrice+" 원");
+	 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
+	 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
+	 	$("td#finalPrice").text(finalPrice+" 원");
 		 	
-			$("td#totalPrice").text(totalPrice+" 원");
-		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
 		 	
-		 	
-		 $("input:checkbox[name=checkList]").click(function(){
+		$("input:checkbox[name=checkList]").click(function(){
 		 
 			 totalPrice=0;
 			 dFee="-";
@@ -315,7 +315,7 @@
 		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
 		 	$("td#finalPrice").text(finalPrice+" 원");
 		 	
-		 }); // end of $("input:checkbox[name=checkList]").click(function(){------------  	
+		}); // end of $("input:checkbox[name=checkList]").click(function(){------------  	
 		
 	}); // end of $(document).ready(function(){-------------------------
 

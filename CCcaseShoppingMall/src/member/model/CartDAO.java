@@ -215,7 +215,7 @@ public class CartDAO implements InterCartDAO {
 		 	삭제성공: n==1
 		 	삭제실패: n==0
 		*/
-	}
+	} // end of public int deleteOneRow(int cartno) throws SQLException {--------
 
 	
 	// userid가 주어졌을 떄 이에 해당하는 장바구니 데이터들 모두 delete

@@ -369,6 +369,67 @@
 			
 		} // end of if------------------
 		
+		
+		// 관심상품 버튼 클릭시 관심상품 테이블로 insert
+		$("div#interestBt").click(function(){
+			
+			if("${sessionScope.loginuser}"!=""){ // 로그인 한 경우
+			
+
+				var productid= $("input#productid").val();
+				var pnum= $("select#cOption").val(); // 색상을 선택하지 않은 경우 존제 ==> "-"
+			
+				$.ajax({
+					url: "<%=ctxPath%>/member/myInterestProductInsert.cc",
+					type: "post",
+					data: {"productid":productid,"pnum":pnum,"userid":"${loginuser.userid}"},
+					dataType: "JSON",
+					success:function(json){
+			
+						if(json.n==1){
+							// 확인 또는 취소를 선택할 수 있는 있는 선택창
+							var productname= "${onePInfo.productname}";
+							var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
+									           +"관심상품 페이지로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myInterestProduct.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}
+						} // end of if(json.n==1){-------------------------
+						else if(json.n==2){
+							var result= confirm(json.message+"\n"
+							           			+"관심상품 페이지로 이동하시겠습니까?");
+							if(result){ 
+								location.href="<%=ctxPath%>/member/myInterestProduct.cc";
+								return;
+							}
+							else{ 
+								opener.location.reload(true);
+							}
+						}// end of else if(json.n==2){----------------------
+						else{
+							alert(json.message);
+							opener.location.reload(true);
+						}
+					},
+					error: function(request, status, error){
+				           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				    }
+				}); // end of $.ajax({----------------------------------
+					
+			} // end of if("${sessionScope.loginuser}"!=""){---------------
+			
+			else{ // 로그인 하지 않은 경우
+				alert("로그인 후 이용 가능합니다.");
+				response.sendRedirect("javascript:history.back()");
+			}
+			
+		}); // end of $("div#interestBt").click(function(){
+		
+		
 	}); // end of $(document).ready(function(){--------------------
 
 
@@ -458,7 +519,7 @@
 		
 		<div class="pdetailbt" style="margin-left: 0px;">바로구매</div>
 		<div class="pdetailbt" id="wishListBt">장바구니</div>
-		<div class="pdetailbt">관심상품</div>
+		<div class="pdetailbt" id="interestBt">관심상품</div>
 	</div>
 
 	<div id="pDescribeTitle">

@@ -68,7 +68,7 @@
 			pwdCheck();
 		});
 		
- 		$("input#checkpwd").bind("keydown",function(event){
+ 		$("input#pwd").bind("keydown",function(event){
 			if(event.keyCode == 13) { 
 				pwdCheck();
 			}	
@@ -104,13 +104,13 @@
          <tr>
             <td style="width: 50px; font-weight: bold; text-align: left;">아이디&nbsp;</td>
             <td style="width: 50px; text-align: left;">
-             <input type="hidden" name="userid" value="${sessionScope.loginuser.userid}"/>  ${sessionScope.loginuser.userid}
+             <input type="hidden" name="userid" value="${sessionScope.loginuser.userid}"/>  ${sessionScope.loginuser.userid} 
             </td>
          </tr>
          <tr>
             <td style="width: 50px; font-weight: bold; text-align:left;">비밀번호&nbsp;</td>
             <td style="width: 50px; text-align: left;">
-             <input type="password" name="pwd" id="checkpwd" placeholder="●●●●" required />
+             <input type="password" name="pwd" id="pwd" placeholder="●●●●" required />
             </td>
          </tr>
             <tr>

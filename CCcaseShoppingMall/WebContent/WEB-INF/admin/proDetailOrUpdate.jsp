@@ -38,8 +38,9 @@
 
 <script> 
 	
+	var goBackURL ="";
+	
 	$(document).ready(function(){
-		
 		
 		if("0"!="${requestScope.mapSize}" ){
 			// 페이지가 로딩될때 가져온 값들을 input박스에 자동으로 기입해주겠다.(image태그는 불가)
@@ -159,6 +160,17 @@
 
 		});// end of $("button#goUpdate").click(function(){
 		
+		// 돌아갈 주소	
+		goBackURL = "${requestScope.goBackURL}";
+		goBackURL = goBackURL.replace(/ /gi, "&");
+		
+		
+		// 목록버튼 클릭했을때 전 페이지로 이동하기	
+		$("button#goBack").click(function(){
+				
+			location.href = "<%=ctxPath%>/"+goBackURL;
+			
+		});
 		
 		
 		
@@ -287,7 +299,7 @@
 				</table>
 				
 				<div id="buttons">
-					<button type="reset" id="goback" class="proButton">목록으로</button>
+					<button type="button" id="goBack" class="proButton">목록으로</button>
 					<button type="button" id="goUpdate" class="proButton">수정하기</button>
 				</div>
 				
