@@ -234,12 +234,61 @@ public class OrderDAO implements InterOrderDAO {
 	}
 	
 	
+	////////////////////////// 백원빈 시작 ///////////////////////////////
+	//교환 접수시 배송상태 변경해주는 메소드
+	@Override
+	public int updatestatus(String orderno) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " update tbl_order set shipstatus = 4 "+
+						 " where orderno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderno);
+			
+			n = pstmt.executeUpdate();
+			
+			
+		} finally {
+			close();
+		}
+
+		return n;
+	}
+
+	//환불 접수시 배송상태 변경해주는 메소드
+	@Override
+	
+	public int updaterefundstatus(String orderno) throws SQLException {
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " update tbl_order set shipstatus = 5 "+
+						 " where orderno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderno);
+			
+			n = pstmt.executeUpdate();
+			
+			
+		} finally {
+			close();
+		}
+
+		return n;
+	}
 	
 	
 	
+	////////////////////////// 백원빈 끝 ///////////////////////////////	
 	
-	
-	
-	
+
 
 }
