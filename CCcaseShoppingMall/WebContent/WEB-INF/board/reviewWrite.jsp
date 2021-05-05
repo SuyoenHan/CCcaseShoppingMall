@@ -23,7 +23,6 @@ div#title{
 		font-size: 20pt;
 	}
 
-
 </style>
 
 
@@ -122,8 +121,8 @@ div#title{
 <form name="reviewRegFrm">
 	
 	<table id="tblReviewRegister">
-		<c:set var="now" value="<%=new java.util.Date()%>" />
 		<tbody>
+		<c:set var="now" value="<%=new java.util.Date()%>" />
 			<tr>
 				<td>제목</td>
 				<td>
@@ -144,7 +143,11 @@ div#title{
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					
+					<select>
+						<c:forEach var="pname" items="${requestScope.rvo.fk_pname}">
+							<option>${pname}</option>
+						</c:forEach>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -170,7 +173,6 @@ div#title{
 				<td colspan="2" id="revcontent">
 				<label for="rcontent">글쓰기</label>
 				<textarea id="rcontent" name="rcontent" class="rqdInfo" placeholder="내용을 입력하세요.">
-					
 				</textarea>
 				</td>
 			</tr>
@@ -182,7 +184,6 @@ div#title{
 					<label for="spinnerImgQty">파일갯수 : </label>
 					<input id="spinnerImgQty" value="0" style="width:30px; height:20px;">
 					<div id="divfileattach"></div>
-					
 					<input type="hidden" name="attachCount" id="attachCount" />
 				</td>
 			</tr>

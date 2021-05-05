@@ -23,6 +23,8 @@ public class ReviewVO {
 	//////////////////////////////////////////////////////////////////////////////////////
 	private MemberVO mvo;	// 조인용
 	private ProductVO pvo;
+	private String pimage1;
+	
 	private SpecVO svo;
 	//////////////////////////////////////////////////////////////////////////////////////
 	
@@ -32,7 +34,7 @@ public class ReviewVO {
 	
 	public ReviewVO(int reviewno, String fk_userid, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
 			String rupdatedate, int rviewcount, int satisfaction, String reviewimage1, String reviewimage2,
-			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo) {
+			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo, String pimage1) {
 		super();
 		this.reviewno = reviewno;
 		this.fk_userid = fk_userid;
@@ -50,6 +52,7 @@ public class ReviewVO {
 		this.likecount = likecount;
 		this.mvo = mvo;
 		this.pvo = pvo;
+		this.pimage1 = pimage1;
 		this.svo = svo;
 	}
 
@@ -187,7 +190,15 @@ public class ReviewVO {
 	public void setFk_userid(String fk_userid) {
 		this.fk_userid = fk_userid;
 	}
-	
+
+	public String getPimage1() {
+		return pimage1;
+	}
+
+	public void setPimage1(String pimage1) {
+		this.pimage1 = pimage1;
+	}
+
 	
 	
 	
