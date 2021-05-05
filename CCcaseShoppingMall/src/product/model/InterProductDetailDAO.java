@@ -28,7 +28,7 @@ public interface InterProductDetailDAO {
 	
 	// ====================== 한수연 시작 =========================
 	
-	// 배송옵션이에 따른 제품정보 반환 메소드 (색상도 고려)
+	// 배송옵션이에 따른 제품정보 반환 메소드 
 	List<Map<String, String>> selectPInfoByDelivery(String doption) throws SQLException;
 
 	// productid가 주어진 경우, 이에 해당하는 제품상세정보 반환 메소드
@@ -39,6 +39,12 @@ public interface InterProductDetailDAO {
 
 	// pnum이 주어진 경우, 배송옵션과 색깔 반환 메소드
 	Map<String,String> getColorDelivery (String pnum) throws SQLException;
+	
+	// productid와 snum이 주어진 경우 여러 pnum중 snum에 해당하는 제품 1개 행만 반환하는 메소드
+	String getPnumBySnum (String productid, String snum) throws SQLException;
+	
+	// productid와 doption이 주어진 경우 여러 pnum중 doption에 해당하는 제품 1개 행만 반환하는 메소드
+	String getPnumByDoption (String productid, String doption) throws SQLException;
 	
 	// ====================== 한수연 끝 =========================
 

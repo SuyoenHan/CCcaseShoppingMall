@@ -98,7 +98,7 @@
 		font-weight: bold;
 	}
 	
-	div#pDescribe{
+	div.pDetailContent{
 		border: solid 0px blue;
 		margin: 20px 0px 0px 100px;
 	}
@@ -222,12 +222,6 @@
 			$(this).prop('src',bigImgPath);
 			
 		});
-		
-		
-		
-		// home.cc에서 넘어온 경우 해당 spec 또는 doption에 해당하는 옵션 값 입력해주기
-		
-		
 		
 		
 		// 수량 선택시 직접 입력한 경우 유효성 검사
@@ -357,7 +351,23 @@
 			$("input#pcnt").val("${cinputcnt}");
 		}
 
-		
+		// home.cc에서 넘어온 pnum값이 존재하면 색상 선택값에 넣어주고 배송옵션도 함께 바꿔준다
+		if("${pnumFromHome}"!="null"){
+			$("select#cOption").val("${pnumFromHome}");
+			
+			if("${dOption}"=="-1"){ // 존재하지 않는 pnum
+				html="<span>색상에 따라 상이</span>";
+			}
+			else if("${dOption}"=="0"){ // 무료배송
+				html="<span style='color:red; font-weight:bold;'>무료배송</span>";
+			}
+			else if("${dOption}"=="1"){ // 유료배송
+				html="<span>3,000 원</span>";
+			}
+	
+			$("td#dOptionText").html(html);
+			
+		} // end of if------------------
 		
 	}); // end of $(document).ready(function(){--------------------
 
@@ -452,13 +462,12 @@
 	</div>
 
 	<div id="pDescribeTitle">
-		<span style="margin-left: 40px;">제품 설명</span>
+		<span id="pDescribe" style="margin-left: 40px;">제품 설명</span>
 		<span>구매 후기[개수]</span>
 		<span>Q&A</span>
-		<span>구매 가이드</span>
 	</div>
 	
-	<div id="pDescribe" align="center">
+	<div class="pDetailContent" id="pDescribe" align="center">
 		<div style="margin-top: 50px;">
 			<img src="<%=ctxPath%>/images/homeMain/logo.png" width="300px" height="100px" />
 		</div>
@@ -499,6 +508,8 @@
 				</c:if>
 			</c:if>
 		</c:forEach>
+
+		
 		<div id="goBack">목록으로</div>
 	</div>
 </div>
