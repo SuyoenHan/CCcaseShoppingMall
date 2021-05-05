@@ -44,6 +44,7 @@
 
 	$(document).ready(function(){
 		
+		func_height(); 
 		
 		displayOrderList("1");
 		
@@ -94,7 +95,7 @@
 			
 		});
 		
-		
+				
 		
 	});//end of $(document).ready(function(){})------------------------------
 	
@@ -180,7 +181,7 @@
   				      		   "     <td> "+
   							   "		<span><img src='/CCcaseShoppingMall/images/product/"+item.pimage1+"' name='pimage1'id='pimage1'style='width:55px; height:55px; float:left'/></span> "+ 
   							   "		<span id='productname' name='productname'>"+item.productname+"</span>&nbsp;&nbsp;<span id='pcolor' name='pcolor'>"+item.pcolor+"</span><br>  "+             
-  							   " 		<span id='modelname' name='modelname'>옵션:"+item.modelname+"</span> "+
+  							   " 		<span>옵션:&nbsp</span><span id='modelname' name='modelname'>"+item.modelname+"</span> "+
   							   "     </td>	 "+
   							   "     <td id='orderdate' name='orderdate'>주문일자 "+item.orderdate+"</td> "+
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
@@ -249,28 +250,23 @@
 						
 					});
 		
-	               
-				<%-- 	// 교화접수 클릭 - 팝업창 띄우기
-					$("button#shipchangeBtn").click(fucntion(){
+					
+					// 교환하기 버튼 클릭시
+					$("button#shipchangeBtn").click(function(){
 						
 						var orderno =$(this).parent().parent().find("td#orderno").text();
-						var orderno =$(this).parent().parent().find("td#productname").text();
-						var orderno =$(this).parent().parent().find("td#modelname").text();
+						var productname =$(this).parent().parent().find("span#productname").text();
+						var modelname =$(this).parent().parent().find("span#modelname").text();
+						var pcolor =$(this).parent().parent().find("span#pcolor").text();
 						
-						//alert("faqno"+faqno);
-						var url = "<%=ctxPath%>/board/faqEdit.cc?faqno="+faqno;
-						 
-						  	
-						  window.open(url, "faqEdit",
-								           "lefe=350p, top=100px,width=700px, height=450px");
+						var url ="<%=ctxPath%>/board/productChange.cc?orderno="+orderno+"&productname="+productname+"&modelname"+modelname+"&pcolor"+pcolor;
 						
+						window.open(url, "changeProduct","lefe=350p, top=100px,width=700px, height=450px");
 						
 					});
 					
-	                --%>
-	               
 	           
-	              func_height(); 
+	              
 	            }
 	            
 	         },
