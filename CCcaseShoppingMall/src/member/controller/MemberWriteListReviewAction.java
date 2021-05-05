@@ -40,7 +40,7 @@ public class MemberWriteListReviewAction extends AbstractController {
 		request.setAttribute("revList", revList);
 		
 		int totalPage = rdao.reviewMywriteTotalPage(userid);
-		System.out.println("확인용 totalPage=>"+totalPage);
+		//System.out.println("확인용 totalPage=>"+totalPage);
 		String pageBar="";
 		
 		int blockSize = 1;

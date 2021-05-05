@@ -392,14 +392,16 @@ public class ReviewDAO implements InterReviewDAO {
 	          conn = ds.getConnection();
 	          
 	          String sql = " select reviewno, fk_userid,fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
-	        		  "from  "+
+	        		  " from ( select rownum AS rno,  reviewno, fk_userid,fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+	        		  "from "+
 	        		  "( "+
 	        		  "select reviewno, fk_userid, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "+
 	        		  "from tbl_review "+
 	        		  "where fk_userid= ? "+
 	        		  "order by reviewno desc "+
 	        		  ") V "+
-	        		  " where reviewno between ? and ? ";
+	        		  " ) T   "+
+	        		  " where rno between ? and ? ";
 
 	          
 	          pstmt = conn.prepareStatement(sql);
@@ -443,7 +445,7 @@ public class ReviewDAO implements InterReviewDAO {
 	      try {
 	         conn = ds.getConnection();
 	         
-	         String sql = " select ceil(count(*)/3) "  // 10 이 sizePerPage 이다.
+	         String sql = " select ceil(count(*)/5) "  // 10 이 sizePerPage 이다.
 	                  + " from tbl_review "
 	                  + " where fk_userid = ? "; 
 	         

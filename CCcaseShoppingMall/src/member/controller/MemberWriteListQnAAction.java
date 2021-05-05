@@ -49,7 +49,7 @@ public class MemberWriteListQnAAction extends AbstractController {
 
 		String pageBar="";
 		
-		int blockSize =1;
+		int blockSize =2;
 		int loop=1;
 		int pageNo=0;
 		// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
