@@ -46,7 +46,7 @@
 	$(document).ready(function(){
 	
 		func_height();//footer.jsp에 있음!
-
+		$("input#qna").prop("checked", true);
 		
 		if("${requestScope.sizePerPage}" !=""){
 			$("select#sizePerPage").val("${requestScope.sizePerPage}");
@@ -63,7 +63,7 @@
 	
 	function qna(userid){
 		$("input#review").prop("checked", false);
-		location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
+		location.href="<%= request.getContextPath()%>/member/memberWriteListQnA.cc?userid="+userid;
 		
 	}	
 	function review(userid){
@@ -86,9 +86,11 @@
 
 
 <div id="content" >
-	<h2 style="margin: 20px;">내가쓴 글</h2>
-	<input type="radio" name="qna"  id="qna"OnClick="qna('${(sessionScope.loginuser).userid}');">Q&A
-	    <input type="radio" name="review" id="review" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰
+	<h3>게시물 관리</h3>
+	<hr>
+	<h4>게시물 분류</h4>
+	<input type="radio" name="qna"  id="qna" style="margin-left:20px;" OnClick="qna('${(sessionScope.loginuser).userid}');">Q&A
+	    <input type="radio" name="review" id="review" style="margin-left:20px;" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰
 	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
 	        <thead>
 	           <tr id="menu">	 
@@ -112,7 +114,6 @@
 	    				<td class="qviewcount">${qvo.qviewcount}</td>
 	    			</tr>
 	    		</c:forEach>
-	    	
 	    	</tbody>
 	    </table>
 	    

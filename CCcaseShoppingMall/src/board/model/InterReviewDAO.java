@@ -37,6 +37,8 @@ public interface InterReviewDAO {
 
 	//내가 쓴 리뷰 조회 해오기
 	List<ReviewVO> reviewMywrite(Map<String, String> paraMap)throws SQLException;
+	//내가 쓴 리뷰 조회 페이징 처리
+	int reviewMywriteTotalPage(String userid)throws SQLException;
 	
 	
 	

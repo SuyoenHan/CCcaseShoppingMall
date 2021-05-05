@@ -49,7 +49,7 @@
 	
 	function goMyboard(userid){
 		
-		location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
+		location.href="<%= request.getContextPath()%>/member/memberWriteListQnA.cc?userid="+userid;
 	}
 
 	

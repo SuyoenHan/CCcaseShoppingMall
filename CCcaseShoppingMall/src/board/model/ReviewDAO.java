@@ -422,6 +422,86 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return rtotalCnt;
 	}
+	//내가 쓴 리뷰 조회
+	@Override
+	public List<ReviewVO> reviewMywrite(Map<String, String> paraMap) throws SQLException {
+		List<ReviewVO> revList = new ArrayList<>();
+		  
+	      try {
+	          conn = ds.getConnection();
+	          
+	          String sql = " select reviewno, fk_userid,fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+	        		  "from  "+
+	        		  "( "+
+	        		  "select reviewno, fk_userid, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "+
+	        		  "from tbl_review "+
+	        		  "where fk_userid= ? "+
+	        		  "order by reviewno desc "+
+	        		  ") V "+
+	        		  " where reviewno between ? and ? ";
+
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          
+	          int currentShowPageNo = Integer.parseInt( paraMap.get("currentShowPageNo") );
+	          int sizePerPage = 5; 
+	          
+	          pstmt.setString(1, paraMap.get("userid"));
+	          pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+	          pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 공식 
+	          
+	          rs = pstmt.executeQuery();
+	
+	          while(rs.next()) {
+	             
+	        	  ReviewVO rvo = new ReviewVO();
+					 rvo.setReviewno(rs.getInt(1));
+					 rvo.setFk_userid(rs.getString(2));
+					 rvo.setFk_pname(rs.getString(3));
+					 rvo.setRvtitle(rs.getString(4));
+					 rvo.setRvcontent(rs.getString(5));
+					 rvo.setRregisterdate(rs.getString(6));
+					 rvo.setRviewcount(rs.getInt(7));
+		
+	             revList.add(rvo);
+	            
+	          }// end of while(rs.next()) ------------------------------------------------------------------------
+	          
+	      } finally {
+	         close();
+	      }      
+	      return revList ;
+	  
+	}
+
+	@Override
+	public int reviewMywriteTotalPage(String userid) throws SQLException {
+		
+		int totalPage = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select ceil(count(*)/3) "  // 10 이 sizePerPage 이다.
+	                  + " from tbl_review "
+	                  + " where fk_userid = ? "; 
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, userid);
+	               
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalPage = rs.getInt(1);
+	         
+	      } finally {
+	         close();
+	      }      
+	      
+	      return totalPage;
+	}
 
 	
 	

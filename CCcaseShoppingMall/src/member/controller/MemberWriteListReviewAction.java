@@ -40,11 +40,10 @@ public class MemberWriteListReviewAction extends AbstractController {
 		request.setAttribute("revList", revList);
 		
 		int totalPage = rdao.reviewMywriteTotalPage(userid);
-		//System.out.println("~~~확인용~~"+totalPage);
-
+		System.out.println("확인용 totalPage=>"+totalPage);
 		String pageBar="";
 		
-		int blockSize = 5;
+		int blockSize = 1;
 		int loop=1;
 		int pageNo=0;
 		// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
@@ -53,11 +52,11 @@ public class MemberWriteListReviewAction extends AbstractController {
 		// !!!! 다음은 pageNo 를 구하는 공식이다. !!!! //    
 		pageNo= ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1 ;
 		
-		System.out.println(pageNo);
+		//System.out.println(pageNo);
 		//***[맨처음] [이전] 만들기***//
 		if(pageNo != 1) {
-			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo=1'>[맨처음]</a>&nbsp;";  
-			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo=1'>[맨처음]</a>&nbsp;";  
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";
 		}
 		while( !(loop > blockSize || pageNo > totalPage) ) {
             
@@ -65,7 +64,7 @@ public class MemberWriteListReviewAction extends AbstractController {
                pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</span>&nbsp;";        
             }
             else {
-               pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+               pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
             }
             
             loop++;
@@ -75,8 +74,8 @@ public class MemberWriteListReviewAction extends AbstractController {
          }// end of while--------------------------------
 		
 		if(!(pageNo > totalPage)) {
-			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";
-			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+totalPage+"'>[마지막]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+totalPage+"'>[마지막]</a>&nbsp;";
 		}
 		
 		request.setAttribute("pageBar", pageBar);
