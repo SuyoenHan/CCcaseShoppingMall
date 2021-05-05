@@ -111,6 +111,7 @@
 			<button type="reset"  id="reset">취소</button>
 		</div>
 		
-		<input type="hidden" name="sortno" value="0"/>	
+		<input type="hidden" name="sortno" value="0" />
+		<input type="hidden" name="odetailno" value="${requestScope.odetailno}" />	
 	</form>
 </div>    
