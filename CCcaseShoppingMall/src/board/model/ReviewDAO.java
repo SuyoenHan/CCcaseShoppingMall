@@ -186,20 +186,20 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// reviewimage1(썸네일) 값을 입력받아서 사진 리뷰 1개에 대한 상세정보를 알아오기
 	@Override
-	public ReviewVO reviewOneDetail(String reviewimage1) throws SQLException {
+	public ReviewVO reviewOneDetail(String reviewno) throws SQLException {
 		
 		ReviewVO rvo = null;
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewimage1, reviewimage2, reviewimage3, rvtitle, rvcontent, fk_pname, "
+			String sql = " select rvtitle, rvcontent, fk_pname,  reviewimage1, reviewimage2, reviewimage3, "
 							+ " to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate, rviewcount "
 							+ " from tbl_review "
-							+ " where reviewimage1 = ? ";
+							+ " where reviewno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reviewimage1);
+			pstmt.setString(1, reviewno);
 			
 			rs= pstmt.executeQuery();
 			
@@ -234,19 +234,20 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into(reviewno, fk_odetailno, rvtitle, rvcontent, satisfaction,reviewimage1,reviewimage2, reviewimage3, fk_pname) "
-					+ " values(seq_pdetail_reviewno.nextval,?,?,?,?,?,?,?,?) ";
+			String sql = " insert into(reviewno, fk_userid, fk_odetailno, rvtitle, rvcontent, satisfaction, reviewimage1, reviewimage2, reviewimage3, fk_pname) "
+							+ " values(seq_review_reviewno.nextval,?,?,?,?,?,?,?,?,?) ";
 					
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1,rvo.getFk_odetailno());
-			pstmt.setString(1,rvo.getRvtitle());
-			pstmt.setString(3, rvo.getRvcontent());
-			pstmt.setInt(4, rvo.getSatisfaction());
-			pstmt.setString(5, rvo.getReviewimage1());
-			pstmt.setString(6, rvo.getReviewimage2());
-			pstmt.setString(7, rvo.getReviewimage3());
-			pstmt.setString(8, rvo.getFk_pname());
+			pstmt.setString(1, rvo.getFk_userid());
+			pstmt.setString(2, rvo.getFk_odetailno());
+			pstmt.setString(3,rvo.getRvtitle());
+			pstmt.setString(4, rvo.getRvcontent());
+			pstmt.setInt(5, rvo.getSatisfaction());
+			pstmt.setString(6, rvo.getReviewimage1());
+			pstmt.setString(7, rvo.getReviewimage2());
+			pstmt.setString(8, rvo.getReviewimage3());
+			pstmt.setString(9, rvo.getFk_pname());
 			
 			n = pstmt.executeUpdate();
 			
@@ -449,6 +450,44 @@ public class ReviewDAO implements InterReviewDAO {
 			close();
 		}
 		return fk_pname;
+	}
+	
+	// 해당 리뷰의 구매 제품 가져오기 
+	@Override
+	public ProductVO selectProduct(String reviewno) throws SQLException {
+		
+		ProductVO pvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pimage1, productname, price "
+							+ " from "
+							+ " ( "
+							+ " select pimage1, productname, to_char(price,'9,999,999') as price "
+							+ " from tbl_product P "
+							+ " join tbl_review R "
+							+ " on P.productname = R.fk_pname "
+							+ " where reviewno = ? "
+							+ " ) V ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reviewno);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				pvo = new ProductVO();
+				
+				pvo.setPimage1(rs.getString(1));
+				pvo.setProductname(rs.getString(2));
+				pvo.setPrice(rs.getInt(3));
+			}
+			
+		} finally {
+			close();
+		}
+		return pvo;
 	}
 
 	

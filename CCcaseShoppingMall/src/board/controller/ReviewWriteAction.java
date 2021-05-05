@@ -68,6 +68,8 @@ public class ReviewWriteAction extends AbstractController {
 				String fk_userid = loginuser.getUserid();
 				String fk_pname = rdao.getPnameOfProd(fk_userid);	
 				
+				request.setAttribute("fk_pname", fk_pname);
+				
 				ReviewVO rvo = new ReviewVO();
 				rvo.setRvtitle(rvtitle);
 				rvo.setSatisfaction(Integer.parseInt(satisfaction));
@@ -75,10 +77,6 @@ public class ReviewWriteAction extends AbstractController {
 				rvo.setReviewimage2(reviewimage2);
 				rvo.setReviewimage3(reviewimage3);
 				rvo.setRvcontent(rvcontent);
-				
-				System.out.println(rvo);
-				
-				
 				
 				// tbl_review 테이블에 제품정보 insert 하기
 				int n = rdao.reviewInsert(rvo);
@@ -93,12 +91,7 @@ public class ReviewWriteAction extends AbstractController {
 					// super.setRedirect(false);
 					super.setViewPage("/WEB-INF/msg.jsp");
 				}
-				else {
-					String message = "리뷰 등록에 실패하였습니다.";
-					String loc = "location.reload()";
-					
-					super.setViewPage("/WEB-INF/msg.jsp");
-				}
+				
 			}
 			
 		
