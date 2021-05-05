@@ -24,6 +24,20 @@
    		width: 20%;
    }
    
+   	.prev_next {
+		margin: 5% 0 5% 0;
+	    width: 80%;
+	    border-top: 1px solid #444444;
+	    border-collapse: collapse;
+	}
+	
+  .prev_next >  thead > tr > th, 
+  .prev_next >  tbody > tr > td {
+	    border-bottom: 1px solid #444444;
+	    padding: 10px;
+	    text-align: center;
+  }
+   
   </style>
 
 <script type="text/javascript">
@@ -44,14 +58,21 @@
 	
 	function goEdit(){
 			location.href= "eventEdit.cc?eventno=${requestScope.evo.eventno}";
-	}
+	}// end of function goEdit()---------------------------------------------------
 	
 	function goDelete(){
         if(confirm("정말로 삭제하시겠습니까?")==true){
             location.href="eventDelete.cc?eventno=${requestScope.evo.eventno}";
         }
-	}
+	}// end of function goDelete()---------------------------------------------
 
+	function goPrev(){
+		location.href= "eventDetail.cc?eventno=${requestScope.pevo.eventno}";
+	}// end of function goPev()-------------------------------------------------
+	
+	function goNext(){
+		location.href= "eventDetail.cc?eventno=${requestScope.nevo.eventno}";
+	}// end of function goNext()------------------------------------------------
 </script>
 
 <div id="content" >
@@ -83,14 +104,15 @@
         <tr>
             <td id="title">
                글내용
-            </td>           
-            <td>${requestScope.evo.content}</td>        
-        </tr>
+            </td>
+         </tr>
+         <tr>             
+            <td colspan="2">${requestScope.evo.content}</td>        
+          </tr>
         
 	</table>
 	</form>
-	
-  	
+	  	
 	<div style="display:inline-block;">
 		<button type="button" onclick="goEventList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
 	</div>
@@ -100,7 +122,48 @@
 			<button type="button" onclick="goDelete()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
 		</c:if>
 	</div>
-	
+
+  	<!-- 이전글, 다음글 조회 -->
+	<div>
+		<table class="prev_next">
+			<thead>
+				<tr>
+					<th>구분</th>
+					<th>글번호</th>
+					<th>글제목</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="font-weight: bold;">이전글</td>
+					<c:choose>
+						<c:when test="${requestScope.pevo.eventno eq null}">
+							<td colspan="2" style="color: red; border: medium; border-bottom: 1px solid #444444;"> 이전 글이 없습니다. </td>
+						</c:when>
+						<c:when test="${requestScope.pevo.eventno ne null}">
+							<td>${requestScope.pevo.eventno}</td>
+							<td onclick="goPrev()" style="cursor: pointer;">${requestScope.pevo.title}</td>
+						</c:when>
+					</c:choose>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">다음글</td>
+					<c:choose>
+						<c:when test="${requestScope.nevo.eventno eq null}">
+							<td colspan="2" style="color: red; border-bottom: 1px solid #444444; padding: 10px; text-align: center;">
+								 다음 글이 없습니다. 
+							</td>
+						</c:when>
+						<c:when test="${requestScope.nevo.eventno ne null}">
+							<td>${requestScope.nevo.eventno}</td>
+							<td onclick="goNext()" style="cursor: pointer;">${requestScope.nevo.title}</td>
+						</c:when>
+					</c:choose>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- 이전글, 다음글 끝 -->	
 </div>
 
 

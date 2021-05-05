@@ -100,7 +100,7 @@
 <div id="content" >
 <h2 style="margin: 20px;">QnA</h2>
     
-    <form action="eventWriteEnd.cc" method="post" name="eventWriteForm">
+    <form action="eventWriteEnd.cc" method="post" name="eventWriteForm" >
     <table style="width: 700px; border-color: lightgray;">
 
         <tr>
@@ -128,9 +128,11 @@
         <tr>
             <td id="title">
                이벤트 내용
-            </td>
-            <td>
-                <textarea name="content" id="content" cols="72" rows="15"></textarea>            
+         	</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <textarea name="content" id="content" cols="100" rows="20"></textarea>            
             </td>        
         </tr>
 
