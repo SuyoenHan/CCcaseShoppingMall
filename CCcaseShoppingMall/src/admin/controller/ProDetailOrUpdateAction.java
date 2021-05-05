@@ -27,6 +27,8 @@ public class ProDetailOrUpdateAction extends AbstractController {
 		
 		if(!"POST".equalsIgnoreCase(method)) {
 			
+            String goBackURL = request.getParameter("goBackURL");
+            request.setAttribute("goBackURL", goBackURL);
 			
 			// 카테고리 목록 조회해오기
 			InterCategoryDAO cdao = new CategoryDAO();
@@ -71,7 +73,7 @@ public class ProDetailOrUpdateAction extends AbstractController {
 			
 			request.setAttribute("colorList", colorList);
 			
-
+			
 			String pnum = request.getParameter("pnum");
 			
 			InterProductDetailDAO pddao = new ProductDetailDAO();
@@ -204,7 +206,8 @@ public class ProDetailOrUpdateAction extends AbstractController {
             
             InterImageFileDAO imagedao = new ImageFileDAO();
             int k = imagedao.updateImage(plusimgmap);
-
+            
+          
             
             if(n*m*k==1) {
             	String message = "제품수정에 성공하셨습니다.";

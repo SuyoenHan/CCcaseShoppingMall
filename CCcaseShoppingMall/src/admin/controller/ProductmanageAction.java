@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import admin.model.*;
 import common.controller.AbstractController;
+import my.util.Myutil;
 import product.model.*;
 
 public class ProductmanageAction extends AbstractController {
@@ -127,6 +128,22 @@ public class ProductmanageAction extends AbstractController {
 			
 			request.setAttribute("pageBar", pageBar);
 
+			
+			String currentURL = Myutil.getCurrentURL(request);
+			// System.out.println("~~~ 확인용 currentURL => "+currentURL);
+			// ~~~ 확인용 currentURL => member/memberList.up?searchType=name&searchWord=%EC%98%81&sizePerPage=10
+			
+			//주소?gobackurl= member/memberList.up?searchType=name&searchWord=%EC%98%81&sizePerPage=10
+			//주소?userid=userid&name=name
+			// currentURL의 &를 다른걸로 바꾸자.(이유는 설명해둠 다른 파일에서) => 
+			// 참고로 공백도 유니코드로 따로 있다.
+			currentURL = currentURL.replaceAll("&", " ");
+			// 공백 처리해서 => jsp단으로 보내줌
+			// ~~~ 확인용 currentURL => member/memberList.up?searchType=name searchWord=%EC%98%81 sizePerPage=10
+			
+			
+			request.setAttribute("goBackURL", currentURL);
+			
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/admin/productManage.jsp");

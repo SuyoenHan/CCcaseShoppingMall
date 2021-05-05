@@ -17,12 +17,13 @@
 	
 	div#title{
 		background-color: #ccc;
-		width:100%;
 		height:60px;
 		padding:15px;
 		margin:20px auto;
 		text-align: left;
 		font-size: 20pt;
+		float: left; 
+		width:84%;
 	}
 	
 	#btnGroup button{
@@ -64,7 +65,7 @@
 	
 	#container > table {
 		border-top: solid 1px gray;
-		border-botton: solid 1px gray;
+		border-bottom: solid 1px gray;
 		border-collapse: collapse;
 	}
 	
@@ -134,7 +135,7 @@
 
 </script>
 
-<div id="title" style="float: left; width:84%;"> 
+<div id="title"> 
 	커뮤니티
 </div>
 
