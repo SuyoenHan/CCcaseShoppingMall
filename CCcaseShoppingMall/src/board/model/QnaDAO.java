@@ -68,7 +68,7 @@ public class QnaDAO implements InterQnaDAO {
 				 
 				 /////////// === 검색어가 있는 경우 끝 === ///////////
 				
-				sql += "        order by qregisterdate desc "+
+				sql += 	"        order by qregisterdate desc "+
 			 	 			"    ) V "+
 			 				" ) T "+
 			 				" where rno between ? and ? "; 
@@ -311,7 +311,81 @@ public class QnaDAO implements InterQnaDAO {
       return qvo;
    }
 
+   // qnano로 이전 qna 글 불러오기	
+	@Override
+	public QnaVO prevQna(String qnano) throws SQLException {
+	      QnaVO qvo = null;
+	      
+	      try {
+	    	  
+		        conn = ds.getConnection();		
+		         
+				String sql = "select qnano, qtitle "+
+						            "from tbl_qna "+
+						            "where qnano in "+
+						            " ( "+
+						            "    select max(qnano) "+
+						            "    from tbl_qna "+
+						            "    where qnano<? "+
+						            " ) ";
+				
+		       pstmt = conn.prepareStatement(sql);
+		         
+		       pstmt.setString(1, qnano);
+		         
+		       rs = pstmt.executeQuery();
+		         
+		       if(rs.next()) {
+		            
+		            qvo = new QnaVO();		
+		            
+		            qvo.setQnano(rs.getInt(1));
+		            qvo.setQtitle(rs.getString(2));
+		            
+		         }
+	      } finally {
+	         close();
+	      }      
+	      return qvo;
+	   }
 
+	// qnano로 다음 qna 글 불러오기	
+	@Override
+	public QnaVO nextQna(String qnano) throws SQLException {
+	      QnaVO qvo = null;
+	      
+	      try {
+		         conn = ds.getConnection();
+		         
+		         String sql = "select qnano, qtitle "+
+						            "from tbl_qna "+
+						            "where qnano in "+
+						            " ( "+
+						            "    select min(qnano) "+
+						            "    from tbl_qna "+
+						            "    where qnano>? "+
+						            " ) ";
+		         
+		       pstmt = conn.prepareStatement(sql);
+		         
+		       pstmt.setString(1, qnano);
+		         
+		       rs = pstmt.executeQuery();
+		         
+		       if(rs.next()) {
+		            
+		            qvo = new QnaVO();
+		            
+		            qvo.setQnano(rs.getInt(1));
+		            qvo.setQtitle(rs.getString(2));
+		         }
+	      } finally {
+	         close();
+	      }      
+	      return qvo;
+	   }
+	
+	
    // ADMIN 용 메소드
    // qna 답글 작성하기(tbl_qnacmt에 insert)
    @Override
@@ -494,4 +568,39 @@ public class QnaDAO implements InterQnaDAO {
 	      return totalPage;
 	}
 
+
+	
+	
+	
+	
+	///////////// 백원빈 시작////////////////////
+	@Override
+	public int getCntQnaCmt(String sCntQna) throws SQLException {
+		
+		int cntQnaCmt = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select count(*) ";
+			sql += sCntQna;
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				cntQnaCmt=rs.getInt(1);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return cntQnaCmt;
+	}
+	
+	
+	///////////// 백원빈 끝////////////////////	
 }

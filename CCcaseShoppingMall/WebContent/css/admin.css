@@ -27,6 +27,7 @@ div#mainMenu{
 	height: 120px;
 	margin-right: 5px;
 	margin-bottom:10px;
+	overflow: visible;
 }
 
 div#login{
@@ -35,6 +36,7 @@ div#login{
 	width: 15%;
 	height: 120px;
 	margin-bottom:10px;
+	padding-left: 10px;
 }
 
 div#leftSide{
@@ -65,38 +67,16 @@ div#logo > img {
 	margin-top: 30px;
 }
 
-span.menuSection{
-	border: solid 0px blue;
-	background-color: #f2f2f2;
-	display: inline-block;
-	font-size: 11pt;
-	width: 130px;
-	height: 60px;
-	margin-top: 35px;
-	margin-left: 15px;
-	text-align: center;
-}
-
-span.menuSection:hover{
-	cursor: pointer;
-}
-
-
-span.loginSection{
+button.loginSection{
 	border: solid 0px blue;
 	background-color: #f2f2f2;
 	display: inline-block;
 	font-size: 10pt;
-	width: 100px;
-	height: 30px;
-	margin-top: 18px;
-	padding-top:7px;
-	margin-left: 18px;
+	width: 80px;
+	height: 40px;
+	margin-top: 15px;
+	margin-left: 5px;
 	text-align: center;
-}
-
-span.loginSection:hover{
-	cursor: pointer;
 }
 
 div.leftSection{
@@ -115,51 +95,11 @@ div#leftContainer{
 div.footerSection{
 	border: solid 0px red;
 	display: inline-block;
-	margin-left:70px;
-	margin-top: 20px;
+	margin-top: -10px;
+	margin-left: 70px;
 	line-height: 150%;
 	font-size: 13pt;
 }
-
-button.footerNavigator{
-	border-radius: 50%;
-	background-color: #f2f2f2;
-	margin-left: 10px;
-	width: 90px;
-	height: 90px;
-}
-
-
-/* adminLogin.jsp(로그인클릭시)에 대한 내용 시작 */
-
-div.loginView{
-	text-align:center;
-	border: solid 0px red;
-	margin: 0 auto;
-	margin-left: 400px;
-	padding-top: 50px;
-	height: 400px;
-	width: 600px;
-}
-
-button.loginSubmit {
-	background-color: #666;
-	color: white;
-	padding: 14px 20px;
-	margin: 12px 0;
-	border: none;
-	cursor: pointer;
-	height:60px;
-	width:80%;
-}
-
-input.form-control{
-	height:50px;
-	width: 80%;
-	margin-top: 10px;
-}
-
-/* adminLogin.jsp(로그인클릭시)에 대한 내용 끝 */
 
 
 

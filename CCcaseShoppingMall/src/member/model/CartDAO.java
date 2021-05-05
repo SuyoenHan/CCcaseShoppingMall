@@ -60,13 +60,24 @@ public class CartDAO implements InterCartDAO {
 		   conn=ds.getConnection();
 		   conn.setAutoCommit(false);
 		   
-		   String sql= " select cartno from tbl_cart where fk_userid= ? "+
-				   	   " and fk_productid= ? and fk_pnum= ? ";
+		   String sql="";
+		   if(!"-".equals(ctvo.getFk_pnum())) {
+	
+			   sql= " select cartno from tbl_cart where fk_userid= ? "+
+				   	" and fk_productid= ? and fk_pnum= ? ";
+		   }
+		   else {
+			   sql= " select cartno from tbl_cart where fk_userid= ? "+
+					" and fk_productid= ? ";
+		   }
 		   
 		   pstmt=conn.prepareStatement(sql);
 		   pstmt.setString(1, ctvo.getFk_userid());
 		   pstmt.setString(2, ctvo.getFk_productid());
-		   pstmt.setString(3, ctvo.getFk_pnum());
+		   
+		   if(!"-".equals(ctvo.getFk_pnum())) {
+			   pstmt.setString(3, ctvo.getFk_pnum());
+		   }
 		   
 		   rs= pstmt.executeQuery();
 		   
@@ -145,7 +156,7 @@ public class CartDAO implements InterCartDAO {
 		try {
 			
 			conn=ds.getConnection();
-			String sql= " select cartno, fk_productid, nvl(fk_pnum,'-1') as fk_pnum, cinputcnt "+
+			String sql= " select cartno, fk_productid, nvl(fk_pnum,'-') as fk_pnum, cinputcnt "+
 						" from tbl_cart "+
 						" where fk_userid= ? ";
 
@@ -204,6 +215,32 @@ public class CartDAO implements InterCartDAO {
 		 	삭제성공: n==1
 		 	삭제실패: n==0
 		*/
+	}
+
+	
+	// userid가 주어졌을 떄 이에 해당하는 장바구니 데이터들 모두 delete
+	@Override
+	public int deleteAllRowByUserId(String userid) throws SQLException {
+
+		int n=0;
+	
+		try {
+			conn=ds.getConnection();
+			String sql= " delete from tbl_cart where fk_userid= ? ";
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			n= pstmt.executeUpdate();
+	
+		}finally {
+			close();
+		}
+	
+		return n;
+		/*
+		 	삭제성공: n>=1
+		 	삭제실패: n==0
+	    */
 	}
 	   
    // ============================ 한수연 끝 ===============================	   

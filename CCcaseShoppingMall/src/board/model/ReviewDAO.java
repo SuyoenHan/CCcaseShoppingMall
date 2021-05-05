@@ -1,6 +1,7 @@
 package board.model;
 
 import java.sql.*;
+
 import java.util.*;
 
 import javax.naming.Context;
@@ -90,28 +91,33 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "
-							+ " from "
-							+ " ( "
-							+ " select reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "
-							+ " from tbl_review ";
-							
+			String sql = " select reviewno, pimage1, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+					" from "+
+					" ( "+
+					" select rno, pimage1, reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "+
+					" from "+
+					" ( "+
+					" select rownum as rno, pimage1, reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+					" from tbl_review R "+
+					" JOIN tbl_product P "+
+					" ON R.fk_pname = P.productname "+
+					" order by rno desc "+
+					" ) V ";
+				
 			// ==== 검색어가 있는 경우 시작 ==== //
-			 String colname = paraMap.get("searchType");
-			 String searchWord = paraMap.get("searchWord");
+			String searchType = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
 							
 			if(searchWord != null && !searchWord.trim().isEmpty()) {
-				sql += " where " + colname + " like '%'|| ? ||'%' "; 
+				sql += " where " + searchType + " like '%'|| ? ||'%' "; 
 			}
 			 
 			 // ==== 검색어가 있는 경우 끝 ==== //
 			
-			sql += " order by reviewno desc "
-				    + " ) V "
-				    + " where reviewno between ? and ? ";
+			sql += " ) T "+ " where rno between ? and ?";;
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			int sizePerPage = 10;
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -132,15 +138,17 @@ public class ReviewDAO implements InterReviewDAO {
 				 
 				 ReviewVO rvo = new ReviewVO();
 				 rvo.setReviewno(rs.getInt(1));
-				 rvo.setFk_userid(rs.getString(2));
-				 rvo.setReviewimage1(rs.getString(3));
-				 rvo.setFk_pname(rs.getString(4));
-				 rvo.setRvtitle(rs.getString(5));
-				 rvo.setRvcontent(rs.getString(6));
-				 rvo.setRregisterdate(rs.getString(7));
-				 rvo.setRviewcount(rs.getInt(8));
+				 rvo.setPimage1(rs.getString(2));
+				 rvo.setFk_userid(rs.getString(3));
+				 rvo.setReviewimage1(rs.getString(4));
+				 rvo.setFk_pname(rs.getString(5));
+				 rvo.setRvtitle(rs.getString(6));
+				 rvo.setRvcontent(rs.getString(7));
+				 rvo.setRregisterdate(rs.getString(8));
+				 rvo.setRviewcount(rs.getInt(9));
 				 
 				 revList.add(rvo);
+				 
 			 }// end of while(rs.next())------------------------------------------------
 			
 		} finally {
@@ -250,54 +258,6 @@ public class ReviewDAO implements InterReviewDAO {
 		return n;
 	}
 	
-	// 구매한 제품 정보 가져오기(select)
-	@Override
-	public ReviewVO selectProdOne(String fk_pname) throws SQLException {
-		
-		ReviewVO rvo = null;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select pimage1, productname, price, sname "+
-								" from "+
-								" (select pimage1, productname, to_char(price, '9,999,999') as price, sname "+
-								" from tbl_product P "+
-								" JOIN tbl_pdetail D "+
-								" ON p.productname = D.pname "+
-								" JOIN tbl_spec S "+
-								" ON D.fk_snum = S.snum "+
-								" where productname = ? ) V";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,fk_pname);
-					
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
-				rvo = new ReviewVO();
-				
-				ProductVO pvo = new ProductVO();
-				pvo.setPimage1(rs.getString(1));
-				pvo.setProductname(rs.getString(2));
-				pvo.setPrice(rs.getInt(3));
-				
-				rvo.setPvo(pvo);
-				
-				SpecVO svo = new SpecVO();
-				svo.setSname(rs.getString(4));
-				
-				rvo.setSvo(svo);
-				
-			}
-			
-		} finally {
-			close();
-		}
-		return rvo;
-	}
-	
 	//FAQ 글내용 수정을 위해 하나의 리뷰를 select해오기
 		@Override
 		public ReviewVO revEditOneView(String reviewno) throws SQLException {
@@ -403,8 +363,8 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select count(*)\n"+
-								"from tbl_review\n"+
+			String sql = "select count(*) "+
+								"from tbl_review "+
 								"where reviewimage1 is not null or reviewimage2 is not null " +
 							    " or reviewimage3 is not null";
 
@@ -422,6 +382,7 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return rtotalCnt;
 	}
+
 	//내가 쓴 리뷰 조회
 	@Override
 	public List<ReviewVO> reviewMywrite(Map<String, String> paraMap) throws SQLException {
@@ -501,6 +462,76 @@ public class ReviewDAO implements InterReviewDAO {
 	      }      
 	      
 	      return totalPage;
+	}
+	
+	// 구매한 제품 사진 보여주기
+	@Override
+	public String selectPurchaseProd(String fk_userid) throws SQLException {
+		
+		String pimage1 = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select pimage1 "+
+								"from "+
+								"(select odetailno, fk_userid, fk_pnum "+
+								"from tbl_review R "+
+								"join tbl_odetail O "+
+								"on R.fk_odetailno = O.odetailno "+
+								")A "+
+								"JOIN "+
+								"(select pimage1, pnum "+
+								"from tbl_pdetail P "+
+								"join tbl_product D "+
+								"on P.pname = D.productname "+
+								")B "+
+								"ON A.fk_pnum = B.pnum "+
+								"where A.fk_userid = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1 , fk_userid);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				pimage1 = rs.getString(1);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return pimage1;
+	}
+	
+	// 구매한 제품명 가져오기
+	@Override
+	public String getPnameOfProd(String fk_userid) throws SQLException {
+		
+		String fk_pname = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select fk_pname "
+							+ " from tbl_review "
+							+ " where fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			fk_pname = rs.getString(1); 
+			
+		} finally {
+			close();
+		}
+		return fk_pname;
+
 	}
 
 	

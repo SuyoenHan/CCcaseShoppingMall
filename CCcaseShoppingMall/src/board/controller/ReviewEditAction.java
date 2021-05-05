@@ -25,7 +25,6 @@ public class ReviewEditAction extends AbstractController {
 			if(!"GET".equalsIgnoreCase(method)) {
 				// "POST" 방식이라면 update
 				
-				
 				String reviewno = request.getParameter("reviewno");
 				String rvtitle = request.getParameter("rvtitle");
 				String satisfaction = request.getParameter("sastisfaction");
@@ -67,7 +66,7 @@ public class ReviewEditAction extends AbstractController {
 				}
 				else {
 					message = "리뷰 수정이 실패되었습니다.";
-		   	    	loc ="javascript:history.back()";
+		   	    	loc ="location.reload()";
 				}
 				
 				request.setAttribute("message", message);

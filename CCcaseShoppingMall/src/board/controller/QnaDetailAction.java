@@ -24,15 +24,24 @@ public class QnaDetailAction extends AbstractController {
 		
 		String qnano = request.getParameter("qnano");
 		
+		// qna 글 불러오기
 		InterQnaDAO qdao = new QnaDAO();
 		QnaVO qvo = qdao.qnaDetail(qnano);
 		
 		request.setAttribute("qvo", qvo);
 		
+		// qna 답글 불러오기
 		List<QnaCmtVO> cmtList = qdao.getCmtList(qnano);
 
 		request.setAttribute("cmtList", cmtList);	
-
+		
+		// qna 이전글, 다음글 불러오기
+		QnaVO pqna = qdao.prevQna(qnano);
+		QnaVO nqna = qdao.nextQna(qnano);
+		
+		request.setAttribute("pqna", pqna);
+		request.setAttribute("nqna", nqna);
+		
 		if( loginuser != null) { // 로그인했으면
 		
 		// 로그인 유저와 작성자 아이디가 다르면 조회수 증가

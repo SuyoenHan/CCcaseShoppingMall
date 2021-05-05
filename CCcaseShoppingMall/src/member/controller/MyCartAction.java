@@ -28,10 +28,10 @@ public class MyCartAction extends AbstractController {
 			InterMemberGradeDAO mgdao= new MemberGradeDAO();
 			InterProductDetailDAO pddao= new ProductDetailDAO();
 			
-			double pointPercent=mgdao.getPointPercent(loginuser.getUserid()); // 로그인한 회원의 적립률
+			double pointPercent=mgdao.getPointPercent(userid); // 로그인한 회원의 적립률
 			request.setAttribute("pointPercent", pointPercent);
 			
-			List<Map<String, String>> cartInfoList= ctdao.selectCartInfo(userid); //색깔 고르지 않은 경우 pnum="-1"
+			List<Map<String, String>> cartInfoList= ctdao.selectCartInfo(userid); //색깔 고르지 않은 경우 pnum="-"
 			
 			/*
 		 		특정회원의 장비구니 정보가 없는 경우: cartInfoList.size()==0
@@ -39,6 +39,9 @@ public class MyCartAction extends AbstractController {
 			*/
 			
 			if(cartInfoList.size()==0) { // 장바구니 목록이 존재하지 않는 경우
+				
+				request.setAttribute("name", loginuser.getName());
+				request.setAttribute("userid", userid);
 				
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/member/emptyMyCart.jsp");
@@ -67,7 +70,7 @@ public class MyCartAction extends AbstractController {
 						onePInfo.put("doption", colorDeliveryMap.get("doption"));
 					}
 					else { // 색상을 선택하지 않은 경우
-						onePInfo.put("pnum", "-1"); 
+						onePInfo.put("pnum", "-"); 
 						onePInfo.put("pcolor", "-");
 						onePInfo.put("doption", "색상에 따라 상이");
 					}					
@@ -88,9 +91,9 @@ public class MyCartAction extends AbstractController {
 			
 				request.setAttribute("cartRequiredInfoList", cartRequiredInfoList);
 				request.setAttribute("name", loginuser.getName());
+				request.setAttribute("userid", userid);
 			} // end of else----------------------------------------------------------
 
-			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/myCart.jsp");
 			return;

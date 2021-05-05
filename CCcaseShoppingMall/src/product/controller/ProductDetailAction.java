@@ -12,20 +12,60 @@ public class ProductDetailAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임. 
+
+		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 현재페이지 유지를 위함. 
 		super.goBackURL(request);
-		String productid= request.getParameter("productid");
-		
-		// home.cc에서 넘어온 경우 snum 또는 doption값을 받아온다
-		String snum= request.getParameter("snum");
-		String doption= request.getParameter("doption");
-		
-		// 제품번호를 이용하여 상세정보페이지에서 필요한 정보 가져오기 
 		
 		InterProductDAO pdao= new ProductDAO();
 		InterProductDetailDAO pddao= new ProductDetailDAO();
 		InterImageFileDAO idao= new ImageFileDAO();
 		
+		String productid= request.getParameter("productid");
+			
+		// member/mycart.cc에서 넘어온 cartno, pnum, cinputcnt를 받아온다
+		String cartno= request.getParameter("cartno");
+		String pnum= request.getParameter("pnum");
+		String cinputcnt= request.getParameter("cinputcnt");
+		
+		if(cartno==null) {
+			cartno="null";
+			pnum="null";
+			cinputcnt="null";
+		}
+		
+		request.setAttribute("cartno", cartno);
+		request.setAttribute("pnum", pnum);
+		request.setAttribute("cinputcnt", cinputcnt);
+		
+		
+
+		// home.cc에서 넘어온 경우 snum 또는 doption값을 받아온다
+		String snum= request.getParameter("snum");
+		String doption= request.getParameter("doption");
+		
+		String pnumFromHome="null";
+		int dOption= -1;
+		if(snum==null) {
+			snum="null";
+		}
+		else {
+			pnumFromHome= pddao.getPnumBySnum(productid, snum);
+			dOption= pddao.getDOptionByPnum(pnumFromHome);
+		}
+		
+		if(doption==null) {
+			doption="null";
+		}
+		else {
+			pnumFromHome= pddao.getPnumByDoption(productid, doption);
+			dOption= pddao.getDOptionByPnum(pnumFromHome);
+		}
+	
+		request.setAttribute("pnumFromHome", pnumFromHome);
+		request.setAttribute("dOption", dOption);
+
+		
+		// 제품번호를 이용하여 상세정보페이지에서 필요한 정보 가져오기 
 		Map<String,String> onePInfo= pdao.getOnePInfo(productid);
 		request.setAttribute("onePInfo", onePInfo); 
 		
@@ -37,7 +77,7 @@ public class ProductDetailAction extends AbstractController {
 		
 		for(Map<String, String> pDetailInfoMap : onePDetailInfoList) {
 			
-			String pnum= pDetailInfoMap.get("pnum");
+			pnum= pDetailInfoMap.get("pnum");
 			List<Map<String, String>> imgFileByPnum= idao.selectImgFileByPnum(pnum);
 			
 			for(int i=0;i<imgFileByPnum.size();i++) {

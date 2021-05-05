@@ -593,7 +593,63 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		
 	} // end of public Map<String, String> getColorDelivery(String pnum) throws SQLException {
 
+	
+	// productid와 snum이 주어진 경우 여러 pnum중 snum에 해당하는 제품 1개 행만 반환하는 메소드
+	@Override
+	public String getPnumBySnum (String productid, String snum) throws SQLException {
 
+		String pnum= null;
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select pnum from tbl_pdetail where fk_productid= ? and fk_snum= ? ";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productid);
+			pstmt.setInt(2, Integer.parseInt(snum));
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) pnum= rs.getString(1); // 1개의 pnum만 필요
+		
+		}finally {
+			close();
+		}
+	
+		return pnum;
+	}
+
+
+	// productid와 doption이 주어진 경우 여러 pnum중 doption에 해당하는 제품 1개 행만 반환하는 메소드
+	@Override
+	public String getPnumByDoption(String productid, String doption) throws SQLException {
+		
+		String pnum= null;
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select pnum from tbl_pdetail where fk_productid= ? and doption= ? ";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productid);
+			pstmt.setInt(2, Integer.parseInt(doption));
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) pnum= rs.getString(1); // 1개의 pnum만 필요
+		
+		}finally {
+			close();
+		}
+	
+		return pnum;
+	}
+
+
+	
+	
+	
+	
 
 	// ======================== 한수연 끝 ===========================	
 	
