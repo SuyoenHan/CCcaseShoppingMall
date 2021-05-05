@@ -116,11 +116,11 @@ public class OrderDAO implements InterOrderDAO {
 	      try {
 	          conn = ds.getConnection();
 	          
-	          String sql = " select orderno, pimage1 , modelname, productname, pcolor, fk_cnum , " + 
-	          			   "       fk_userid, totalPrice, orderdate, shipstatus ,shipfee,finalamount ,odqty " + 
+	          String sql = " select orderno,  pimage1 , modelname, productname, pcolor, fk_cnum , " + 
+	          			   "       fk_userid, totalPrice, orderdate, shipstatus ,shipfee,finalamount ,odqty ,pnum" + 
 	          			   " from " + 
 	          			   " ( " + 
-	          			   " select row_number() over(order by orderdate desc) AS RNO ,O.orderno,pimage1 , P.modelname, P.productname,pcolor, P.fk_cnum , " + 
+	          			   " select row_number() over(order by orderdate desc) AS RNO ,O.orderno,PD.pnum, pimage1 , P.modelname, P.productname,pcolor, P.fk_cnum , " + 
 			          	   "       fk_userid, totalPrice, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,shipfee,finalamount ,odqty " + 
 			          	   " from tbl_order O Left join tbl_odetail OD " + 
 			          	   "      on O.orderno = OD.fk_orderno " + 
@@ -155,7 +155,7 @@ public class OrderDAO implements InterOrderDAO {
 		             int shipfee = rs.getInt("shipfee");
 		             int finalamount = rs.getInt("finalamount");
 		             int odqty = rs.getInt("odqty");
-		             
+		             String pnum = rs.getString("pnum");
 		                                     
 		             OrderVO ovo = new OrderVO();
 		             ovo.setOrderno(orderno);
@@ -176,6 +176,7 @@ public class OrderDAO implements InterOrderDAO {
 		             
 		             ProductDetailVO pdvo = new ProductDetailVO();
 		             pdvo.setPcolor(pcolor);		 
+		             pdvo.setPnum(pnum);
 		             
 		             ovo.setPdvo(pdvo);
 		             

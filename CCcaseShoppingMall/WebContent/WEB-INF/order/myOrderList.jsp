@@ -184,6 +184,7 @@
   							   "     </td>	 "+
   							   "     <td id='orderdate' name='orderdate'>주문일자 "+item.orderdate+"</td> "+
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
+  							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
   							   "     <td id='totalPrice' name='totalPrice'>주문금액"+item.totalPrice+"원</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
   							   "     <td>"+shipstatus+"</td> "
@@ -249,7 +250,7 @@
 					});
 		
 	               
-					// 교화접수 클릭 - 팝업창 띄우기
+				<%-- 	// 교화접수 클릭 - 팝업창 띄우기
 					$("button#shipchangeBtn").click(fucntion(){
 						
 						var orderno =$(this).parent().parent().find("td#orderno").text();
@@ -266,7 +267,7 @@
 						
 					});
 					
-	               
+	                --%>
 	               
 	           
 	              func_height(); 
@@ -302,11 +303,12 @@
 	  <table class="table table-hover">
 	    
 	    <thead>
-	      <div id="dateGroup" name="dateGroup"> -----구매날짜 ${ovo.orderdate}-----</div>
+	     
 	      <tr>
 	        <th>상품정보</th>
 	        <th>주문일자</th>
 	        <th>주문번호</th>
+	        <th>제품번호</th>
 	        <th>주문금액</th>
 	        <th>주문수량</th>
 	        <th>주문상태</th>

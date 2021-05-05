@@ -70,7 +70,7 @@ public class OrderListDisplayJSONAction extends AbstractController {
 	            jsonObj.put("productname", ovo.getPvo().getProductname());
 				
 	            jsonObj.put("pcolor", ovo.getPdvo().getPcolor());
-	            
+	            jsonObj.put("Pnum", ovo.getPdvo().getPnum());
 	            
 	            jsonObj.put("odqty", ovo.getOdvo().getOdqty());
 	            // jsonObj ==> {"pnum":1, "pname":"스마트TV", "code":"100000" , "pcompany":"삼성", .... ,"pinputdate":"2021-04-23", "discoutPercent":15}
