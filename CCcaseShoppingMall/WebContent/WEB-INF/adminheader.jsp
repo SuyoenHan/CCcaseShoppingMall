@@ -174,7 +174,7 @@
 	  		</div>
 			
 			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 810px;">
-				<button type="button" class="menuEach case">교환 및 환불관리</button>
+				<button type="button" class="menuEach case" onclick="location.href='<%= ctxPath%>/admin/changeRefund.cc'">교환 및 환불관리</button>
 	  		</div>
 			
 			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 980px;">
