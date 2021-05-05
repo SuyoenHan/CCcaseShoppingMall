@@ -316,7 +316,7 @@
 			location.href="<%=ctxPath%>/product/productDetail.cc?productid="+pIdForLink+"&snum="+snum+"&goBackURL=${requestScope.goBackURL}";
 		});
 		
-		// 제품 이미지 클릭시 제품상세페이지로 넘어가기 => best, new에 해당하는 제품상세 정보 같이 넘겨서 미리 입력
+		// 제품 이미지 클릭시 제품상세페이지로 넘어가기 => 무료배송에 해당하는 제품상세 정보 같이 넘겨서 미리 입력
 		$("div.productInnerByDOption").click(function(){		
 			var pIdForLink= $(this).find("input.linkInfo").val();
 			var doption= $(this).find("input.doption").val();
