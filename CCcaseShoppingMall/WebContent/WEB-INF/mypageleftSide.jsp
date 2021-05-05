@@ -65,7 +65,7 @@
 
 	
 	function goMyboard(userid){
-		location.href="<%= request.getContextPath()%>/member/memberWriteListQnA.cc?userid="+userid;
+		location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
 	}
 	
 	// === 회원정보수정 이동 함수 ===
