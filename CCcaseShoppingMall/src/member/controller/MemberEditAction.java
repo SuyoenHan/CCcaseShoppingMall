@@ -15,10 +15,12 @@ public class MemberEditAction extends AbstractController {
 				//로그인을 했으면
 				
 				String userid = request.getParameter("userid");
+				String pwd = request.getParameter("pwd");
 				HttpSession session =request.getSession();
 				MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 				
 				if(loginuser.getUserid().equals(userid)) {
+					request.setAttribute("pwd",pwd);
 					//로그인한 사용자가 자신의 정보를 수정하는 경우
 				      //   super.setRedirect(false);
 			         super.setViewPage("/WEB-INF/member/memberEdit.jsp");

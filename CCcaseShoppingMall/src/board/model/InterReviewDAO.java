@@ -34,6 +34,11 @@ public interface InterReviewDAO {
 	
 	// 리뷰 총 개수 알아오기
 	int selectRevCnt() throws SQLException;
+
+	//내가 쓴 리뷰 조회 해오기
+	List<ReviewVO> reviewMywrite(Map<String, String> paraMap)throws SQLException;
+	//내가 쓴 리뷰 조회 페이징 처리
+	int reviewMywriteTotalPage(String userid)throws SQLException;
 	
 	// 구매한 제품 사진 보여주기
 	String selectPurchaseProd(String fk_userid) throws SQLException;
