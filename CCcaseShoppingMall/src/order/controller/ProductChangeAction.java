@@ -50,7 +50,7 @@ public class ProductChangeAction extends AbstractController {
 		}
 		else {
 			
-			request.getParameter("");
+			request.getParameter("orderno");
 			
 			
 		}
