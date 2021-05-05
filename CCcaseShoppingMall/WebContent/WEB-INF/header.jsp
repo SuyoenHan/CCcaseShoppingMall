@@ -209,7 +209,7 @@
 		location.href="<%= request.getContextPath()%>/login/logout.cc";
 	}
 	
-	// === 마이페이스 이동 함수 ===
+	// === 마이페이지 이동 함수 ===
 	function myProfile(userid){
 		
 		location.href="<%= request.getContextPath()%>/member/memberEditMain.cc?userid="+userid;
