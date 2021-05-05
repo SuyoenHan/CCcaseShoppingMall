@@ -153,8 +153,8 @@
  	            	  }
  	            	 else if(item.shipstatus==2){
  	            		 shipstatus = "<span>배송완료</span><br>"+
-			 			        	  "<button type='button' class='shipstatusBtn' id='shipchangeBtn' name='shipchangeBtn' >교환접수</button>"+
-			 			        	  "<button type='button' class='shipstatusBtn' id='shipdeleteBtn' name='shipdeleteBtn' >환불접수</button>";
+			 			        	  "<button type='button' class='shipStatusBtn' id='shipChangeBtn' name='shipChangeBtn' >교환접수</button>"+
+			 			        	  "<button type='button' class='shipStatusBtn' id='shipRefundBtn' name='shipDeleteBtn' >환불접수</button>";
  	            	  }
  	            	 else if(item.shipstatus==3){
  	            		 shipstatus = "<span>구매확정</span><br>"+
@@ -188,9 +188,9 @@
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
   							   "     <td id='totalPrice' name='totalPrice'>주문금액"+item.totalPrice+"원</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
-  							   "     <td>"+shipstatus+"</td> " +
-  						       "</tr>" + 
-  						       "<tr><td><input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"'/><td></tr>";
+  							   "     <td>"+shipstatus+"<input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"' /></td> " +
+  						       "</tr>"
+  						     
 	            	  	        //console.log(item.odetailno);        
   	             	
 	
@@ -253,18 +253,33 @@
 		
 					
 					// 교환하기 버튼 클릭시
-					$("button#shipchangeBtn").click(function(){
+					$("button#shipChangeBtn").click(function(){
+						
+						var orderno =$(this).parent().parent().find("td#orderno").text();
+						var productname =$(this).parent().parent().find("span#productname").text();
+						var modelname =$(this).parent().parent().find("span#modelname").text();
+						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
+						var url ="<%=ctxPath%>/board/productChange.cc?orderno="+orderno+"&productname="+productname+"&modelname="+modelname+"&odetailno="+odetailno;
+
+						window.open(url, "refundProduct","lefe=350p, top=100px,width=700px, height=450px");
+						
+					});
+					
+					// 환불하기 버튼 클릭시
+					$("button#shipRefundBtn").click(function(){
 						
 						var orderno =$(this).parent().parent().find("td#orderno").text();
 						var productname =$(this).parent().parent().find("span#productname").text();
 						var modelname =$(this).parent().parent().find("span#modelname").text();
 						var pcolor =$(this).parent().parent().find("span#pcolor").text();
-						
-						var url ="<%=ctxPath%>/board/productChange.cc?orderno="+orderno+"&productname="+productname+"&modelname"+modelname+"&pcolor"+pcolor;
-						
+						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
+						var url ="<%=ctxPath%>/board/productRefund.cc?orderno="+orderno+"&productname="+productname+"&modelname="+modelname+"&pcolor="+pcolor+"&odetailno="+odetailno;
+
 						window.open(url, "changeProduct","lefe=350p, top=100px,width=700px, height=450px");
 						
 					});
+					
+					
 					
 	           
 	              

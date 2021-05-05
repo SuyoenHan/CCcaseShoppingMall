@@ -92,11 +92,35 @@ public class ChRefundDAO implements InterChRefundDAO {
 		
 		return chRefundList;
 	}
+
 	
-	/////////////////// 백원빈 시작 /////////////////////////////////	
+	// 교환및환불 접수 시 교환 및 환불테이블에 insert작업
+	@Override
+	public int insertChRefund(Map<String, String> paraMap) throws SQLException {
+		
+		int n =0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " insert into tbl_chRefund(chRefundno,fk_odetailno,sortno,whycontent) "+
+						 " values(seq_chRefund_chRefundno.nextval,? ,?, ? ) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("fk_odetailno"));
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("sortno")));
+			pstmt.setString(3, paraMap.get("whycontent"));
+			
+			n = pstmt.executeUpdate();
+
+		} finally {
+			close();
+		}
+
+		return n;
+	}
 	
 	
-	
-	
+	/////////////////// 백원빈 끝 /////////////////////////////////	
 	
 }
