@@ -200,7 +200,6 @@
 				</c:choose>
 			</span>
 		
-<<<<<<< HEAD
 				<div id="revBox">
 					<span>${sessionScope.loginuser.userid}&nbsp;|&nbsp;</span>
 					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
@@ -211,14 +210,13 @@
 				<div style="align:center;">
 				<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 40px;" onclick="goAddlike(${requestScope.rvo.reviewno})"/>&nbsp;&nbsp;
 				<div id="likeCnt" style="color:black; font-weight: bold;"></div>
-=======
+
 			<div id="revBox">
 				<span>${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
 				<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
 				<span>${requestScope.rvo.rviewcount}&nbsp;|&nbsp;</span><br>	
 				<span>${requestScope.rvo.rvtitle}</span><br>
 				<p>${requesetScope.rvo.rvcontent}</p>
->>>>>>> refs/heads/syflowerdaba
 			</div>
 			</div>
 			

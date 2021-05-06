@@ -34,7 +34,7 @@ public class ReviewOneDetailAction extends AbstractController {
 
 		
 		InterReviewDAO rdao = new ReviewDAO();
-		ReviewVO rvo = rdao.reviewOneDetail(Integer.parseInt(reviewno));
+		ReviewVO rvo = rdao.reviewOneDetail(reviewno);
 		request.setAttribute("rvo", rvo);
 		
 		// 해당리뷰 구매제품의 스펙번호 알아오기 
