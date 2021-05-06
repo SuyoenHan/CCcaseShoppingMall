@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -294,17 +295,18 @@ public class OrderDAO implements InterOrderDAO {
 
 	// 상품 바로주문시 주문할 상품 정보 불러오기
 	@Override
-	public OrderVO getOrderDetail(String pnum) throws SQLException {
-		OrderVO ovo =new OrderVO();
+	public Map<String,String> getOrderDetail(String pnum) throws SQLException {
+		
+		 Map<String,String> paraMap = null;
 		
 		try {
 			 conn = ds.getConnection();
 			 
-			  String sql = " select pnum, fk_productid, pname, pcolor, P.price, P.salepercent, P.pimage1 "+
-					  			 " from tbl_pdetail D "+
-					  			 " join tbl_product P "+
-					  			 " on P.productid=D.fk_productid " + 
-					  			 " where pnum = ? ";
+			  String sql = " select pnum, fk_productid, pname, pcolor, price, salepercent, pimage1, productname, modelname,doption "+
+					  	   " from tbl_pdetail D "+
+					  	   " join tbl_product P "+
+					  	   " on P.productid=D.fk_productid " + 
+					  	   " where pnum = ? ";
    
 			  pstmt = conn.prepareStatement(sql);
 			  
@@ -314,29 +316,27 @@ public class OrderDAO implements InterOrderDAO {
 			  
 			  if(rs.next()) {
 				  
-				  ProductDetailVO pdvo = new ProductDetailVO();
-				  ProductVO pvo = new ProductVO();
+				  paraMap = new HashMap<>();
 				  
-				  ovo.setPdvo(pdvo);
-				  pdvo.setPnum(rs.getString(1));
-				  pdvo.setFk_productid(rs.getString(2));
-				  pdvo.setPname(rs.getString(3));
-				  pdvo.setPcolor(rs.getString(4));
+				  paraMap.put("pnum", rs.getString(1));
+				  paraMap.put("fk_productid", rs.getString(2));
+				  paraMap.put("pname", rs.getString(3));
+				  paraMap.put("pcolor", rs.getString(4));
+				  paraMap.put("price", String.valueOf(rs.getInt(5)));
+				  paraMap.put("salepercent", String.valueOf(rs.getDouble(6)));
+				  paraMap.put("pimage1", rs.getString(7));
+				  paraMap.put("productname", rs.getString(8));
+				  paraMap.put("modelname", rs.getString(9));
+				  paraMap.put("doption", rs.getString(10));
 				  
-				  ovo.setPvo(pvo);
-				  pvo.setPrice(rs.getInt(5));
-				  pvo.setSalepercent(rs.getInt(6));
-				  pvo.setPimage1(rs.getString(7));
-				  
-				  
-				  
+
 			  }
 			  
 		} finally {
 			close();
 		}
 		
-		return ovo;
+		return paraMap;
 	}
 
 }
