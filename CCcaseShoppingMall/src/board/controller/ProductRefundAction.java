@@ -1,4 +1,4 @@
-package order.controller;
+package board.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,17 +38,16 @@ public class ProductRefundAction extends AbstractController {
 		}
 		else { //POST방식일때
 
-			String orderno = request.getParameter("orderno");
-			String fk_odetailno = request.getParameter("odetailno");
+			String odetailno = request.getParameter("odetailno");
 			String sortno = request.getParameter("sortno");
 			String whycontent = request.getParameter("whycontent");
 			
 			// 주문테이블의 배송상태를=> 환불완료로 바꿔주기(update)
 			InterOrderDAO iodao = new OrderDAO();
-			int n = iodao.updaterefundstatus(orderno);
+			int n = iodao.updaterefundstatus(odetailno);
 
 			Map<String,String> paraMap = new HashMap<>();
-			paraMap.put("fk_odetailno", fk_odetailno);
+			paraMap.put("fk_odetailno", odetailno);
 			paraMap.put("sortno", sortno);
 			paraMap.put("whycontent", whycontent);
 		

@@ -19,10 +19,10 @@ public interface InterOrderDAO {
 	
 	/////////////////////////// 백원빈 시작 ///////////////////////////////
 	//교환 접수시 배송상태 변경해주는 메소드
-	int updatestatus(String orderno) throws SQLException;
+	int updatestatus(String odetailno) throws SQLException;
 	
 	//환불 접수시 배송상태 변경해주는 메소드
-	int updaterefundstatus(String orderno) throws SQLException;
+	int updaterefundstatus(String odetailno) throws SQLException;
 
 	/////////////////////////// 백원빈 끝 ///////////////////////////////	
 

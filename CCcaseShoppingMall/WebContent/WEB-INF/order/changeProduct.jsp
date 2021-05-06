@@ -83,11 +83,16 @@
 		</div>
 		
 		<div id="col2">
+			<span class="colName">주문상세번호</span>
+			<input type="text" name="odetailno" readonly="readonly" value="${requestScope.odetailno}" /> 
+		</div>
+		
+		<div id="col3">
 			<span class="colName">상품명</span>
 			<input type="text" name="productname" readonly="readonly" value="${requestScope.productname}" />
 		</div>
 		
-		<div id="col3">
+		<div id="col4">
 			<span class="colName">옵션</span>
 			<span> 
 				<select id="pcolor" name="pcolor">
@@ -110,6 +115,5 @@
 		</div>
 		
 		<input type="hidden" name="sortno" value="0" />
-		<input type="hidden" name="odetailno" value="${requestScope.odetailno}" />	
 	</form>
 </div>    
