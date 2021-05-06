@@ -187,7 +187,7 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// reviewimage1(썸네일) 값을 입력받아서 사진 리뷰 1개에 대한 상세정보를 알아오기
 	@Override
-	public ReviewVO reviewOneDetail(String reviewno) throws SQLException {
+	public ReviewVO reviewOneDetail(int reviewno) throws SQLException {
 		
 		ReviewVO rvo = null;
 		
@@ -200,7 +200,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " where reviewno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reviewno);
+			pstmt.setInt(1, reviewno);
 			
 			rs= pstmt.executeQuery();
 			
@@ -259,7 +259,7 @@ public class ReviewDAO implements InterReviewDAO {
 		return n;
 	}
 	
-	//FAQ 글내용 수정을 위해 하나의 리뷰를 select해오기
+	//리뷰 글내용 수정을 위해 하나의 리뷰를 select해오기
 		@Override
 		public ReviewVO revEditOneView(String reviewno) throws SQLException {
 			

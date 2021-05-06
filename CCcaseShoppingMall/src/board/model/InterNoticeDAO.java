@@ -13,8 +13,10 @@ public interface InterNoticeDAO {
 	int selectTotalPage(Map<String, String> paraMap) throws SQLException;
 
 	//조회수 증가시키기
-	void updateViewCount(String noticeno) throws SQLException; 
+	int updateViewCount(String noticeno) throws SQLException; 
 
+	//조회수 select 해오기 
+	String selectNoticeViewCount(String noticeno) throws SQLException;
 	
 	//notice 글쓰기 insert 해주기
 	int noticeInsert(NoticeVO nvo) throws SQLException;
@@ -28,5 +30,7 @@ public interface InterNoticeDAO {
 
 	//FAQ 글내용 삭제하기(DELETE)
 	int noticeDeleteOne(NoticeVO nvo) throws SQLException;
+
+	
 	
 }

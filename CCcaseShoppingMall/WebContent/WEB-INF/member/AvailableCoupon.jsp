@@ -102,10 +102,17 @@
 				</c:choose></td>
 				<td>${cvo.cpname}</td>
 				<td>5,000원</td>
-				<td><fmt:formatNumber value="${cvo.cpdiscount*100}" pattern="0"/><span>%</span></td>
+				<td>
+					<c:if test="${cvo.cpdiscount ne '0'}"><fmt:formatNumber value="${cvo.cpdiscount*100}" pattern="0"/><span>%</span></c:if>
+					<c:if test="${cvo.cpdiscount eq '0'}">무료배송</c:if>
+				</td>
 				<td>${cvo.issuedate}</td>
 				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
-				<td>D-<span>${cvo.remaindate}</span></td>
+				<td>
+					<c:if test="${cvo.cpstatus eq '0'}">D-<span>${cvo.remaindate}</span></c:if>
+					<c:if test="${cvo.cpstatus eq '1'}">사용완료</c:if>
+					<c:if test="${cvo.cpstatus eq '2'}">기간만료</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>

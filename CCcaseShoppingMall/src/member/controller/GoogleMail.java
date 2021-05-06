@@ -42,7 +42,7 @@ public class GoogleMail {
     	MimeMessage msg = new MimeMessage(ses);
     	
     	// 제목 설정
-    	String subject = "[CCase] CCase에서 이메일 인증을 요청하였습니다.";
+    	String subject = "[CCcase] CCcase에서 이메일 인증을 요청하였습니다.";
     	msg.setSubject(subject);
     	
     	// 보내는 사람의 메일주소

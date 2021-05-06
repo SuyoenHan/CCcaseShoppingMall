@@ -460,15 +460,15 @@
 					      </tr>
 					</thead>
 					<tbody>
-					    <c:forEach var="ovo" items="${requestScope.orderList}">
+					    <c:forEach var="ovo" items="${requestScope.ovo}">
 							<tr>
 						        <td>
-						        	<span><img src="/CCcaseShoppingMall/images/product/${ovo.pvo.pimage1}" name="pimage1"id="pimage1"style="width:55px; height:55px; float:left"/></span>
-						        	<span id="productname" name="productname">${ovo.pvo.productname}</span>&nbsp;&nbsp;<span id="pcolor" name="pcolor">${ovo.pdvo.pcolor}</span><br>
-						        	<span id="modelname" name="modelname">옵션:${ovo.pvo.modelname}</span>
+						        	<span><img src="/CCcaseShoppingMall/images/product/${ovo.pimage1}" name="pimage1"id="pimage1"style="width:55px; height:55px; float:left"/></span>
+						        	<span id="productname" class="productname">${ovo.pname}</span>&nbsp;&nbsp;<span id="pcolor" class="pcolor">${ovo.pcolor}</span><br>
+						        	<span id="modelname" class="modelname">옵션: </span>
 						        </td>	
-						        <td id="totalPrice" name="totalPrice">주문금액${ovo.totalPrice}원</td>
-						        <td id="odqty" name="odqty">${ovo.odvo.odqty}</td>
+						        <td id="totalPrice" class="totalPrice">주문금액${ovo.price}원</td>
+						        <td id="odqty" class="odqty">${cnt}개</td>
 						    </tr>
 						</c:forEach>
 					</tbody>
@@ -476,7 +476,7 @@
 				<div class="order-price-text">
 					<p>
 						상품
-						<span class="price-unit"><fmt:formatNumber value="${prodPriceAll}" type="number" />원</span>
+						<span class="price-unit"><fmt:formatNumber value="총액" type="number" />원</span>
 						+ 배송비
 						<span class="price-unit">0원</span>
 					</p>

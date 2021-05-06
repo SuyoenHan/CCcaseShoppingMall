@@ -137,7 +137,8 @@ public class InterestProductDAO implements InterInterestProductDAO {
 			conn=ds.getConnection();
 			String sql= " select interestno, fk_productid, nvl(fk_pnum,'-') as fk_pnum "+
 						" from tbl_interestp "+
-						" where fk_userid= ? ";
+						" where fk_userid= ? "+
+						" order by interestno desc ";
 
 			pstmt= conn.prepareStatement(sql);
 			pstmt.setString(1, userid);

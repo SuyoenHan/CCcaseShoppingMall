@@ -13,7 +13,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import member.model.CartVO;
 import product.model.ProductDetailVO;
 import product.model.ProductVO;
 
@@ -295,36 +294,33 @@ public class OrderDAO implements InterOrderDAO {
 	
 	// 상품 바로주문시 주문할 상품 정보 불러오기
 	@Override
-	public OrderVO getOrderDetail(String productid, String pcolor) throws SQLException {
-		OrderVO ovo =null;
+	public OrderVO getOrderDetail(String pnum) throws SQLException {
+		OrderVO ovo =new OrderVO();
 		
 		try {
 			 conn = ds.getConnection();
 			 
 			  String sql = " select pnum, fk_productid, pname, pcolor, P.price, P.salepercent, P.pimage1 "+
-					  			 " from tbl_pdetail "+
+					  			 " from tbl_pdetail D "+
 					  			 " join tbl_product P "+
-					  			 " on productid=fk_productid " + 
-					  			 " where productid = ? and pcolor = ? ";
+					  			 " on P.productid=D.fk_productid " + 
+					  			 " where pnum = ? ";
    
 			  pstmt = conn.prepareStatement(sql);
 			  
-			  pstmt.setString(1, productid);
-			  pstmt.setString(2, pcolor);
+			  pstmt.setString(1, pnum);
 			  
 			  rs = pstmt.executeQuery();
 			  
 			  while(rs.next()) {
 				  
-				   ovo = new OrderVO();
-				  
-					ovo.getPdvo().setPnum(rs.getString(1));
-					ovo.getPdvo().setFk_productid(rs.getString(2));
-					ovo.getPdvo().setPname(rs.getString(3));
-					ovo.getPdvo().setPcolor(rs.getString(4));
-					ovo.getPvo().setPrice(rs.getInt(5));
-					ovo.getPvo().setSalepercent(rs.getInt(6));
-					ovo.getPvo().setPimage1(rs.getString(7));	  
+				   ovo.getPdvo().setPnum(rs.getString(1));
+				   ovo.getPdvo().setFk_productid(rs.getString(2));
+				   ovo.getPdvo().setPname(rs.getString(3));
+				   ovo.getPdvo().setPcolor(rs.getString(4));
+				   ovo.getPvo().setPrice(rs.getInt(5));
+				   ovo.getPvo().setSalepercent(rs.getInt(6));
+				   ovo.getPvo().setPimage1(rs.getString(7));	  
 				  
 			  }
 			  

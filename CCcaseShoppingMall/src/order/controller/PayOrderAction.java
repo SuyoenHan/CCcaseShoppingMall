@@ -13,17 +13,18 @@ public class PayOrderAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		super.setViewPage("/WEB-INF/order/payOrderMain.jsp");
-		
-		String productid = request.getParameter("productid");
-		String pcolor = request.getParameter("pcolor");
+
+		String pnum = request.getParameter("pnum");
+		String cnt = request.getParameter("cnt");
 		
 		InterOrderDAO odao = new OrderDAO();
-		OrderVO ovo = odao.getOrderDetail(productid, pcolor);
+		OrderVO ovo = odao.getOrderDetail(pnum);
 		
 		request.setAttribute("ovo", ovo);
+		request.setAttribute("cnt", cnt);
 		
-
+		super.setViewPage("/WEB-INF/order/payOrderMain.jsp");
+		
 	}
 
 }

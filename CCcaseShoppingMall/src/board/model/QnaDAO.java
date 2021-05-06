@@ -600,7 +600,9 @@ public class QnaDAO implements InterQnaDAO {
 		
 		return cntQnaCmt;
 	}
-	
+
+
+
 	
 	///////////// 백원빈 끝////////////////////	
 }

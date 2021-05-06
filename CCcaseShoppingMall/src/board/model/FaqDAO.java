@@ -136,8 +136,9 @@ public class FaqDAO implements InterFaqDAO {
 	
 	//조회수 증가시키기
 	@Override
-	public void updateViewCount(String faqno) throws SQLException {
+	public int updateViewCount(String faqno) throws SQLException {
 
+		int n =0; 
 		try {
 	          conn = ds.getConnection();
 	          
@@ -147,7 +148,7 @@ public class FaqDAO implements InterFaqDAO {
 	          pstmt = conn.prepareStatement(sql);	
 	          pstmt.setInt(1, Integer.parseInt(faqno));
 	          
-	          int n= pstmt.executeUpdate();
+	          n= pstmt.executeUpdate();
 	
 	          if(n==1) {
 				  conn.commit();
@@ -158,10 +159,51 @@ public class FaqDAO implements InterFaqDAO {
 		}   finally {
 	         close();
 	    }
+		
+		return n ;
 	      
 	}
 
 
+	
+	
+	//조회수 select 해오기 
+		@Override
+		public String selectViewCount(String faqno) throws SQLException {
+			String viewCount = null;
+			
+			try {
+		          conn = ds.getConnection();
+		          
+			
+		          String sql = " select fviewcount " + 
+		          				"from tbl_faq " + 
+		          				"where faqno= ? ";
+		        		 
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          pstmt.setInt( 1, Integer.parseInt((faqno)) );
+		          
+		          
+		           rs= pstmt.executeQuery();
+		          
+		          if(rs.next()) {
+		        	
+		        	  viewCount= String.valueOf( rs.getInt(1) );
+		        	
+				  }
+		          
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+		         close();
+		    }  
+			
+			
+			return viewCount;
+		}
+		
+	
 	
 
 	// 글쓰기 등록하기
@@ -315,6 +357,8 @@ public class FaqDAO implements InterFaqDAO {
 		
 		return n;
 	}
+
+
 	
 	
 	

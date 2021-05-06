@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import admin.model.AdminVO;
 import board.model.*;
 import common.controller.AbstractController;
@@ -28,7 +30,7 @@ public class FaqListAction extends AbstractController {
 		
 		request.setAttribute("avo", avo);
 		
-		
+		super.goBackURL(request);
 		String method = request.getMethod();
 		
 	    if("GET".equalsIgnoreCase(method)) { //get 방식일때
@@ -49,12 +51,12 @@ public class FaqListAction extends AbstractController {
 					sizePerPage="7"; // null ,7을 제외한 나머지는 모두 7개만 뜸. url get방식으로 장난칠 수 없게 만들어 준 것이다.
 				}
 				
-				request.setAttribute("currentShowPageNo", currentShowPageNo);
-				request.setAttribute("sizePerPage", sizePerPage);
+			//	request.setAttribute("currentShowPageNo", currentShowPageNo);
+			//	request.setAttribute("sizePerPage", sizePerPage);
 				
 				// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자 아닌 문자를 입력한 경우 또는 
 		        //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
-				try { //사용자가 장난치는경우 INT값을 넘기는 경우 1페이지10개로 나타나게 해준다.
+				try { //사용자가 장난치는경우 INT값을 넘기는 경우 1페이지7개로 나타나게 해준다.
 					Integer.parseInt(currentShowPageNo);
 				}catch(NumberFormatException e) {
 					currentShowPageNo ="1";
@@ -65,21 +67,6 @@ public class FaqListAction extends AbstractController {
 				paraMap.put("sizePerPage", sizePerPage);
 				
 				
-				
-				//조회수 증가시키기
-				String faqno = request.getParameter("faqno");
-				
-				InterFaqDAO fdao2 = new FaqDAO();
-				// System.out.println(faqno);
-				if(faqno!=null && ! "x".equals(faqno)) {
-					fdao2.updateViewCount(faqno);
-				}
-				else if (faqno == null) {
-					faqno="x";
-				}
-				// System.out.println(faqno);
-				
-				request.setAttribute("faqno", faqno);
 				
 				
 				
@@ -97,6 +84,7 @@ public class FaqListAction extends AbstractController {
 				List<FaqVO> faqList = fdao.selectPagingFaq(paraMap);
 				
 				request.setAttribute("faqList", faqList);
+				request.setAttribute("sizePerPage", sizePerPage);
 				
 				// ==페이지바 만들기 ==
 				String pageBar = "";
@@ -126,7 +114,7 @@ public class FaqListAction extends AbstractController {
 						pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>"+ pageNo + "</span>&nbsp;";    
 					}
 					else {
-						pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"&sizePerPage="+sizePerPage+"&faqno="+faqno+"'> "+ pageNo + "</a>&nbsp;";    
+						pageBar += "&nbsp;<a href='faqList.cc?currentShowPageNo="+ pageNo +"&sizePerPage="+sizePerPage+"'> "+ pageNo + "</a>&nbsp;";    
 					}
 					loop++;
 					
