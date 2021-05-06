@@ -16,8 +16,15 @@ public interface InterOrderDAO {
 	
 	//배송 조회하기
 	List<OrderVO> shipStatusView(String orderno) throws SQLException;
-
 	
+	/////////////////////////// 백원빈 시작 ///////////////////////////////
+	//교환 접수시 배송상태 변경해주는 메소드
+	int updatestatus(String orderno) throws SQLException;
+	
+	//환불 접수시 배송상태 변경해주는 메소드
+	int updaterefundstatus(String orderno) throws SQLException;
+
+	/////////////////////////// 백원빈 끝 ///////////////////////////////	
 
 	
 }

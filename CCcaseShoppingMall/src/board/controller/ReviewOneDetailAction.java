@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import product.model.ProductVO;
 
 public class ReviewOneDetailAction extends AbstractController {
 
@@ -18,17 +18,19 @@ public class ReviewOneDetailAction extends AbstractController {
 		request.setAttribute("goBackURL", goBackURL);
 		
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		
-		String reviewimage1 = request.getParameter("reviewimage1");
-		
-		InterReviewDAO rdao = new ReviewDAO();
-		ReviewVO rvo = rdao.reviewOneDetail(reviewimage1);
-		
-		request.setAttribute("rvo", rvo);
-		request.setAttribute("loginuser", loginuser);
+		ReviewVO rvo = (ReviewVO) session.getAttribute("rvo");
 		
 		String reviewno = request.getParameter("reviewno");
+		
+		InterReviewDAO rdao = new ReviewDAO();
+		rvo = rdao.reviewOneDetail(reviewno);
+		
+		request.setAttribute("rvo", rvo);
+		
+		// 해당 리뷰의 구매 제품 가져오기 
+		ProductVO pvo = rdao.selectProduct(reviewno);
+		
+		request.setAttribute("pvo", pvo);
 		
 		// 조회수 증가시키기
 		if(reviewno != null) {

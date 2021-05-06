@@ -39,7 +39,7 @@ public class ReviewDelAction extends AbstractController {
 					message="해당 리뷰가 삭제되었습니다.";
 				}
 				else {
-					message="리뷰삭제가 실패되었습니다.";
+					message="리뷰삭제를 실패하였습니다.";
 				}
 				
 				JSONObject jsonObj = new JSONObject();

@@ -393,7 +393,7 @@
       <tr>
          <td style="width: 20%; font-weight: bold;">이메일&nbsp;<span class="star">*</span></td>
          <td style="width: 80%; text-align: left;"><input type="text" name="email" id="email" class="requiredInfo" placeholder="abc@def.com" /> 
-             <button type="button" id="emailCheckButton" style="display: inline-block; width: 100px; height:30px; border: solid 1px gray; padding-top:10px; border-radius: 5px; font-size: 10pt; text-align: center; margin: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</button> 
+             <button type="button" id="emailCheckButton" style="display: inline-block; width: 120px; height:30px; border: solid 1px gray; padding-top:5px; border-radius: 5px; font-size: 10pt; text-align: center; margin: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</button> 
              <span id="emailCheckResult"></span>
              <span class="error">이메일 형식에 맞지 않습니다.</span>
          </td>
