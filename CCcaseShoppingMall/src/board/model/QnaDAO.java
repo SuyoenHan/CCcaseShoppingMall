@@ -600,6 +600,37 @@ public class QnaDAO implements InterQnaDAO {
 		
 		return cntQnaCmt;
 	}
+
+
+	@Override
+	public HashMap<String, String> writeAllList(String userid) throws SQLException {
+		HashMap<String, String> AllList = new HashMap<>();
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount\n"+
+	        		 "from tbl_qna where fk_userid=? "+
+	        		 "union all\n"+
+	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount\n"+
+	        		 "from tbl_review\n"+
+	        		 "where fk_userid=? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, userid);
+	         pstmt.setString(2, userid);
+	         rs = pstmt.executeQuery();
+	         rs.next();
+	         
+	         AllList.put("no", rs.getString("no"));
+	         AllList.put("SUMTOTALPOINT", rs.getString("SUMTOTALPOINT"));
+	                  
+	      } finally {
+	         close();
+	      }
+	      
+	      return AllList;
+	}
 	
 	
 	///////////// 백원빈 끝////////////////////	
