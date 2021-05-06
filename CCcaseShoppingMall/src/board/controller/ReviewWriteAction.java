@@ -30,8 +30,6 @@ public class ReviewWriteAction extends AbstractController {
 				
 				MultipartRequest mtrequest = null;
 				
-				session = request.getSession();
-				
 				// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다.
 				ServletContext svlCtx = session.getServletContext();
 				String imagesDir = svlCtx.getRealPath("/images");
@@ -51,12 +49,15 @@ public class ReviewWriteAction extends AbstractController {
 				// cos.jar 라이브러리에서 제공하는 MultipartRequest 객체의 getFilesystemName("form에서의 첨부파일 name명") 메소드를 사용 한다. 
 				// 이때 업로드 된 파일이 없는 경우에는 null을 반환한다.		  
 				
-				String rvtitle = mtrequest.getParameter("rvtitle");
-				String satisfaction = mtrequest.getParameter("satisfaction");
-				String reviewimage1 = mtrequest.getParameter("reviewimage1");
-				String reviewimage2 = mtrequest.getParameter("reviewimage2");
-				String reviewimage3 = mtrequest.getParameter("reviewimage3");
+				/*
+					String rvtitle = mtrequest.getParameter("rvtitle");
+					String satisfaction = mtrequest.getParameter("satisfaction");
+					String reviewimage1 = mtrequest.getParameter("reviewimage1");
+					String reviewimage2 = mtrequest.getParameter("reviewimage2");
+					String reviewimage3 = mtrequest.getParameter("reviewimage3");
+				*/
 				
+				/*
 				// !!!! 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어코드) 작성하기 !!!! //
 				String rvcontent = mtrequest.getParameter("rvcontent");
 				
@@ -71,14 +72,17 @@ public class ReviewWriteAction extends AbstractController {
 				String fk_pname = rdao.getPnameOfProd(fk_userid);	
 				
 				request.setAttribute("fk_pname", fk_pname);
+				*/
 				
-				ReviewVO rvo = new ReviewVO();
-				rvo.setRvtitle(rvtitle);
-				rvo.setSatisfaction(Integer.parseInt(satisfaction));
-				rvo.setReviewimage1(reviewimage1);
-				rvo.setReviewimage2(reviewimage2);
-				rvo.setReviewimage3(reviewimage3);
-				rvo.setRvcontent(rvcontent);
+				/*
+					ReviewVO rvo = new ReviewVO();
+					rvo.setRvtitle(rvtitle);
+					rvo.setSatisfaction(Integer.parseInt(satisfaction));
+					rvo.setReviewimage1(reviewimage1);
+					rvo.setReviewimage2(reviewimage2);
+					rvo.setReviewimage3(reviewimage3);
+					rvo.setRvcontent(rvcontent);
+				
 				
 				// tbl_review 테이블에 제품정보 insert 하기
 				int n = rdao.reviewInsert(rvo);
@@ -93,7 +97,13 @@ public class ReviewWriteAction extends AbstractController {
 					// super.setRedirect(false);
 					super.setViewPage("/WEB-INF/msg.jsp");
 				}
-		
+				
+				*/
+				
+				
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/board/reviewWrite.jsp");
+				
 			}
 			else {	// GET 방식일때
 			

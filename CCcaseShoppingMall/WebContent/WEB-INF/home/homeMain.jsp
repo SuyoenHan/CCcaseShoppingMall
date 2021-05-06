@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath= request.getContextPath();
@@ -355,8 +356,8 @@
 					<div class="productName">[${pInfoMapBest.cname}]&nbsp;[${pInfoMapBest.modelname}]<br>${pInfoMapBest.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: ${pInfoMapBest.price}</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: ${pInfoMapBest.saleprice}</span>
+						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapBest.saleprice}" pattern="#,###,###" />원</span>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -402,8 +403,8 @@
 					<div class="productName">[${pInfoMapNew.cname}]&nbsp;[${pInfoMapNew.modelname}]<br>${pInfoMapNew.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: ${pInfoMapNew.price}</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: ${pInfoMapNew.saleprice}</span>
+						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapNew.saleprice}" pattern="#,###,###" />원</span>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -452,8 +453,8 @@
 					<div class="productName">[${pInfoMapFree.cname}]&nbsp;[${pInfoMapFree.modelname}]<br>${pInfoMapFree.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: ${pInfoMapFree.price}</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: ${pInfoMapFree.saleprice}</span>
+						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapFree.saleprice}" pattern="#,###,###" />원</span>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>

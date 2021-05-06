@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	String ctxPath= request.getContextPath();
 %>
@@ -565,7 +567,7 @@
 				<tr>
 					<th>판매가</th>
 					<td>
-						${onePInfo.price}원&nbsp;&nbsp;
+						<fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원&nbsp;&nbsp;
 					</td>
 				</tr>
 			</c:if>
@@ -573,13 +575,13 @@
 				<tr>
 					<th>할인판매가</th>
 					<td>
-						${onePInfo.saleprice}원
+						<fmt:formatNumber value="${onePInfo.saleprice}" pattern="#,###,###" />원
 					</td>
 				</tr>
 				<tr>
 					<th>판매가</th>
 					<td>
-						${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+						<fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
 					</td>
 				</tr>
 			</c:if>
