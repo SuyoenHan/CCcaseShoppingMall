@@ -28,7 +28,7 @@
 
 	div#title{
 	/* 	border:solid 1px gray; */
-		background-color: #ccc;
+		background-color: #98B7C1;
 		width:100%;
 		height:60px;
 		padding:15px;
@@ -52,7 +52,7 @@
 	}
 	
 	.button:hover{
-		background-color: #666699;
+		background-color: #98B7C1;
 		color: white;
     	
 	}
@@ -81,7 +81,7 @@
     }
     
     tr.faqSimple{
-       background-color: #eee;
+       background-color: #e6e6e6;
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -93,7 +93,7 @@
 	   transition: 2s;
     }
     tr.faqSimple:hover{
-   	 background-color:  #aaa !important;
+   	 background-color:  #6D919C !important;
     }
     
     #contents > div.container > table > tbody > tr.faqDetail {
@@ -102,9 +102,11 @@
     }
     
     div#faq{
-		background-color: #ccffee;
+		background-color: #CCF2F4;
 	}
-    
+     div#faq:hover{
+     	background-color:#A4EBF3; 
+     }
    
 </style>
   
@@ -137,8 +139,8 @@
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
-			var $viewCount = $(this).find("#fnum");
-			
+			   
+			   var $viewCount = $(this).find("#fnum");
 			   var faqno = $(this).next().prop("id");
 				$.ajax({
 		    		  url:"<%= ctxPath%>/board/updateViewCount.cc",

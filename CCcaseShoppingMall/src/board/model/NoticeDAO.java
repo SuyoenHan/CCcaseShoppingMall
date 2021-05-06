@@ -134,7 +134,8 @@ public class NoticeDAO implements InterNoticeDAO {
 	
 	//조회수 증가시키기
 	@Override
-	public void updateViewCount(String noticeno) throws SQLException {
+	public int updateViewCount(String noticeno) throws SQLException {
+		int n=0;
 		try {
 	          conn = ds.getConnection();
 	          
@@ -144,7 +145,7 @@ public class NoticeDAO implements InterNoticeDAO {
 	          pstmt = conn.prepareStatement(sql);	
 	          pstmt.setInt(1, Integer.parseInt(noticeno));
 	          
-	          int n= pstmt.executeUpdate();
+	          n= pstmt.executeUpdate();
 	
 	          if(n==1) {
 				  conn.commit();
@@ -155,8 +156,60 @@ public class NoticeDAO implements InterNoticeDAO {
 		}finally {
 	         close();
 	    }
+		
+		return n ;
 	
 	}
+	
+	
+	
+	
+
+	//조회수 select 해오기 
+	@Override
+	public String selectNoticeViewCount(String noticeno) {
+		String viewCount = null;
+		
+		try {
+	          conn = ds.getConnection();
+	          
+		
+	          String sql = " select nviewcount " + 
+	          				"from tbl_notice " + 
+	          				"where noticeno= ? ";
+	        		 
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setInt( 1, Integer.parseInt((noticeno)) );
+	          
+	          
+	           rs= pstmt.executeQuery();
+	          
+	          if(rs.next()) {
+	        	
+	        	  viewCount= String.valueOf( rs.getInt(1) );
+	        	
+			  }
+	          
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+	         close();
+	    }  
+		
+		
+		return viewCount;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		// 글쓰기 등록하기
 		@Override
 		public int noticeInsert(NoticeVO nvo) throws SQLException {
@@ -307,7 +360,10 @@ public class NoticeDAO implements InterNoticeDAO {
 			
 			return n;
 		}
-		
+
+
+
+
 		
 		
 		

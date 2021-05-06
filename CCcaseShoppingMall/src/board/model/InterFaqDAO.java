@@ -6,13 +6,18 @@ import java.util.Map;
 
 public interface InterFaqDAO {
 
+	// *** 페이징 처리를 한 모든 공지사항 목록 보여주기 *** //
 	List<FaqVO> selectPagingFaq(Map<String, String> paraMap) throws SQLException; // 모든 faq select 해와서 목록에 보여주기
 
+	// 페이징처리를 위해서 전체 FAQ에 대한 총페이지 개수 알아오기(select)
 	int selectTotalPage(Map<String, String> paraMap) throws SQLException;// 페이징처리를 위해서 전체FAQ에 대한 총페이지 개수 알아오기(select)  
 
-	//조회수 증가시키고 가져오기
+	//조회수 증가시키기
 	int updateViewCount(String faqno)throws SQLException;
 
+	//조회수 select 해오기 
+	String selectViewCount(String faqno) throws SQLException;
+		
 	//FAQ 글쓰기 insert 해주기
 	int faqInsert(FaqVO fvo) throws SQLException;
 
@@ -26,8 +31,7 @@ public interface InterFaqDAO {
 	//FAQ 글내용 삭제하기(DELETE)
 	int faqDeleteOne(FaqVO fvo) throws SQLException;
 
-	//조회수 select 해오기 
-	String selectViewCount(String faqno) throws SQLException;
+	
 
 
 	
