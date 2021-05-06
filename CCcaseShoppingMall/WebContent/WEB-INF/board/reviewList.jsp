@@ -122,6 +122,16 @@
 			location.href="<%=ctxPath%>/board/reviewWrite.cc";
 		});
 			
+		
+		// 더보기 버튼 클릭시 리뷰상세페이지로 이동
+		$("button.btnReadMore").click(function(){
+			var reviewno= $(this).parent().prev().prev().prop('id');
+			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno="+reviewno;
+			
+		}); // end of $("button.btnReadMore").click(function(){-------------------
+		
+		
+		
 	});// end of $(document).ready(function(){})----------------------------------
 	
 	function goRSearch() {
@@ -178,14 +188,16 @@
 			<tbody>
 				<c:forEach var="rvo" items="${requestScope.revList}">
 				<tr class="reviewInfo">
-					<td style="vertical-align:middle; text-align: center;">${rvo.reviewno}</td>
+					<td style="vertical-align:middle; text-align: center;" class="reviewno" id="${rvo.reviewno}">${rvo.reviewno}</td>
 					<td style="vertical-align:middle; width:20%; text-align: left;">
 						<img src="../images/${rvo.pimage1}" style="width:200px; height:150px;">
 					</td>
 					<td class="rvtitle" style="text-align:left; vertical-align:middle;">
 						<span id="prodName" style="color: #737373; font-size: 10pt;">${rvo.fk_pname}</span><br><br>
 						<span style="font-weight:bold; font-size:14pt;">"${rvo.rvtitle}"</span><br>
-							<span style="font-size:10pt;">${rvo.rvcontent}</span>&nbsp;&nbsp;&nbsp;<button type="button" id="btnReadMore">더보기</button></td>
+						<span style="font-size:10pt;">${rvo.rvcontent}</span>
+						&nbsp;&nbsp;&nbsp;<button type="button" class="btnReadMore">더보기</button>
+					</td>
 					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br>
 							${rvo.fk_userid}</td>
 				</tr>

@@ -157,11 +157,20 @@
 		<table>
 			<tbody>
 				<tr style="border:solid 1px gray; height:40px;">
-					<td><img src="../images/${requestScope.pvo.pimage1}"></td>
-					<td><span>${requestScope.spvo.sname}</span><br>
-							<span>${requestScope.pvo.productname}</span><br>
-							<span>${requestScope.pvo.price}</span>&nbsp;&nbsp;&nbsp;
-							<button id="btnDetail" type="button" onclick="location.href='<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL="+${requestScope.goBackURL}+" ' ">제품상세보기</button><br>
+					<td><img src="../images/${requestScope.pvo.pimage1}" width="400" height="400"></td>
+					<td>
+						<c:if test="${requestScope.snum eq 1}">
+							<span>NEW</span><br>
+						</c:if>
+						<c:if test="${requestScope.snum eq 0}">
+							<span>BEST</span><br>
+						</c:if>
+						<c:if test="${requestScope.snum eq -1}">
+							<span>-</span><br>   <%-- 신상품도 베스틑상품도 아닌경우 --%>
+						</c:if>
+						<span>${requestScope.pvo.productname}</span><br>
+						<span>${requestScope.pvo.price}</span>&nbsp;&nbsp;&nbsp;
+						<button id="btnDetail" type="button" onclick="location.href='<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL="+${requestScope.goBackURL}+" ' ">제품상세보기</button><br>
 					</td>
 				</tr>
 			</tbody>
@@ -191,6 +200,7 @@
 				</c:choose>
 			</span>
 		
+<<<<<<< HEAD
 				<div id="revBox">
 					<span>${sessionScope.loginuser.userid}&nbsp;|&nbsp;</span>
 					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
@@ -201,6 +211,14 @@
 				<div style="align:center;">
 				<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 40px;" onclick="goAddlike(${requestScope.rvo.reviewno})"/>&nbsp;&nbsp;
 				<div id="likeCnt" style="color:black; font-weight: bold;"></div>
+=======
+			<div id="revBox">
+				<span>${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
+				<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
+				<span>${requestScope.rvo.rviewcount}&nbsp;|&nbsp;</span><br>	
+				<span>${requestScope.rvo.rvtitle}</span><br>
+				<p>${requesetScope.rvo.rvcontent}</p>
+>>>>>>> refs/heads/syflowerdaba
 			</div>
 			</div>
 			
