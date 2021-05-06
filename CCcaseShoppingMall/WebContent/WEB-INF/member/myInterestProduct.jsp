@@ -273,7 +273,26 @@
 	
  		}); // $("span.addCartOne").click(function(){---------------- 	
 	 		
+ 			
+ 		// 주문하기 버튼을 클릭한 경우 주문하기 페이지로 제품정보 이동
+		$("span.orderOne").click(function(){
+			
+			var pnum= $(this).parent().parent().find("td.color").prop('id');
+			var cnt= "1";
+			var flag= false;
+			
+			
+	 		if("-"==pnum){ // 색상이 선택되지 않은 경우
+	 			flag=true;
+	 		}
 	 	
+		 	if(flag){
+		 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n장바구니로에 담은 후 색상옵션을 변경해주세요.");
+		 	}
+		 	else{
+				location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
+	 		}	
+		}); // end of $("div#buyBt").click(function(){
 	 		
 	 		
 	}); // end of $(document).ready(function(){----------
@@ -312,7 +331,7 @@
 				<td rowspan="3" id="${interestPRequiredInfo.pnum}" class="pnum"><input type="checkbox" name="checkList" value="${interestPRequiredInfo.pnum}" /></td>
 				<td rowspan="3"><img src="<%=ctxPath%>/images/${interestPRequiredInfo.pimage1}" width="110px" height="100px" class="interestProductImg" /></td>
 				<td class="productname" id="${interestPRequiredInfo.productname}">${interestPRequiredInfo.productname}</td>
-				<td rowspan="3" class="color" id="${interestPRequiredInfo.pcolor}">${interestPRequiredInfo.pcolor}</td>
+				<td rowspan="3" class="color" id="${interestPRequiredInfo.pnum}">${interestPRequiredInfo.pcolor}</td>
 				<td style="text-decoration: line-through;" class="price" id="${interestPRequiredInfo.price}">${interestPRequiredInfo.price}원</td>
 				<td rowspan="3">${interestPRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${interestPRequiredInfo.doption eq '0'}">
@@ -326,7 +345,7 @@
 				</c:if>
 				<td rowspan="3">${interestPRequiredInfo.saleprice}원</td>
 				<td>
-					<span class="funcBt">&nbsp;&nbsp;&nbsp;&nbsp;주문하기&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span class="funcBt orderOne">&nbsp;&nbsp;&nbsp;&nbsp;주문하기&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				</td>
 			</tr>
 			<tr>
