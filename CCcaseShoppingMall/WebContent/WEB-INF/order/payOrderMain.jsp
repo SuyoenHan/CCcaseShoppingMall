@@ -283,6 +283,14 @@
 	border: none;
 }
 
+th{
+	border:solid 1px black !important;
+}
+
+td{
+	border:solid 1px black;
+}
+
 
 </style>
 
@@ -292,8 +300,23 @@
 
 	$(document).ready(function(){
 		
-		$("span.error").hide();  
+		$("span.error").hide();
 		
+		
+		//판매가 계산하기
+		var price = Number(${requestScope.paraMap.price});
+		
+		var salepercent = Number(${requestScope.paraMap.salepercent});
+		
+		var saleprice = Number(price*(1-salepercent));
+		
+		if(salepercent==0){
+		
+			$("td#saleprice").text(price);
+		}
+		else{
+			$("td#saleprice").text(price);
+		}
 	    
 	    $("input#hp2").blur(function(){
 	       
@@ -388,7 +411,26 @@
 	             }
 	         }).open();
 	    });   
-	});
+	       
+	    $("button#totalpoint").click(function(){
+	    	
+	    	if("${requestScope.totalpoint}"==0){
+	    		alert("보유중인 포인트가 없습니다.");
+	    		return;
+	    	}
+	    	else{
+	    		$("input#totalpoint").val("${requestScope.totalpoint}");
+	    	}
+	    	
+	    	var finalPrice = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
+		    $("span#finalPrice").text(finalPrice+"원");
+
+	    });
+	    
+	    var finalPrice = ${requestScope.totalProPrice} + ${requestScope.shipfee};
+	    $("span#finalPrice").text(finalPrice+"원");
+	       
+	}); // end of document.ready
 	
 	
 	$(window).on("scroll", function() {
@@ -423,6 +465,8 @@
 		
 	}// end of function setDisplay()--------------------------------------
 
+	
+	
 
 </script>
 </head>
@@ -433,7 +477,8 @@
 <c:set var="prodPriceAll" value="0" />
 
 	<div class="order-header">
-		<h3>주문/결제</h3>
+		<br><br><br>
+		<h3>주문/결제창</h3>
 	</div>
 
 	<!-- 하단박스 시작 -->
@@ -441,26 +486,53 @@
 		<!-- 상품 정보 시작 -->
 			<div class="section-order-info left-section">
 				<h3>배송 상품</h3>
-				<table class="table table-hover">
+				<table class="table table-hover" style="margin-top:30px;">
 					<thead>
-					      <tr>
-					        <th>상품정보</th>
-					        <th>주문금액</th>
-					        <th>주문수량</th>
+				       	<tr>
+					        <th colspan="2">상품정보</th>
+					        <th>판매가</th>
+					        <th>수량</th>
 					        <th>적립금</th>
-					      </tr>
+					        <th>배송구분</th>
+					        <th>배송비</th>
+				        </tr>
 					</thead>
-
-				<!-- ????????? -->
-
+						
+					<tbody>
+						<tr> 
+							<td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.paraMap.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.paraMap.pimage1}" width="80px" height="80px" /></a></td>
+							<td>${requestScope.paraMap.productname}</td>
+							<td><fmt:formatNumber value="${requestScope.paraMap.price}" pattern="#,###,###" />원</td>
+							<td rowspan="2">${cnt}개</td>
+							<td rowspan="2">${requestScope.expectPoint}원</td>
+							<td rowspan="2">
+								<c:choose>
+									<c:when test="${requestScope.paraMap.doption eq 0}">무료배송</c:when>
+									<c:when test="${requestScope.paraMap.doption eq 1}">기본배송</c:when>
+								</c:choose>
+							</td>
+							<td rowspan="2" id="doption">
+								<c:choose>
+									<c:when test="${requestScope.paraMap.doption eq 0}">무료</c:when>
+									<c:when test="${requestScope.paraMap.doption eq 1}">3,000원</c:when>
+								</c:choose>
+							</td>
+						</tr>
+						
+						<tr> 
+							<td>옵션:&nbsp;${requestScope.paraMap.modelname}</td>
+							<td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>
+							
+						</tr>
+					</tbody>
 
 				</table>
 
 			</div>
 			<!-- 상품 정보 끝 -->
-		<!-- 하단좌측박스 시작 -->
+			
+		<!-- 하단 박스 시작 -->
 		<div class="orderSec-left">
-
 			<!-- 배송/주문자 정보 시작 -->
 			<div class="delivery-info left-section">
 				<div class="delivery-user">
@@ -496,8 +568,18 @@
 						<h3 id="name">${sessionScope.loginuser.name}</h3>
 					</div>
 					<ul class="delivery-condition-info">
-						<li>${sessionScope.loginuser.address}</li>
-						<li>${sessionScope.loginuser.mobile}</li>
+						<li>
+							<c:choose>
+								<c:when test="${empty sessionScope.loginuser.address}"><span style="color:red; font-weight:bolder;">등록된 주소지가 없습니다.</span></c:when>
+								<c:when test="${not empty sessionScope.loginuser.address}">${sessionScope.loginuser.address}</c:when>
+							</c:choose> 
+						</li>
+						<li>
+							<c:choose>
+								<c:when test="${empty sessionScope.loginuser.mobile}"><span style="color:red; font-weight:bolder;">등록된 휴대폰 번호가 없습니다.</span></c:when>
+								<c:when test="${not empty sessionScope.loginuser.mobile}">${sessionScope.loginuser.mobile}</c:when>
+							</c:choose> 
+						</li>
 					</ul>
 					</div>
 					<!-- 새로운 배송지 -->
@@ -570,19 +652,24 @@
 					<h3>결제 금액</h3>
 					<ul class="expected-price-list">
 						<li>
-							<span>총 상품 금액</span>
-							<strong><fmt:formatNumber value="" type="number" />원</strong>
+							<span style="margin-right:265px">총 상품 금액</span>
+							<span id="totalProPrice"><fmt:formatNumber value="${requestScope.totalProPrice}" type="number" pattern="#,###,###"/>원</span>
 						</li>
 						<li class="expected-price-item">
 							<span class="expected-price-title">배송비</span>
-							<strong>0원</strong>
+							<span>
+								<fmt:formatNumber value="${requestScope.shipfee}" type="number" pattern="#,###,###"/>원
+							</span>
+						</li>
+						<li class="expected-price-item">
+							<input id="totalpoint" type="text" readonly="readonly" /><span>보유중 포인트:${requestScope.totalpoint}원 </span> <button id="totalpoint" type="button">포인트사용</button>
 						</li>
 					</ul>
 					<p class="total-expected-price">
 						<span class="total-expected-price-title">총 결제 예상 금액</span>
-						<strong class="total-expected-price-value"><fmt:formatNumber value="" type="number" />원</strong>
+						<span id="finalPrice" style="font-weight:bolder; font-size:20pt"></span>
 					</p>
-					<button class="btn-order" type="button">주문 완료하기</button>
+					<button class="btn-order" id="goComplete" type="button">주문 완료하기</button>
 				</div>
 			</div>
 		</div>
