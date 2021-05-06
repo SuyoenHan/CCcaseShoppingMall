@@ -313,12 +313,7 @@
 			}
 		}); // end of $("div#wishListBt").click(function(){----------------------------
 		
-		
-		
-
-
 	}); // end of $(document).ready(function(){--------------------
-
 
 
 </script>
@@ -404,7 +399,7 @@
 			</tr>
 		</table>
 		
-		<div class="pdetailbt" style="margin-left: 0px;">바로구매</div>
+		<div class="pdetailbt" style="margin-left: 0px;" onclick="location.href='<%=ctxPath%>/order/payOrderMain.cc?productid=${onePInfo.productid}'">바로구매</div>
 		<div class="pdetailbt" id="wishListBt">장바구니</div>
 		<div class="pdetailbt">관심상품</div>
 	</div>
