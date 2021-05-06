@@ -41,12 +41,12 @@
 			<a href="<%=ctxPath%>/board/faqList.cc" class="comNav">FAQ</a>
 		</div>
 		
-		<div class="comLeftSection" id="q&a">
+		<div class="comLeftSection" id="qna">
 			<a href="<%=ctxPath%>/board/qnaList.cc" class="comNav">Q&A</a>
 		</div>
 		
 		<div class="comLeftSection" id="event">
-			<a href="" class="comNav">이벤트</a>
+			<a href="<%=ctxPath%>/board/eventList.cc" class="comNav">이벤트</a>
 		</div>
 		
 		<div class="comLeftSection" id="notice">

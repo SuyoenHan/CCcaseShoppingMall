@@ -19,9 +19,17 @@ public class QnaVO {
 	
 	public MemberVO memberVO;
 	public AdminVO adminVO;
+	public ReviewVO reviewVO;
 	
 	
-	
+	public ReviewVO getReviewVO() {
+		return reviewVO;
+	}
+
+	public void setReviewVO(ReviewVO reviewVO) {
+		this.reviewVO = reviewVO;
+	}
+
 	public QnaVO() {}
 	
 	public QnaVO(String qtitle, String fk_userid, String email, String fk_productid, String qstatus, String qnapwd, String qcontent) {

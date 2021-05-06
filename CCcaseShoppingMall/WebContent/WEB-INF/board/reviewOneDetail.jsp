@@ -64,6 +64,10 @@
 		goBackURL = "${requestScope.goBackURL}"	;
 		goBackURL = goBackURL.replace(/ /gi, "&");
 		
+		func_height();
+		
+		goLikeCnt();
+		
 	}); // end of $(document).ready(function(){})--------------------------------------
 	
 	// Function Declaration 
@@ -77,14 +81,57 @@
 	  obj.src = "../images/" + val;
 	} 
 	
+	// 수정 버튼 클릭시 //
 	function revEdit() {	
-		location.href="<%=ctxPath%>/board/reviewEdit.cc"
+		location.href="<%=ctxPath%>/board/reviewEdit.cc";
 	}
 	
+	// 삭제버튼 클릭시 //
 	function revDel() {
-		location.href="<%=ctxPath%>/board/reviewDel.cc"
+		location.href="<%=ctxPath%>/board/reviewDel.cc";
 	}
 	
+	// **** 특정제품에 대한 좋아요 등록하기 **** // 
+	function goAddlike() {
+		if(${empty sessionScope.loginuser}) {
+			alert("도움이 돼요를 누르시려면 먼저 로그인 하셔야 합니다.");
+			return;
+		}
+		
+		$.ajax({
+			url: "<%=ctxPath%>/board/likeAdd.cc",
+			type: "post",
+			data: {"userid":"${sessionScope.loginuser.userid}"
+					  ,"reviewno":reviewno},
+			dataType: "json",
+			success:function(json){
+				alert(json.msg);
+				goLikeCnt();
+			},
+			error: function(request, status, error) {
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+	}// end of function goAddlike() {}-----------------------------------------------------------
+
+	// **** 특정 제품에 대한 좋아요, 싫어요 갯수를 보여주기 **** //
+	function goLikeCnt() {
+		
+		$.ajax ({
+			url:"<%=ctxPath%>/board/likeCount.cc",
+			data:{"reviewno","${requestScope.rvo.reviewno}"},
+			dataType:"json",
+			success:function(json) {
+				$("div#likeCnt").html(json.likecnt);
+			},
+			error: function(request,status,error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+		});
+	}
+
 </script>
 
 
@@ -144,17 +191,26 @@
 				</c:choose>
 			</span>
 		
-			<div id="revBox">
-				<span>${sessionScope.loginuser.userid}&nbsp;|&nbsp;</span>
-				<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
-				<span>${requestScope.rvo.rviewcount}&nbsp;|&nbsp;</span><br>	
-				<span>${requestScope.rvo.rvtitle}</span><br>
-				<p>${requesetScope.rvo.rvcontent}</p>
+				<div id="revBox">
+					<span>${sessionScope.loginuser.userid}&nbsp;|&nbsp;</span>
+					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
+					<span>${requestScope.rvo.rviewcount}&nbsp;|&nbsp;</span><br>	
+					<span>${requestScope.rvo.rvtitle}</span><br>
+					<p>${requesetScope.rvo.rvcontent}</p>
+				</div>
+				<div style="align:center;">
+				<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 40px;" onclick="goAddlike(${requestScope.rvo.reviewno})"/>&nbsp;&nbsp;
+				<div id="likeCnt" style="color:black; font-weight: bold;"></div>
 			</div>
+			</div>
+			
+			
+			
 		</div>
+	</div>	
+	
 	</div>
-</div>	
-	</div>
+	
 	<div id="btnRevList" align="right">
 		<button type="button" onclick="goBack2List()">목록</button>
 		<button type="button" onclick="revEdit()">수정</button><%-- 로그인 후에 보여질지 결정 --%>

@@ -603,6 +603,46 @@ public class QnaDAO implements InterQnaDAO {
 
 
 
+	@Override
+	public List<QnaVO> writeAllList(String userid) throws SQLException {
+		List<QnaVO> allList =  new ArrayList<>();
+		
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount "+
+	        		 "from tbl_qna where fk_userid= ?  "+
+	        		 "union all "+
+	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount "+
+	        		 "from tbl_review "
+	        		 + "where fk_userid= ? "
+	        		 + "order by registerdate desc ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, userid);
+	         pstmt.setString(2, userid);
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	        
+	        	 QnaVO qvo = new QnaVO();
+	        
+	        	 qvo.setQnano(rs.getInt("no"));
+	        	 qvo.setQtitle(rs.getString("title"));
+	        	 qvo.setFk_userid(rs.getString("userid"));
+	        	 qvo.setQregisterdate(rs.getString("registerdate"));
+	        	 qvo.setQviewcount(rs.getInt("viewcount"));
+	         
+	         allList.add(qvo);
+	         }
+	      } finally {
+	         close();
+	      }
+	      System.out.println(allList);	
+	      return allList;
+	      
+	      }
+	
 	
 	///////////// 백원빈 끝////////////////////	
 }

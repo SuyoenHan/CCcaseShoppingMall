@@ -86,6 +86,7 @@
 	</thead>
 	
 	
+	
 	<tbody>
 		
 		<c:forEach var="cvo" items="${requestScope.cpList}">

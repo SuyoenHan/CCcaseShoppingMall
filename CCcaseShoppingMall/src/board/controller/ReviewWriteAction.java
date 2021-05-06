@@ -30,6 +30,8 @@ public class ReviewWriteAction extends AbstractController {
 				
 				MultipartRequest mtrequest = null;
 				
+				session = request.getSession();
+				
 				// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다.
 				ServletContext svlCtx = session.getServletContext();
 				String imagesDir = svlCtx.getRealPath("/images");
@@ -91,11 +93,9 @@ public class ReviewWriteAction extends AbstractController {
 					// super.setRedirect(false);
 					super.setViewPage("/WEB-INF/msg.jsp");
 				}
-				
-			}
-			
 		
-		}else {	// GET 방식일때
+			}
+			else {	// GET 방식일때
 			
 			String message = "로그인 후 사용하세요.";
 			String loc = "javascript:history.back()";
@@ -107,4 +107,5 @@ public class ReviewWriteAction extends AbstractController {
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
 		}
+	}
 }

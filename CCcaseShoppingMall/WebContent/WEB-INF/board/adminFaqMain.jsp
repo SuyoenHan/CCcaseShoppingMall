@@ -30,7 +30,7 @@
 
 	div#title{
 	/* 	border:solid 1px gray; */
-		background-color: #ccc;
+		background-color: #98B7C1;
 		width:100%;
 		height:60px;
 		padding:15px;
@@ -50,13 +50,13 @@
 	 width:80px;
 	 height:40px;
 	 margin-left: 35px ;
-    
+	 border:solid 1px #98B7C1;
+     background-color: #98B7C1;
 	}
 	
 	.button:hover{
-		background-color: #666699;
+		background-color: #98B7C1;
 		color: white;
-    	
     	
 	}
 	
@@ -84,7 +84,7 @@
     }
     
     tr.faqSimple{
-       background-color: #eee;
+     
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -96,17 +96,17 @@
 	   transition: 2s;
     }
     tr.faqSimple:hover{
-   	 background-color:  #aaa !important;
+   	 background-color:   #ecf2f9 ;
     }
     
-    #contents > div.container > table > tbody > tr.faqDetail {
-    	 
-    	background-color: white;
-    }
+  
     
     div#faq{
-		background-color: #ccffee;
+		background-color: #6D919C;
 	}
+     div#faq:hover{
+     	background-color:#CCF2F4; 
+     }
     
 </style>
   
@@ -143,12 +143,36 @@
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
-				location.href="<%=ctxPath%>/board/faqList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&faqno="+$(this).next().prop("id");			
-			}
-			else{
-				$(this).next().css('display','none');
-			}
-			
+				   
+				   var $viewCount = $(this).find("#fnum");
+				   var faqno = $(this).next().prop("id");
+					$.ajax({
+			    		  url:"<%= ctxPath%>/board/updateViewCount.cc",
+			    		  type:"post",
+			    		  data:{"faqno": faqno},
+			    		  dataType:"json",
+			    		  success:function(json){ // {"n":1}   {"n":0}
+			                      // 조회수 등록 성공 되어지면
+			                      var j = json.viewCount;
+			                      // console.log(j);
+			    		          $viewCount.text(j); 
+			                      
+			    			//	$(this).find("td#fnum").text(json.viewCount);
+			    			
+			    		  },
+			    		  error: function(request, status, error){
+			  	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			  	       	  }
+			    		
+					});
+					  $(this).next().css('display','');
+				}
+				else{
+					
+					$(this).next().css('display','none');
+					
+					
+				}
 		
 		});
 		
@@ -304,7 +328,7 @@
 			
 			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
 			<c:if test="${not empty requestScope.avo}">
-			<button type="button" class="faqwrite"  id="faqwrite" name="faqwrite" value="글쓰기" style="float:right; " >글쓰기</button>
+			<button type="button" class="faqwrite button"  id="faqwrite" name="faqwrite" value="글쓰기" style="float:right; " >글쓰기</button>
 			</c:if>
 			
 			<!-- 페이징바 -->

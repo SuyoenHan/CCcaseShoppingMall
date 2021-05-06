@@ -30,7 +30,7 @@
 
 	div#title{
 	/* 	border:solid 1px gray; */
-		background-color: #ccc;
+		background-color: #98B7C1;
 		width:100%;
 		height:60px;
 		padding:15px;
@@ -50,11 +50,12 @@
 	 width:80px;
 	 height:40px;
 	 margin-left: 35px ;
-    
+	 border:solid 1px #98B7C1;
+     background-color: #98B7C1;
 	}
 	
 	.button:hover{
-		background-color: #666699;
+		background-color: #98B7C1;
 		color: white;
     	
 	}
@@ -83,7 +84,7 @@
     }
     
     tr.noticeSimple{
-       background-color: #eee;
+     
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -95,7 +96,7 @@
 	   transition: 2s;
     }
     tr.noticeSimple:hover{
-   	 background-color:  #aaa !important;
+   	 background-color: #ecf2f9 !important;
     }
     
       #contents > div.container > table > tbody > tr.faqDetail {
@@ -105,8 +106,11 @@
     
     
     div#notice{
-		background-color: #ccffee;
+		background-color: #6D919C ;
 	}
+    div#notice:hover{
+    	background-color:#CCF2F4; 
+    }
     
 </style>
   
@@ -137,21 +141,46 @@
 			$("tr.noticeDetail").css('display','none'); //안보이도록 한다.
 		}
 		
-		
+		//클릭시 조회수 증가
 		$("tr.noticeSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
-				location.href="<%=ctxPath%>/board/noticeList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&noticeno="+$(this).next().prop("id");			
-			}
-			else{
-				$(this).next().css('display','none');
-			}
+				
+				   var $viewCount = $(this).find("#nviewcount");
+				   var noticeno = $(this).next().prop("id");
+					$.ajax({
+			    		  url:"<%= ctxPath%>/board/updateNoticeViewCount.cc",
+			    		  type:"post",
+			    		  data:{"noticeno": noticeno},
+			    		  dataType:"json",
+			    		  success:function(json){ // {"n":1}   {"n":0}
+			                      // 조회수 등록 성공 되어지면
+			                      var j = json.viewCount;
+			                      // console.log(j);
+			    		          $viewCount.text(j); 
+			                      
+			    			//	$(this).find("td#fnum").text(json.viewCount);
+			    			
+			    		  },
+			    		  error: function(request, status, error){
+			  	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			  	       	  }
+			    		
+					});
+					  $(this).next().css('display','');
 			
-		});
+				
+				}
+				else{
+					$(this).next().css('display','none');
+				}
+			
+			
+		 });
 		
 		
+		//목록버튼 클릭했을 때
 		$("button.noticeList").click(function(){
-			//목록버튼 클릭했을 때
 			//alert("목록클릭!");
 			location.href="<%=ctxPath%>/board/noticeList.cc";
 			
@@ -239,7 +268,7 @@
 								</tr>
 							</table>
 						
-							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
+							<button type="button" class="button noticeList" name="noticeList" style="align:left; margin: 15px 0 20px 35;">목록</button>
 						
 						</td>
 					 </tr>

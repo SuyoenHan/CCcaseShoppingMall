@@ -20,25 +20,41 @@
    		margin-top: 5%;
    		width:	80%;
    }	
+   
+   table#qnaTbl {
+   		border-left: none;
+   		border-right: none;
+   }
+   
    tr.qnaInfo:hover {
         background-color: #e6ffe6;
         cursor: pointer;
    }  
+   
    tr#menu{
    		font-weight: bold;
    		font-size: 18px;
-   		background-color: gray;
+   		background-color: #6D919C;
+   		text-align: center;
+   		color: white;
    		height: 40px;
    }
+   
    th{
    		border: none;
    }
+   
    td{
    		width: 10%;
    		height: 35px;
    		text-align: center;
    }
    
+   	div#pageBar{
+   		width:30%; 
+   		margin: 0 auto; 
+   		font-size: 20px;
+   }
 </style>
 
 <script type="text/javascript">
@@ -84,22 +100,22 @@
 	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
 	        <thead>
 	           <tr id="menu">	 
-	              <th>No.</th>
-	              <th>제목</th>
-	              <th>작성자</th>
+	              <th style="width:3%;">No.</th>
+	              <th style="width:20%;">제목</th>
+	              <th style="width:10%;">작성자</th>
 	              <th>등록일자</th>
-	              <th>조회수</th>
+	              <th style="width:3%;">조회수</th>
 	           </tr>
 	        </thead>
 
 	    	<tbody>
 	    		<c:forEach var="qvo" items="${requestScope.qnaList}">
 	    			<tr class="qnaInfo">
-	    				<td class="qnano">${qvo.qnano}</td>
-	    				<td class="qtitle">${qvo.qtitle}</td>
-	    				<td>${qvo.fk_userid}</td>
+	    				<td class="qnano" style="width:3%;">${qvo.qnano}</td>
+	    				<td class="qtitle" style="width:20%;">${qvo.qtitle}</td>
+	    				<td style="width:10%;">${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>
-	    				<td class="qviewcount">${qvo.qviewcount}</td>
+	    				<td class="qviewcount" style="width:3%;">${qvo.qviewcount}</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>
