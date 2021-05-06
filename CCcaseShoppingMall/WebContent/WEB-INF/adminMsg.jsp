@@ -6,5 +6,9 @@
 	alert("${requestScope.message}");
 	
 	location.href="${requestScope.loc}";
+	
+	self.close();
+	
+	opener.history.go(0);
 
 </script>

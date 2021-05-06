@@ -25,7 +25,6 @@ public class ChangeRefundAction extends AbstractController {
 			// DB에서 테이블 4개를 조인하여 해당정보만 뽑아오자.
 			InterChRefundDAO icrdao =new ChRefundDAO(); 
 			List<Map<String,String>> chRefundList =icrdao.selectchRefundList();
-			System.out.println(chRefundList);
 			
 			request.setAttribute("chRefundList", chRefundList);
 			

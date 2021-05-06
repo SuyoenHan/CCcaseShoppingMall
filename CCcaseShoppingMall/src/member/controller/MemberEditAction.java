@@ -21,6 +21,7 @@ public class MemberEditAction extends AbstractController {
 				
 				if(loginuser.getUserid().equals(userid)) {
 					request.setAttribute("pwd",pwd);
+					System.out.println(pwd);
 					//로그인한 사용자가 자신의 정보를 수정하는 경우
 				      //   super.setRedirect(false);
 			         super.setViewPage("/WEB-INF/member/memberEdit.jsp");

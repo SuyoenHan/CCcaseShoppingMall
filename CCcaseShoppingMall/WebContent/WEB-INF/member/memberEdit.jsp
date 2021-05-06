@@ -55,9 +55,9 @@
 </style>
 
 <script type="text/javascript">
-	
+var b_flagPwdEditClick =false;
 var b_flagEmailDuplicateClick = true;
-
+$("button#emailCheckButton").prop("disabled",true);
 	$(document).ready(function(){
 		
 		$("span.error").hide();
@@ -69,7 +69,7 @@ var b_flagEmailDuplicateClick = true;
 		$("tr#pwdEditclick").hide();
 		$("span.pwdEditBack").hide();
 		
-		$("button#emailCheckButton").prop("disabled",true);
+		
 		
 		$("input#pwd").blur(function(){
 	
@@ -142,7 +142,7 @@ var b_flagEmailDuplicateClick = true;
 	            
 	            if(!bool) {
 	               // 이메일이 정규표현식에 위배된 경우
-	               $("table#tblMemberEdit :input").prop("disabled",true);
+	               $("table#tblMemberEdit:input").prop("disabled",true);
 	               $(this).prop("disabled",false);
 	            
 	               $(this).parent().find(".error").show();
@@ -152,7 +152,7 @@ var b_flagEmailDuplicateClick = true;
 	            else {
 	               // 이메일이 정규표현식에 맞는 경우
 	                $("button#emailCheckButton").prop("disabled",false);
-	               $("table#tblMemberEdit :input").prop("disabled",false);
+	               $("table#tblMemberEdit:input").prop("disabled",false);
 	               $(this).parent().find(".error").hide();
 	            }
 	            
@@ -299,12 +299,13 @@ var b_flagEmailDuplicateClick = true;
   
    }// end of function isExistEmailCheck()---------------------------
 	
-   function  pwdEdit() {
+   function  pwdEdit(userid) {
 	   $("span.pwdEdit").hide();
 	   $("span.pwdEditBack").show();
 	   $("tr#pwdEditclick").show();
 	   
-	 
+	   b_flagPwdEditClick =true;
+	   location.href="<%= request.getContextPath()%>/login/pwdUpdateEnd.cc?userid="+userid;
 	   	  
     }
    function  pwdEditBack() {
@@ -337,24 +338,37 @@ var b_flagEmailDuplicateClick = true;
 	    	alert("이메일중복확인 클릭하여 이메일중복검사를 하세요!!");
 	    	return; // 종료
 	  }
-	  var flagBool=false;
-   	  $(".requiredInfo").each(function(index,item){
-   		  
-   		  var data = $(item).val().trim();
-   		   
-   		   if(data==""){
-   			   flagBool=true;
-   			   return false;
+	   var flagBool=false;
+	   	  $(".requiredInfo").each(function(index,item){
+	   		  
+	   		  var data = $(item).val().trim();
+	   		   
+	   		   if(data==""){
+	   			   flagBool=true;
+	   			   return false;
 
-   		   }
-   	   });
-     
-   
-  	
-   	  if(flagBool){
-   		  alert("필수입력란은 모두 입력하셔야 합니다.");
-   	  	  return;
-   	  }
+	   		   }
+	   	   });
+	   	if(b_flagPwdEditClick)
+	   		{
+		   	  $(".pwdrequiredInfo").each(function(index,item){
+		   		  
+		   		  var data = $(item).val().trim();
+		   		   
+		   		   if(data==""){
+		   			   flagBool=true;
+		   			   return false;
+
+		   		   }
+		   	   });
+	   		
+	   		}
+	
+	  	
+	   	  if(flagBool){
+	   		  alert("필수입력란은 모두 입력하셔야 합니다.");
+	   	  	  return;
+	   	  }
        
 	  else{
 		  var frm=document.editFrm;
@@ -393,22 +407,13 @@ var b_flagEmailDuplicateClick = true;
 		</tr>
 		<tr>
 			<td style="width: 20%; font-weight: bold;">비밀번호</td>
-			<td style="width: 80%; text-align: left;"><input type="hidden" name="pwd" value="${sessionScope.loginuser.pwd}"/>●●●●●● ${sessionScope.loginuser.pwd}
-			<span class="pwdEdit"style="display: inline-block; width: 100px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="pwdEdit();">비밀번호 변경하기</span> 
-			 <span class="pwdEditBack"style="display: inline-block; width: 100px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="pwdEditBack();">비밀번호 변경취소</span> 
-			</td>
+			<td style="width: 80%; text-align: left;">●●●●●●
+			<span class="pwdEdit"style="display: inline-block; width: 100px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="pwdEdit('${sessionScope.loginuser.userid}');">비밀번호 변경하기</span> 
+			
 		</tr>
-	
-			<tr id="pwdEditclick">
-				<td style="width: 20%; font-weight: bold;">새 비밀번호&nbsp;<span class="star">*</span></td>
-				<td style="width: 80%; text-align: left;">
-				<input type="password" name="pwd" id="pwd" value="${sessionScope.loginuser.pwd}"placeholder="●●●●" />
-					<span class="error">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로 입력하세요.</span>
-				</td>
-			</tr>
 			<tr id="pwdEditclick">
 				<td style="width: 20%; font-weight: bold;">새 비밀번호확인&nbsp;<span class="star">*</span></td>
-				<td style="width: 80%; text-align: left;"><input type="password" id="pwdcheck"  value="${sessionScope.loginuser.pwd}"placeholder="●●●●" /> 
+				<td style="width: 80%; text-align: left;"><input type="password" id="pwdcheck" class ="pwdrequiredInfo" value="${sessionScope.loginuser.pwd}"placeholder="●●●●" /> 
 					<span class="error">암호가 일치하지 않습니다.</span>
 				</td>
 			</tr>
@@ -428,7 +433,7 @@ var b_flagEmailDuplicateClick = true;
 			  
 			    <div id="emailEditclick">
 				    <input type="text" name="email" id="email"class="requiredInfoEdit" placeholder="abc@def.com" />
-				     <span class="emailCheckButton"style="display: inline-block; width: 80px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;"  onclick="isExistEmailCheck();">이메일중복확인</span>
+				      <button type="button" id="emailCheckButton" style="display: inline-block; width: 120px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;"  onclick="isExistEmailCheck();">이메일중복확인</button>
 				    <span id="emailCheckResult"></span> 
 				    <span class="error">이메일 형식에 맞지 않습니다.</span>
 			    </div>

@@ -1,23 +1,23 @@
 package member.controller;
 
-import java.util.HashMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
 import board.model.InterQnaDAO;
+import board.model.InterReviewDAO;
 import board.model.QnaDAO;
 import board.model.QnaVO;
+import board.model.ReviewDAO;
+import board.model.ReviewVO;
 import common.controller.AbstractController;
 import my.util.Myutil;
 
-
-public class MemberWriteListQnAAction extends AbstractController {
+public class MemberWriteListMainAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -36,6 +36,7 @@ public class MemberWriteListQnAAction extends AbstractController {
 			currentShowPageNo="1";
 		}
 		InterQnaDAO qdao = new QnaDAO();
+		InterReviewDAO rdao = new ReviewDAO();
 		
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
@@ -44,12 +45,14 @@ public class MemberWriteListQnAAction extends AbstractController {
 		List<QnaVO> qnaList = qdao.qnaMywrite(paraMap);
 		request.setAttribute("qnaList", qnaList);
 		
+		List<ReviewVO> revList= rdao.reviewMywrite(paraMap);
+		request.setAttribute("revList", revList);
 		int totalPage = qdao.qnaMywriteTotalPage(userid);
 		//System.out.println("~~~확인용~~"+totalPage);
-
+		int totalPage1 = rdao.reviewMywriteTotalPage(userid);
 		String pageBar="";
 		
-		int blockSize =1;
+		int blockSize =2;
 		int loop=1;
 		int pageNo=0;
 		// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
@@ -61,8 +64,8 @@ public class MemberWriteListQnAAction extends AbstractController {
 		//System.out.println(pageNo);
 		//***[맨처음] [이전] 만들기***//
 		if(pageNo != 1) {
-			pageBar += "&nbsp;<a href='memberWriteListQnA.cc?userid="+userid+"&currentShowPageNo=1'>[맨처음]</a>&nbsp;";  
-			pageBar += "&nbsp;<a href='memberWriteListQnA.cc?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo=1'>[맨처음]</a>&nbsp;";  
+			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";
 		}
 		while( !(loop > blockSize || pageNo > totalPage) ) {
             
@@ -70,7 +73,7 @@ public class MemberWriteListQnAAction extends AbstractController {
                pageBar += "&nbsp;<span style='border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</span>&nbsp;";        
             }
             else {
-               pageBar += "&nbsp;<a href='memberWriteListQnA.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+               pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
             }
             
             loop++;
@@ -80,9 +83,12 @@ public class MemberWriteListQnAAction extends AbstractController {
          }// end of while--------------------------------
 		
 		if(!(pageNo > totalPage)) {
-			pageBar += "&nbsp;<a href='memberWriteListQnA.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";
-			pageBar += "&nbsp;<a href='memberWriteListQnA.cc?userid="+userid+"&currentShowPageNo="+totalPage+"'>[마지막]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListMain.cc?userid="+userid+"&currentShowPageNo="+totalPage+"'>[마지막]</a>&nbsp;";
 		}
+		
+		
+		
 		
 		request.setAttribute("pageBar", pageBar);
 		// 4.
@@ -93,10 +99,9 @@ public class MemberWriteListQnAAction extends AbstractController {
 				currentURL = currentURL.replaceAll("&", " ");
 
 				request.setAttribute("goBackURL", currentURL);
-			
-		super.setViewPage("/WEB-INF/member/memberWriteListQnA.jsp");
-	
+				
+		
+		super.setViewPage("/WEB-INF/member/memberWriteListMain.jsp");
 	}
 
-	
 }

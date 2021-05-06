@@ -396,7 +396,7 @@ public class ReviewDAO implements InterReviewDAO {
 	        		  " from ( select rownum AS rno,  reviewno, fk_userid,fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
 	        		  "from "+
 	        		  "( "+
-	        		  "select reviewno, fk_userid, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "+
+	        		  "select reviewno, fk_userid, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
 	        		  "from tbl_review "+
 	        		  "where fk_userid= ? "+
 	        		  "order by reviewno desc "+

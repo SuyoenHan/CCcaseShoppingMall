@@ -44,6 +44,7 @@
 
 	$(document).ready(function(){
 		
+		func_height(); 
 		
 		displayOrderList("1");
 		
@@ -94,7 +95,7 @@
 			
 		});
 		
-		
+				
 		
 	});//end of $(document).ready(function(){})------------------------------
 	
@@ -152,8 +153,8 @@
  	            	  }
  	            	 else if(item.shipstatus==2){
  	            		 shipstatus = "<span>배송완료</span><br>"+
-			 			        	  "<button type='button' class='shipstatusBtn' id='shipchangeBtn' name='shipchangeBtn' >교환접수</button>"+
-			 			        	  "<button type='button' class='shipstatusBtn' id='shipdeleteBtn' name='shipdeleteBtn' >환불접수</button>";
+			 			        	  "<button type='button' class='shipStatusBtn' id='shipChangeBtn' name='shipChangeBtn' >교환접수</button>"+
+			 			        	  "<button type='button' class='shipStatusBtn' id='shipRefundBtn' name='shipDeleteBtn' >환불접수</button>";
  	            	  }
  	            	 else if(item.shipstatus==3){
  	            		 shipstatus = "<span>구매확정</span><br>"+
@@ -180,17 +181,18 @@
   				      		   "     <td> "+
   							   "		<span><img src='/CCcaseShoppingMall/images/product/"+item.pimage1+"' name='pimage1'id='pimage1'style='width:55px; height:55px; float:left'/></span> "+ 
   							   "		<span id='productname' name='productname'>"+item.productname+"</span>&nbsp;&nbsp;<span id='pcolor' name='pcolor'>"+item.pcolor+"</span><br>  "+             
-  							   " 		<span id='modelname' name='modelname'>옵션:"+item.modelname+"</span> "+
+  							   " 		<span>옵션:&nbsp</span><span id='modelname' name='modelname'>"+item.modelname+"</span> "+
   							   "     </td>	 "+
   							   "     <td id='orderdate' name='orderdate'>주문일자 "+item.orderdate+"</td> "+
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
   							   "     <td id='totalPrice' name='totalPrice'>주문금액"+item.totalPrice+"원</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
-  							   "     <td>"+shipstatus+"</td> "
-  						       "</tr>" ;
-	            	  	                          
-	                          
+  							   "     <td>"+shipstatus+"<input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"' /></td> " +
+  						       "</tr>"
+  						     
+	            	  	        //console.log(item.odetailno);        
+  	             	
 	
 	                  
 	               }); 
@@ -249,28 +251,38 @@
 						
 					});
 		
-	               
-				<%-- 	// 교화접수 클릭 - 팝업창 띄우기
-					$("button#shipchangeBtn").click(fucntion(){
+					
+					// 교환하기 버튼 클릭시
+					$("button#shipChangeBtn").click(function(){
 						
 						var orderno =$(this).parent().parent().find("td#orderno").text();
-						var orderno =$(this).parent().parent().find("td#productname").text();
-						var orderno =$(this).parent().parent().find("td#modelname").text();
-						
-						//alert("faqno"+faqno);
-						var url = "<%=ctxPath%>/board/faqEdit.cc?faqno="+faqno;
-						 
-						  	
-						  window.open(url, "faqEdit",
-								           "lefe=350p, top=100px,width=700px, height=450px");
-						
+						var productname =$(this).parent().parent().find("span#productname").text();
+						var modelname =$(this).parent().parent().find("span#modelname").text();
+						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
+						var url ="<%=ctxPath%>/board/productChange.cc?orderno="+orderno+"&productname="+productname+"&modelname="+modelname+"&odetailno="+odetailno;
+
+						window.open(url, "refundProduct","lefe=350p, top=100px,width=700px, height=450px");
 						
 					});
 					
-	                --%>
-	               
+					// 환불하기 버튼 클릭시
+					$("button#shipRefundBtn").click(function(){
+						
+						var orderno =$(this).parent().parent().find("td#orderno").text();
+						var productname =$(this).parent().parent().find("span#productname").text();
+						var modelname =$(this).parent().parent().find("span#modelname").text();
+						var pcolor =$(this).parent().parent().find("span#pcolor").text();
+						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
+						var url ="<%=ctxPath%>/board/productRefund.cc?orderno="+orderno+"&productname="+productname+"&modelname="+modelname+"&pcolor="+pcolor+"&odetailno="+odetailno;
+
+						window.open(url, "changeProduct","lefe=350p, top=100px,width=700px, height=450px");
+						
+					});
+					
+					
+					
 	           
-	              func_height(); 
+	              
 	            }
 	            
 	         },
