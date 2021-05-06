@@ -10,7 +10,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import product.model.ProductVO;
-import product.model.SpecVO;
 
 public class ReviewDAO implements InterReviewDAO {
 	
@@ -171,7 +170,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " where reviewno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt(reviewno));
+			pstmt.setString(1, reviewno);
 			
 			n = pstmt.executeUpdate();
 			
@@ -187,7 +186,7 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// reviewimage1(썸네일) 값을 입력받아서 사진 리뷰 1개에 대한 상세정보를 알아오기
 	@Override
-	public ReviewVO reviewOneDetail(int reviewno) throws SQLException {
+	public ReviewVO reviewOneDetail(String reviewno) throws SQLException {
 		
 		ReviewVO rvo = null;
 		
@@ -200,7 +199,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " where reviewno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, reviewno);
+			pstmt.setString(1, reviewno);
 			
 			rs= pstmt.executeQuery();
 			
@@ -574,19 +573,70 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return pvo;
 	}
+	
+	// 특정 회원이 특정 리뷰에 대해 도움이돼요 투표하기(insert) 
+		@Override
+		public int likeAdd(Map<String, String> paraMap) throws SQLException {
+			
+			int n = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " insert into tbl_likecnt "
+								+ " where fk_userid = ? and reviewno = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("userid"));
+				pstmt.setString(2, paraMap.get("reviewno"));
+				
+				n = pstmt.executeUpdate();
+				
+				if(n==1) {
+					conn.commit();
+				}
+			
+			} catch(SQLIntegrityConstraintViolationException e ) {
+				conn.rollback();
+			} finally {
+				close();
+			}
+			
+			return n;
+		}
+	
+	// 특정 리뷰에 대한 도움이 돼요 투표 결과(select)
+	@Override
+	public int getLikeCnt(String reviewno) throws SQLException {
+		
+		int likecnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select "
+							+ " (select count(*) "
+							+ " from tbl likecnt "
+							+ " where reviewno = ?) as likecnt "
+							+ " from dual ";
+							 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reviewno);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			likecnt = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		return likecnt;
+	}
+	
+	
+	
 
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
