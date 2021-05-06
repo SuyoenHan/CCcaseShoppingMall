@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import member.model.MemberVO;
-
 public interface InterOrderDAO {
 
 	// 나의 주문내역  더보기 페이징 방식으로 select 해오기 -3개월 내의
