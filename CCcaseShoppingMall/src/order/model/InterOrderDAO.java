@@ -25,6 +25,20 @@ public interface InterOrderDAO {
 
 	/////////////////////////// 백원빈 끝 ///////////////////////////////	
 
+	
+	
+	
+	
+	
+	
+	
+	// ================== 조연재 시작 ===================== //
+	
+	// 상품 바로주문시 주문할 상품 정보 불러오기
+	OrderVO getOrderDetail(String productid, String pcolor) throws SQLException;
+	
+	
+	
 
 	
 }

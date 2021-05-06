@@ -490,9 +490,6 @@
 		
 		}); // end of $("img.heart").click(function(){
 		
-		
-		
-
 	}); // end of $(document).ready(function(){--------------------
 
 
@@ -579,7 +576,7 @@
 			</tr>
 		</table>
 		
-		<div class="pdetailbt" style="margin-left: 0px;" onclick="location.href='<%=ctxPath%>/order/payOrderMain.cc?productid=${onePInfo.productid}'">바로구매</div>
+		<div class="pdetailbt" id="payOrderBt" style="margin-left: 0px;" onclick="location.href='<%=ctxPath%>/order/payOrderMain.cc?productid=${onePInfo.productid}'">바로구매</div>
 		<div class="pdetailbt" id="wishListBt">장바구니</div>
 		<div class="pdetailbt" id="interestBt">관심상품</div>
 	</div>

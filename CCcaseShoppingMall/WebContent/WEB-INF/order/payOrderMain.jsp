@@ -278,7 +278,8 @@
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	background: rgb(17, 17, 17);
+	color: white;
+	background: #6D919C;
 	border: none;
 }
 
@@ -392,13 +393,14 @@
 	
 	$(window).on("scroll", function() {
 		var scrollNow = window.scrollY;
-	
+//		console.log(scrollNow);
+
 	    if(scrollNow > 900) {
 	        $(".orderSec-right").css('position', 'absolute');
-	        $(".orderSec-right").css('top', '30%');
+	        $(".orderSec-right").css('top', '63%');
 	    } else {
 	       $(".orderSec-right").css('position', 'fixed');
-	       $(".orderSec-right").css('top', '30%');
+	       $(".orderSec-right").css('top', '40%');
 	    }
 	});
 	
@@ -445,9 +447,7 @@
 
 	<!-- 하단박스 시작 -->
 	<div class="orderInfo">
-		<!-- 하단좌측박스 시작 -->
-		<div class="orderSec-left">
-			<!-- 상품 정보 시작 -->
+		<!-- 상품 정보 시작 -->
 			<div class="section-order-info left-section">
 				<h3>배송 상품</h3>
 				<table class="table table-hover">
@@ -456,6 +456,7 @@
 					        <th>상품정보</th>
 					        <th>주문금액</th>
 					        <th>주문수량</th>
+					        <th>적립금</th>
 					      </tr>
 					</thead>
 					<tbody>
@@ -486,6 +487,9 @@
 				</div>
 			</div>
 			<!-- 상품 정보 끝 -->
+		<!-- 하단좌측박스 시작 -->
+		<div class="orderSec-left">
+
 			<!-- 배송/주문자 정보 시작 -->
 			<div class="delivery-info left-section">
 				<div class="delivery-user">
@@ -574,10 +578,10 @@
 			<div class="section-payment-info left-section">
 				<h3 class="section-payment-info-title">결제수단</h3>
 				<ul class="payment-type-list">
-					<li class="payment-type-item">
+<!-- 				<li class="payment-type-item">
 						<input type="radio" name="pay-type-item" value="mutong" />
 						<span>무통장 입금</span>
-					</li>
+					</li>			-->
 					<li class="payment-type-item mgb10">
 						<input type="radio" name="pay-type-item" value="card" />
 						<span>카드결제</span>
