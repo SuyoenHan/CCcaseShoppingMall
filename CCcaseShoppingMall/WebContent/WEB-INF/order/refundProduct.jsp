@@ -81,11 +81,16 @@
 		</div>
 		
 		<div id="col2">
+			<span class="colName">주문번호</span>
+			<input type="text" name="odetailno" readonly="readonly" value="${requestScope.odetailno}" /> 
+		</div>
+		
+		<div id="col3">
 			<span class="colName">상품명</span>
 			<input type="text" name="productname" readonly="readonly" value="${requestScope.productname}" />
 		</div>
 		
-		<div id="col3">
+		<div id="col4">
 			<span class="colName" style="height:30px;">사유<br><br></span>
 			<textarea id="whycontent" name="whycontent" rows="5" cols="20"></textarea>
 		</div>
@@ -96,7 +101,6 @@
 			<button type="button" id="cancel">취소</button>
 		</div>
 		
-		<input type="hidden" name="sortno" value="1" />
-		<input type="hidden" name="odetailno" value="${requestScope.odetailno}" />	
+		<input type="hidden" name="sortno" value="1" />	
 	</form>
 </div>    

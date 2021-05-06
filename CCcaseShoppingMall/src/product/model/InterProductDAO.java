@@ -29,6 +29,9 @@ public interface InterProductDAO {
 	// productid가 주어진 경우, 이에 해당하는 제품정보 반환 메소드
 	Map<String, String> getOnePInfo(String productid) throws SQLException;
 	
+	// 존재하는 productid 모두 조회
+	List<String> getProductId() throws SQLException; 
+	
 	// =========================== 한수연 끝 ======================================
 	
 	

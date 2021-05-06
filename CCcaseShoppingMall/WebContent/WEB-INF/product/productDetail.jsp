@@ -490,7 +490,6 @@
 		
 		}); // end of $("img.heart").click(function(){
 		
-		
 		// 바로구매 버튼을 클릭한 경우 주문하기 페이지로 제품정보 이동
 		$("div#buyBt").click(function(){
 			
@@ -506,7 +505,7 @@
 		 	if(flag){
 		 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n색상을 선택해 주세요.");
 		 	}
-		 	else{
+		 	else{ // pnum 제품상세번호 , 수량 cnt를 넘김
 				location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
 	 		}	
 		}); // end of $("div#buyBt").click(function(){
@@ -558,18 +557,32 @@
 		</div>
 		<input type="hidden" id="productid" value="${onePInfo.productid}">
 		<table id="pdetailInfoTable" style="margin: 10px 0px 0px 30px; ">
-			<tr>
-				<th>할인판매가</th>
-				<td>
-					${onePInfo.saleprice}원
-				</td>
-			</tr>
-			<tr>
-				<th>판매가</th>
-				<td>
-					${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
-				</td>
-			</tr>
+			<c:if test="${onePInfo.salepercent eq '0'}">
+				<tr>
+					<th>할인판매가</th>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th>판매가</th>
+					<td>
+						${onePInfo.price}원&nbsp;&nbsp;
+					</td>
+				</tr>
+			</c:if>
+			<c:if test="${onePInfo.salepercent ne '0'}">
+				<tr>
+					<th>할인판매가</th>
+					<td>
+						${onePInfo.saleprice}원
+					</td>
+				</tr>
+				<tr>
+					<th>판매가</th>
+					<td>
+						${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+					</td>
+				</tr>
+			</c:if>
 			<tr>
 				<th>색상 옵션</th>
 				<td>

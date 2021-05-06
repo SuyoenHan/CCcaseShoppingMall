@@ -62,23 +62,7 @@ public class NoticeListAction extends AbstractController {
 			paraMap.put("sizePerPage", sizePerPage);
 			
 			
-			//조회수 증가시키기
-			String noticeno = request.getParameter("noticeno");
-			
-			InterNoticeDAO ndao2 = new NoticeDAO();
-			
-			if(noticeno!=null && ! "x".equals(noticeno)) {
-				ndao2.updateViewCount(noticeno);
-			}
-			else if (noticeno == null) {
-				noticeno="x";
-			}
-			// System.out.println(noticeno);
-			
-			request.setAttribute("noticeno", noticeno);
-			
-			
-			
+		
 			
 			// 페이징처리를 위해서 전체회원에 대한 총페이지 개수 알아오기(select) 
 			int totalPage =ndao.selectTotalPage(paraMap);

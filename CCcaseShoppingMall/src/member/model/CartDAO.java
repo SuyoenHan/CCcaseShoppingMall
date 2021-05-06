@@ -158,7 +158,8 @@ public class CartDAO implements InterCartDAO {
 			conn=ds.getConnection();
 			String sql= " select cartno, fk_productid, nvl(fk_pnum,'-') as fk_pnum, cinputcnt "+
 						" from tbl_cart "+
-						" where fk_userid= ? ";
+						" where fk_userid= ? "+
+						" order by cartno desc";
 
 			pstmt= conn.prepareStatement(sql);
 			pstmt.setString(1, userid);

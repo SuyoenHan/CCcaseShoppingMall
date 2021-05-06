@@ -237,18 +237,18 @@ public class OrderDAO implements InterOrderDAO {
 	////////////////////////// 백원빈 시작 ///////////////////////////////
 	//교환 접수시 배송상태 변경해주는 메소드
 	@Override
-	public int updatestatus(String orderno) throws SQLException {
+	public int updatestatus(String odetailno) throws SQLException {
 		
 		int n = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
-			String sql = " update tbl_order set shipstatus = 4 "+
-						 " where orderno = ? ";
+			String sql = " update tbl_odetail set shipstatus = 4 "+
+						 " where odetailno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, orderno);
+			pstmt.setString(1, odetailno);
 			
 			n = pstmt.executeUpdate();
 			
@@ -263,17 +263,17 @@ public class OrderDAO implements InterOrderDAO {
 	//환불 접수시 배송상태 변경해주는 메소드
 	@Override
 	
-	public int updaterefundstatus(String orderno) throws SQLException {
+	public int updaterefundstatus(String odetailno) throws SQLException {
 		int n = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
-			String sql = " update tbl_order set shipstatus = 5 "+
-						 " where orderno = ? ";
+			String sql = " update tbl_odetail set shipstatus = 5 "+
+						 " where odetailno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, orderno);
+			pstmt.setString(1, odetailno);
 			
 			n = pstmt.executeUpdate();
 			
@@ -290,4 +290,53 @@ public class OrderDAO implements InterOrderDAO {
 	////////////////////////// 백원빈 끝 ///////////////////////////////	
 	
 	
+	 // =============== 조연재 ===================== //
+
+	// 상품 바로주문시 주문할 상품 정보 불러오기
+	@Override
+	public OrderVO getOrderDetail(String pnum) throws SQLException {
+		OrderVO ovo =new OrderVO();
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			  String sql = " select pnum, fk_productid, pname, pcolor, P.price, P.salepercent, P.pimage1 "+
+					  			 " from tbl_pdetail D "+
+					  			 " join tbl_product P "+
+					  			 " on P.productid=D.fk_productid " + 
+					  			 " where pnum = ? ";
+   
+			  pstmt = conn.prepareStatement(sql);
+			  
+			  pstmt.setString(1, pnum);
+			  
+			  rs = pstmt.executeQuery();
+			  
+			  if(rs.next()) {
+				  
+				  ProductDetailVO pdvo = new ProductDetailVO();
+				  ProductVO pvo = new ProductVO();
+				  
+				  ovo.setPdvo(pdvo);
+				  pdvo.setPnum(rs.getString(1));
+				  pdvo.setFk_productid(rs.getString(2));
+				  pdvo.setPname(rs.getString(3));
+				  pdvo.setPcolor(rs.getString(4));
+				  
+				  ovo.setPvo(pvo);
+				  pvo.setPrice(rs.getInt(5));
+				  pvo.setSalepercent(rs.getInt(6));
+				  pvo.setPimage1(rs.getString(7));
+				  
+				  
+				  
+			  }
+			  
+		} finally {
+			close();
+		}
+		
+		return ovo;
+	}
+
 }

@@ -278,7 +278,8 @@
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	background: rgb(17, 17, 17);
+	color: white;
+	background: #6D919C;
 	border: none;
 }
 
@@ -290,7 +291,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-
+		
 		$("span.error").hide();  
 		
 	    
@@ -392,27 +393,19 @@
 	
 	$(window).on("scroll", function() {
 		var scrollNow = window.scrollY;
-	
+//		console.log(scrollNow);
+
 	    if(scrollNow > 900) {
 	        $(".orderSec-right").css('position', 'absolute');
-	        $(".orderSec-right").css('top', '30%');
+	        $(".orderSec-right").css('top', '63%');
 	    } else {
 	       $(".orderSec-right").css('position', 'fixed');
-	       $(".orderSec-right").css('top', '30%');
+	       $(".orderSec-right").css('top', '40%');
 	    }
 	});
 	
-	var prodIdList = new Array();
 	
-	$(function(){
-		IMP.init('imp59232554');
-		
-		var productIdList = document.getElementsByClassName("productId");
-		for (var i = 0; i < productIdList.length; i++) {
-			prodIdList.push(productIdList.item(i).value*1);
-		}
-	});
-	
+
 	 // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
 	 function setDisplay(){
 		 
@@ -445,9 +438,7 @@
 
 	<!-- 하단박스 시작 -->
 	<div class="orderInfo">
-		<!-- 하단좌측박스 시작 -->
-		<div class="orderSec-left">
-			<!-- 상품 정보 시작 -->
+		<!-- 상품 정보 시작 -->
 			<div class="section-order-info left-section">
 				<h3>배송 상품</h3>
 				<table class="table table-hover">
@@ -456,36 +447,20 @@
 					        <th>상품정보</th>
 					        <th>주문금액</th>
 					        <th>주문수량</th>
+					        <th>적립금</th>
 					      </tr>
 					</thead>
-					<tbody>
-					    <c:forEach var="ovo" items="${requestScope.orderList}">
-							<tr>
-						        <td>
-						        	<span><img src="/CCcaseShoppingMall/images/product/${ovo.pvo.pimage1}" name="pimage1"id="pimage1"style="width:55px; height:55px; float:left"/></span>
-						        	<span id="productname" name="productname">${ovo.pvo.productname}</span>&nbsp;&nbsp;<span id="pcolor" name="pcolor">${ovo.pdvo.pcolor}</span><br>
-						        	<span id="modelname" name="modelname">옵션:${ovo.pvo.modelname}</span>
-						        </td>	
-						        <td id="totalPrice" name="totalPrice">주문금액${ovo.totalPrice}원</td>
-						        <td id="odqty" name="odqty">${ovo.odvo.odqty}</td>
-						    </tr>
-						</c:forEach>
-					</tbody>
+
+				<!-- ????????? -->
+
+
 				</table>
-				<div class="order-price-text">
-					<p>
-						상품
-						<span class="price-unit"><fmt:formatNumber value="${prodPriceAll}" type="number" />원</span>
-						+ 배송비
-						<span class="price-unit">0원</span>
-					</p>
-					<strong>
-						합계
-						<span><fmt:formatNumber value="${prodPriceAll}" type="number" />원</span>
-					</strong>
-				</div>
+
 			</div>
 			<!-- 상품 정보 끝 -->
+		<!-- 하단좌측박스 시작 -->
+		<div class="orderSec-left">
+
 			<!-- 배송/주문자 정보 시작 -->
 			<div class="delivery-info left-section">
 				<div class="delivery-user">
@@ -574,10 +549,10 @@
 			<div class="section-payment-info left-section">
 				<h3 class="section-payment-info-title">결제수단</h3>
 				<ul class="payment-type-list">
-					<li class="payment-type-item">
+<!-- 				<li class="payment-type-item">
 						<input type="radio" name="pay-type-item" value="mutong" />
 						<span>무통장 입금</span>
-					</li>
+					</li>			-->
 					<li class="payment-type-item mgb10">
 						<input type="radio" name="pay-type-item" value="card" />
 						<span>카드결제</span>
@@ -596,7 +571,7 @@
 					<ul class="expected-price-list">
 						<li>
 							<span>총 상품 금액</span>
-							<strong><fmt:formatNumber value="${prodPriceAll}" type="number" />원</strong>
+							<strong><fmt:formatNumber value="" type="number" />원</strong>
 						</li>
 						<li class="expected-price-item">
 							<span class="expected-price-title">배송비</span>
@@ -605,7 +580,7 @@
 					</ul>
 					<p class="total-expected-price">
 						<span class="total-expected-price-title">총 결제 예상 금액</span>
-						<strong class="total-expected-price-value"><fmt:formatNumber value="${prodPriceAll}" type="number" />원</strong>
+						<strong class="total-expected-price-value"><fmt:formatNumber value="" type="number" />원</strong>
 					</p>
 					<button class="btn-order" type="button">주문 완료하기</button>
 				</div>
