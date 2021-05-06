@@ -137,7 +137,7 @@
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
-			var viewCount = $(this).find("#fnum").text();
+			var $viewCount = $(this).find("#fnum");
 			
 			   var faqno = $(this).next().prop("id");
 				$.ajax({
@@ -149,7 +149,7 @@
 		                      // 조회수 등록 성공 되어지면
 		                      var j = json.viewCount;
 		                      // console.log(j);
-		    		          viewCount.text(j); 
+		    		          $viewCount.text(j); 
 		                      
 		    			//	$(this).find("td#fnum").text(json.viewCount);
 		    			
