@@ -48,6 +48,8 @@
 	 width:80px;
 	 height:40px;
 	 margin-left: 35px ;
+	 border:solid 1px #98B7C1;
+     background-color: #98B7C1;
     
 	}
 	
@@ -81,7 +83,7 @@
     }
     
     tr.faqSimple{
-       background-color: #e6e6e6;
+      
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -93,7 +95,7 @@
 	   transition: 2s;
     }
     tr.faqSimple:hover{
-   	 background-color:  #6D919C !important;
+   	 background-color:  #ecf2f9 !important;
     }
     
     #contents > div.container > table > tbody > tr.faqDetail {
@@ -102,11 +104,12 @@
     }
     
     div#faq{
-		background-color: #CCF2F4;
+		background-color: #6D919C;
 	}
      div#faq:hover{
-     	background-color:#A4EBF3; 
+     	background-color:#CCF2F4; 
      }
+   
    
 </style>
   
@@ -214,7 +217,7 @@
 		  <form name="faqFrm">
 			<table class="table table-hover">
 				<thead>
-					<tr style="width:80%;">
+					<tr id="tr1" style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
 						<th>등록일자</th>

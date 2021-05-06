@@ -30,7 +30,7 @@
 
 	div#title{
 	/* 	border:solid 1px gray; */
-		background-color: #ccc;
+		background-color: #98B7C1;
 		width:100%;
 		height:60px;
 		padding:15px;
@@ -49,12 +49,14 @@
 	button.button{
 	 width:80px;
 	 height:40px;
-	 margin-left: 35px ;
+	 margin-left: 35px;
+	 border:solid 1px #98B7C1;
+     background-color: #98B7C1;
     
 	}
 	
 	.button:hover{
-		background-color: #666699;
+		background-color: #98B7C1;
 		color: white;
     	
 	}
@@ -83,7 +85,7 @@
     }
     
     tr.noticeSimple{
-       background-color: #eee;
+
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -95,7 +97,7 @@
 	   transition: 2s;
     }
     tr.noticeSimple:hover{
-   	 background-color:  #aaa !important;
+   	 background-color:  #ecf2f9 ;
     }
     
     #noticeDetail{
@@ -104,7 +106,10 @@
     	
     }
     div#notice{
-		background-color: #ccffee;
+		background-color: #6D919C;
+	}
+	 div#notice:hover{
+		background-color: #CCF2F4;
 	}
     
 </style>
@@ -305,7 +310,7 @@
 			
 			<!-- 관리자로 로그인이 되어졌을때만 글쓰기 버튼이 보인다. -->
 			<c:if test="${not empty requestScope.avo}">
-			<button type="button" class="noticewrite"  id="noticewrite" name="noticewrite" value="글쓰기" style="float:right; " >글쓰기</button>
+			<button type="button" class="noticewrite button"  id="noticewrite" name="noticewrite" value="글쓰기" style="float:right; " >글쓰기</button>
 			</c:if>
 			
 			

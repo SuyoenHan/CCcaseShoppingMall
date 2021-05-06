@@ -44,9 +44,17 @@
 	}
 	
 	button.button{
-	 width:80px;
-	 height:50px;
-	 margin:20px 0px 10px 20px;
+		 width:80px;
+		 height:40px;
+		 margin-left: 35px ;
+		 border:solid 1px #98B7C1;
+	     background-color: #98B7C1;
+	}
+	
+	.button:hover{
+		background-color: #98B7C1;
+		color: white;
+    	
 	}
 	
 	.error{

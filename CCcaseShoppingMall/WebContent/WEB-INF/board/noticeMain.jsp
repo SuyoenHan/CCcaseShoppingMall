@@ -50,7 +50,8 @@
 	 width:80px;
 	 height:40px;
 	 margin-left: 35px ;
-    
+	 border:solid 1px #98B7C1;
+     background-color: #98B7C1;
 	}
 	
 	.button:hover{
@@ -83,7 +84,7 @@
     }
     
     tr.noticeSimple{
-       background-color: #e6e6e6;
+     
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -95,7 +96,7 @@
 	   transition: 2s;
     }
     tr.noticeSimple:hover{
-   	 background-color: #6D919C !important;
+   	 background-color: #ecf2f9 !important;
     }
     
       #contents > div.container > table > tbody > tr.faqDetail {
@@ -105,10 +106,10 @@
     
     
     div#notice{
-		background-color: #CCF2F4 ;
+		background-color: #6D919C ;
 	}
     div#notice:hover{
-    	background-color:#A4EBF3; 
+    	background-color:#CCF2F4; 
     }
     
 </style>
@@ -267,7 +268,7 @@
 								</tr>
 							</table>
 						
-							<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
+							<button type="button" class="button noticeList" name="noticeList" style="align:left; margin: 15px 0 20px 35;">목록</button>
 						
 						</td>
 					 </tr>

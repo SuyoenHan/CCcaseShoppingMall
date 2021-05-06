@@ -9,13 +9,14 @@
 
 
 <jsp:include page="../header.jsp" />
+<jsp:include page="../member/myPageHeader.jsp" />  
 <jsp:include page="../mypageleftSide.jsp" />    
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>주문내역 조회</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
@@ -32,9 +33,47 @@
 	}
 	
 	 div#myOrderList{
-		background-color: #ccffee;
+		background-color: #6D919C;
+	}
+	
+	 div#myOrderList:hover{
+		background-color: #CCF2F4;
+	}
+	
+	button.button{
+		 width:80px;
+		 height:40px;
+		 margin-left: 35px ;
+		 border:solid 1px #98B7C1;
+	     background-color: #98B7C1;
 	}
 
+	.button:hover{
+		background-color: #98B7C1;
+		color: white;
+    	
+	}
+	
+	tr#tr1{
+	 background-color: #98B7C1;
+	}
+	
+	tr#tr2{
+	   color: #444;
+	   cursor: pointer;
+	   padding: 18px;
+	   width: 50%;
+	   border: none;
+	   text-align: left;
+	   font-weight:bold;
+	   font-size: 15px;
+	   transition: 2s;
+	}
+	tr#tr2:hover{
+	   
+   	 background-color:  #ecf2f9 ;
+    }
+	
 </style>
 
 <script type="text/javascript">
@@ -68,7 +107,7 @@
 		
 		
 		
-		//배송조회 버튼 클릭
+		// 배송조회 버튼 클릭
 		$("button#shipstatusBtn").click(function(){
 			alert("배송확인");
 			<%-- var orderno =$(this).parent().parent().find("td#orderno").text();
@@ -177,7 +216,7 @@
  	            	  
  	            	  
   	                  html +=  
-  	                	  	   "<tr> "+
+  	                	  	   "<tr id='tr2'> "+
   				      		   "     <td> "+
   							   "		<span><img src='/CCcaseShoppingMall/images/product/"+item.pimage1+"' name='pimage1'id='pimage1'style='width:55px; height:55px; float:left'/></span> "+ 
   							   "		<span id='productname' name='productname'>"+item.productname+"</span>&nbsp;&nbsp;<span id='pcolor' name='pcolor'>"+item.pcolor+"</span><br>  "+             
@@ -312,13 +351,13 @@
 <div id="contents">
 <form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
-	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span>님 주문내역 조회</span></h2>
+	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회</span></h2>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
 	  <table class="table table-hover">
 	    
 	    <thead>
 	     
-	      <tr>
+	      <tr id="tr1">
 	        <th>상품정보</th>
 	        <th>주문일자</th>
 	        <th>주문번호</th>
@@ -340,7 +379,7 @@
 	  
 	  <div style="margin: 20px 0;">
 	  <span id="end" style="font-size: 16pt; font-weight: bold; color: red;"></span><br/> 
-	  <button type="button" id="btnMoreOrderList" value="">더보기...</button>
+	  <button type="button" class="button"id="btnMoreOrderList" value="">더보기...</button>
 	  <span id="totalOrderListCount">${requestScope.totalOrderListCount}</span>
       <span id="countOrderList">0</span>
       
