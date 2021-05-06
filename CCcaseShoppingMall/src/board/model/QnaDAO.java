@@ -610,10 +610,10 @@ public class QnaDAO implements InterQnaDAO {
 	      try {
 	         conn = ds.getConnection();
 	         
-	         String sql = "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount "+
+	         String sql = "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount, qstate AS state "+
 	        		 "from tbl_qna where fk_userid= ?  "+
 	        		 "union all "+
-	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount "+
+	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount ,rstate AS state "+
 	        		 "from tbl_review "
 	        		 + "where fk_userid= ? "
 	        		 + "order by registerdate desc ";
@@ -632,7 +632,8 @@ public class QnaDAO implements InterQnaDAO {
 	        	 qvo.setFk_userid(rs.getString("userid"));
 	        	 qvo.setQregisterdate(rs.getString("registerdate"));
 	        	 qvo.setQviewcount(rs.getInt("viewcount"));
-	         
+	        	 qvo.setQstate(rs.getInt("state"));
+	        	 
 	         allList.add(qvo);
 	         }
 	      } finally {
