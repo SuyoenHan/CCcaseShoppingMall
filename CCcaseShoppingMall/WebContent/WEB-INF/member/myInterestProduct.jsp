@@ -24,17 +24,17 @@
 	}
 	
 	table.eachInterestProduct tr{
-		border: solid 1px red;
+		border: solid 0px red;
 		line-height: 60px;
 	}
 
 	table.eachInterestProduct td{
-		border: solid 1px red;
+		border: solid 0px red;
 		line-height: 40px;
 	}
 	
 	table.eachInterestProduct th{
-		border: solid 1px red;
+		border: solid 0px red;
 		text-align: center;
 	}
 	
@@ -43,7 +43,7 @@
 	}
 	
 	 span.funcBt{
-	 	border: solid 1px red;
+	 	border: solid 0px red;
 	 	background-color: #d1d7d1;
 	 	padding: 5px 0px;
 	 }
