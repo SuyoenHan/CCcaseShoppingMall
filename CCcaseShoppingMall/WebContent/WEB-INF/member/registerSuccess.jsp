@@ -51,7 +51,10 @@
 			<button type="button"  onclick="gohome();">홈으로</button>
 		</div>
 		
-		
+			<form name="loginFrm">
+		<input type="hidden" name="userid" value="${requestScope.userid}" />
+		<input type="hidden" name="pwd"    value="${requestScope.pwd}" />
+	</form>
 		
 	</div>
 </div>

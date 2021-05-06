@@ -463,7 +463,7 @@ $("button#emailCheckButton").prop("disabled",true);
 			<td style="width: 80%; text-align: left;">
 			   <input type="text" id="address" name="address" value="${sessionScope.loginuser.address}" size="40" placeholder="주소" /><br>
 			   <input type="text" style="margin-top: 5px;"id="detailAddress" name="detailAddress"  value="${sessionScope.loginuser.detailaddress}" size="40" placeholder="상세주소" />
-			   <input type="text" style="margin-top: 5px;id="extraAddress" name="extraAddress" value="${sessionScope.loginuser.extraaddress}" size="40" placeholder="참고항목" /> 
+			   <input type="text" style="margin-top: 5px;" id="extraAddress" name="extraAddress" value="${sessionScope.loginuser.extraaddress}" size="40" placeholder="참고항목" /> 
 			   <span class="error">주소를 입력하세요</span><br>
 			 
 			</td>
