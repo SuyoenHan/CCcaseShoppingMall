@@ -21,7 +21,21 @@ public class ProductDetailAction extends AbstractController {
 		InterImageFileDAO idao= new ImageFileDAO();
 		
 		String productid= request.getParameter("productid");
-			
+		List<String> productList= pdao.getProductId();	
+		
+		boolean flag= false;
+		for(int i=0;i<productList.size();i++) {
+			if(productList!=null) {
+				if(productList.get(i).equals(productid)) {
+					flag=true;
+					break;
+				}
+			}
+		}
+		if(!flag) {
+			productid="1000-1-1"; // 맨 첫 제품으로!
+		}
+		
 		// member/mycart.cc에서 넘어온 cartno, pnum, cinputcnt를 받아온다
 		String cartno= request.getParameter("cartno");
 		String pnum= request.getParameter("pnum");

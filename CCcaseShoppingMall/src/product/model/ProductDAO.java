@@ -445,7 +445,28 @@ public class ProductDAO implements InterProductDAO {
 	}
 
 
-	
+	// 존재하는 productid 모두 조회
+	@Override
+	public List<String> getProductId() throws SQLException {
+		
+		List<String> productIdList= new ArrayList<>();
+		try {
+			conn=ds.getConnection();
+			String sql= " select productid from tbl_product ";
+			pstmt=conn.prepareStatement(sql);
+			
+			rs= pstmt.executeQuery();
+			while(rs.next()) {
+				productIdList.add(rs.getString(1));
+			}
+			
+		}finally {
+			close();
+		}
+		
+		return productIdList;
+		
+	} // end of public List<String> getProductId() throws SQLException {------
 	
 	// =========================== 한수연 끝 ======================================
 
@@ -788,6 +809,8 @@ public class ProductDAO implements InterProductDAO {
 		
 		return n;
 	}
+
+
 
 
 	//////////////////////////////////백원빈 끝/////////////////////////////////////////////
