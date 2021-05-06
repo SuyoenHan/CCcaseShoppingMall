@@ -490,7 +490,6 @@
 		
 		}); // end of $("img.heart").click(function(){
 		
-		
 		// 바로구매 버튼을 클릭한 경우 주문하기 페이지로 제품정보 이동
 		$("div#buyBt").click(function(){
 			
