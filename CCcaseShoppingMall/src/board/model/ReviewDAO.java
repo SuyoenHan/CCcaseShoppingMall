@@ -195,7 +195,7 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select rvtitle, rvcontent, fk_pname,  reviewimage1, reviewimage2, reviewimage3, "
-							+ " to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate, rviewcount "
+							+ " to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate, rviewcount, fk_userid, fk_odetailno "
 							+ " from tbl_review "
 							+ " where reviewno = ? ";
 			
@@ -207,15 +207,17 @@ public class ReviewDAO implements InterReviewDAO {
 			if(rs.next()) {
 				rvo = new ReviewVO();
 				
-				rvo.setReviewimage1(rs.getString(1));
-				rvo.setReviewimage2(rs.getString(2));
-				rvo.setReviewimage3(rs.getString(3));
-				rvo.setRvtitle(rs.getString(4));
-				rvo.setRvcontent(rs.getString(5));
-				rvo.setFk_pname(rs.getString(6));
+				rvo.setRvtitle(rs.getString(1));
+				rvo.setRvcontent(rs.getString(2));
+				rvo.setFk_pname(rs.getString(3));
+				rvo.setReviewimage1(rs.getString(4));
+				rvo.setReviewimage2(rs.getString(5));
+				rvo.setReviewimage3(rs.getString(6));
 				rvo.setRregisterdate(rs.getString(7));
 				rvo.setRupdatedate(rs.getString(8));
 				rvo.setRviewcount(rs.getInt(9));
+				rvo.setFk_userid(rs.getString(10));
+				rvo.setFk_odetailno(rs.getString(11));
 				
 			}
 			
@@ -549,7 +551,7 @@ public class ReviewDAO implements InterReviewDAO {
 			String sql = " select pimage1, productname, price "
 							+ " from "
 							+ " ( "
-							+ " select pimage1, productname, to_char(price,'9,999,999') as price "
+							+ " select pimage1, productname, price "
 							+ " from tbl_product P "
 							+ " join tbl_review R "
 							+ " on P.productname = R.fk_pname "
@@ -557,7 +559,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " ) V ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reviewno);
+			pstmt.setInt(1, Integer.parseInt(reviewno));
 			
 			rs = pstmt.executeQuery();
 			
@@ -574,6 +576,42 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return pvo;
 	}
+
+	
+	// 해당 리뷰의 구매 제품 스펙번호 가져오기
+	@Override
+	public int getSnumByReviewno(String odetailno) throws SQLException {
+
+		int snum= -1;
+		
+		try {
+			conn=ds.getConnection();
+			String sql=" select fk_snum from tbl_pdetail " +
+						" join ( select fk_pnum from tbl_review join tbl_odetail on ? =odetailno ) R " +
+						" on pnum=fk_pnum ";
+			
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, odetailno);
+					
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				snum=rs.getInt(1);
+			}
+			
+		}finally{
+			close();
+		}
+		
+		return snum;
+		 
+		 /*
+		 		snum=-1  해당 pnum 또는 odetailno 존재하지 않음
+		 		snum=0  베스트상품
+		 		snum=1    신상품
+		 */
+		
+	} // end of public int getSnumByReviewno(String odetailno) throws SQLException {-----------
 
 	
 	
