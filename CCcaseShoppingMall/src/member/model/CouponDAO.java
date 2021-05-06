@@ -41,7 +41,7 @@ public class CouponDAO implements InterCouponDAO {
 	
 	// 사용가능 쿠폰 개수
 	@Override
-	public int countAvalCpQty(String string) throws SQLException {
+	public int countAvalCpQty(String string, String userid) throws SQLException {
 		int acnt = 0;
 		
 		try {
@@ -49,10 +49,11 @@ public class CouponDAO implements InterCouponDAO {
 			
 			String sql = " select count(*) "
 							+ " from tbl_coupon "
-							+ " where cpstatus = ? ";
+							+ " where cpstatus = ? and fk_userid = ? ";
 			
 			 pstmt = conn.prepareStatement(sql);
 			 pstmt.setInt(1, 0);
+			 pstmt.setNString(2, userid);
 			
 			 rs = pstmt.executeQuery();
 	          
@@ -69,7 +70,7 @@ public class CouponDAO implements InterCouponDAO {
 
 	// 사용불가 쿠폰 개수
 	@Override
-	public int countUnavalCpQty(String string) throws SQLException {
+	public int countUnavalCpQty(String string, String string1, String userid) throws SQLException {
 		int ucnt = 0;
 		
 		try {
@@ -77,11 +78,13 @@ public class CouponDAO implements InterCouponDAO {
 			
 			String sql = " select count(*) "
 							+ " from tbl_coupon "
-							+ " where cpstatus = ? ";
+							+ " where fk_userid = ? and cpstatus in(?,?) ";
 			
 			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setInt(1, 1);
-			
+			 pstmt.setString(1, userid);
+			 pstmt.setString(2, "1");
+			 pstmt.setString(3, "2");
+			 
 			 rs = pstmt.executeQuery();
 	          
 	         rs.next();

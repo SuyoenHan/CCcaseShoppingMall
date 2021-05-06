@@ -20,7 +20,7 @@ public class ReviewOneDetailAction extends AbstractController {
 		HttpSession session = request.getSession();
 		ReviewVO rvo = (ReviewVO) session.getAttribute("rvo");
 		
-		String reviewno = request.getParameter("reviewno");
+		String reviewno = rvo.getReviewno();
 		
 		InterReviewDAO rdao = new ReviewDAO();
 		rvo = rdao.reviewOneDetail(reviewno);

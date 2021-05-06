@@ -15,7 +15,7 @@ public interface InterReviewDAO {
 	List<ReviewVO> selectPagingReview(Map<String, String> paraMap) throws SQLException;
 	
 	// 조회수 증가시키기
-	void updateViewCount(String reviewno) throws SQLException;
+	void updateViewCount(int reviewno) throws SQLException;
 	
 	// reviewimage1(썸네일) 값을 입력받아서 리뷰 1개에 대한 상세정보를 알아오기
 	ReviewVO reviewOneDetail(String reviewno) throws SQLException;
@@ -24,7 +24,7 @@ public interface InterReviewDAO {
 	int reviewInsert(ReviewVO rvo) throws SQLException;
 
 	// 리뷰 글내용 수정을 위해 하나의 리뷰를 select해오기
-	ReviewVO revEditOneView(String reviewno) throws SQLException;
+	ReviewVO revEditOneView(int reviewno) throws SQLException;
 	
 	// 리뷰 글내용 수정하기(update)
 	int revEditUpdate(ReviewVO rvo) throws SQLException;
@@ -47,7 +47,11 @@ public interface InterReviewDAO {
 	String getPnameOfProd(String fk_userid) throws SQLException;
 
 	// 해당 리뷰의 구매 제품 가져오기 
-	ProductVO selectProduct(String reviewno) throws SQLException;
+	ProductVO selectProduct(int reviewno) throws SQLException;
+
+	
+
+
 	
 	
 	
