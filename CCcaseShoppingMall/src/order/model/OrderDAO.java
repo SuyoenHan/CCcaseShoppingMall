@@ -291,7 +291,7 @@ public class OrderDAO implements InterOrderDAO {
 	
 	
 	  // =============== 조연재 ===================== //
-	
+
 	// 상품 바로주문시 주문할 상품 정보 불러오기
 	@Override
 	public OrderVO getOrderDetail(String pnum) throws SQLException {
