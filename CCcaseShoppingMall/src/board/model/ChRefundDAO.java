@@ -57,7 +57,7 @@ public class ChRefundDAO implements InterChRefundDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select chRefundno, odetailno,pnum,pname,fk_userid,to_char(cregisterdate,'yyyy-mm-dd'),sortno,whycontent "+
+			String sql = " select chRefundno, odetailno,pnum,pname,fk_userid,to_char(cregisterdate,'yyyy-mm-dd'),sortno,whycontent,orderno "+
 						 " from tbl_order join tbl_odetail "+
 						 " on orderno = fk_orderno "+
 						 " join tbl_pdetail "+
@@ -79,6 +79,8 @@ public class ChRefundDAO implements InterChRefundDAO {
 				chRefundMap.put("cregisterdate", rs.getString(6));
 				chRefundMap.put("sortno", String.valueOf(rs.getInt(7)));
 				chRefundMap.put("whycontent", rs.getString(8));
+				chRefundMap.put("orderno", rs.getString(9));
+				
 				
 				chRefundList.add(chRefundMap);
 				
@@ -112,6 +114,53 @@ public class ChRefundDAO implements InterChRefundDAO {
 			pstmt.setString(3, paraMap.get("whycontent"));
 			
 			n = pstmt.executeUpdate();
+
+		} finally {
+			close();
+		}
+
+		return n;
+	}
+
+	// 관리자가 승인 시 해당 테이블에서 delete해주는 작업
+	@Override
+	public int deleteView(String fk_odetailno,Integer shipstatus) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql = " update tbl_odetail set shipstatus = ? "+
+					  	 " where odetailno = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, shipstatus);
+			pstmt.setString(2, fk_odetailno);
+			
+			int m = pstmt.executeUpdate();
+			
+			
+			if(m==1) {
+				
+			sql = " delete from tbl_chRefund "+
+				  " where fk_odetailno = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_odetailno);
+			
+			n = pstmt.executeUpdate();
+				
+			}
+			
+			if(n==1) {
+				conn.commit();
+			}
+			else {
+				conn.rollback();
+			}
 
 		} finally {
 			close();

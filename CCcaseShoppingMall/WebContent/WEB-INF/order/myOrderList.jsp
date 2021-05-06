@@ -185,6 +185,7 @@
   							   "     </td>	 "+
   							   "     <td id='orderdate' name='orderdate'>주문일자 "+item.orderdate+"</td> "+
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
+  							   "     <td id='odetailno' name='odetailno'>"+item.odetailno+"</td> "+
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
   							   "     <td id='totalPrice' name='totalPrice'>주문금액"+item.totalPrice+"원</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
@@ -252,28 +253,29 @@
 					});
 		
 					
-					// 교환하기 버튼 클릭시
-					$("button#shipChangeBtn").click(function(){
-						
-						var orderno =$(this).parent().parent().find("td#orderno").text();
-						var productname =$(this).parent().parent().find("span#productname").text();
-						var modelname =$(this).parent().parent().find("span#modelname").text();
-						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
-						var url ="<%=ctxPath%>/board/productChange.cc?orderno="+orderno+"&productname="+productname+"&modelname="+modelname+"&odetailno="+odetailno;
-
-						window.open(url, "refundProduct","lefe=350p, top=100px,width=700px, height=450px");
-						
-					});
-					
 					// 환불하기 버튼 클릭시
 					$("button#shipRefundBtn").click(function(){
 						
 						var orderno =$(this).parent().parent().find("td#orderno").text();
 						var productname =$(this).parent().parent().find("span#productname").text();
 						var modelname =$(this).parent().parent().find("span#modelname").text();
+						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
+						var url ="<%=ctxPath%>/board/productRefund.cc?orderno="+orderno+"&productname="+productname+"&odetailno="+odetailno;
+
+						window.open(url, "refundProduct","lefe=350p, top=100px,width=700px, height=450px");
+						
+					});
+					
+					// 교환하기 버튼 클릭시
+					$("button#shipChangeBtn").click(function(){
+						
+						var orderno =$(this).parent().parent().find("td#orderno").text();
+						var odetailno = $(this).parent().parent().find("td#odetailno").text();
+						var productname =$(this).parent().parent().find("span#productname").text();
+						var modelname =$(this).parent().parent().find("span#modelname").text();
 						var pcolor =$(this).parent().parent().find("span#pcolor").text();
 						var odetailno=$(this).parent().parent().find("input#odetailno").val();					
-						var url ="<%=ctxPath%>/board/productRefund.cc?orderno="+orderno+"&productname="+productname+"&modelname="+modelname+"&pcolor="+pcolor+"&odetailno="+odetailno;
+						var url ="<%=ctxPath%>/board/productChange.cc?orderno="+orderno+"&productname="+productname+"&pcolor="+pcolor+"&odetailno="+odetailno;
 
 						window.open(url, "changeProduct","lefe=350p, top=100px,width=700px, height=450px");
 						
@@ -320,6 +322,7 @@
 	        <th>상품정보</th>
 	        <th>주문일자</th>
 	        <th>주문번호</th>
+	        <th>주문상세번호</th>
 	        <th>제품번호</th>
 	        <th>주문금액</th>
 	        <th>주문수량</th>

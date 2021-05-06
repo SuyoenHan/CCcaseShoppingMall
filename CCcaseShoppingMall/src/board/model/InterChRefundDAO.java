@@ -14,6 +14,9 @@ public interface InterChRefundDAO {
 	// 교환및환불 접수 시 교환 및 환불테이블에 insert작업
 	int insertChRefund(Map<String, String> paraMap) throws SQLException;
 	
+	// 관리자가 승인 시 해당행을 테이블에서 delete하는 작업
+	int deleteView(String fk_odetailno,Integer shipstatus) throws SQLException;
+	
 	
 	
 	///////////////// 백원빈 끝 //////////////////////	

@@ -237,18 +237,18 @@ public class OrderDAO implements InterOrderDAO {
 	////////////////////////// 백원빈 시작 ///////////////////////////////
 	//교환 접수시 배송상태 변경해주는 메소드
 	@Override
-	public int updatestatus(String orderno) throws SQLException {
+	public int updatestatus(String odetailno) throws SQLException {
 		
 		int n = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
-			String sql = " update tbl_order set shipstatus = 4 "+
-						 " where orderno = ? ";
+			String sql = " update tbl_odetail set shipstatus = 4 "+
+						 " where odetailno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, orderno);
+			pstmt.setString(1, odetailno);
 			
 			n = pstmt.executeUpdate();
 			
@@ -263,17 +263,17 @@ public class OrderDAO implements InterOrderDAO {
 	//환불 접수시 배송상태 변경해주는 메소드
 	@Override
 	
-	public int updaterefundstatus(String orderno) throws SQLException {
+	public int updaterefundstatus(String odetailno) throws SQLException {
 		int n = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
-			String sql = " update tbl_order set shipstatus = 5 "+
-						 " where orderno = ? ";
+			String sql = " update tbl_odetail set shipstatus = 5 "+
+						 " where odetailno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, orderno);
+			pstmt.setString(1, odetailno);
 			
 			n = pstmt.executeUpdate();
 			
