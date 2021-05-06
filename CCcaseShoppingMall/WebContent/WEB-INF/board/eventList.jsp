@@ -21,7 +21,7 @@
    		width:	80%;
    }	
    
-   tr.qnaInfo:hover {
+   tr.eventInfo:hover {
         background-color: #ecf2f9;
         cursor: pointer;
         transition: 2s;
@@ -32,6 +32,7 @@
    		font-size: 18px;
    		background: #6D919C;
    		text-align: center;
+   		color: white;
    		height: 40px;
    }
    
@@ -107,7 +108,7 @@
 </script>
 
 <div id="content" >
-	<h2 style="margin: 20px;">이 벤 트</h2>
+	<h2 style="margin: 20px;">EVENT</h2>
 	   
 	    <table id="eventTbl" class="table table-bordered" style="margin-top: 20px;">
 	        <thead>
