@@ -20,24 +20,51 @@
    		margin-top: 5%;
    		width:	80%;
    }	
+   
+   table#qnaTbl {
+   		border-left: none;
+   		border-right: none;
+   }
+   
    tr.qnaInfo:hover {
-        background-color: #e6ffe6;
+        background-color: #ecf2f9;
         cursor: pointer;
+        transition: 2s;
    }  
+   
    tr#menu{
    		font-weight: bold;
    		font-size: 18px;
-   		background-color: gray;
+   		background: #6D919C;
+   		text-align: center;
+   		color: white;
    		height: 40px;
    }
+   
    th{
    		border: none;
    }
+   
    td{
    		width: 10%;
    		height: 35px;
    		text-align: center;
    }
+   
+   div#pageBar{
+   		width:30%; 
+   		margin: 0 auto; 
+   		font-size: 20px;
+   }
+     
+    div#qna{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#qna:hover{
+     	background-color:#CCF2F4; 
+     }
    
 </style>
 
@@ -127,22 +154,22 @@
 	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
 	        <thead>
 	           <tr id="menu">	 
-	              <th>No.</th>
-	              <th>제목</th>
-	              <th>작성자</th>
+	              <th style="width:3%;">No.</th>
+	              <th style="width:20%;">제목</th>
+	              <th style="width:10%;">작성자</th>
 	              <th>등록일자</th>
-	              <th>조회수</th>
+	              <th style="width:3%;">조회수</th>
 	           </tr>
 	        </thead>
 
 	    	<tbody>
 	    		<c:forEach var="qvo" items="${requestScope.qnaList}">
 	    			<tr class="qnaInfo">
-	    				<td class="qnano">${qvo.qnano}</td>
-	    				<td>${qvo.qtitle}</td>
-	    				<td class="qnaWriter">${qvo.fk_userid}</td>
+	    				<td class="qnano" style="width:3%;">${qvo.qnano}</td>
+	    				<td style="width:20%;">${qvo.qtitle}</td>
+	    				<td class="qnaWriter" style="width:10%;">${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>
-	    				<td>${qvo.qviewcount}</td>
+	    				<td style="width:3%;">${qvo.qviewcount}</td>
 	    				<td class="qnapwd" style="display:none;">${qvo.qnapwd}</td>
 	    				<td class="qstatus" style="display:none;">${qvo.qstatus}</td>
 	    			</tr>
@@ -158,14 +185,14 @@
 	      
 	      <input type="text"  id="searchWord"  name="searchWord" />
 	      <input type="text"  style="display: none;">
-	      <button type="button"  onclick="goSearch();" style="margin-left: 20px;">검색</button>
+	      <button type="button"  onclick="goSearch();" style="margin-left: 20px; background: #6D919C;">검색</button>
 	      
 	      <c:if test="${not empty sessionScope.loginuser.userid}">
-	      	<button type="button"  onclick="goWrite();" style="background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
+	      	<button type="button"  onclick="goWrite();" style="background: #6D919C; border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
    		  </c:if>
     </form>
 	    
-	    <div style="width:30%; margin: 0 auto;">
+	    <div id="pageBar">
 	    	${requestScope.pageBar}
 	    </div>
 	    
