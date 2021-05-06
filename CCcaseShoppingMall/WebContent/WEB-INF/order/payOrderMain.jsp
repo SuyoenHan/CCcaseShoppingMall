@@ -291,7 +291,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-
+		
 		$("span.error").hide();  
 		
 	    
@@ -404,17 +404,8 @@
 	    }
 	});
 	
-	var prodIdList = new Array();
 	
-	$(function(){
-		IMP.init('imp59232554');
-		
-		var productIdList = document.getElementsByClassName("productId");
-		for (var i = 0; i < productIdList.length; i++) {
-			prodIdList.push(productIdList.item(i).value*1);
-		}
-	});
-	
+
 	 // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
 	 function setDisplay(){
 		 
@@ -459,32 +450,12 @@
 					        <th>적립금</th>
 					      </tr>
 					</thead>
-					<tbody>
-					    <c:forEach var="ovo" items="${requestScope.ovo}">
-							<tr>
-						        <td>
-						        	<span><img src="/CCcaseShoppingMall/images/product/${ovo.pimage1}" name="pimage1"id="pimage1"style="width:55px; height:55px; float:left"/></span>
-						        	<span id="productname" class="productname">${ovo.pname}</span>&nbsp;&nbsp;<span id="pcolor" class="pcolor">${ovo.pcolor}</span><br>
-						        	<span id="modelname" class="modelname">옵션: </span>
-						        </td>	
-						        <td id="totalPrice" class="totalPrice">주문금액${ovo.price}원</td>
-						        <td id="odqty" class="odqty">${cnt}개</td>
-						    </tr>
-						</c:forEach>
-					</tbody>
+
+				<!-- ????????? -->
+
+
 				</table>
-				<div class="order-price-text">
-					<p>
-						상품
-						<span class="price-unit"><fmt:formatNumber value="총액" type="number" />원</span>
-						+ 배송비
-						<span class="price-unit">0원</span>
-					</p>
-					<strong>
-						합계
-						<span><fmt:formatNumber value="${prodPriceAll}" type="number" />원</span>
-					</strong>
-				</div>
+
 			</div>
 			<!-- 상품 정보 끝 -->
 		<!-- 하단좌측박스 시작 -->
@@ -600,7 +571,7 @@
 					<ul class="expected-price-list">
 						<li>
 							<span>총 상품 금액</span>
-							<strong><fmt:formatNumber value="${prodPriceAll}" type="number" />원</strong>
+							<strong><fmt:formatNumber value="" type="number" />원</strong>
 						</li>
 						<li class="expected-price-item">
 							<span class="expected-price-title">배송비</span>
@@ -609,7 +580,7 @@
 					</ul>
 					<p class="total-expected-price">
 						<span class="total-expected-price-title">총 결제 예상 금액</span>
-						<strong class="total-expected-price-value"><fmt:formatNumber value="${prodPriceAll}" type="number" />원</strong>
+						<strong class="total-expected-price-value"><fmt:formatNumber value="" type="number" />원</strong>
 					</p>
 					<button class="btn-order" type="button">주문 완료하기</button>
 				</div>

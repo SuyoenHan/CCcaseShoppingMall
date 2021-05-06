@@ -290,7 +290,7 @@ public class OrderDAO implements InterOrderDAO {
 	////////////////////////// 백원빈 끝 ///////////////////////////////	
 	
 	
-	  // =============== 조연재 ===================== //
+	 // =============== 조연재 ===================== //
 
 	// 상품 바로주문시 주문할 상품 정보 불러오기
 	@Override
@@ -312,15 +312,23 @@ public class OrderDAO implements InterOrderDAO {
 			  
 			  rs = pstmt.executeQuery();
 			  
-			  while(rs.next()) {
+			  if(rs.next()) {
 				  
-				   ovo.getPdvo().setPnum(rs.getString(1));
-				   ovo.getPdvo().setFk_productid(rs.getString(2));
-				   ovo.getPdvo().setPname(rs.getString(3));
-				   ovo.getPdvo().setPcolor(rs.getString(4));
-				   ovo.getPvo().setPrice(rs.getInt(5));
-				   ovo.getPvo().setSalepercent(rs.getInt(6));
-				   ovo.getPvo().setPimage1(rs.getString(7));	  
+				  ProductDetailVO pdvo = new ProductDetailVO();
+				  ProductVO pvo = new ProductVO();
+				  
+				  ovo.setPdvo(pdvo);
+				  pdvo.setPnum(rs.getString(1));
+				  pdvo.setFk_productid(rs.getString(2));
+				  pdvo.setPname(rs.getString(3));
+				  pdvo.setPcolor(rs.getString(4));
+				  
+				  ovo.setPvo(pvo);
+				  pvo.setPrice(rs.getInt(5));
+				  pvo.setSalepercent(rs.getInt(6));
+				  pvo.setPimage1(rs.getString(7));
+				  
+				  
 				  
 			  }
 			  
@@ -331,5 +339,4 @@ public class OrderDAO implements InterOrderDAO {
 		return ovo;
 	}
 
-	
 }

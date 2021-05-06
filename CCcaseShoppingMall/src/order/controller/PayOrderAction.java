@@ -18,7 +18,8 @@ public class PayOrderAction extends AbstractController {
 		String cnt = request.getParameter("cnt");
 		
 		InterOrderDAO odao = new OrderDAO();
-		OrderVO ovo = odao.getOrderDetail(pnum); 
+	    OrderVO ovo = odao.getOrderDetail(pnum);
+
 		
 		request.setAttribute("ovo", ovo);
 		request.setAttribute("cnt", cnt);	

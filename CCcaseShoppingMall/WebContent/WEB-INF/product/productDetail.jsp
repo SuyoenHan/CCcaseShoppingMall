@@ -505,7 +505,7 @@
 		 	if(flag){
 		 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n색상을 선택해 주세요.");
 		 	}
-		 	else{
+		 	else{ // pnum 제품상세번호 , 수량 cnt를 넘김
 				location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
 	 		}	
 		}); // end of $("div#buyBt").click(function(){
