@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+	String ctxPath= request.getContextPath();
+%>       
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
 	
 	div#mypage{
-		margin:120px 0px 0px 210px;
-		background-color: #E0E0E0;
+		margin:120px 0px 80px 210px;
 		width: 83%;
 		font-size:20pt;
 		height:130px;
@@ -15,9 +17,10 @@
 	}
 	
 	div#myInfo{
-		padding-left:30px;
-		margin-top:130px;
-		border: solid 0px red;
+		padding-left:50px;
+		padding-bottom:10px;
+		margin-top:100px;
+		border: solid 1px #AAAAAA;
 	}	
 
 	span#grade{
@@ -31,6 +34,12 @@
 		margin-top:30px;
 		width: 100%;
 	}
+	span#title{
+	display:inline-block;
+		font-weight: bold;
+		margin-top: 15px;
+	}
+	
 
 </style>
 
@@ -54,18 +63,22 @@
 						</span> 
 						<span style="font-size:15pt;">입니다</span> 
 					</td>
-					<td style=" font-size: 13pt; text-align: center; width:200px;">
-						주문건수
+					<td  style=" font-size: 13pt; text-align: center; width:200px;">
+						<img src="<%= ctxPath%>/images/member/cart.png" alt="장바구니 이미지" width="70" height="70" />
+						<br><span id="title">총 주문</span>
+						
 					</td>
 					<td style="font-size: 13pt;text-align: center;width:200px;">
-						포인트 이미지 자리
+						<img src="<%= ctxPath%>/images/member/point1.png" alt="포인트 이미지" width="50" height="50" />
+						<br><span id="title">포인트</span>
 					</td>
-					<td style="font-size: 13pt;text-align: center;width:200px;">
-						쿠폰 이미지 자리
+					<td  style="font-size: 13pt;text-align: center;width:200px;">
+						<img src="<%= ctxPath%>/images/member/쿠폰.png" alt="쿠폰이미지" width="70" height="70" />
+						<br><span id="title">쿠폰</span>
 					</td>
 				</tr>
 				<tr>
-					<td style="font-size: 13pt;text-align: center;"> 0 건수 </td>
+					<td style="font-size: 13pt;text-align: center;"> 0 건 </td>
 					<td style="font-size: 13pt;text-align: center;"><a>${sessionScope.loginuser.totalpoint}</a>point</td>
 					<td style="font-size: 13pt;text-align: center;">1장</td>
 				</tr>

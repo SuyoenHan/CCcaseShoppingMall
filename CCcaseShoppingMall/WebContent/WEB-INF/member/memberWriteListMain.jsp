@@ -113,7 +113,8 @@
 	        </thead>
 
 	    	<tbody>
-		    	<c:forEach var="qvo" items="${requestScope.qnaList}">
+
+	    		<c:forEach var="qvo" items="${requestScope.allList}">
 	    			<tr class="qnaInfo">
 	    				<td class="qnano">${qvo.qnano}</td>
 	    				<td>Q&A</td>
@@ -123,22 +124,10 @@
 	    				<td class="qviewcount">${qvo.qviewcount}</td>
 	    			</tr>
 	    		</c:forEach>
-	    		<c:forEach var="rvo" items="${requestScope.revList}">
-	    			<tr class="reviewInfo">
-	    				<td class="qnano">${rvo.reviewno}</td>
-	    				<td>상품리뷰</td>
-	    				<td>${rvo.rvtitle}</td>
-	    				<td>${rvo.fk_userid}</td>
-	    				<td>${rvo.rregisterdate}</td>
-	    				<td class="qviewcount">${rvo.rviewcount}</td>
-	    			</tr>
-	    			</c:forEach>
+		    	
 	    	</tbody>
 	    </table>
-	    
-	    <div style="width:30%; margin: 0 auto;">
-	    	${requestScope.pageBar}
-	    </div>
+
 	    
 	    <div>
 	    	<h3>작성가능한 리뷰</h3>

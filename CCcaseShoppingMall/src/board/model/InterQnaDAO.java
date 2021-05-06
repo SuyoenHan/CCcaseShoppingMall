@@ -47,12 +47,14 @@ public interface InterQnaDAO {
 	List<QnaVO> qnaMywrite(Map<String, String> paraMap) throws SQLException;
 	//내가 쓴글 총페이지 보이기
 	int qnaMywriteTotalPage(String userid)throws SQLException;
-
-	
+	//내가 쓴 전체 글 보이기
+	List<QnaVO> writeAllList(String userid) throws SQLException;
 
 	////////////////// 백원빈 시작 //////////////////////////////
 	// QNA글 갯수 및 댓글 갯수 알아오기
 	int getCntQnaCmt(String sCntQna) throws SQLException;
+
+	
 	
 	
 	//////////////////백원빈 끝 //////////////////////////////
