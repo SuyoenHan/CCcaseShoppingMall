@@ -15,12 +15,20 @@ public class ProductListAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// =========================== 한수연 시작 ======================================
-		String method= request.getMethod();
+		
+		InterProductDAO pdao= new ProductDAO();
 		
 		String mnum= request.getParameter("mnum");
-		String cnum= request.getParameter("cnum");
-		String modelName= request.getParameter("modelName"); // null인 경우 존재
+		if(!("1000".equals(mnum) || "2000".equals(mnum) || "3000".equals(mnum))) {
+			mnum="1000";
+		}
 		
+		String cnum= request.getParameter("cnum");
+		if(!("1".equals(cnum) ||"2".equals(cnum) || "3".equals(cnum))) {
+		   cnum="1";
+		}
+		
+		String modelName= request.getParameter("modelName"); // null인 경우 존재
 		
 		InterMobileCompanyDAO mcdao= new MobileCompanyDAO();
 		String mname= mcdao.getMname(mnum); // mnum에 해당하는 mname 알아오는 메소드
@@ -42,9 +50,6 @@ public class ProductListAction extends AbstractController {
 		request.setAttribute("mnum", mnum);
 		request.setAttribute("cname", cname);
 		request.setAttribute("cnum", cnum);
-		request.setAttribute("modelName", modelName); // select 태그 값 고정하기 위한 용도
-		
-		InterProductDAO pdao= new ProductDAO();
 
 		// mnum과 cnum에 해당하는 기종명을 (중복되는 기종명은 1번만 사용) list에 담아서 requestScope에 저장
 		List<String> modelNameList= pdao.getModelName(mnum, cnum);
@@ -54,6 +59,21 @@ public class ProductListAction extends AbstractController {
 	 		해당회사와 카테고리에 일치하는 기종명이 하나이상 있는 경우: modelNameList.size() > 0  
 		*/
 		
+		boolean flag= false;
+		for(int i=0;i<modelNameList.size();i++) {
+			if(modelName!=null) {
+				if(modelNameList.get(i).equals(modelName)) {
+					flag=true;
+					break;
+				}
+			}
+		}
+		
+		if(!flag) {
+			modelName="";
+		}
+		
+		request.setAttribute("modelName", modelName); // select 태그 값 고정하기 위한 용도
 		request.setAttribute("modelNameList", modelNameList);
 		
 		

@@ -558,18 +558,32 @@
 		</div>
 		<input type="hidden" id="productid" value="${onePInfo.productid}">
 		<table id="pdetailInfoTable" style="margin: 10px 0px 0px 30px; ">
-			<tr>
-				<th>할인판매가</th>
-				<td>
-					${onePInfo.saleprice}원
-				</td>
-			</tr>
-			<tr>
-				<th>판매가</th>
-				<td>
-					${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
-				</td>
-			</tr>
+			<c:if test="${onePInfo.salepercent eq '0'}">
+				<tr>
+					<th>할인판매가</th>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th>판매가</th>
+					<td>
+						${onePInfo.price}원&nbsp;&nbsp;
+					</td>
+				</tr>
+			</c:if>
+			<c:if test="${onePInfo.salepercent ne '0'}">
+				<tr>
+					<th>할인판매가</th>
+					<td>
+						${onePInfo.saleprice}원
+					</td>
+				</tr>
+				<tr>
+					<th>판매가</th>
+					<td>
+						${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+					</td>
+				</tr>
+			</c:if>
 			<tr>
 				<th>색상 옵션</th>
 				<td>
