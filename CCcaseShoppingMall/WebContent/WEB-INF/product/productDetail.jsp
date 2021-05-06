@@ -491,6 +491,25 @@
 		}); // end of $("img.heart").click(function(){
 		
 		
+		// 바로구매 버튼을 클릭한 경우 주문하기 페이지로 제품정보 이동
+		$("div#buyBt").click(function(){
+			
+			var pnum= $(this).prev().find("select#cOption").val();
+			var cnt= $(this).prev().find("input#pcnt").val();
+			var flag= false;
+			
+			
+	 		if("-"==pnum){ // 색상이 선택되지 않은 경우
+	 			flag=true;
+	 		}
+	 	
+		 	if(flag){
+		 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n색상을 선택해 주세요.");
+		 	}
+		 	else{
+				location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
+	 		}	
+		}); // end of $("div#buyBt").click(function(){
 		
 
 	}); // end of $(document).ready(function(){--------------------
@@ -579,7 +598,7 @@
 			</tr>
 		</table>
 		
-		<div class="pdetailbt" style="margin-left: 0px;" onclick="location.href='<%=ctxPath%>/order/payOrderMain.cc?productid=${onePInfo.productid}'">바로구매</div>
+		<div class="pdetailbt" id="buyBt" style="margin-left: 0px;">바로구매</div>
 		<div class="pdetailbt" id="wishListBt">장바구니</div>
 		<div class="pdetailbt" id="interestBt">관심상품</div>
 	</div>
