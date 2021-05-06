@@ -26,7 +26,7 @@
   		<form name="qnaReplyDetailForm">
   			<table style="width: 700px; border: 1px; border-color: lightgray;">
   				 <tr>
-  				 	<td style="display: none">fk_qnano</td>
+  				 	<td style="display: none"><%=fk_qnano%></td>
 		            <td class="title">등록일</td>
 		            <td>${requestScope.qrvo.cmtregisterday}</td>
 		        </tr>
@@ -34,7 +34,7 @@
 		            <td id="title">
 		               글내용
 		            </td>           
-		            <td>cmtcontent</td>        
+		            <td><%=cmtcontent%></td>        
 		        </tr>						        	
   			</table>
   		</form>

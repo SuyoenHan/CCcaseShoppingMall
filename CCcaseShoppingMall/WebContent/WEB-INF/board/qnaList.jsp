@@ -156,9 +156,10 @@
 	           <tr id="menu">	 
 	              <th style="width:3%;">No.</th>
 	              <th style="width:20%;">제목</th>
-	              <th style="width:10%;">작성자</th>
+	              <th style="width:8%;">작성자</th>
 	              <th>등록일자</th>
-	              <th style="width:3%;">조회수</th>
+	              <th style="width:5%;">조회수</th>
+<%--          <th style="width:5%;">상태</th>		--%>
 	           </tr>
 	        </thead>
 
@@ -167,9 +168,15 @@
 	    			<tr class="qnaInfo">
 	    				<td class="qnano" style="width:3%;">${qvo.qnano}</td>
 	    				<td style="width:20%;">${qvo.qtitle}</td>
-	    				<td class="qnaWriter" style="width:10%;">${qvo.fk_userid}</td>
+	    				<td class="qnaWriter" style="width:8%;">${qvo.fk_userid}</td>
 	    				<td>${qvo.qregisterdate}</td>
-	    				<td style="width:3%;">${qvo.qviewcount}</td>
+	    				<td style="width:5%;">${qvo.qviewcount}</td>
+<%--    				<td style="width:5%;">
+		    				<c:choose>
+			    				<c:when test="${requsetScope.qcvo ne null}">답변완료</c:when>
+			    				<c:when test="${requsetScope.qcvo eq null}">미완료</c:when>
+		    				</c:choose>
+		    			</td>		--%>
 	    				<td class="qnapwd" style="display:none;">${qvo.qnapwd}</td>
 	    				<td class="qstatus" style="display:none;">${qvo.qstatus}</td>
 	    			</tr>
@@ -185,7 +192,7 @@
 	      
 	      <input type="text"  id="searchWord"  name="searchWord" />
 	      <input type="text"  style="display: none;">
-	      <button type="button"  onclick="goSearch();" style="margin-left: 20px; background: #6D919C;">검색</button>
+	      <button type="button"  onclick="goSearch();" style="margin-left: 10px; background: #6D919C; border:none; color:white; border-radius: 2px; height: 25px;">검색</button>
 	      
 	      <c:if test="${not empty sessionScope.loginuser.userid}">
 	      	<button type="button"  onclick="goWrite();" style="background: #6D919C; border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
