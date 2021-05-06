@@ -114,14 +114,19 @@
 
 	    	<tbody>
 
-	    		<c:forEach var="qvo" items="${requestScope.allList}">
+	    		<c:forEach var="all" items="${requestScope.allList}">
 	    			<tr class="qnaInfo">
-	    				<td class="qnano">${qvo.qnano}</td>
-	    				<td>Q&A</td>
-	    				<td>${qvo.qtitle}</td>
-	    				<td>${qvo.fk_userid}</td>
-	    				<td>${qvo.qregisterdate}</td>
-	    				<td class="qviewcount">${qvo.qviewcount}</td>
+	    				<td class="qnano">${all.qnano}</td>
+	    				<td>
+	    				<c:choose>
+								<c:when  test="${all.qstate eq 0}">상품리뷰</c:when>
+								<c:otherwise>Q&A</c:otherwise>
+						</c:choose>
+	    				</td>
+	    				<td>${all.qtitle}</td>
+	    				<td>${all.fk_userid}</td>
+	    				<td>${all.qregisterdate}</td>
+	    				<td class="qviewcount">${all.qviewcount}</td>
 	    			</tr>
 	    		</c:forEach>
 		    	
