@@ -341,6 +341,7 @@
 			}
 		}); // end of $("div#wishListBt").click(function(){----------------------------
 		
+
 		
 		// member/mycart.cc 에서 넘어온 값들이 존재하면 선택값에 넣어준다
 		if("${pnum}"!="null"){
@@ -491,8 +492,8 @@
 		
 		
 		
-	}); // end of $(document).ready(function(){--------------------
 
+	}); // end of $(document).ready(function(){--------------------
 
 
 </script>
@@ -578,7 +579,7 @@
 			</tr>
 		</table>
 		
-		<div class="pdetailbt" style="margin-left: 0px;">바로구매</div>
+		<div class="pdetailbt" style="margin-left: 0px;" onclick="location.href='<%=ctxPath%>/order/payOrderMain.cc?productid=${onePInfo.productid}'">바로구매</div>
 		<div class="pdetailbt" id="wishListBt">장바구니</div>
 		<div class="pdetailbt" id="interestBt">관심상품</div>
 	</div>

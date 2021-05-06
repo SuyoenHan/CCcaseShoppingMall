@@ -22,12 +22,20 @@ public class EventDetailAction extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		AdminVO adminUser = (AdminVO) session.getAttribute("adminUser");
 		
+		// event 불러오기
 		String eventno = request.getParameter("eventno");
 		
 		InterEventDAO edao = new EventDAO();
 		EventVO evo = edao.eventDetail(eventno);
 		
 		request.setAttribute("evo", evo);
+		EventVO pevo = edao.prevEvent(eventno);
+		EventVO nevo = edao.nextEvent(eventno);
+		
+		request.setAttribute("pevo", pevo);
+		request.setAttribute("nevo", nevo);
+		
+		// event 이전글, 다음글 불러오기
 		
 		//	super.setRedirect(false); 
 		super.setViewPage("/WEB-INF/board/eventDetail.jsp");

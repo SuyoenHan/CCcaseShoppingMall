@@ -24,7 +24,14 @@ public interface InterEventDAO {
 	// 이벤트글 수정하기
 	int editEvent(EventVO evt) throws SQLException; 
 	
-	// eventno로 이벤트글 불러오기
+	// eventno로 event글 불러오기
 	EventVO eventDetail(String eventno) throws SQLException;
+	
+	// eventno로 이전 event글 불러오기
+	EventVO prevEvent(String eventno) throws SQLException;
+	
+	// eventno로 다음 event글 불러오기
+	EventVO nextEvent(String eventno) throws SQLException;
+	
 	
 }
