@@ -312,6 +312,79 @@ public class EventDAO implements InterEventDAO {
 		return evo;
 	}
 
+	// eventno로 이전 event글 불러오기
+	@Override
+	public EventVO prevEvent(String eventno) throws SQLException {
+		EventVO evo = null;
+		
+		try {    	  
+		        conn = ds.getConnection();		
+		         
+				String sql = "select eventno, title "+
+						            "from tbl_event "+
+						            "where eventno in "+
+						            " ( "+
+						            "    select max(eventno) "+
+						            "    from tbl_event "+
+						            "    where eventno<? "+
+						            " ) ";
+				
+		       pstmt = conn.prepareStatement(sql);
+		         
+		       pstmt.setString(1, eventno);
+		         
+		       rs = pstmt.executeQuery();
+		         
+		       if(rs.next()) {
+		            
+		            evo = new EventVO();		
+		            
+		            evo.setEventno(rs.getInt(1));
+		            evo.setTitle(rs.getString(2));
+		            
+		         }
+	      } finally {
+	         close();
+	      }      
+		return evo;
+	}
+
+	// eventno로 다음 event글 불러오기
+	@Override
+	public EventVO nextEvent(String eventno) throws SQLException {
+		EventVO evo = null;
+		 try {    	  
+		        conn = ds.getConnection();		
+		         
+				String sql = "select eventno, title "+
+						            "from tbl_event "+
+						            "where eventno in "+
+						            " ( "+
+						            "    select min(eventno) "+
+						            "    from tbl_event "+
+						            "    where eventno>? "+
+						            " ) ";
+				
+		       pstmt = conn.prepareStatement(sql);
+		         
+		       pstmt.setString(1, eventno);
+		         
+		       rs = pstmt.executeQuery();
+		         
+		       if(rs.next()) {
+		            
+		            evo = new EventVO();		
+		            
+		            evo.setEventno(rs.getInt(1));
+		            evo.setTitle(rs.getString(2));
+		            
+		         }
+	      } finally {
+	         close();
+	      }      
+		return evo;
+	}
+
 	
 
 }

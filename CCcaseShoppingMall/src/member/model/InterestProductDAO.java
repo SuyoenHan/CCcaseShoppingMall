@@ -75,7 +75,7 @@ public class InterestProductDAO implements InterInterestProductDAO {
 				}
 				else {
 					sql= " insert into tbl_interestp(interestno, fk_userid, fk_productid) "+
-					     " values(seq_cart_cartno.nextval, ?, ? ) ";
+					     " values(seq_interestp_interestno.nextval, ?, ? ) ";
 					
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setString(1, ipvo.getFk_userid());
