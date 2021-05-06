@@ -47,10 +47,10 @@ public class AvailableCouponAction extends AbstractController {
 			List<CouponVO> cpList = cdao.selectCouponList(paraMap);
 			
 			// 사용가능쿠폰 개수 조회하기
-			int acnt = cdao.countAvalCpQty("0");
+			int acnt = cdao.countAvalCpQty("0", userid);
 			
 			// 사용불가쿠폰 개수 조회하기
-			int ucnt = cdao.countUnavalCpQty("1");
+			int ucnt = cdao.countUnavalCpQty("1", "2", userid);
 			
 			request.setAttribute("cpList", cpList);
 			request.setAttribute("acnt", acnt);

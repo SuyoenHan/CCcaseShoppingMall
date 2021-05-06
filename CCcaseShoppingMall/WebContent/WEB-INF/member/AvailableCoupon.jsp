@@ -105,7 +105,11 @@
 				<td><fmt:formatNumber value="${cvo.cpdiscount*100}" pattern="0"/><span>%</span></td>
 				<td>${cvo.issuedate}</td>
 				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
-				<td>D-<span>${cvo.remaindate}</span></td>
+				<td>
+					<c:if test="${cvo.cpstatus eq '0'}">D-<span>${cvo.remaindate}</span></c:if>
+					<c:if test="${cvo.cpstatus eq '1'}">사용완료</c:if>
+					<c:if test="${cvo.cpstatus eq '2'}">기간만료</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
