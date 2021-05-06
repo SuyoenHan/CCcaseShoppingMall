@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
 import product.model.ProductVO;
 
 public class ReviewOneDetailAction extends AbstractController {
