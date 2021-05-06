@@ -137,10 +137,35 @@
 		$("tr.faqSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
-				location.href="<%=ctxPath%>/board/faqList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&faqno="+$(this).next().prop("id");			
+			var viewCount = $(this).find("#fnum").text();
+			
+			   var faqno = $(this).next().prop("id");
+				$.ajax({
+		    		  url:"<%= ctxPath%>/board/updateViewCount.cc",
+		    		  type:"post",
+		    		  data:{"faqno": faqno},
+		    		  dataType:"json",
+		    		  success:function(json){ // {"n":1}   {"n":0}
+		                      // 조회수 등록 성공 되어지면
+		                      var j = json.viewCount;
+		                      // console.log(j);
+		    		          viewCount.text(j); 
+		                      
+		    			//	$(this).find("td#fnum").text(json.viewCount);
+		    			
+		    		  },
+		    		  error: function(request, status, error){
+		  	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		  	       	  }
+		    		
+				});
+				  $(this).next().css('display','');
 			}
 			else{
+				
 				$(this).next().css('display','none');
+				
+				
 			}
 			
 		
