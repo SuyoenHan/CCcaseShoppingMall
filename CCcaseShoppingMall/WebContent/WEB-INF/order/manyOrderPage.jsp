@@ -12,12 +12,12 @@
 
 
 th {
-	border:solid 1px black;
-	width:200px;
+   border:solid 1px black;
+   width:200px;
 }
 
 td {
-	border:solid 1px black;
+   border:solid 1px black;
 }
 
 </style>
@@ -26,89 +26,89 @@ td {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
-	
-	$(document).ready(function(){
-		
-		var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
-		var allShipfee="${requestScope.allShipfee}";    // 배송료
-		var totalpoint ="${requestScope.allExpectPoint}" // 총예상적립금
-		var qUsepoint = Number($("input#totalpoint").val());
-		
-		// 흠..............
-		if(qUsepoint==""){
-			qUsepoint = 0;
-		}
-		
-		var finalamount=totalPrice+allShipfee-qUsepoint;  // 총 결제금액
-		// if()해줘서 point사용했냐 안했냐에 따라 point차감도 넣어주자
-		
-		var pnumArr = new Array();
-		var odqtyArr = new Array();
-		var pdetailpriceArr = new Array();
-		var cartnoArr = new Array();
-		
-		// 넘어온 배열의 크기
-		var listSize = Number("${requestScope.listSize}");
-		// console.log(listSize);
-		
-		for(var i=0; i<listSize; i++){
-			
-			pnumArr.push($("input.fk_pnum").eq(i).val());
-		//	console.log("pnum : "+$("input.fk_pnum").eq(i).val());
-			odqtyArr.push($("input.odqty").eq(i).text());
-		//	console.log($("input.odqty").eq(i).val());
-			pdetailpriceArr.push($("input.pdetailprice").eq(i).val());
-		//	console.log($("input.odqty").eq(i).val());
-			cartnoArr.push($("input.cartno").eq(i).val())
+   
+   $(document).ready(function(){
+      
+      var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
+      var allShipfee="${requestScope.allShipfee}";    // 배송료
+      var totalpoint ="${requestScope.allExpectPoint}" // 총예상적립금
+      var qUsepoint = Number($("input#totalpoint").val());
+      
+      // 흠..............
+      if(qUsepoint==""){
+         qUsepoint = 0;
+      }
+      
+      var finalamount=totalPrice+allShipfee-qUsepoint;  // 총 결제금액
+      // if()해줘서 point사용했냐 안했냐에 따라 point차감도 넣어주자
+      
+      var pnumArr = new Array();
+      var odqtyArr = new Array();
+      var pdetailpriceArr = new Array();
+      var cartnoArr = new Array();
+      
+      // 넘어온 배열의 크기
+      var listSize = Number("${requestScope.listSize}");
+      // console.log(listSize);
+      
+      for(var i=0; i<listSize; i++){
+         
+         pnumArr.push($("input.fk_pnum").eq(i).val());
+      //   console.log("pnum : "+$("input.fk_pnum").eq(i).val());
+         odqtyArr.push($("input.odqty").eq(i).text());
+      //   console.log($("input.odqty").eq(i).val());
+         pdetailpriceArr.push($("input.pdetailprice").eq(i).val());
+      //   console.log($("input.odqty").eq(i).val());
+         cartnoArr.push($("input.cartno").eq(i).val())
 
-		}// end of for ----
-		
-		$.ajax({
-        	url:"<%= ctxPath%>/order/manyOrderUpdate.cc",
-        	type:"post",
-        	data:{"totalPrice":totalPrice,
-        		  "allShipfee":allShipfee,
-        		  "totalpoint":totalpoint,
-        		  "qUsepoint":qUsepoint,
-        		  "finalamount":finalamount,
-        		  "pnum_es":pnumArr,
-        		  "odqty_es":odqtyArr,
-        		  "pdetailprice_es":pdetailpriceArr,
-        		  "cartno_es":cartnoArr},
-        	dataType:"json",
-        	success:function(json){
-     		   
-     		   if(json.isSuccess == 1){
-     			  
-     			   location.href="<%= ctxPath%>/order/myOrderList.cc";
-     		   }
-     		   
-     	   },
-     	   error: function(request, status, error){
-             		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-          		} 
+      }// end of for ----
+      
+      $.ajax({
+           url:"<%= ctxPath%>/order/manyOrderUpdate.cc",
+           type:"post",
+           data:{"totalPrice":totalPrice,
+                "allShipfee":allShipfee,
+                "totalpoint":totalpoint,
+                "qUsepoint":qUsepoint,
+                "finalamount":finalamount,
+                "pnum_es":pnumArr,
+                "odqty_es":odqtyArr,
+                "pdetailprice_es":pdetailpriceArr,
+                "cartno_es":cartnoArr},
+           dataType:"json",
+           success:function(json){
+              
+              if(json.isSuccess == 1){
+                
+                 location.href="<%= ctxPath%>/order/myOrderList.cc";
+              }
+              
+           },
+           error: function(request, status, error){
+                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+                } 
 
         }); // end of $.ajax
-		
-		
-		
-	});// end of $(document).ready(function(){
+      
+      
+      
+   });// end of $(document).ready(function(){
 
 
-	//새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
-	function setDisplay(){
-	   
-	  $(".newDelAddr").hide();
-	  
-	   if($("input:radio[id=delAddr]").is(":checked")){
-	       $(".newDelAddr").hide();
-	       $(".originAddr").show();
-	   }   
-	   
-	   if($("input:radio[id=newDelAddr]").is(":checked")){
-	      $(".origin-delAddr").hide();
-	       $(".newAddr").show();
-	   }
+   //새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
+   function setDisplay(){
+      
+     $(".newDelAddr").hide();
+     
+      if($("input:radio[id=delAddr]").is(":checked")){
+          $(".newDelAddr").hide();
+          $(".originAddr").show();
+      }   
+      
+      if($("input:radio[id=newDelAddr]").is(":checked")){
+         $(".origin-delAddr").hide();
+          $(".newAddr").show();
+      }
   
 }// end of function setDisplay()--------------------------------------
 
@@ -116,54 +116,54 @@ td {
     
 
 <div id="contents">
-	
-	<div>
+   
+   <div>
       <h3>주문/결제창</h3>
     </div>
 
-	<div id="allProductInfo">	
+   <div id="allProductInfo">   
       <!-- 상품 정보 시작 -->
-    	<table style="margin-top:30px;">
+       <table style="margin-top:30px;">
             <thead>
-	            <tr>
-	               <th colspan="2">상품정보</th>
-	               <th>판매가</th>
-	               <th>수량</th>
-	               <th>적립금</th>
-	               <th>배송구분</th>
-	               <th>배송비</th>
-	            </tr>
+               <tr>
+                  <th colspan="2">상품정보</th>
+                  <th>판매가</th>
+                  <th>수량</th>
+                  <th>적립금</th>
+                  <th>배송구분</th>
+                  <th>배송비</th>
+               </tr>
             </thead>
                  
             <tbody>
-            	<c:forEach var="productMap" items="${requestScope.orderPageList}">
-            		<input type="hidden" class="fk_pnum" value="${productMap.pnum}"/>
-            		<input type="hidden" class="cartno" value="${productMap.cartnoArr}"/>
-	            	<tr>	
-	                 	<td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${productMap.fk_productid} ><img src="<%= ctxPath%>/images/${productMap.pimage1}" width="80px" height="80px" /></a></td>
-	                    <td style="width:130px;">${productMap.productname}</td>
-	                    <td><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원<input type="hidden" class="pdetailprice" value="${productMap.price}"/></td>
-	                    <td rowspan="2">${productMap.cntArr}개<input type="hidden" class="odqty" value="${productMap.cntArr}"/></td>
-	                    <td rowspan="2">${productMap.oneExpectpoint}원</td>
-	                    <td rowspan="2">
-	                        <c:choose>
-	                           <c:when test="${productMap.doption eq 0}">무료배송</c:when>
-	                           <c:when test="${productMap.doption eq 1}">기본배송</c:when>
-	                        </c:choose>
-	                    </td>
-	                     <td rowspan="2" id="doption">
-	                        <c:choose>
-	                           <c:when test="${productMap.doption eq 0}">무료</c:when>
-	                           <c:when test="${productMap.doption eq 1}">3,000원</c:when>
-	                        </c:choose>
-	                     </td>
-	              	</tr>
-	                 
-	                <tr> 
-	                   <td>옵션:&nbsp;${productMap.modelname}</td>
-	                   <td id="salePrice"><fmt:formatNumber value="${productMap.saleprice}" pattern="#,###,###" />원</td>
-	                </tr>
-				</c:forEach>
+               <c:forEach var="productMap" items="${requestScope.orderPageList}">
+                  <input type="hidden" class="fk_pnum" value="${productMap.pnum}"/>
+                  <input type="hidden" class="cartno" value="${productMap.cartnoArr}"/>
+                  <tr>   
+                       <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${productMap.fk_productid} ><img src="<%= ctxPath%>/images/${productMap.pimage1}" width="80px" height="80px" /></a></td>
+                       <td style="width:130px;">${productMap.productname}</td>
+                       <td><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원<input type="hidden" class="pdetailprice" value="${productMap.price}"/></td>
+                       <td rowspan="2">${productMap.cntArr}개<input type="hidden" class="odqty" value="${productMap.cntArr}"/></td>
+                       <td rowspan="2">${productMap.oneExpectpoint}원</td>
+                       <td rowspan="2">
+                           <c:choose>
+                              <c:when test="${productMap.doption eq 0}">무료배송</c:when>
+                              <c:when test="${productMap.doption eq 1}">기본배송</c:when>
+                           </c:choose>
+                       </td>
+                        <td rowspan="2" id="doption">
+                           <c:choose>
+                              <c:when test="${productMap.doption eq 0}">무료</c:when>
+                              <c:when test="${productMap.doption eq 1}">3,000원</c:when>
+                           </c:choose>
+                        </td>
+                    </tr>
+                    
+                   <tr> 
+                      <td>옵션:&nbsp;${productMap.modelname}</td>
+                      <td id="salePrice"><fmt:formatNumber value="${productMap.saleprice}" pattern="#,###,###" />원</td>
+                   </tr>
+            </c:forEach>
             </tbody>
 
         </table>

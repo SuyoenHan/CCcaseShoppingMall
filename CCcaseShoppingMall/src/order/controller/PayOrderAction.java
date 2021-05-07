@@ -40,7 +40,6 @@ public class PayOrderAction extends AbstractController {
 			
 			// =========================== 한수연 시작 ======================================
 			InterProductDAO pdao= new ProductDAO();
-			InterProductDetailDAO pddao= new ProductDetailDAO();
 			
 			// 회사+카테고리 별 제품 수 맵에 담아서 session에 저장
 			Map<String,Integer> paraMap= new HashMap<>();
@@ -69,7 +68,7 @@ public class PayOrderAction extends AbstractController {
 			paraMap.put("bumpLgCnt", bumpLgCnt);
 			
 			session.setAttribute("paraMap", paraMap);
-			// =========================== 한수연 시작 ======================================
+			// =========================== 한수연 끝 ======================================
 			
 			
 			
@@ -234,7 +233,7 @@ public class PayOrderAction extends AbstractController {
 				request.setAttribute("expectPoint", expectPoint); // 예상적립금
 			    request.setAttribute("totalpoint", totalpoint);   // 현재 회원이 보유한 포인트
 			    request.setAttribute("saleprice", saleprice);
-			    request.setAttribute("paraMap", paraMap);
+			    request.setAttribute("para2Map", para2Map);
 			    request.setAttribute("cnt", cnt);
 				request.setAttribute("totalProPrice", totalProPrice);
 			    
