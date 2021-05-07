@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,25 +74,18 @@
 			goProdDetail();
 		});
 		
-		$(document).on("mouseover","img#1stImg", function(){
-			$("img#big").src = $(this).src;
-		});
-
-		$(document).on("mouseover","img#2ndImg", function(){
-			$("img#big").src = $(this).src;
-		});
-		
-		$(document).on("mouseover","img#3rdImg", function(){
-			$("img#big").src = $(this).src;
-		});
-
+		$(document).on("mouseover","#imgRev", function(){
+			var obj = document.getElementById("big");
+			var index = $(this).index();
+			obj.src = $(this).eq(index).src;
+		})
 		
 	}); // end of $(document).ready(function(){})--------------------------------------
 	
 	// Function Declaration
 	
 	function showBig() {
-		 var obj = document.getElementById("big");
+		 
 		  obj.src = "../images/" + value;
 	}
 	
@@ -161,9 +155,9 @@
 	<div id="revImg" class="col-md-4 line">
 			<img src="../images/${requestScope.rvo.reviewimage1}" width="400" height="400" id="big"/>
 			<br/><br/>
-			<img src="../images/${requestScope.rvo.reviewimage1}" width="130" height="130" id="1stImg">
-			<img src="../images/${requestScope.rvo.reviewimage2}" width="130" height="130" id="2ndImg">
-			<img src="../images/${requestScope.rvo.reviewimage3}" width="130" height="130" id="3rdImg">
+			<img src="../images/${requestScope.rvo.reviewimage1}" width="130" height="130" id="imgRev">
+			<img src="../images/${requestScope.rvo.reviewimage2}" width="130" height="130" id="imgRev">
+			<img src="../images/${requestScope.rvo.reviewimage3}" width="130" height="130" id="imgRev">
 	</div>
 
 <div id="main" style="float:right; width: 700px;"class="col=md-8 line">
@@ -174,16 +168,16 @@
 					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px"></td>
 					<td style="padding: 10px; width: 650px;">
 						<c:if test="${requestScope.snum eq 1}">
-							<span>NEW</span><br>
+							<span style="background-color: #cc8800; font-weight:bold; font-size:8pt; color:white;">NEW</span><br>
 						</c:if>
 						<c:if test="${requestScope.snum eq 0}">
-							<span>BEST</span><br>
+							<span style="background-color:#009900; font-weight:bold; font-size:8pt; color:white;">BEST</span><br>
 						</c:if>
 						<c:if test="${requestScope.snum eq -1}">
 							<span>-</span><br>   <%-- 신상품도 베스틑상품도 아닌경우 --%>
 						</c:if>
-						<span>${requestScope.pvo.productname}</span><br>
-						<span>${requestScope.pvo.price}</span>&nbsp;&nbsp;&nbsp;
+						<span style="font-weight:bold;">${requestScope.pvo.productname}</span><br>
+						<span><fmt:formatNumber value="${requestScope.pvo.price}" pattern="#,###" />원</span>&nbsp;&nbsp;&nbsp;
 						<button id="btnDetail" type="button" onclick="goProdDetail()" style="">제품상세보기</button><br>
 					</td>
 				</tr>

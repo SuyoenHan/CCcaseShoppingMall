@@ -23,91 +23,87 @@ div#title{
 		font-size: 20pt;
 	}
 
+
 </style>
 
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		
-		func_height();
-		
-		$("input#spinnerImgQty").spinner({
-			spin:function(event, ui){
-				if(ui.value > 3){
-					$(this).spinner("value",3);
-					return false;
-				} 
-				else iif(ui.value < 0) {
-					$(this).spinner("value",0);
-					return false;
+		$(document).ready(function(){
+			
+			$("input#spinnerImgQty").spinner({
+				spin:function(event, ui){
+					if(ui.value > 3){
+						$(this).spinner("value",3);
+						return false;
+					} 
+					else iif(ui.value < 0) {
+						$(this).spinner("value",0);
+						return false;
+					}
 				}
-			}
-		})// end of end of $("input#spinnerImgQty").spinner()-----------------
-		
-		// #### 스피너의 이벤트는 click 도 아니고 change 도 아니고 "spinstop" 이다. #### //
-		$("input#spinnerImgQty").bind("spinstop", function(){
-			var html = "";
-			var cnt = $(this).val();
+			})// end of end of $("input#spinnerImgQty").spinner()-----------------
 			
-			for(var i=0; i<parseInt(cnt); i++) {
-		    	html += "<br>";
-		    	html += "<input type='file' name='attach"+i+"' class='btn btn-default' />";
-		    }// end of for-----------------------
-		    
-			$("div#divfileattach").html(html);
-		      
-		    $("input#attachCount").val(cnt);
-		});
-		
-		// 1. 목록 버튼 클릭시
-		$("button.revList").click(function(){
-				myConfirm();
-		});
-		
-		// 2. 등록 버튼 클릭시 
-		$("button.revInsert").click(function(){
-			
-			var bFlagRequiredInfo = false;
-			
-			$(".rqdInfo").each(function(index, item){
-				var data = $(item).val().trim();
+			// #### 스피너의 이벤트는 click 도 아니고 change 도 아니고 "spinstop" 이다. #### //
+			$("input#spinnerImgQty").bind("spinstop", function(){
+				var html = "";
+				var cnt = $(this).val();
 				
-				if(data == "") {
-					bFlagRequiredInfo = true;
-					alert("제목과 글내용은 필수입력사항 입니다.");
-					$("input#rtitle").focus();
-					return false;
-				}
+				for(var i=0; i<parseInt(cnt); i++) {
+			    	html += "<br>";
+			    	html += "<input type='file' name='attach"+i+"' class='btn btn-default' />";
+			    }// end of for-----------------------
+			    
+				$("div#divfileattach").html(html);
+			      
+			    $("input#attachCount").val(cnt);
 			});
 			
-			// 글제목 글내용 있을경우 reviewList에 POST방식으로 등록해준다.
-			if(!bFlagRequiredInfo) {
-				var frm = document.reviewRegFrm;
-				frm.action="<%=ctxPath%>/board/reviewList.cc";
-				frm.method="POST";
-				frm.submit();
-			}
-		});// end of $("button.revInsert").click(function(){})--------------------------
-		
-		// 3. 취소 버튼 클릭시
-		$("button.regCancel").click(function(){
-			alert("리뷰 작성을 취소하셨습니다.");
-			location.href="<%=ctxPath%>/board/reviewList.cc";
-		});
-		
-	}); // end of $(document).ready(function(){})-------------------------------------------
+			// 1. 목록 버튼 클릭시
+			$("button.revList").click(function(){
+					myConfirm();
+			});
+			
+			// 2. 등록 버튼 클릭시 
+			$("button.revInsert").click(function(){
+				
+				var bFlagRequiredInfo = false;
+				
+				$(".rqdInfo").each(function(index, item){
+					var val = $(item).val().trim();
+					
+					if(val == "") {
+						bFlagRequiredInfo = true;
+						alert("제목과 글내용은 필수입력사항 입니다.");
+						$("input#rtitle").focus();
+						return false;
+					}
+				});
+				
+				// 글제목 글내용 있을경우 reviewList에 POST방식으로 등록해준다.
+				if(!bFlagRequiredInfo) {
+					var frm = document.reviewRegFrm;
+					frm.action="<%=ctxPath%>/board/reviewList.cc";
+					frm.method="GET";
+					frm.submit();
+				}
+			});// end of $("button.revInsert").click(function(){})--------------------------
+			
+			// 3. 취소 버튼 클릭시
+			$("button.regCancel").click(function(){
+				alert("리뷰 작성을 취소하셨습니다.");
+				location.href="<%=ctxPath%>/board/reviewList.cc";
+			});
+			
+		}); // end of $(document).ready(function(){})-------------------------------------------
 
-	// Function Declaration 
-	function myConfirm() {
-		if(confirm("현재 페이지를 종료하시겠습니까? 입력하신 내용은 저장되지 않습니다.")){
-			location.href="<%=ctxPath%>/board/reviewList.cc";
+		// Function Declaration 
+		function myConfirm() {
+			if(confirm("현재 페이지를 종료하시겠습니까? 입력하신 내용은 저장되지 않습니다.")){
+				location.href="<%=ctxPath%>/board/reviewList.cc";
+			}
+			
 		}
-		else {
-			location.reload();
-		}
-	}
-	
 	
 </script>
 
@@ -122,7 +118,6 @@ div#title{
 	
 	<table id="tblReviewRegister">
 		<tbody>
-		<c:set var="now" value="<%=new java.util.Date()%>" />
 			<tr>
 				<td>제목</td>
 				<td>
@@ -145,7 +140,7 @@ div#title{
 				<td>
 					<select>
 						<c:forEach var="pname" items="${requestScope.rvo.fk_pname}">
-							<option>${pname}</option>
+							<option value="${fk_pname}">${fk_pname}</option>
 						</c:forEach>
 					</select>
 				</td>
@@ -164,15 +159,9 @@ div#title{
 				</td>
 			</tr>
 			<tr>
-				<td>등록일</td>
-				<td>
-					<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
-				</td>
-			</tr>
-			<tr>
 				<td colspan="2" id="revcontent">
 				<label for="rcontent">글쓰기</label>
-				<textarea id="rcontent" name="rcontent" class="rqdInfo" placeholder="내용을 입력하세요.">
+				<textarea id="rcontent" name="rcontent" class="rqdInfo" rows="10" cols="60" placeholder="내용을 입력하세요.">
 				</textarea>
 				</td>
 			</tr>
