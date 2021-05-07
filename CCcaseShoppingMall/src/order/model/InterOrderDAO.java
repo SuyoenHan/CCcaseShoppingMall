@@ -39,8 +39,15 @@ public interface InterOrderDAO {
 	
 	//###################조승진 시작########################//
 	//리뷰 가능한 상품 불러오기
-	List<OrderVO> byreview(Map<String, String> paraMap)throws SQLException;
+	List<OrderVO> byreview(Map<String, String> paraMap) throws SQLException;
 	//###################조승진 끝########################//
+
+	
+	
+	// ================= 다시 조연재 ====================== //
+	
+	// 상품 주문완료 후 주문 테이블에 insert
+	int insertNewOrder(Map<String, String> paraMap) throws SQLException;
 	
 	
 

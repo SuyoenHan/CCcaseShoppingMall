@@ -291,6 +291,73 @@ public class OrderDAO implements InterOrderDAO {
 	////////////////////////// 백원빈 끝 ///////////////////////////////	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	 // =============== 조연재 ===================== //
 
 	// 상품 바로주문시 주문할 상품 정보 불러오기
@@ -338,6 +405,79 @@ public class OrderDAO implements InterOrderDAO {
 		
 		return paraMap;
 	}
+	
+	// 상품 주문완료 후 주문 테이블에 insert
+	@Override
+	public int insertNewOrder(Map<String, String> paraMap) throws SQLException {
+//			int isSuccess = 0;
+			int n1=0; //, n2=0, n3=0, n4=0, n5=0;
+			
+			try {
+				conn = ds.getConnection();
+		          
+		        conn.setAutoCommit(false); // 수동커밋
+		        
+		        // 2. 주문 테이블에 채번해온 주문전표, 로그인한 사용자, 현재시각을 insert 하기(수동커밋처리)
+		        String sql = " insert into tbl_order(orderno, fk_userid, totalPrice, shipfee, finalamount) "
+		        				+ " values(seq_order_orderno.nextval, ?, ?, ?, ?) ";
+	         
+		         pstmt = conn.prepareStatement(sql);
+		         pstmt.setString(1, paraMap.get("fk_userid"));
+		         pstmt.setString(2, paraMap.get("totalPrice"));
+		         pstmt.setString(3, paraMap.get("shipfee"));
+		         pstmt.setString(4, paraMap.get("finalamount"));
+		         
+		         
+	         n1 = pstmt.executeUpdate();
+	         System.out.println("~~~~~~n1 : " + n1);
+		    	         
+	         // 3. 주문상세 테이블에 채번해온 주문전표, 제품번호, 주문량, 주문금액을 insert 하기(수동커밋처리)
+/*
+	         if(n1 == 1) {
+	         	 String[] pnumArr = (String[]) paraMap.get("pnumArr");
+	             String[] odqtyArr = (String[]) paraMap.get("odqtyArr");
+	             String[] pdetailpriceArr = (String[]) paraMap.get("pdetailpriceArr");
+	             
+	             int cnt = 0;
+	             for(int i=0; i<odetailnoArr.length; i++) {
+	                sql = " insert into tbl_odetail (odetailno, fk_orderno, fk_pnum, odqty , shipstatus, pdetailprice)  "  
+	                   + " values(SEQ_ODETAIL_ODETAILNO.nextval, ?, to_number(?), to_number(?), 0, to_number(?)) ";
+	                
+	                 pstmt = conn.prepareStatement(sql);
+	                 pstmt.setString(1, (String)paraMap.get("orderno"));
+	                 pstmt.setString(2, pnumArr[i]);
+	                 pstmt.setString(3, odqtyArr[i]);
+	                 
+	                 pstmt.executeUpdate();
+	                 cnt++;
+	             }// end of for----------------------
+	             
+	             if(cnt == odetailnoArr.length) {
+	                n2=1;
+	             }
+	             System.out.println("~~~~~~n2 : " + n2);
+	             
+	          }// end of if---------------------------
+	*/         
+			} catch(SQLException e) {
+				
+			} finally {
+				close();
+			}
+			return n1;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//###################조승진 시작########################//
@@ -410,4 +550,7 @@ public class OrderDAO implements InterOrderDAO {
 	      return reviewList;
 	}
 	//###################조승진 종료########################//
+
+
+
 }

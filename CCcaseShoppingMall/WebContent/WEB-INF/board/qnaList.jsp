@@ -11,7 +11,7 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 
 <style type="text/css">
 

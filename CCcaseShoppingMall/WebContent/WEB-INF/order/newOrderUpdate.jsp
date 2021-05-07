@@ -8,7 +8,7 @@
 </head>
 <body>
 		결제성공 보여주는 화면<br>
-		${sessionScope.userid};<br>
-		${sessionScope.finalPrice};<br>
+		${sessionScope.userid}<br>
+		${sessionScope.finalPrice}<br>
 </body>
 </html>
