@@ -16,7 +16,6 @@
 	$(document).ready(function(){
 		
 		
-		
 	});// end of $(document).ready(function(){})----------------------------------
 
 </script>
@@ -36,7 +35,8 @@
 			<tr>
 				<td>제목</td>
 				<td>
-					<input type="text" id="rtitle" class="rqdInfo" name="rtitle"/>
+					<input type="text" id="rtitle" class="rqdInfo" name="rtitle" value="${requestScope.rvo.rvtitle}"/>
+				</td>
 			</tr>
 			<tr>
 				<td>작성자</td>
@@ -53,7 +53,7 @@
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					<%-- 제품 연결..ㅠ --%>
+					${requestScope.rvo.fk_pname}
 				</td>
 			</tr>
 			<tr>
@@ -78,8 +78,8 @@
 			<tr>
 				<td colspan="2" id="revcontent">
 				<label for="rcontent">글쓰기</label>
-				<textarea id="rcontent" name="rcontent" class="rqdInfo" placeholder="내용을 입력하세요.">
-					
+				<textarea id="rcontent" name="rcontent" class="rqdInfo">
+					${requestScope.rvo.rvcontent}
 				</textarea>
 				</td>
 			</tr>
@@ -89,7 +89,7 @@
 				<td class="revImgName">첨부파일(선택)</td>
 				<td>
 					<label for="spinnerImgQty">파일갯수 : </label>
-					<input id="spinnerImgQty" value="0" style="width:30px; height:20px;">
+					<input id="spinnerImgQty" value="0" style="width:30px; height:20px;" >
 					<div id="divfileattach"></div>
 					
 					<input type="hidden" name="attachCount" id="attachCount" />

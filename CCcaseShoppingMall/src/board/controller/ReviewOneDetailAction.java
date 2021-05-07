@@ -32,10 +32,11 @@ public class ReviewOneDetailAction extends AbstractController {
 		
 		String reviewno= request.getParameter("reviewno");
 
-		
 		InterReviewDAO rdao = new ReviewDAO();
 		ReviewVO rvo = rdao.reviewOneDetail(reviewno);
 		request.setAttribute("rvo", rvo);
+		
+		reviewno = Integer.parseInt(rvo.getReviewno());
 		
 		// 해당리뷰 구매제품의 스펙번호 알아오기 
 		String odetailno= rvo.getFk_odetailno();		

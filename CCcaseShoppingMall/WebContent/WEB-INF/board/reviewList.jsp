@@ -123,9 +123,9 @@
 		});
 			
 		
-		// 더보기 버튼 클릭시 리뷰상세페이지로 이동
-		$("button.btnReadMore").click(function(){
-			var reviewno= $(this).parent().prev().prev().prop('id');
+		// 포토리뷰의 사진 클릭시 리뷰상세페이지로 이동
+		$("a.goDetail").click(function(){
+			var reviewno = $(this).prop('id');
 			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno="+reviewno;
 			
 		}); // end of $("button.btnReadMore").click(function(){-------------------
@@ -164,7 +164,7 @@
 		<ul style="list-style:none; margin-top: 10px;">
 			<c:forEach var="rvo" items="${requestScope.revList}">
 				<li style="display : inline;">
-					<c:if test="${rvo.reviewimage1 != null}"><a href="<%=ctxPath%>/board/reviewOneDetail.cc?goBackURL=${requestScope.goBackURL}"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
+					<c:if test="${rvo.reviewimage1 != null}"><a id="${rvo.reviewno}" class="goDetail"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
 				</li>
 			</c:forEach>
 		</ul>
@@ -196,7 +196,7 @@
 						<span id="prodName" style="color: #737373; font-size: 10pt;">${rvo.fk_pname}</span><br><br>
 						<span style="font-weight:bold; font-size:14pt;">"${rvo.rvtitle}"</span><br>
 						<span style="font-size:10pt;">${rvo.rvcontent}</span>
-						&nbsp;&nbsp;&nbsp;<button type="button" class="btnReadMore">더보기</button>
+						&nbsp;&nbsp;&nbsp;<a class="btnReadMore" style="font-style:italic;">더보기</a>
 					</td>
 					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br>
 							${rvo.fk_userid}</td>

@@ -37,6 +37,7 @@ public interface InterReviewDAO {
 
 	//내가 쓴 리뷰 조회 해오기
 	List<ReviewVO> reviewMywrite(Map<String, String> paraMap)throws SQLException;
+	
 	//내가 쓴 리뷰 조회 페이징 처리
 	int reviewMywriteTotalPage(String userid)throws SQLException;
 	
@@ -57,6 +58,9 @@ public interface InterReviewDAO {
 
 	// 해당 리뷰의 구매 제품 스펙번호 가져오기
 	int getSnumByReviewno(String odetailno) throws SQLException;
+	
+	// 쓰여진 리뷰 내용 받아오기
+	ReviewVO getReviewContents(String userid, String reviewno) throws SQLException;
 	
 
 	
