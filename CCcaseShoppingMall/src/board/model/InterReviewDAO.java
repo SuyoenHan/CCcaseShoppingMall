@@ -54,16 +54,10 @@ public interface InterReviewDAO {
 	
 	// 특정 리뷰에 대한 도움이 돼요 투표 결과(select)
 	int getLikeCnt(String reviewno) throws SQLException;
-	
-	
 
+	// 해당 리뷰의 구매 제품 스펙번호 가져오기
+	int getSnumByReviewno(String odetailno) throws SQLException;
 	
-	
-
-	
-
-	
-
 
 	
 	

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	String ctxPath= request.getContextPath();
 %>
@@ -215,7 +217,14 @@
 		 		var cinputcnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
 		 		cinputcnt= parseInt(cinputcnt)
 		 		totalPrice= totalPrice+(parseInt($(item).parent().parent().find("td.price").prop("id")))*cinputcnt;
-		 		finalPrice= finalPrice+(parseInt($(item).parent().parent().next().find("td.salePrice").prop("id")))*cinputcnt;
+		 		
+		 		var saleprice= $(item).parent().parent().next().find("td.salePrice").prop("id");
+		 		
+		 		if(saleprice == "0"){
+		 			saleprice= $(item).parent().parent().find("td.price").prop("id");
+		 		}
+		 		
+		 		finalPrice= finalPrice+(parseInt(saleprice))*cinputcnt;
 		 	});
 		 	
 		 	$("input:checkbox[name=checkList]").each(function(index,item){
@@ -235,10 +244,10 @@
 		 	
 		 	totalDiscountPrice= totalPrice-finalPrice;
 		 	
-		 	$("td#totalPrice").text(totalPrice+" 원");
+		 	$("td#totalPrice").text((totalPrice.toLocaleString('en'))+" 원");
 		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
+		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+(totalDiscountPrice.toLocaleString('en'))+" 원</span>");
+		 	$("td#finalPrice").text((finalPrice.toLocaleString('en'))+" 원");
 		 	
 	 	}); // end of $("span#checkAll").click(function(){-----------------------------
 	 	
@@ -255,10 +264,11 @@
 		 	totalDiscountPrice=0;
 		 	finalPrice=0;
 		 	
-			$("td#totalPrice").text(totalPrice+" 원");
+			$("td#totalPrice").text((totalPrice.toLocaleString('en'))+" 원");
 		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
+		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+(totalDiscountPrice.toLocaleString('en'))+" 원</span>");
+		 	$("td#finalPrice").text((finalPrice.toLocaleString('en'))+" 원");
+		 	
 		 	
 	 	}); // end of $("span#uncheckAll").click(function(){-----------------------------
 	 		
@@ -290,7 +300,12 @@
 		 		var cinputcnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
 		 		cinputcnt= parseInt(cinputcnt)
 		 		totalPrice= totalPrice+(parseInt($(item).parent().parent().find("td.price").prop("id")))*cinputcnt;
-		 		finalPrice= finalPrice+(parseInt($(item).parent().parent().next().find("td.salePrice").prop("id")))*cinputcnt;
+		 		
+				var saleprice= $(item).parent().parent().next().find("td.salePrice").prop("id");
+		 		if(saleprice == "0"){
+		 			saleprice= $(item).parent().parent().find("td.price").prop("id");
+		 		}
+		 		finalPrice= finalPrice+(parseInt(saleprice))*cinputcnt;
 		 	});
 		 	
 		 	$("input:checkbox[name=checkList]:checked").each(function(index,item){
@@ -310,10 +325,10 @@
 		 	
 		 	totalDiscountPrice= totalPrice-finalPrice;
 		 	
-		 	$("td#totalPrice").text(totalPrice+" 원");
+		 	$("td#totalPrice").text((totalPrice.toLocaleString('en'))+" 원");
 		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
+		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+(totalDiscountPrice.toLocaleString('en'))+" 원</span>");
+		 	$("td#finalPrice").text((finalPrice.toLocaleString('en'))+" 원");
 		 	
 		}); // end of $("input:checkbox[name=checkList]").click(function(){------------  	
 		
@@ -355,7 +370,12 @@
 				<td class="cinputcnt" id="${cartRequiredInfo.cinputcnt}">
 					<input type="number" min="1" max="50" value="${cartRequiredInfo.cinputcnt}"개 class="pcnt">&nbsp;&nbsp;개
 				</td>
-				<td style="text-decoration: line-through;" class="price" id="${cartRequiredInfo.price}">${cartRequiredInfo.price}원</td>
+				<c:if test="${cartRequiredInfo.salepercent eq 0}">
+					<td class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
+				</c:if>
+				<c:if test="${cartRequiredInfo.salepercent ne 0}">
+					<td style="text-decoration: line-through;" class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
+				</c:if>
 				<td rowspan="2">${cartRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${cartRequiredInfo.doption eq '0'}">
 					<td rowspan="2">무료배송</td>
@@ -366,12 +386,18 @@
 				<c:if test="${cartRequiredInfo.doption eq '색상에 따라 상이'}">
 					<td rowspan="2">색상에 따라 상이</td>
 				</c:if>
-				<td rowspan="2">${cartRequiredInfo.totalPrice}원</td>
+				<td rowspan="2"><fmt:formatNumber value="${cartRequiredInfo.totalPrice}" pattern="#,###,###" />원</td>
 			</tr>
 			<tr>
 				<td style="border-top:solid 1px #a0aca0;">[${cartRequiredInfo.cname}]&nbsp;[${cartRequiredInfo.modelname}]</td>
 				<td colspan="2" class="cartUpdate"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색상 및 수량 변경&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-				<td style="color:red;" class="salePrice" id="${cartRequiredInfo.saleprice}">${cartRequiredInfo.saleprice}원</td>
+				<c:if test="${cartRequiredInfo.salepercent eq 0}">
+					<td class="salePrice" rowspan="2" id="0"></td>
+				</c:if>
+				<c:if test="${cartRequiredInfo.salepercent ne 0}">
+					<td style="color:red;" class="salePrice" id="${cartRequiredInfo.saleprice}"><fmt:formatNumber value="${cartRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
+				</c:if>
+				
 			</tr>
 			<tr>
 				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px; border-top: solid 1px #a0aca0; "></div></td>
