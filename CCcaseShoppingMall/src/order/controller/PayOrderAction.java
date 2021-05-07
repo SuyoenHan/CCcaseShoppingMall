@@ -10,6 +10,10 @@ import common.controller.AbstractController;
 import member.model.MemberVO;
 import order.model.InterOrderDAO;
 import order.model.OrderDAO;
+import product.model.InterProductDAO;
+import product.model.InterProductDetailDAO;
+import product.model.ProductDAO;
+import product.model.ProductDetailDAO;
 
 
 public class PayOrderAction extends AbstractController {
@@ -33,6 +37,41 @@ public class PayOrderAction extends AbstractController {
 			
 		}
 		else {
+			
+			// =========================== 한수연 시작 ======================================
+			InterProductDAO pdao= new ProductDAO();
+			InterProductDetailDAO pddao= new ProductDetailDAO();
+			
+			// 회사+카테고리 별 제품 수 맵에 담아서 session에 저장
+			Map<String,Integer> paraMap= new HashMap<>();
+			
+			int hardSamCnt= pdao.calCntByCompany(1000, 1);   // 삼성 하드케이스 개수
+			// System.out.println(hardSamCnt);
+			int jellySamCnt= pdao.calCntByCompany(1000, 2);  // 삼성 젤리케이스 개수
+			int bumpSamCnt= pdao.calCntByCompany(1000, 3);   // 삼성 범퍼케이스 개수
+			
+			int hardAppCnt= pdao.calCntByCompany(2000, 1);   // 애플 하드케이스 개수
+			int jellyAppCnt= pdao.calCntByCompany(2000, 2);  // 애플 젤리케이스 개수
+			int bumpAppCnt= pdao.calCntByCompany(2000, 3);   // 애플 범퍼케이스 개수
+			
+			int hardLgCnt= pdao.calCntByCompany(3000, 1);    // LG 하드케이스 개수
+			int jellyLgCnt= pdao.calCntByCompany(3000, 2);   // LG 젤리케이스 개수
+			int bumpLgCnt= pdao.calCntByCompany(3000, 3);    // LG 범퍼케이스 개수
+			
+			paraMap.put("hardSamCnt", hardSamCnt);
+			paraMap.put("jellySamCnt", jellySamCnt);
+			paraMap.put("bumpSamCnt", bumpSamCnt);
+			paraMap.put("hardAppCnt", hardAppCnt);
+			paraMap.put("jellyAppCnt", jellyAppCnt);
+			paraMap.put("bumpAppCnt", bumpAppCnt);
+			paraMap.put("hardLgCnt", hardLgCnt);
+			paraMap.put("jellyLgCnt", jellyLgCnt);
+			paraMap.put("bumpLgCnt", bumpLgCnt);
+			
+			session.setAttribute("paraMap", paraMap);
+			// =========================== 한수연 시작 ======================================
+			
+			
 			
 			String cartno = request.getParameter("cartno");
 			String pnum = request.getParameter("pnum");
@@ -147,10 +186,10 @@ public class PayOrderAction extends AbstractController {
 				int fk_grade = mvo.getFk_grade();
 					
 				InterOrderDAO odao = new OrderDAO();
-			    Map<String,String> paraMap = odao.oneOrderPageInfo(pnum);
+			    Map<String,String> para2Map = odao.oneOrderPageInfo(pnum);
 			    
-			    int price = Integer.parseInt(paraMap.get("price"));
-			    double salepercent = Double.parseDouble(paraMap.get("salepercent"));
+			    int price = Integer.parseInt(para2Map.get("price"));
+			    double salepercent = Double.parseDouble(para2Map.get("salepercent"));
 			    
 			    // 판매가 구하기
 			    double saleprice;
@@ -159,7 +198,7 @@ public class PayOrderAction extends AbstractController {
 			    	saleprice = price*(1-salepercent); 
 			    }
 			    else {
-			    	saleprice = Double.parseDouble(paraMap.get("price"));
+			    	saleprice = Double.parseDouble(para2Map.get("price"));
 			    }
 			    
 			    // 총상품가격 구하기
@@ -183,7 +222,7 @@ public class PayOrderAction extends AbstractController {
 				int shipfee = 0;
 				
 				// 배송비 구하기
-				if("0".equalsIgnoreCase(paraMap.get("doption"))) {
+				if("0".equalsIgnoreCase(para2Map.get("doption"))) {
 					shipfee =0;
 				}
 				else {
