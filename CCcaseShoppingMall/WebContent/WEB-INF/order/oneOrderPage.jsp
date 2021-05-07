@@ -438,46 +438,7 @@ td{
    
    $(window).on("scroll", function() {
       var scrollNow = window.scrollY;
-<<<<<<< HEAD
 //     console.log(scrollNow);
-		  
-          if(scrollNow > 900) {
-              $(".orderSec-right").css('position', 'absolute');
-              $(".orderSec-right").css('top', '70%');
-          } else {
-             $(".orderSec-right").css('position', 'relative');
-             $(".orderSec-right").css('bottom', '40%');
-          }
-
-   });
-   
-   
-    // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
-    function setDisplay(){
-       
-      $(".newDelAddr").hide();
-      
-       if($("input:radio[id=delAddr]").is(":checked")){
-           $(".newDelAddr").hide();
-           $(".origin-delAddr").show();
-       }   
-       
-       if($("input:radio[id=newDelAddr]").is(":checked")){
-          $(".origin-delAddr").hide();
-           $(".newDelAddr").show();
-       }
-      
-   }// end of function setDisplay()--------------------------------------
-
-
-   function goOrder(userid, finalPrice) {
-      var frm = document.orderUpdateFrm;
-      frm.userid.value = userid;
-      frm.finalPrice.value = finalPrice;
-      
-      frm.action = "<%=request.getContextPath()%>/order/oneOrderUpdate.cc";
-=======
-//      console.log(scrollNow);
         
           if(scrollNow > 900) {
               $(".orderSec-right").css('position', 'absolute');
@@ -487,8 +448,7 @@ td{
              $(".orderSec-right").css('bottom', '40%');
           }
 
-   });
-   
+   });  
    
     // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
     function setDisplay(){
@@ -509,14 +469,59 @@ td{
 
 
    function goOrder(userid, finalPrice) {
-      var frm = document.orderUpdateFrm;
-      frm.userid.value = userid;
-      frm.finalPrice.value = finalPrice;
-      
-      frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
->>>>>>> refs/heads/bwb930305
-      frm.method="POST";
-      frm.submit();
+		
+	   // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
+       // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
+       // 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
+       // 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
+       // 4. 이용자가 포인트를 사용한 경우.. => 포인트 차감시키기, + 또는 적립금 넣어주기
+       //  update이며 , tbl_member에서(where userid,totalpoint) 
+       // 5. 장바구니에서 해당 제품 삭제 tbl_cart delete(cartno필요,fk_userid)
+       // 모든처리가 성공되었을 시 commit하기 (수동커밋)
+       // 6. SQL오류 발생 시 rollback하기
+       
+       var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
+       var shipfee="${requestScope.shipfee}";          // 배송비
+       var expectPoint="${requestScope.expectPoint}";  // 예상적립금
+       var qUsepoint = Number($("input#totalpoint").val()); // 사용예정포인트
+		
+		if(qUsepoint==""){
+			qUsepoint = 0;
+		}
+		var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
+        var pnum = "${requestScope.para2Map.pnum}";       // 제품번호
+		var odqty = "${requestScope.cnt}"; // 주문량
+		var pdetailprice = parseInt("${requestScope.saleprice}");
+		var cartno = "${requestScope.cartno}"; // 장바구니 번호
+		// cartno가 없으면 null로 나올것임
+		
+		$.ajax({
+        	url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
+        	type:"post",
+        	data:{"totalPrice":totalPrice,
+        		  "shipfee":shipfee,
+        		  "expectPoint":expectPoint,
+        		  "qUsepoint":qUsepoint,
+        		  "finalamount":finalamount,
+        		  "pnum":pnum,
+        		  "odqty":odqty,
+        		  "cartno":cartno,
+        		  "pdetailprice":pdetailprice},
+        	dataType:"json",
+        	success:function(json){
+     		   
+     		   if(json.success == 1){
+     			   
+     			   location.href="<%= ctxPath%>/order/myOrderList.cc";
+     		   }
+     		   
+     	   },
+     	   error: function(request, status, error){
+             		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+          		} 
+
+        }); // end of $.ajax
+	   
    }
 
 </script>
@@ -710,7 +715,7 @@ td{
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
                   <span id="finalPrice" style="font-weight:bolder; font-size:20pt" ></span>
                </p>
-               <button class="btn-order" type="button" onclick="goPay()">주문 완료하기</button>
+               <button class="btn-order" type="button">주문 완료하기</button>
             </div>
          </div>
       </div>
