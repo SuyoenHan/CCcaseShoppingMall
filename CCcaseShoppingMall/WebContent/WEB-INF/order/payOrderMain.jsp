@@ -19,11 +19,11 @@
 <style type="text/css">
 
 .order-content {
-	width: 100%;
-	height: auto;
-	background-color: #f9f9f9;
-	padding-bottom: 200px;
-   	margin-bottom: -200px;
+   width: 100%;
+   height: auto;
+   background-color: #f9f9f9;
+   padding-bottom: 200px;
+      margin-bottom: -200px;
 }
 
 .order-header {
@@ -32,70 +32,69 @@
 }
 
 .orderInfo {
-	position: relative;
-	width: 100%;
-	height: auto;
-	margin: 0 auto;
+   width: 100%;
+   height: auto;
+   margin: 0 auto;
 }
 
 .orderSec-left {
-	padding-right: 45%;
-	padding-left: 2%;
+   padding-right: 45%;
+   padding-left: 2%;
 }
 
 .orderSec-right {
-	position: fixed;
-	top: 40%;
-	left: 55%;
+
+   top: 40%;
+   left: 55%;
     width: 50%;
 }
 
 .left-section-delivery-info {
-	width: auto;
+   width: auto;
 }
 
 .left-section {
-	margin: 0px 0px 10px;
-	padding: 80px;
-	background-color: white;
+   margin: 0px 0px 10px;
+   padding: 80px;
+   background-color: white;
 }
 
 .delivery-condition {
-	position: relative;
-	padding-bottom: 40px;
+   position: relative;
+   padding-bottom: 40px;
 }
 
 .delivery-condition-name {
-	display: flex;
-	justify-content: space-between;
+   display: flex;
+   justify-content: space-between;
 }
 
 .delivery-condition-info {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	display: block;
+   margin: 0;
+   padding: 0;
+   list-style: none;
+   display: block;
 }
 
 .delivery-request {
-	margin: 25px 0 20px;
+   margin: 25px 0 20px;
 }
 
 .btn-request {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: row;
-	width: 100%;
-	padding: 13px 12px 11px;
-	text-align: left;
-	background-color: #f9f9f9;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-direction: row;
+   width: 100%;
+   padding: 13px 12px 11px;
+   text-align: left;
+   background-color: #f9f9f9;
 }
 
 .btn-change-addr {
-	position: absolute;
-	top: 0;
-	right: 0;
+   position: absolute;
+   top: 0;
+   right: 0;
 }
 
 .left-section-btn {
@@ -106,21 +105,21 @@
 }
 
 .delivery-user {
-	position: relative;
+   position: relative;
     padding: 0 0 30px;
     border-bottom: 1px solid #ececec;
 }
 
 .delivery-user-info {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+   margin: 0;
+   padding: 0;
+   list-style: none;
 }
 
 .info-type {
-	display: inline-block;
-	width: 50px;
-	margin-right: 10px;
+   display: inline-block;
+   width: 50px;
+   margin-right: 10px;
     font-size: 13px;
     font-weight: normal;
     color: #999;
@@ -132,7 +131,7 @@
 }
 
 .btn-change-order {
-	position: absolute;
+   position: absolute;
     top: 40px;
     right: 0;
     padding: 8px 9px 6px 8px;
@@ -140,7 +139,7 @@
 }
 
 .section-order-info {
-	width: auto;
+   width: auto;
 }
 
 .order-prod-list {
@@ -151,7 +150,7 @@
 }
 
 .order-prod-info {
-	display: flex;
+   display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: row;
@@ -160,7 +159,7 @@
 }
 
 .order-prod-img-a {
-	width: 80px;
+   width: 80px;
     display: block;
     position: relative;
     overflow: hidden;
@@ -187,8 +186,8 @@
 }
 
 .order-prod-text {
-	display: flex;
-	width: 100%;
+   display: flex;
+   width: 100%;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
@@ -196,7 +195,7 @@
 }
 
 .prod-name {
-	margin: 0 0 10px;
+   margin: 0 0 10px;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -214,49 +213,49 @@
 }
 
 .price-unit {
-	margin-left: 3px;
+   margin-left: 3px;
 }
 
 .section-payment-info {
-	width: auto;
+   width: auto;
 }
 
 .section-payment-info-title {
-	border-bottom: 1px solid #ececec;
-	padding-bottom: 20px;
+   border-bottom: 1px solid #ececec;
+   padding-bottom: 20px;
 }
 
 .payment-type-list {
-	padding: 20px 0;
-	margin: 0;
-	list-style: none;
+   padding: 20px 0;
+   margin: 0;
+   list-style: none;
 }
 
 .right-section-info {
-	max-width: 634px;
-	width: auto;
-	margin: 0;
-	margin-right: 70px;
+   max-width: 634px;
+   width: auto;
+   margin: 0;
+   margin-right: 70px;
 }
 
 .right-section-price-info {
-	background-color: white;
-	position: relative;
-	margin-right: 70px;
-	padding: 80px;
+   background-color: white;
+   position: relative;
+   margin-right: 70px;
+   padding: 80px;
 }
 
 .expected-price-list {
-	padding: 20px 0;
-	margin: 0;
-	list-style: none;
+   padding: 20px 0;
+   margin: 0;
+   list-style: none;
 }
 
 .expected-price-item {
-	margin: 0;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+   margin: 0;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
 }
 
 .total-expected-price {
@@ -270,29 +269,30 @@
 }
 
 .btn-order {
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 80px;
-	color: white;
-	background: #6D919C;
-	border: none;
+   width: 100%;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 80px;
+   color: white;
+   background: #6D919C;
+   border: none;
 }
 
 th{
-	border:solid 1px black !important;
+   border:solid 1px black !important;
 }
 
 td{
-	border:solid 1px black;
+   border:solid 1px black;
 }
 
 
 </style>
+
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -301,14 +301,15 @@ td{
 	$(document).ready(function(){
 		
 		$("span.error").hide();
-		
-		
+				
 		//판매가 계산하기
-		var price = Number(${requestScope.paraMap.price});
-		
+		var price = Number(${requestScope.paraMap.price});		
 		var salepercent = Number(${requestScope.paraMap.salepercent});
-		
 		var saleprice = Number(price*(1-salepercent));
+		var finalPrice =  ${requestScope.totalProPrice} + ${requestScope.shipfee};
+	       
+		// 예상 총계산액
+		$("span#finalPrice").text(finalPrice.toLocaleString('en')+"원");
 		
 		if(salepercent==0){
 		
@@ -318,6 +319,7 @@ td{
 			$("td#saleprice").text(price);
 		}
 	    
+		// 전화번호 유효성검사
 	    $("input#hp2").blur(function(){
 	       
 	          var regExp = /^[1-9][0-9]{3}$/i; 
@@ -366,6 +368,7 @@ td{
 	       }); // 아이디가 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.      
 	    
 	       
+	       // 우편번호 유효성 검사 
 	    $("img#zipcodeSearch").click(function(){
 	       new daum.Postcode({
 	             oncomplete: function(data) {
@@ -410,8 +413,10 @@ td{
 	                 document.getElementById("detailAddress").focus();
 	             }
 	         }).open();
+	       
 	    });   
 	       
+	    // 포인트 버튼 처리
 	    $("button#totalpoint").click(function(){
 	    	
 	    	if("${requestScope.totalpoint}"==0){
@@ -422,32 +427,42 @@ td{
 	    		$("input#totalpoint").val("${requestScope.totalpoint}");
 	    	}
 	    	
-	    	var finalPrice = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
-		    $("span#finalPrice").text(finalPrice+"원");
-
-	    });
+	    	finalPrice = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
+	          $("span#finalPrice").text(finalPrice.toLocaleString('en')+"원");
+	         
+		}); // end of $("button#totalpoint").click(function(){})---------------------------
 	    
-	    var finalPrice = ${requestScope.totalProPrice} + ${requestScope.shipfee};
-	    $("span#finalPrice").text(finalPrice+"원");
-	       
-	}); // end of document.ready
+	    // ?? 위치 헷갈림 일단 여기 두기로 ??   
+	    // 결제 버튼 처리 
+	       $("button.btn-order").click(function(){
+	     		sessionStorage.setItem('finalPrice', $("span#finalPrice").val());
+	       		
+	       		// 아임포트 결제 팝업창 띄우기
+	       		var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalPrice="+finalPrice+"";
+
+	       		window.open(url, "orderSuccess",
+	       							  "left=350px, top=100px, width=650px, height=570px");		
+		}); // end of  $("button.btn-order").click(function(){})---------------------------
+	    
+	 });  	
+	// end of $(document).ready(function(){})----------------------------------------------
 	
 	
 	$(window).on("scroll", function() {
 		var scrollNow = window.scrollY;
 //		console.log(scrollNow);
 
-	    if(scrollNow > 900) {
-	        $(".orderSec-right").css('position', 'absolute');
-	        $(".orderSec-right").css('top', '63%');
-	    } else {
-	       $(".orderSec-right").css('position', 'fixed');
-	       $(".orderSec-right").css('top', '40%');
-	    }
+	       if(scrollNow > 900) {
+	           $(".orderSec-right").css('position', 'absolute');
+	           $(".orderSec-right").css('top', '70%');
+	       } else {
+	          $(".orderSec-right").css('position', 'fixed');
+	          $(".orderSec-right").css('top', '30%');
+	       }
+
 	});
 	
 	
-
 	 // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
 	 function setDisplay(){
 		 
@@ -465,8 +480,16 @@ td{
 		
 	}// end of function setDisplay()--------------------------------------
 
-	
-	
+
+	function goOrder(userid, finalPrice) {
+		var frm = document.orderUpdateFrm;
+		frm.userid.value = userid;
+		frm.finalPrice.value = finalPrice;
+		
+		frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
+		frm.method="POST";
+		frm.submit();
+	}
 
 </script>
 </head>
@@ -499,31 +522,32 @@ td{
 					</thead>
 						
 					<tbody>
-						<tr> 
-							<td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.paraMap.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.paraMap.pimage1}" width="80px" height="80px" /></a></td>
-							<td>${requestScope.paraMap.productname}</td>
-							<td><fmt:formatNumber value="${requestScope.paraMap.price}" pattern="#,###,###" />원</td>
-							<td rowspan="2">${cnt}개</td>
-							<td rowspan="2">${requestScope.expectPoint}원</td>
-							<td rowspan="2">
-								<c:choose>
-									<c:when test="${requestScope.paraMap.doption eq 0}">무료배송</c:when>
-									<c:when test="${requestScope.paraMap.doption eq 1}">기본배송</c:when>
-								</c:choose>
-							</td>
-							<td rowspan="2" id="doption">
-								<c:choose>
-									<c:when test="${requestScope.paraMap.doption eq 0}">무료</c:when>
-									<c:when test="${requestScope.paraMap.doption eq 1}">3,000원</c:when>
-								</c:choose>
-							</td>
-						</tr>
-						
-						<tr> 
-							<td>옵션:&nbsp;${requestScope.paraMap.modelname}</td>
-							<td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>
-							
-						</tr>
+					<tr>
+						<td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.paraMap.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.paraMap.pimage1}" width="80px" height="80px" /></a></td>
+	                     <td>${requestScope.paraMap.productname}</td>
+	                     <td><fmt:formatNumber value="${requestScope.paraMap.price}" pattern="#,###,###" />원</td>
+	                     <td rowspan="2">${cnt}개</td>
+	                     <td rowspan="2">${requestScope.expectPoint}원</td>
+	                     <td rowspan="2">
+	                        <c:choose>
+	                           <c:when test="${requestScope.paraMap.doption eq 0}">무료배송</c:when>
+	                           <c:when test="${requestScope.paraMap.doption eq 1}">기본배송</c:when>
+	                        </c:choose>
+	                     </td>
+	                     <td rowspan="2" id="doption">
+	                        <c:choose>
+	                           <c:when test="${requestScope.paraMap.doption eq 0}">무료</c:when>
+	                           <c:when test="${requestScope.paraMap.doption eq 1}">3,000원</c:when>
+	                        </c:choose>
+	                     </td>
+                  </tr>
+                  
+                  <tr> 
+                     <td>옵션:&nbsp;${requestScope.paraMap.modelname}</td>
+                     <td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>
+                     
+                  </tr>
+
 					</tbody>
 
 				</table>
@@ -631,10 +655,6 @@ td{
 			<div class="section-payment-info left-section">
 				<h3 class="section-payment-info-title">결제수단</h3>
 				<ul class="payment-type-list">
-<!-- 				<li class="payment-type-item">
-						<input type="radio" name="pay-type-item" value="mutong" />
-						<span>무통장 입금</span>
-					</li>			-->
 					<li class="payment-type-item mgb10">
 						<input type="radio" name="pay-type-item" value="card" />
 						<span>카드결제</span>
@@ -662,14 +682,15 @@ td{
 							</span>
 						</li>
 						<li class="expected-price-item">
-							<input id="totalpoint" type="text" readonly="readonly" /><span>보유중 포인트:${requestScope.totalpoint}원 </span> <button id="totalpoint" type="button">포인트사용</button>
+							<input id="totalpoint" type="text" readonly="readonly" /><span>보유중 포인트: ${requestScope.totalpoint}원 </span> 
+							<button id="totalpoint" type="button">포인트사용</button>
 						</li>
 					</ul>
 					<p class="total-expected-price">
 						<span class="total-expected-price-title">총 결제 예상 금액</span>
-						<span id="finalPrice" style="font-weight:bolder; font-size:20pt"></span>
+						<span id="finalPrice" style="font-weight:bolder; font-size:20pt" ></span>
 					</p>
-					<button class="btn-order" id="goComplete" type="button">주문 완료하기</button>
+					<button class="btn-order" type="button" onclick="goPay()">주문 완료하기</button>
 				</div>
 			</div>
 		</div>
@@ -678,6 +699,11 @@ td{
 </div>
 <!-- 전체 박스 끝 -->
 
+<%-- PG(Payment Gateway 결제)에 코인금액을 카드(카카오페이등)로 결제후 DB상에 사용자의 코인액을 update 를 해주는 폼이다. --%>
+<form name="orderUpdateFrm">
+	<input type="hidden" name="userid" />
+	<input type="hidden" name="finalPrice" />
+</form>
 </body>
 </html>
 
