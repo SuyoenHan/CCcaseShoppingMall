@@ -25,12 +25,10 @@
    tr#menu{
    		font-weight: bold;
    		font-size: 18px;
-   		background-color: gray;
    		height: 40px;
    		 text-align: center;
    	}
-   th{
-   		border: none; 
+   th{ 
    		text-align: center;
    }
    td{
@@ -80,7 +78,12 @@
 		$("input#qna").prop("checked", false);
 		location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
 	}
-
+	function revieWirte(odetailno){
+		
+		location.href="<%= request.getContextPath()%>/board/reviewWrite.cc?odetailno="+odetailno;
+		
+		
+	}
 </script>
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
@@ -112,7 +115,7 @@
 	           </tr>
 	        </thead>
 
-	    	<tbody>
+	    	<tbody >
 
 	    		<c:forEach var="all" items="${requestScope.allList}">
 	    			<tr class="qnaInfo">
@@ -142,11 +145,30 @@
 	    	<table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
 	    		 <thead>
 		           <tr id="menu">	 
-		              <th>상품정보</th>
-		              <th>주문일자</th>
-		              <th>제품번호</th>
+		              <th colspan=2>상품정보</th>
+		              <th >주문일자</th>
+
+		              <th colspan=2 >제품번호</th>
+		              
 		           </tr>
 	        </thead>
+	        <tbody  align=center>
+	        
+	       <c:forEach var="byreview" items="${requestScope.byreview}">
+	    			<tr>
+	    				<td><img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}" width="150" height="150" style=" border-radius: 2em;"/> 
+	    				</td>
+	    				<td>
+	    				<span style=" font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
+	    				<span style="font-size: 10pt;">${byreview.pvo.modelname}</span>
+	    				</td>
+	    				<td>${byreview.orderdate}</td>
+	    				<td>${byreview.pdvo.pnum}</td>
+	    				<td colspan=2><button onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button></td>
+	    			</tr>
+	    		</c:forEach>	
+		    	
+	    	</tbody>
 	    		</table>
 	    
 	    

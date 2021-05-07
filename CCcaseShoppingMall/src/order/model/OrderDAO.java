@@ -338,5 +338,76 @@ public class OrderDAO implements InterOrderDAO {
 		
 		return paraMap;
 	}
+	
+	
+	//###################조승진 시작########################//
+	
+	//게시물 관리에서 리뷰작성 가능하도록 불러오기
+	
+	@Override
+	public List<OrderVO> byreview(Map<String, String> paraMap) throws SQLException {
+		List<OrderVO> reviewList = new ArrayList<>();
+	      
+	      try {
+	          conn = ds.getConnection();
 
+				String sql = "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno \n"+
+							" from "+
+							" ( "+
+							" select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno "+
+							" from tbl_order O Left join tbl_odetail OD "+
+							"on O.orderno = OD.fk_orderno  "+
+							" left join tbl_pdetail PD "+
+							" on OD.fk_pnum = PD.pnum  "+
+							" left join tbl_product P  "+
+							" on PD.fk_productid = P.productid "+
+							"where O.fk_userid= ? and shipstatus=4 "+
+							")V ";
+	          
+	          pstmt = conn.prepareStatement(sql);
+	          pstmt.setString(1, paraMap.get("userid"));
+
+	          rs = pstmt.executeQuery();
+	          
+	          while( rs.next() ) {
+	             
+		             String pimage1 = rs.getString("pimage1");
+		             String modelname = rs.getString("modelname");
+		             String productname = rs.getString("productname");
+		             String orderdate = rs.getString("orderdate");
+		             String pnum = rs.getString("pnum");
+		             String odetailno = rs.getString("odetailno");	             
+		             
+		             OrderVO ovo = new OrderVO();
+		             ovo.setOrderdate(orderdate);
+
+		             ProductVO pvo = new ProductVO();
+		             pvo.setPimage1(pimage1);
+		             pvo.setModelname(modelname);
+		             pvo.setProductname(productname);
+		            
+		             ovo.setPvo(pvo);
+		             
+		             ProductDetailVO pdvo = new ProductDetailVO();		 
+		             pdvo.setPnum(pnum);
+
+		             
+		             ODetailVO odvo = new ODetailVO();
+		             odvo.setOdetailno(odetailno);
+		             
+		             ovo.setPdvo(pdvo);
+		             ovo.setOdvo(odvo);
+		             
+		             reviewList.add(ovo);
+	          }      
+		            
+	      } catch(SQLException e) {
+	    	  e.printStackTrace();
+	     }finally {
+	         close();
+	      }
+	      
+	      return reviewList;
+	}
+	//###################조승진 종료########################//
 }

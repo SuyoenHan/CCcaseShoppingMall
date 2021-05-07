@@ -36,7 +36,11 @@ public interface InterOrderDAO {
 
 	// 상품 바로주문시 주문할 상품 정보 불러오기
 	Map<String,String> getOrderDetail(String pnum) throws SQLException;
-
+	
+	//###################조승진 시작########################//
+	//리뷰 가능한 상품 불러오기
+	List<OrderVO> byreview(Map<String, String> paraMap)throws SQLException;
+	//###################조승진 끝########################//
 	
 	
 

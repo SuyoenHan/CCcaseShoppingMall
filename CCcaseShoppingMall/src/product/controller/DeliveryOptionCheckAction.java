@@ -32,6 +32,19 @@ public class DeliveryOptionCheckAction extends AbstractController {
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/jsonview.jsp");
+			return;
+		}
+		
+		else {
+			String message="잘못된 경로로 들어왔습니다.";
+			String loc="javascript:history.back()";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/msg.jsp");	
+			return;	
 		}
 	}
 

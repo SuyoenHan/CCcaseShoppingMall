@@ -4,6 +4,7 @@ package member.controller;
 
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,9 @@ import board.model.QnaDAO;
 import board.model.QnaVO;
 import common.controller.AbstractController;
 import my.util.Myutil;
+import order.model.InterOrderDAO;
+import order.model.OrderDAO;
+import order.model.OrderVO;
 
 
 public class MemberWriteListMainAction extends AbstractController {
@@ -40,14 +44,17 @@ public class MemberWriteListMainAction extends AbstractController {
 			}
 			
 	         InterQnaDAO qdao = new QnaDAO();
+	         InterOrderDAO odao = new OrderDAO();
 	         
 	         Map<String,String> paraMap = new HashMap<>();
 	 		paraMap.put("userid", userid);
 	 		paraMap.put("currentShowPageNo", currentShowPageNo);
 	         
 	         List<QnaVO> allList= qdao.writeAllList(paraMap);
-	         
 	         request.setAttribute("allList", allList);
+	         
+	         List<OrderVO> byreview=odao.byreview(paraMap);
+	         request.setAttribute("byreview",byreview);
 	        // System.out.println(allList);
 	         int totalPage = qdao.allMywriteTotalPage(userid);
 	 		//System.out.println("~~~확인용~~"+totalPage);
