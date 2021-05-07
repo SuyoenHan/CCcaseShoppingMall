@@ -73,6 +73,11 @@
 		location.href="<%= request.getContextPath()%>/member/memberWriteListReview.cc?userid="+userid;
 		
 	}
+	function main(userid){
+		$("input#review").prop("checked", false);
+		$("input#qna").prop("checked", false);
+		location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
+	}
 
 </script>
 
@@ -90,6 +95,7 @@
 	<h3>게시물 관리</h3>
 	<hr>
 	<h4>게시물 분류</h4>
+		<input type="radio" name="main"  id="main" style="margin-left:20px;" OnClick="main('${(sessionScope.loginuser).userid}');">전체
 	<input type="radio" name="qna"  id="qna" style="margin-left:20px;" OnClick="qna('${(sessionScope.loginuser).userid}');">Q&A
 	    <input type="radio" name="review" id="review" style="margin-left:20px;" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰
 	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">

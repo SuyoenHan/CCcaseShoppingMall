@@ -132,7 +132,9 @@
 		    	
 	    	</tbody>
 	    </table>
-
+  	<div style="width:30%; margin: 0 auto;">
+	    	${requestScope.pageBar}
+	    </div>
 	    
 	    <div>
 	    	<h3>작성가능한 리뷰</h3>
