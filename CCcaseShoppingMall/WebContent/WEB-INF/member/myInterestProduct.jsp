@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	String ctxPath= request.getContextPath();
 %>
@@ -332,7 +334,12 @@
 				<td rowspan="3"><img src="<%=ctxPath%>/images/${interestPRequiredInfo.pimage1}" width="110px" height="100px" class="interestProductImg" /></td>
 				<td class="productname" id="${interestPRequiredInfo.productname}">${interestPRequiredInfo.productname}</td>
 				<td rowspan="3" class="color" id="${interestPRequiredInfo.pnum}">${interestPRequiredInfo.pcolor}</td>
-				<td style="text-decoration: line-through;" class="price" id="${interestPRequiredInfo.price}">${interestPRequiredInfo.price}원</td>
+				<c:if test="${interestPRequiredInfo.salepercent eq 0}">
+					<td class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${interestPRequiredInfo.price}" pattern="#,###,###" />원</td>
+				</c:if>
+				<c:if test="${interestPRequiredInfo.salepercent ne 0}">
+					<td style="text-decoration: line-through;" class="price" id="${interestPRequiredInfo.price}"><fmt:formatNumber value="${interestPRequiredInfo.price}" pattern="#,###,###" />원</td>
+				</c:if>
 				<td rowspan="3">${interestPRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${interestPRequiredInfo.doption eq '0'}">
 					<td rowspan="3">무료배송</td>
@@ -343,14 +350,19 @@
 				<c:if test="${interestPRequiredInfo.doption eq '색상에 따라 상이'}">
 					<td rowspan="3">색상에 따라 상이</td>
 				</c:if>
-				<td rowspan="3">${interestPRequiredInfo.saleprice}원</td>
+				<td rowspan="3"><fmt:formatNumber value="${interestPRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
 				<td>
 					<span class="funcBt orderOne">&nbsp;&nbsp;&nbsp;&nbsp;주문하기&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				</td>
 			</tr>
 			<tr>
 				<td rowspan="2" style="border-top:solid 1px #a0aca0;">[${interestPRequiredInfo.cname}]&nbsp;[${interestPRequiredInfo.modelname}]</td>
-				<td rowspan="2" style="color:red;" class="salePrice" id="${interestPRequiredInfo.saleprice}">${interestPRequiredInfo.saleprice}원</td>
+				<c:if test="${interestPRequiredInfo.salepercent eq 0}">
+					<td class="salePrice" rowspan="2" id="0"></td>
+				</c:if>
+				<c:if test="${interestPRequiredInfo.salepercent ne 0}">
+					<td style="color:red;" rowspan="2" class="salePrice" id="${interestPRequiredInfo.saleprice}"><fmt:formatNumber value="${interestPRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
+				</c:if>
 				<td><span class="funcBt addCartOne">장바구니담기</span></td>
 			</tr>
 			<tr>

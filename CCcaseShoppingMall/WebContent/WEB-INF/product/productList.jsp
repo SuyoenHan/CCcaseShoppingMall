@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	String ctxPath= request.getContextPath();
 %>
@@ -243,11 +245,11 @@
 					
 					<div>
 						<c:if test="${pInfoMap.salepercent eq '0'}">					
-							<span class="netPrice" style="text-decoration: none;">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMap.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
 						</c:if>
 						<c:if test="${pInfoMap.salepercent ne '0'}">					
-							<span class="netPrice">정가: ${pInfoMap.price}</span>&nbsp;&nbsp;&nbsp;
-							<span class="salePrice">할인가: ${pInfoMap.saleprice}</span>
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMap.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMap.saleprice}" pattern="#,###,###" />원</span>
 						</c:if>
 					</div>
 					

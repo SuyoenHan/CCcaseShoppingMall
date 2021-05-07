@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	String ctxPath= request.getContextPath();
 %>
@@ -215,7 +217,14 @@
 		 		var cinputcnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
 		 		cinputcnt= parseInt(cinputcnt)
 		 		totalPrice= totalPrice+(parseInt($(item).parent().parent().find("td.price").prop("id")))*cinputcnt;
-		 		finalPrice= finalPrice+(parseInt($(item).parent().parent().next().find("td.salePrice").prop("id")))*cinputcnt;
+		 		
+		 		var saleprice= $(item).parent().parent().next().find("td.salePrice").prop("id");
+		 		
+		 		if(saleprice == "0"){
+		 			saleprice= $(item).parent().parent().find("td.price").prop("id");
+		 		}
+		 		
+		 		finalPrice= finalPrice+(parseInt(saleprice))*cinputcnt;
 		 	});
 		 	
 		 	$("input:checkbox[name=checkList]").each(function(index,item){
@@ -235,10 +244,10 @@
 		 	
 		 	totalDiscountPrice= totalPrice-finalPrice;
 		 	
-		 	$("td#totalPrice").text(totalPrice+" 원");
+		 	$("td#totalPrice").text((totalPrice.toLocaleString('en'))+" 원");
 		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
+		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+(totalDiscountPrice.toLocaleString('en'))+" 원</span>");
+		 	$("td#finalPrice").text((finalPrice.toLocaleString('en'))+" 원");
 		 	
 	 	}); // end of $("span#checkAll").click(function(){-----------------------------
 	 	
@@ -255,10 +264,11 @@
 		 	totalDiscountPrice=0;
 		 	finalPrice=0;
 		 	
-			$("td#totalPrice").text(totalPrice+" 원");
+			$("td#totalPrice").text((totalPrice.toLocaleString('en'))+" 원");
 		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
+		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+(totalDiscountPrice.toLocaleString('en'))+" 원</span>");
+		 	$("td#finalPrice").text((finalPrice.toLocaleString('en'))+" 원");
+		 	
 		 	
 	 	}); // end of $("span#uncheckAll").click(function(){-----------------------------
 	 		
@@ -290,7 +300,12 @@
 		 		var cinputcnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
 		 		cinputcnt= parseInt(cinputcnt)
 		 		totalPrice= totalPrice+(parseInt($(item).parent().parent().find("td.price").prop("id")))*cinputcnt;
-		 		finalPrice= finalPrice+(parseInt($(item).parent().parent().next().find("td.salePrice").prop("id")))*cinputcnt;
+		 		
+				var saleprice= $(item).parent().parent().next().find("td.salePrice").prop("id");
+		 		if(saleprice == "0"){
+		 			saleprice= $(item).parent().parent().find("td.price").prop("id");
+		 		}
+		 		finalPrice= finalPrice+(parseInt(saleprice))*cinputcnt;
 		 	});
 		 	
 		 	$("input:checkbox[name=checkList]:checked").each(function(index,item){
@@ -310,13 +325,189 @@
 		 	
 		 	totalDiscountPrice= totalPrice-finalPrice;
 		 	
-		 	$("td#totalPrice").text(totalPrice+" 원");
+		 	$("td#totalPrice").text((totalPrice.toLocaleString('en'))+" 원");
 		 	$("td#dFee").html("<span style='color:blue;'>"+dFee+"</span>");
-		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
-		 	$("td#finalPrice").text(finalPrice+" 원");
+		 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+(totalDiscountPrice.toLocaleString('en'))+" 원</span>");
+		 	$("td#finalPrice").text((finalPrice.toLocaleString('en'))+" 원");
 		 	
 		}); // end of $("input:checkbox[name=checkList]").click(function(){------------  	
 		
+			
+		// 장바구니에서 선택제품 주문하기
+		$("div#orderSelected").click(function(){
+			  
+			if("${loginuser}"==""){
+				alert("로그인 후 이용 가능합니다.");
+			}
+			else{
+				var checkcnt= $("input:checkbox[name=checkList]:checked").length;
+		 		
+		 		if(checkcnt==0){
+		 			alert("선택된 항목이 없습니다.");
+		 		}
+		 		else{
+		 			
+		 			var flag= false;
+	 	        	$("input:checkbox[name=checkList]:checked").each(function(index,item){
+	 	        		var pnum= $(item).val();
+	 	        		
+	 	        		if("-"==pnum){ // 색상이 선택되지 않은 경우
+				 			flag=true;
+				 			return false; // each문 break
+				 		}
+	 	        		
+	 	        	}); // end of each--------------------------------------------------
+			 		
+				 	if(flag){
+				 		alert("색상 옵션을 선택하지 않은 상품이 존재합니다. \n색상을 선택해 주세요.");
+				 		return false;
+				 	}	
+				 	else{ // 색상을 선택한 경우 => 재고량 검사
+						
+				 		$("input:checkbox[name=checkList]:checked").each(function(index,item){
+				 			var pnum= $(item).val();
+				 			var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
+				 			var productname=$(item).parent().parent().find("td.productname").prop('id');
+				 			var pcolor= $(item).parent().parent().find("td.color").prop('id');
+				 			
+				 			$.ajax({ // 재고량체크
+					 			url: "<%=ctxPath%>/product/checkProductQty.cc",
+								type: "post",
+								data: {"pnum":pnum,"cnt":cnt},
+								dataType: "JSON",
+								success:function(json){
+									
+									if(json.n==0){
+										alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
+										location.href="<%=ctxPath%>/member/myCart.cc"
+										return false;
+									}
+								},
+								error: function(request, status, error){
+							           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+							    }
+					 		 }); // end of $.ajax({---------------------
+							
+					 	 }); // end of each----------------------------
+					 	
+					 
+				 		  var pnumArr = new Array();
+	 	         		  var oqtyArr = new Array();
+	 	         		  var cartnoArr = new Array();
+					 			
+	 	         		  $("input:checkbox[name=checkList]:checked").each(function(index,item){
+	 	         			
+	 	         			  var pnum= $(item).val();
+				 			  var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
+	 	         			  var cartno=$(item).parent().parent().parent().find("input.cartno").val();
+	 	         			
+	 	         			   pnumArr.push(pnum);
+	 	         			   oqtyArr.push(cnt);
+	 	         			   cartnoArr.push(cartno);
+	 	         			
+	 	         		  }); // end of each----------------------------
+				 		
+		 	              // 배열은 문자열로 합쳐서 보내기
+		 	              var str_pnum= pnumArr.join();
+		 	          	  var str_oqty= oqtyArr.join();
+		 	          	  var str_cartno= cartnoArr.join();
+		 	         	
+		 	          	location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+str_pnum+"&cnt="+str_oqty+"&cartno="+str_cartno;
+			 	          	  
+				 	} // end of else-------------------
+		 		}// end of else-----------------------	
+				
+			}// end of else------------------------------------------------------
+		
+		
+		}); // end of $("div#orderAll").click(function(){
+		
+		
+			
+		// 장바구니에서 전체제품 주문하기
+		$("div#orderAll").click(function(){
+			  
+			if("${loginuser}"==""){
+				alert("로그인 후 이용 가능합니다.");
+			}
+			else{
+	 			var flag= false;
+ 	        	$("input:checkbox[name=checkList]").each(function(index,item){
+ 	        		var pnum= $(item).val();
+ 	        		
+ 	        		if("-"==pnum){ // 색상이 선택되지 않은 경우
+			 			flag=true;
+			 			return false; // each문 break
+			 		}
+ 	        		
+ 	        	}); // end of each--------------------------------------------------
+		 		
+			 	if(flag){
+			 		alert("색상 옵션을 선택하지 않은 상품이 존재합니다. \n색상을 선택해 주세요.");
+			 		return false;
+			 	}	
+			 	else{ // 색상을 선택한 경우 => 재고량 검사
+					
+			 		$("input:checkbox[name=checkList]").each(function(index,item){
+			 			var pnum= $(item).val();
+			 			var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
+			 			var productname=$(item).parent().parent().find("td.productname").prop('id');
+			 			var pcolor= $(item).parent().parent().find("td.color").prop('id');
+			 			
+			 			$.ajax({ // 재고량체크
+				 			url: "<%=ctxPath%>/product/checkProductQty.cc",
+							type: "post",
+							data: {"pnum":pnum,"cnt":cnt},
+							dataType: "JSON",
+							success:function(json){
+								
+								if(json.n==0){
+									alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
+									location.href="<%=ctxPath%>/member/myCart.cc"
+									return false;
+								}
+							},
+							error: function(request, status, error){
+						           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						    }
+				 		 }); // end of $.ajax({---------------------
+						
+				 	 }); // end of each----------------------------
+				 	
+				 
+			 		  var pnumArr = new Array();
+ 	         		  var oqtyArr = new Array();
+ 	         		  var cartnoArr = new Array();
+				 			
+ 	         		  $("input:checkbox[name=checkList]").each(function(index,item){
+ 	         			
+ 	         			  var pnum= $(item).val();
+			 			  var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
+ 	         			  var cartno=$(item).parent().parent().parent().find("input.cartno").val();
+ 	         			
+ 	         			  pnumArr.push(pnum);
+ 	         			  oqtyArr.push(cnt);
+ 	         			  cartnoArr.push(cartno);
+ 	         			
+ 	         		  }); // end of each----------------------------
+			 		
+	 	              // 배열은 문자열로 합쳐서 보내기
+	 	              var str_pnum= pnumArr.join();
+	 	          	  var str_oqty= oqtyArr.join();
+	 	          	  var str_cartno= cartnoArr.join();
+	 	         	
+	 	          	location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+str_pnum+"&cnt="+str_oqty+"&cartno="+str_cartno;
+			 	
+		 		}// end of else-----------------------	
+				
+			}// end of else------------------------------------------------------
+		
+		
+		}); // end of $("div#orderAll").click(function(){
+			
+			
+			
+			
 	}); // end of $(document).ready(function(){-------------------------
 
 </script>
@@ -350,12 +541,17 @@
 			<tr>
 				<td rowspan="2" id="${cartRequiredInfo.pnum}" class="pnum"><input type="checkbox" name="checkList" value="${cartRequiredInfo.pnum}" /></td>
 				<td rowspan="2"><img src="<%=ctxPath%>/images/${cartRequiredInfo.pimage1}" width="110px" height="100px" class="cartImg" /></td>
-				<td>${cartRequiredInfo.productname}</td>
+				<td class="productname" id="${cartRequiredInfo.productname}">${cartRequiredInfo.productname}</td>
 				<td class="color" id="${cartRequiredInfo.pcolor}">${cartRequiredInfo.pcolor}</td>
 				<td class="cinputcnt" id="${cartRequiredInfo.cinputcnt}">
 					<input type="number" min="1" max="50" value="${cartRequiredInfo.cinputcnt}"개 class="pcnt">&nbsp;&nbsp;개
 				</td>
-				<td style="text-decoration: line-through;" class="price" id="${cartRequiredInfo.price}">${cartRequiredInfo.price}원</td>
+				<c:if test="${cartRequiredInfo.salepercent eq 0}">
+					<td class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
+				</c:if>
+				<c:if test="${cartRequiredInfo.salepercent ne 0}">
+					<td style="text-decoration: line-through;" class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
+				</c:if>
 				<td rowspan="2">${cartRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${cartRequiredInfo.doption eq '0'}">
 					<td rowspan="2">무료배송</td>
@@ -366,12 +562,18 @@
 				<c:if test="${cartRequiredInfo.doption eq '색상에 따라 상이'}">
 					<td rowspan="2">색상에 따라 상이</td>
 				</c:if>
-				<td rowspan="2">${cartRequiredInfo.totalPrice}원</td>
+				<td rowspan="2"><fmt:formatNumber value="${cartRequiredInfo.totalPrice}" pattern="#,###,###" />원</td>
 			</tr>
 			<tr>
 				<td style="border-top:solid 1px #a0aca0;">[${cartRequiredInfo.cname}]&nbsp;[${cartRequiredInfo.modelname}]</td>
 				<td colspan="2" class="cartUpdate"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색상 및 수량 변경&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-				<td style="color:red;" class="salePrice" id="${cartRequiredInfo.saleprice}">${cartRequiredInfo.saleprice}원</td>
+				<c:if test="${cartRequiredInfo.salepercent eq 0}">
+					<td class="salePrice" rowspan="2" id="0"></td>
+				</c:if>
+				<c:if test="${cartRequiredInfo.salepercent ne 0}">
+					<td style="color:red;" class="salePrice" id="${cartRequiredInfo.saleprice}"><fmt:formatNumber value="${cartRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
+				</c:if>
+				
 			</tr>
 			<tr>
 				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px; border-top: solid 1px #a0aca0; "></div></td>

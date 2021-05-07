@@ -646,6 +646,33 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	}
 
 
+	// pnum이 주어졌을때 재고량 반환하는 메소드
+	@Override
+	public int getQtyByPnum(String pnum) throws SQLException {
+
+		int qty=0;
+		
+		try{
+			conn=ds.getConnection();
+			String sql=" select pqty from tbl_pdetail where pnum= ? ";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pnum);
+			
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				qty=rs.getInt(1);
+			}
+			
+		}finally {
+			close();
+		}
+		
+		
+		return qty; // pnum의 재고량
+	}
+
+
 	
 	
 	

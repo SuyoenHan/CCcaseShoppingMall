@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	String ctxPath= request.getContextPath();
 %>
@@ -493,21 +495,50 @@
 		// 바로구매 버튼을 클릭한 경우 주문하기 페이지로 제품정보 이동
 		$("div#buyBt").click(function(){
 			
-			var pnum= $(this).prev().find("select#cOption").val();
-			var cnt= $(this).prev().find("input#pcnt").val();
-			var flag= false;
+			if("${loginuser}"!=""){
+				
+				var pnum= $(this).prev().find("select#cOption").val();
+				var cnt= $(this).prev().find("input#pcnt").val();
+				var productname= $(this).prev().prev().prev().prev().prop('id');
+				var pcolor= $(this).prev().find("select#cOption option:selected").text();
+				
+				var flag= false;
+				
+		 		if("-"==pnum){ // 색상이 선택되지 않은 경우
+		 			flag=true;
+		 		}
+		 	
+			 	if(flag){
+			 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n색상을 선택해 주세요.");
+			 	}
+			 	else{ // pnum 제품상세번호 , 수량 cnt를 넘김
+			 		
+			 		$.ajax({ // 재고량체크
+			 			url: "<%=ctxPath%>/product/checkProductQty.cc",
+						type: "post",
+						data: {"pnum":pnum,"cnt":cnt},
+						dataType: "JSON",
+						success:function(json){
+							
+							if(json.n==1){
+								location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
+							}
+							else{
+								alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
+							
+							}
+						},
+						error: function(request, status, error){
+					           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					    }
+			 		}); // end of $.ajax({---------------------
+		 		}	
+			}
+			else{
+				alert("로그인 후 이용 가능합니다.");
+				response.sendRedirect("javascript:history.back()");
+			}
 			
-			
-	 		if("-"==pnum){ // 색상이 선택되지 않은 경우
-	 			flag=true;
-	 		}
-	 	
-		 	if(flag){
-		 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n색상을 선택해 주세요.");
-		 	}
-		 	else{ // pnum 제품상세번호 , 수량 cnt를 넘김
-				location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
-	 		}	
 		}); // end of $("div#buyBt").click(function(){
 		
 
@@ -546,7 +577,7 @@
 	</div>
 	
 	<div class="pdetail" id="pdetailInfo" style="margin-left: 50px; border:solid 2px #e3e3e3; padding: 40px 0px 0px 10px;">
-		<div class="pdetailTitle" align="center" style="color:blue;">
+		<div class="pdetailTitle" align="center" style="color:blue;" id="${onePInfo.productname}">
 			<div style="font-size:20px; margin-bottom:5px;">
 				[${onePInfo.cname}]&nbsp;[${onePInfo.modelname}]
 			</div>
@@ -565,7 +596,7 @@
 				<tr>
 					<th>판매가</th>
 					<td>
-						${onePInfo.price}원&nbsp;&nbsp;
+						<fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원&nbsp;&nbsp;
 					</td>
 				</tr>
 			</c:if>
@@ -573,13 +604,13 @@
 				<tr>
 					<th>할인판매가</th>
 					<td>
-						${onePInfo.saleprice}원
+						<fmt:formatNumber value="${onePInfo.saleprice}" pattern="#,###,###" />원
 					</td>
 				</tr>
 				<tr>
 					<th>판매가</th>
 					<td>
-						${onePInfo.price}원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+						<fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
 					</td>
 				</tr>
 			</c:if>

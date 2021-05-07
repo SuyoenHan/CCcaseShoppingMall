@@ -45,6 +45,9 @@ public interface InterProductDetailDAO {
 	
 	// productid와 doption이 주어진 경우 여러 pnum중 doption에 해당하는 제품 1개 행만 반환하는 메소드
 	String getPnumByDoption (String productid, String doption) throws SQLException;
+
+	// pnum이 주어졌을때 재고량 반환하는 메소드
+	int getQtyByPnum(String pnum) throws SQLException;
 	
 	// ====================== 한수연 끝 =========================
 

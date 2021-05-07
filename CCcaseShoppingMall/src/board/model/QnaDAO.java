@@ -486,7 +486,7 @@ public class QnaDAO implements InterQnaDAO {
    }
 
 
-   //마이페이지 게시물관리에서 내가쓴 글 보기
+   //마이페이지 게시물관리에서 내가쓴 QnA보기
 	@Override
 	public List<QnaVO> qnaMywrite(Map<String, String> paraMap) throws SQLException {
 		 List<QnaVO> qnaList = new ArrayList<>();
@@ -600,27 +600,39 @@ public class QnaDAO implements InterQnaDAO {
 		
 		return cntQnaCmt;
 	}
+	///////////// 백원빈 끝////////////////////	
 
-
-
+	//내가 쓴 전체 글 보기
 	@Override
-	public List<QnaVO> writeAllList(String userid) throws SQLException {
+	public List<QnaVO> writeAllList(Map<String, String> paraMap) throws SQLException {
 		List<QnaVO> allList =  new ArrayList<>();
 		
 	      try {
 	         conn = ds.getConnection();
-	         
-	         String sql = "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount "+
-	        		 "from tbl_qna where fk_userid= ?  "+
-	        		 "union all "+
-	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount "+
-	        		 "from tbl_review "
-	        		 + "where fk_userid= ? "
-	        		 + "order by registerdate desc ";
+	         String sql = "select rno,no,title,userid,registerdate,viewcount,state\n"+
+	        		 "from \n"+
+	        		 "(select rownum AS rno,no,title,userid,registerdate,viewcount,state\n"+
+	        		 "from(\n"+
+	        		 "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount,qstate AS state\n"+
+	        		 "from tbl_qna where fk_userid=? \n"+
+	        		 "union all\n"+
+	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount ,rstate AS state\n"+
+	        		 "from tbl_review\n"+
+	        		 "where fk_userid=? \n"+
+	        		 "order by registerdate desc\n"+
+	        		 ")\n"+
+	        		 ")\n"+
+	        		 "where rno between ? and ?";
 	         
 	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, userid);
-	         pstmt.setString(2, userid);
+	         
+	         int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );
+	          int sizePerPage = 5; 
+	         
+	         pstmt.setString(1, paraMap.get("userid"));
+	         pstmt.setString(2, paraMap.get("userid"));
+	         pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+	          pstmt.setInt(4, (currentShowPageNo * sizePerPage)); // 공식 
 	         rs = pstmt.executeQuery();
 	         
 	         while(rs.next()) {
@@ -632,17 +644,54 @@ public class QnaDAO implements InterQnaDAO {
 	        	 qvo.setFk_userid(rs.getString("userid"));
 	        	 qvo.setQregisterdate(rs.getString("registerdate"));
 	        	 qvo.setQviewcount(rs.getInt("viewcount"));
-	         
+	        	 qvo.setQstate(rs.getInt("state"));
+	        	 
 	         allList.add(qvo);
 	         }
 	      } finally {
 	         close();
 	      }
-	      System.out.println(allList);	
+	     // System.out.println(allList);	
 	      return allList;
 	      
 	      }
+
+	//내가 쓴 전체 글 페이징 처리
+	@Override
+	public int allMywriteTotalPage(String userid) throws SQLException {
+		int totalPage = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = "select ceil(count(*)/5)\n"+
+	        		 "from(\n"+
+	        		 "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount,qstate AS state\n"+
+	        		 "from tbl_qna where fk_userid=? \n"+
+	        		 "union all\n"+
+	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount ,rstate AS state\n"+
+	        		 "from tbl_review\n"+
+	        		 "where fk_userid=? \n"+
+	        		 "order by registerdate desc\n"+
+	        		 ")";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, userid);
+	         pstmt.setString(2, userid);
+	               
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalPage = rs.getInt(1);
+	         
+	      } finally {
+	         close();
+	      }      
+	      
+	      return totalPage;
+	}
 	
 	
-	///////////// 백원빈 끝////////////////////	
 }

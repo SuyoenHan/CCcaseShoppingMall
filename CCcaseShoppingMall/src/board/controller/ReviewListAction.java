@@ -69,6 +69,7 @@ public class ReviewListAction extends AbstractController {
 		// 페이징 처리를 한 모든 리뷰 또는 검색한 리뷰 목록 보여주기
 		List<ReviewVO> revList= rdao.selectPagingReview(paraMap);
 		request.setAttribute("revList", revList);
+		// System.out.println(revList.size());
 		
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("searchType", searchType);

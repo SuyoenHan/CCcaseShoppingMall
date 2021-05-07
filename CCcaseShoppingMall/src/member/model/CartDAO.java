@@ -103,6 +103,7 @@ public class CartDAO implements InterCartDAO {
 				   
 			   if((m*n) ==1) {
 				   conn.commit();
+				   conn.setAutoCommit(true); 
 				   n=2;
 			   }
 			   
