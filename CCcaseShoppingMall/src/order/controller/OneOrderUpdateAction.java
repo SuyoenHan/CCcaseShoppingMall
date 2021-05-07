@@ -12,7 +12,7 @@ import member.model.MemberVO;
 import order.model.InterOrderDAO;
 import order.model.OrderDAO;
 
-public class NewOrderUpdateAction extends AbstractController {
+public class OneOrderUpdateAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

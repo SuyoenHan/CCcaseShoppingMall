@@ -234,7 +234,7 @@ public class PayOrderAction extends AbstractController {
 				request.setAttribute("expectPoint", expectPoint); // 예상적립금
 			    request.setAttribute("totalpoint", totalpoint);   // 현재 회원이 보유한 포인트
 			    request.setAttribute("saleprice", saleprice);
-			    request.setAttribute("paraMap", paraMap);
+			    request.setAttribute("para2Map", para2Map);
 			    request.setAttribute("cnt", cnt);
 				request.setAttribute("totalProPrice", totalProPrice);
 			    
