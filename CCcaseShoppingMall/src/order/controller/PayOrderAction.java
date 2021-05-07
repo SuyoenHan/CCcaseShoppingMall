@@ -40,7 +40,6 @@ public class PayOrderAction extends AbstractController {
 			
 			// =========================== 한수연 시작 ======================================
 			InterProductDAO pdao= new ProductDAO();
-			InterProductDetailDAO pddao= new ProductDetailDAO();
 			
 			// 회사+카테고리 별 제품 수 맵에 담아서 session에 저장
 			Map<String,Integer> paraMap= new HashMap<>();
@@ -69,7 +68,7 @@ public class PayOrderAction extends AbstractController {
 			paraMap.put("bumpLgCnt", bumpLgCnt);
 			
 			session.setAttribute("paraMap", paraMap);
-			// =========================== 한수연 시작 ======================================
+			// =========================== 한수연 끝 ======================================
 			
 			
 			

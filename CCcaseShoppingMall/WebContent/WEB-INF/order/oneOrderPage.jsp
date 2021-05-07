@@ -438,6 +438,7 @@ td{
    
    $(window).on("scroll", function() {
       var scrollNow = window.scrollY;
+<<<<<<< HEAD
 //     console.log(scrollNow);
 		  
           if(scrollNow > 900) {
@@ -475,6 +476,45 @@ td{
       frm.finalPrice.value = finalPrice;
       
       frm.action = "<%=request.getContextPath()%>/order/oneOrderUpdate.cc";
+=======
+//      console.log(scrollNow);
+        
+          if(scrollNow > 900) {
+              $(".orderSec-right").css('position', 'absolute');
+              $(".orderSec-right").css('top', '70%');
+          } else {
+             $(".orderSec-right").css('position', 'relative');
+             $(".orderSec-right").css('bottom', '40%');
+          }
+
+   });
+   
+   
+    // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
+    function setDisplay(){
+       
+      $(".newDelAddr").hide();
+      
+       if($("input:radio[id=delAddr]").is(":checked")){
+           $(".newDelAddr").hide();
+           $(".origin-delAddr").show();
+       }   
+       
+       if($("input:radio[id=newDelAddr]").is(":checked")){
+          $(".origin-delAddr").hide();
+           $(".newDelAddr").show();
+       }
+      
+   }// end of function setDisplay()--------------------------------------
+
+
+   function goOrder(userid, finalPrice) {
+      var frm = document.orderUpdateFrm;
+      frm.userid.value = userid;
+      frm.finalPrice.value = finalPrice;
+      
+      frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
+>>>>>>> refs/heads/bwb930305
       frm.method="POST";
       frm.submit();
    }
