@@ -25,7 +25,6 @@
    tr#menu{
    		font-weight: bold;
    		font-size: 18px;
-   		background-color: gray;
    		height: 40px;
    		 text-align: center;
    	}
@@ -144,9 +143,23 @@
 		           <tr id="menu">	 
 		              <th>상품정보</th>
 		              <th>주문일자</th>
-		              <th>제품번호</th>
+		              <th colspan=2>제품번호</th>
+		              
 		           </tr>
 	        </thead>
+	        <tbody>
+	        
+	       <c:forEach var="byreview" items="${requestScope.byreview}">
+	    			<tr>
+	    				<td><img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}" width="150" height="150"/> ${byreview.pvo.productname}  <br>
+	    				${byreview.pvo.modelname}</td>
+	    				<td>${byreview.orderdate}</td>
+	    				<td>${byreview.pdvo.pnum}</td>
+	    				<td colspan=2><button onclik=> 상품 리뷰 작성하기</button></td>
+	    			</tr>
+	    		</c:forEach>	
+		    	
+	    	</tbody>
 	    		</table>
 	    
 	    
