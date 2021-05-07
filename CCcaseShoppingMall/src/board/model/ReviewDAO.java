@@ -333,7 +333,7 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// 리뷰 글내용 삭제하기(delete)
 	@Override
-	public int revDeleteOne(ReviewVO rvo) throws SQLException {
+	public int revDeleteOne(String reviewno) throws SQLException {
 		int n = 0;
 		
 		try {
@@ -343,7 +343,7 @@ public class ReviewDAO implements InterReviewDAO {
 							+ " where reviewno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, rvo.getReviewno());
+			pstmt.setString(1, reviewno);
 			
 			n = pstmt.executeUpdate();
 			

@@ -16,13 +16,9 @@ public class ReviewDelAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String userid = request.getParameter("userid");
-		
-		if(loginuser != null && userid.equals(loginuser.getUserid())) {
-			
-			ReviewVO rvo = new ReviewVO();
+		if(loginuser != null) {
 			
 			String method = request.getMethod();
 			
@@ -31,31 +27,41 @@ public class ReviewDelAction extends AbstractController {
 				
 				InterReviewDAO rdao = new ReviewDAO();
 				
-				int n = rdao.revDeleteOne(rvo);
+				String reviewno = request.getParameter("reviewno");
 				
-				String message = "";
-				
-				if(n==1) {
-					message="해당 리뷰가 삭제되었습니다.";
-				}
-				else {
-					message="리뷰삭제를 실패하였습니다.";
-				}
+				int n = rdao.revDeleteOne(reviewno);
 				
 				JSONObject jsonObj = new JSONObject();
-				jsonObj.put("message", message);
+				jsonObj.put("n", n);
 				
 				String json = jsonObj.toString();
 				request.setAttribute("json", json);
 				
 				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/board/jsonview.jsp");
+				super.setViewPage("/WEB-INF/jsonview.jsp");
 				
 			}
-			
+			else {
+				String message = "비정상적인 경로를 통해 들어왔습니다!!";
+				String loc = "javascript:history.back()";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				
+				super.setViewPage("/WEB-INF/msg.jsp");
+				
+			}
 		
 		}
-		
+		else {
+			String message = "로그인 후 사용 가능합니다.";
+			String loc = "javascript:history.back()";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			
+			super.setViewPage("/WEB-INF/msg.jsp");
+		}
 		
 	}
 

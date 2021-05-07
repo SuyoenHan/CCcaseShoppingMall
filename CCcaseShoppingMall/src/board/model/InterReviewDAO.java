@@ -30,7 +30,7 @@ public interface InterReviewDAO {
 	int revEditUpdate(ReviewVO rvo) throws SQLException;
 	
 	// 리뷰 글내용 삭제하기(delete)
-	int revDeleteOne(ReviewVO rvo) throws SQLException;
+	int revDeleteOne(String review_seq) throws SQLException;
 	
 	// 리뷰 총 개수 알아오기
 	int selectRevCnt() throws SQLException;

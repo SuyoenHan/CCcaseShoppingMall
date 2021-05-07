@@ -141,6 +141,35 @@
 		location.href="<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL=${requestScope.goBackURL}"
 	}
 	
+	function delMyReview(review_seq) {
+		
+		var bool = confirm("정말로 리뷰를 삭제하시겠습니까?");
+		
+		if(bool) {
+			$.ajax({
+				url:"<%=ctxPath%>/board/reviewDel.cc",
+				type:"post",
+				data: {"reviewno":reviewno},
+				dataType:"json",
+				success:function(json){
+					if(json.n == 1) {
+						alert("리뷰가 삭제되었습니다.");
+						location.href="<%=ctxPath%>/board/reviewList.cc";
+					}
+					else {
+						alert("리뷰 삭제에 실패하였습니다.";)
+					}
+				},
+				error: function(request, status, error) {
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+				
+			});
+		}
+		
+	}
+	
+	
 </script>
 
 
