@@ -516,16 +516,15 @@
 			 		$.ajax({ // 재고량체크
 			 			url: "<%=ctxPath%>/product/checkProductQty.cc",
 						type: "post",
-						data: {"pnum":pnum,"cnt":cnt},
+						data: {"str_pnumArr":pnum,"str_cntArr":cnt},
 						dataType: "JSON",
 						success:function(json){
 							
 							if(json.n==1){
-								location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
+								alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
 							}
 							else{
-								alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
-							
+								location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
 							}
 						},
 						error: function(request, status, error){

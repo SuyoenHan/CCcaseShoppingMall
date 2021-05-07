@@ -34,24 +34,39 @@ public class CheckProductQtyAction extends AbstractController {
 			String str_productnameArr= request.getParameter("str_productnameArr");
 			String str_pcolorArr= request.getParameter("str_pcolorArr");
 			
-			String[] pnumArr= str_pnumArr.split(",");
-			String[] cntArr= str_cntArr.split(",");
-			String[] productnameArr= str_productnameArr.split(",");
-			String[] pcolorArr= str_pcolorArr.split(",");
-			
 			InterProductDetailDAO pddao= new ProductDetailDAO();
 			JSONObject jsonobject= new JSONObject();
 			
-			for(int i=0;i<pnumArr.length;i++) {
-				int qty= pddao.getQtyByPnum(pnumArr[i]);
-				if(Integer.parseInt(cntArr[i])>qty) { // 주문수량보다 재고량이 더 많거나 같은 경우
-				    jsonobject.put("n", 1);
-					jsonobject.put("productname", productnameArr[i]);
-				    jsonobject.put("pcolor", pcolorArr[i]);
+			
+			if(str_productnameArr==null) {
+				int qty= pddao.getQtyByPnum(str_pnumArr);
+				if(Integer.parseInt(str_cntArr)>qty) {
+					jsonobject.put("n", 1);
 					jsonobject.put("qty", qty);
-					break;
+				}
+				else {
+					jsonobject.put("n", 0);
 				}
 			}
+			else {
+				String[] pnumArr= str_pnumArr.split(",");
+				String[] cntArr= str_cntArr.split(",");
+				String[] productnameArr= str_productnameArr.split(",");
+				String[] pcolorArr= str_pcolorArr.split(",");
+				
+				for(int i=0;i<pnumArr.length;i++) {
+					int qty= pddao.getQtyByPnum(pnumArr[i]);
+					if(Integer.parseInt(cntArr[i])>qty) { // 주문수량보다 재고량이 더 많거나 같은 경우
+					    jsonobject.put("n", 1);
+						jsonobject.put("productname", productnameArr[i]);
+					    jsonobject.put("pcolor", pcolorArr[i]);
+						jsonobject.put("qty", qty);
+						break;
+					}
+				}
+				
+			}
+			
 			
 			String json=jsonobject.toString();
 			request.setAttribute("json", json);
