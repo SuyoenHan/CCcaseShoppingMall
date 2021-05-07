@@ -15,6 +15,9 @@ import board.model.QnaDAO;
 import board.model.QnaVO;
 import common.controller.AbstractController;
 import my.util.Myutil;
+import order.model.InterOrderDAO;
+import order.model.OrderDAO;
+import order.model.OrderVO;
 
 
 public class MemberWriteListQnAAction extends AbstractController {
@@ -36,7 +39,7 @@ public class MemberWriteListQnAAction extends AbstractController {
 			currentShowPageNo="1";
 		}
 		InterQnaDAO qdao = new QnaDAO();
-		
+		InterOrderDAO odao = new OrderDAO();
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("currentShowPageNo", currentShowPageNo);
@@ -44,6 +47,8 @@ public class MemberWriteListQnAAction extends AbstractController {
 		List<QnaVO> qnaList = qdao.qnaMywrite(paraMap);
 		request.setAttribute("qnaList", qnaList);
 		
+		List<OrderVO> byreview=odao.byreview(paraMap);
+        request.setAttribute("byreview",byreview);
 		int totalPage = qdao.qnaMywriteTotalPage(userid);
 		//System.out.println("~~~확인용~~"+totalPage);
 
