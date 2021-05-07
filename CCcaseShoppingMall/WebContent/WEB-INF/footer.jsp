@@ -60,7 +60,7 @@
 	});
 </script>
 
-		<div id="footer">
+		<div id="footer" style="clear:both; margin-top: 50px; border: solid 0px red;">
 			<div class="footerSection">
 				<span style="font-size:20pt; font-weight: bold;">CCcase</span><br>
 				COPYRIGHT &copy; CCcase ALL RIGHTS RESERVED<br><br><br><br><br>

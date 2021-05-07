@@ -11,12 +11,14 @@
 		height: 40px;
 		padding-top: 10px;
 		border: none;
+		background-color: #f0f4f5;
+		cursor:pointer;
 	}
 	
 	div#leftContainer div:hover{
-		background-color: #828282;
-		color: #fff;
+		background-color: #b4c6cb;
 		font-weight: bold;
+		cursor:pointer;
 	}
 </style>
 
@@ -31,9 +33,9 @@
 		$(window).scroll(function(){
 			
 			var scrollTop= $(window).scrollTop();
-			// console.log(scrollTop);
+			//console.log(scrollTop);
 			
-			if(scrollTop>1600){
+			if(scrollTop>1700){
 				return false; // footer 부분 침범하지 않도록 이벤트 종료
 			}
 			
@@ -44,15 +46,15 @@
 		
 		// 각 사이드바 메뉴 클릭 시 해당 스크롤 위치로 이동
 		$("div#best").click(function(){
-			window.scrollTo(0,200);
+			window.scrollTo(0,500);
 		}); 
 		
 		$("div#new").click(function(){
-			window.scrollTo(0,800);
+			window.scrollTo(0,1100);
 		});
 		
 		$("div#free").click(function(){
-			window.scrollTo(0,1500);
+			window.scrollTo(0,1650);
 		});
 		
 	}); // end of $document.ready(function(){
