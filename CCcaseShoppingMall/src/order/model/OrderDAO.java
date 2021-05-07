@@ -391,7 +391,6 @@ public class OrderDAO implements InterOrderDAO {
 		             ProductDetailVO pdvo = new ProductDetailVO();		 
 		             pdvo.setPnum(pnum);
 
-		             
 		             ODetailVO odvo = new ODetailVO();
 		             odvo.setOdetailno(odetailno);
 		             
