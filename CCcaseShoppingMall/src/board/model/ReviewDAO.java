@@ -395,13 +395,13 @@ public class ReviewDAO implements InterReviewDAO {
 	          
 	          String sql = " select reviewno, fk_userid,fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
 	        		  " from ( select rownum AS rno,  reviewno, fk_userid,fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
-	        		  "from "+
-	        		  "( "+
-	        		  "select reviewno, fk_userid, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
-	        		  "from tbl_review "+
-	        		  "where fk_userid= ? "+
-	        		  "order by reviewno desc "+
-	        		  ") V "+
+	        		  " from "+
+	        		  " ( "+
+	        		  " select reviewno, fk_userid, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+	        		  " from tbl_review "+
+	        		  " where fk_userid= ? "+
+	        		  " order by reviewno desc "+
+	        		  " ) V "+
 	        		  " ) T   "+
 	        		  " where rno between ? and ? ";
 
@@ -410,7 +410,7 @@ public class ReviewDAO implements InterReviewDAO {
 	          
 	          int currentShowPageNo = Integer.parseInt( paraMap.get("currentShowPageNo") );
 	          int sizePerPage = 5; 
-	          
+	          	
 	          pstmt.setString(1, paraMap.get("userid"));
 	          pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
 	          pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 공식 
@@ -672,6 +672,45 @@ public class ReviewDAO implements InterReviewDAO {
 		 */
 		
 	} // end of public int getSnumByReviewno(String odetailno) throws SQLException {-----------
+	
+	// 쓰여진 리뷰 내용 받아오기
+	@Override
+	public ReviewVO getReviewContents(String userid, String reviewno) throws SQLException {
+		ReviewVO rvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select reviewno, fk_userid, rvtitle, rvcontent, satisfaction, fk_pname, rregisterdate, rviewcount"
+							+ " from tbl_review "
+							+ " where fk_userid = ? and reviewno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setString(2, reviewno);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				rvo = new ReviewVO();
+				rvo.setReviewno(rs.getInt(1));
+				rvo.setFk_userid(rs.getString(2));
+				rvo.setRvtitle(rs.getString(3));
+				rvo.setRvcontent(rs.getString(4));
+				rvo.setSatisfaction(rs.getInt(5));
+				rvo.setFk_pname(rs.getString(6));
+				rvo.setRregisterdate(rs.getString(7));
+				rvo.setRviewcount(rs.getInt(8));
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return rvo;
+	}
 
 	
 	
