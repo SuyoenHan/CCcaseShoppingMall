@@ -30,7 +30,7 @@ public interface InterReviewDAO {
 	int revEditUpdate(ReviewVO rvo) throws SQLException;
 	
 	// 리뷰 글내용 삭제하기(delete)
-	int revDeleteOne(ReviewVO rvo) throws SQLException;
+	int revDeleteOne(String review_seq) throws SQLException;
 	
 	// 리뷰 총 개수 알아오기
 	int selectRevCnt() throws SQLException;
@@ -45,7 +45,7 @@ public interface InterReviewDAO {
 	String selectPurchaseProd(String fk_userid) throws SQLException;
 	
 	// 구매한 제품명 가져오기
-	String getPnameOfProd(String fk_userid) throws SQLException;
+	String getPnameOfProd(String fk_odetailno) throws SQLException;
 
 	// 해당 리뷰의 구매 제품 가져오기 
 	ProductVO selectProduct(String reviewno) throws SQLException;
@@ -61,6 +61,15 @@ public interface InterReviewDAO {
 	
 	// 쓰여진 리뷰 내용 받아오기
 	ReviewVO getReviewContents(String userid, String reviewno) throws SQLException;
+
+	// 리뷰번호 채번 해오기
+	int getReviewno() throws SQLException;
+	
+	// tbl_review 테이블에 제품의 추가 이미지 파일명 update 해주기
+	int review_imagefile_Insert(int reviewno, String attachFileName) throws SQLException;
+
+	// 리뷰 목록을 조회해오기
+	List<ReviewVO> selectRevList() throws SQLException;
 	
 
 	

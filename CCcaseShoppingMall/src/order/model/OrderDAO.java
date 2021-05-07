@@ -288,6 +288,95 @@ public class OrderDAO implements InterOrderDAO {
 	
 	
 	
+	// pnum을 가지고, 주문페이지에서 필요한 정보 뽑아오기(select)
+	@Override
+	public Map<String, String> manyOrderPageInfo(String string) throws SQLException {
+		
+		Map<String, String> paraMap = new HashMap<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select pnum, productname, modelname, pcolor, price, price*(1-salepercent) as saleprice, pimage1, doption,fk_productid "+
+						 " from tbl_pdetail D "+
+						 " join tbl_product P "+
+						 " on P.productid=D.fk_productid "+
+						 " where pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			  
+			pstmt.setString(1, string);
+			  
+			rs = pstmt.executeQuery();
+			  
+			if(rs.next()) {
+				
+				paraMap.put("pnum", rs.getString(1));
+				paraMap.put("productname", rs.getString(2));
+				paraMap.put("modelname", rs.getString(3));
+				paraMap.put("pcolor", rs.getString(4));
+				paraMap.put("price", String.valueOf(rs.getInt(5)));
+				paraMap.put("saleprice", String.valueOf(rs.getInt(6)));
+				paraMap.put("pimage1", rs.getString(7));
+				paraMap.put("doption", rs.getString(8));
+				paraMap.put("fk_productid", rs.getString(9));
+				
+				
+			}
+		} finally {
+			close();
+		}
+	
+		return paraMap;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	////////////////////////// 백원빈 끝 ///////////////////////////////	
 	
 	
@@ -362,7 +451,7 @@ public class OrderDAO implements InterOrderDAO {
 
 	// 상품 바로주문시 주문할 상품 정보 불러오기
 	@Override
-	public Map<String,String> getOrderDetail(String pnum) throws SQLException {
+	public Map<String,String> oneOrderPageInfo(String pnum) throws SQLException {
 		
 		 Map<String,String> paraMap = null;
 		
@@ -466,6 +555,57 @@ public class OrderDAO implements InterOrderDAO {
 			}
 			return n1;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

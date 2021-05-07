@@ -6,27 +6,36 @@
 
 <jsp:include page="../adminheader.jsp" />  
 
-
-
-
 <style>
 
+	div#contents {
+		display: flex;
+	}
+
+	table{
+		display: inline-block;
+		margin: 0 3% 3% 0;
+		width: 400px;
+		height: auto;
+		border: 2px solid blue;
+	}
+
 	tr{
-		border-bottom : solid 1px black;
 		line-height: 50px;
+		border: 1px solid blue;
 	}
 	
 	th, td{
-		border: solid 0px black;
+		text-align: center;
 		font-size : 13pt;
 		width: 100px;
+		border: 1px solid blue;
 	}
 	
 	td.qtyComment {
 		font-size:15pt !important;
 		font-weight: bolder;
 		width: 300px !important;
-		border-right: solid 1px black;
 	}
 
 </style>
@@ -98,20 +107,20 @@
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2">금일 케이스별 판매량</th>
+					<th colspan="3">금일 케이스별 판매량</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr> 
-					<td>하드케이스</td>
+					<td colspan="2">하드케이스</td>
 					<td>${sessionScope.hardSaleQty}개</td>
 				</tr>				
 				<tr> 
-					<td>젤리케이스</td>
+					<td colspan="2">젤리케이스</td>
 					<td>${sessionScope.jellySaleQty}개</td>
 				</tr>			
 				<tr> 
-					<td>범퍼케이스</td>
+					<td colspan="2">범퍼케이스</td>
 					<td>${sessionScope.bumpperSaleQty}개</td>
 				</tr>
 			</tbody>
@@ -120,7 +129,7 @@
 		<table class="totalMember">
 			<thead>
 				<tr>
-					<th colspan="2">회원수</th>
+					<th colspan="3">회원수</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -132,7 +141,7 @@
 				<tr> 
 					<td>활동중</td>
 					<td>휴면</td>
-					<td>${sessionScope.outMemberCnt}명</td>
+					<td rowspan="2">${sessionScope.outMemberCnt}명</td>
 				</tr>
 				
 				<tr> 
@@ -140,7 +149,7 @@
 					<td>${sessionScope.humanMemberCnt}명</td>
 				</tr>
 				<tr> 
-					<td class="qtyComment">금일 가입회원수</td>
+					<td class="qtyComment" colspan="2">금일 가입회원수</td>
 					<td>${sessionScope.todayRegisterCnt}명</td>
 				</tr>
 			</tbody>
