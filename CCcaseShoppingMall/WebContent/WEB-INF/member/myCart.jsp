@@ -336,92 +336,82 @@
 		// 장바구니에서 선택제품 주문하기
 		$("div#orderSelected").click(function(){
 			  
-			if("${loginuser}"==""){
-				alert("로그인 후 이용 가능합니다.");
-			}
-			else{
-				var checkcnt= $("input:checkbox[name=checkList]:checked").length;
-		 		
-		 		if(checkcnt==0){
-		 			alert("선택된 항목이 없습니다.");
-		 		}
-		 		else{
-		 			
-		 			var flag= false;
-	 	        	$("input:checkbox[name=checkList]:checked").each(function(index,item){
-	 	        		var pnum= $(item).val();
-	 	        		
-	 	        		if("-"==pnum){ // 색상이 선택되지 않은 경우
-				 			flag=true;
-				 			return false; // each문 break
-				 		}
-	 	        		
-	 	        	}); // end of each--------------------------------------------------
-			 		
-				 	if(flag){
-				 		alert("색상 옵션을 선택하지 않은 상품이 존재합니다. \n색상을 선택해 주세요.");
-				 		return false;
-				 	}	
-				 	else{ // 색상을 선택한 경우 => 재고량 검사
+			var checkcnt= $("input:checkbox[name=checkList]:checked").length;
+			if(checkcnt==0) {
+				alert("선택된 항목이 없습니다.");	
+			}	
+			else if(checkcnt>0){
 						
-				 		$("input:checkbox[name=checkList]:checked").each(function(index,item){
-				 			var pnum= $(item).val();
-				 			var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
-				 			var productname=$(item).parent().parent().find("td.productname").prop('id');
-				 			var pcolor= $(item).parent().parent().find("td.color").prop('id');
-				 			
-				 			$.ajax({ // 재고량체크
-					 			url: "<%=ctxPath%>/product/checkProductQty.cc",
-								type: "post",
-								data: {"pnum":pnum,"cnt":cnt},
-								dataType: "JSON",
-								success:function(json){
-									
-									if(json.n==0){
-										alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
-										location.href="<%=ctxPath%>/member/myCart.cc"
-										return false;
-									}
-								},
-								error: function(request, status, error){
-							           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-							    }
-					 		 }); // end of $.ajax({---------------------
-							
-					 	 }); // end of each----------------------------
+	 			var flag= false;
+ 	        	$("input:checkbox[name=checkList]:checked").each(function(index,item){
+ 	        		var pnum= $(item).val();
+ 	        		
+ 	        		if("-"==pnum){ // 색상이 선택되지 않은 경우
+			 			flag=true;
+			 			return false; // each문 break
+			 		}
+ 	        	}); // end of each--------------------------------------------------
+		 		
+			 	if(flag){
+			 		alert("색상 옵션을 선택하지 않은 상품이 존재합니다. \n색상을 선택해 주세요.");
+			 		return false;
+			 	}	
+			 	else{ // 색상을 선택한 경우 => 재고량 검사
+
+			 		 var pnumArr = new Array();
+	         		 var cntArr = new Array();
+	         		 var productnameArr = new Array();
+	         		 var pcolorArr = new Array();
+	         		 var cartnoArr= new Array();
+	         		 
+			 		 $("input:checkbox[name=checkList]:checked").each(function(index,item){
+			 			
+				 		var pnum= $(item).val();
+			 			var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
+			 			var productname=$(item).parent().parent().find("td.productname").prop('id');
+			 			var pcolor= $(item).parent().parent().find("td.color").prop('id');
+			 			var cartno=$(item).parent().parent().parent().find("input.cartno").val();
+			 			  
+			 			pnumArr.push(pnum);
+			 			cntArr.push(cnt);
+			 			productnameArr.push(productname);
+			 			pcolorArr.push(pcolor);
+					 	cartnoArr.push(cartno);
 					 	
-					 
-				 		  var pnumArr = new Array();
-	 	         		  var oqtyArr = new Array();
-	 	         		  var cartnoArr = new Array();
-					 			
-	 	         		  $("input:checkbox[name=checkList]:checked").each(function(index,item){
-	 	         			
-	 	         			  var pnum= $(item).val();
-				 			  var cnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
-	 	         			  var cartno=$(item).parent().parent().parent().find("input.cartno").val();
-	 	         			
-	 	         			   pnumArr.push(pnum);
-	 	         			   oqtyArr.push(cnt);
-	 	         			   cartnoArr.push(cartno);
-	 	         			
-	 	         		  }); // end of each----------------------------
-				 		
-		 	              // 배열은 문자열로 합쳐서 보내기
-		 	              var str_pnum= pnumArr.join();
-		 	          	  var str_oqty= oqtyArr.join();
-		 	          	  var str_cartno= cartnoArr.join();
-		 	         	
-		 	          	location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+str_pnum+"&cnt="+str_oqty+"&cartno="+str_cartno;
-			 	          	  
-				 	} // end of else-------------------
-		 		}// end of else-----------------------	
-				
-			}// end of else------------------------------------------------------
-		
-		
+					 }); // end of each----------------------------
+					
+				     // 배열은 문자열로 합쳐서 보내기
+ 	                 var str_pnumArr= pnumArr.join();
+ 	          	     var str_cntArr= cntArr.join();
+ 	          	     var str_productnameArr= productnameArr.join();
+ 	          	     var str_pcolorArr= pcolorArr.join();
+ 	          	     var str_cartno= cartnoArr.join();
+ 	          	   
+	         	
+			 		$.ajax({ // 재고량체크
+			 			url: "<%=ctxPath%>/product/checkProductQty.cc",
+						type: "post",
+						data: {"str_pnumArr": str_pnumArr,"str_cntArr":str_cntArr,"str_productnameArr":str_productnameArr,"str_pcolorArr":str_pcolorArr},
+						dataType: "JSON",
+						success:function(json){
+							if(json.n==1){
+								alert(json.productname+"["+json.pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!")
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{
+				 	          	location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+str_pnumArr+"&cnt="+str_cntArr+"&cartno="+str_cartno;
+					          	return; 	
+							}
+						},
+						error: function(request, status, error){
+						    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+				     }); // end of $.ajax({---------------------
+ 	         		
+		 		}// end of else-----------------------
+			}// end of elseif------------------------------------------------------
 		}); // end of $("div#orderAll").click(function(){
-		
 		
 			
 		// 장바구니에서 전체제품 주문하기
@@ -504,9 +494,6 @@
 		
 		
 		}); // end of $("div#orderAll").click(function(){
-			
-			
-			
 			
 	}); // end of $(document).ready(function(){-------------------------
 

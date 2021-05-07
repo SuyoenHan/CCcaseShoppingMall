@@ -29,23 +29,29 @@ public class CheckProductQtyAction extends AbstractController {
 		}
 		else { // post방식
 			
-			String pnum= request.getParameter("pnum");
-			String cnt= request.getParameter("cnt");
-			int n=0;
+			String str_pnumArr= request.getParameter("str_pnumArr");
+			String str_cntArr= request.getParameter("str_cntArr");
+			String str_productnameArr= request.getParameter("str_productnameArr");
+			String str_pcolorArr= request.getParameter("str_pcolorArr");
+			
+			String[] pnumArr= str_pnumArr.split(",");
+			String[] cntArr= str_cntArr.split(",");
+			String[] productnameArr= str_productnameArr.split(",");
+			String[] pcolorArr= str_pcolorArr.split(",");
 			
 			InterProductDetailDAO pddao= new ProductDetailDAO();
-			int qty= pddao.getQtyByPnum(pnum);
-			
-			if(Integer.parseInt(cnt)<=qty) { // 주문수량보다 재고량이 더 많거나 같은 경우
-				n=1;
-			}
-			else {   // 주문수량보다 재고량이 적은경우
-				n=0;
-			}
-			
 			JSONObject jsonobject= new JSONObject();
-			jsonobject.put("n", n);
-			jsonobject.put("qty", qty);
+			
+			for(int i=0;i<pnumArr.length;i++) {
+				int qty= pddao.getQtyByPnum(pnumArr[i]);
+				if(Integer.parseInt(cntArr[i])>qty) { // 주문수량보다 재고량이 더 많거나 같은 경우
+				    jsonobject.put("n", 1);
+					jsonobject.put("productname", productnameArr[i]);
+				    jsonobject.put("pcolor", pcolorArr[i]);
+					jsonobject.put("qty", qty);
+					break;
+				}
+			}
 			
 			String json=jsonobject.toString();
 			request.setAttribute("json", json);
