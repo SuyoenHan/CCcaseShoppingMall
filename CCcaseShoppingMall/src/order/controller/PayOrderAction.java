@@ -43,7 +43,7 @@ public class PayOrderAction extends AbstractController {
 			
 			// 장바구니에서 여러개의 상품이 넘어온경우
 			if(cartno!=null && pnumArr.length!= 1) { 
-				
+				/*			
 				InterOrderDAO odao = new OrderDAO();
 				
 				List<Map<String,String>> list= new ArrayList<>();
@@ -54,7 +54,7 @@ public class PayOrderAction extends AbstractController {
 					list.add(paraMap);
 				}
 				이렇게 view단에 view ajax를 쓰잖아 => action data{
-				
+		*/		
 				
 				
 			}
