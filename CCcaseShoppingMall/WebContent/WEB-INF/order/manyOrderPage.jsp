@@ -8,21 +8,259 @@
    String ctxPath= request.getContextPath();
 %>
 
-<style>
+<style type="text/css">
+	
+	.contents {
+	   width: 100%;
+	   height: auto;
+	   background-color: #f9f9f9;
+	   padding-bottom: 100px;
+	   margin-bottom: 100px;
+	}
+	
+	.allProductInfo {
+	   width: 100%;
+	   height: auto;
+	   margin: 0 auto;
+	}
+	
+	.orderSec-left {
+	   margin-right: 50%;
+	   margin-left: 7%;
+	}
+	
+	.left-section-delivery-info {
+	   width: auto;
+	}
+	
+	.left-section {
+	   margin: 0px 0px 10px;
+	   padding: 30px 80px 80px 80px;
 
+	}
+	
+	.delivery-condition {
+	   position: relative;
+	}
+	
+	.delivery-condition-name {
+	   display: flex;
+	   justify-content: space-between;
+	}
+	
+	.delivery-condition-info {
+	   margin: 0;
+	   padding: 0;
+	   list-style: none;
+	   display: block;
+	}
+	
+	.delivery-request {
+	   margin: 25px 0 20px;
+	}
+	
+	.btn-request {
+	   display: flex;
+	   align-items: center;
+	   justify-content: space-between;
+	   flex-direction: row;
+	   width: 100%;
+	   padding: 13px 12px 11px;
+	   text-align: left;
+	   background-color: #f9f9f9;
+	}
+	
+	.btn-change-addr {
+	   position: absolute;
+	   top: 0;
+	   right: 0;
+	}
+	
+	.left-section-btn {
+	    padding: 8px 9px 6px 8px;
+	    border: 1px solid rgb(221, 221, 221);
+	    background: rgb(255, 255, 255);
+	    cursor: pointer;
+	}
+	
+	.delivery-user {
+	   position: relative;
+	    padding: 0 0 30px;
+	    border-bottom: 1px solid #ececec;
+	}
+	
+	.delivery-user-info {
+	   margin: 0;
+	   padding: 0;
+	   list-style: none;
+	}
+	
+	.info-type {
+	   display: inline-block;
+	   width: 50px;
+	   margin-right: 10px;
+	    font-size: 13px;
+	    font-weight: normal;
+	    color: #999;
+	}
+	
+	.info-value {
+	    font-weight: normal;
+	    color: #555;
+	}
+	
+	.btn-change-order {
+	   position: absolute;
+	    top: 40px;
+	    right: 0;
+	    padding: 8px 9px 6px 8px;
+	    border: 1px solid #ddd;
+	}
+	
+	.section-order-info {
+	   width: auto;
+	   background-color: #F9F9F9;
+	   border-top: 15px dashed #D8E4E4;
+	}
+	
+	.order-prod-list {
+	    margin: 0;
+	    padding: 0;
+	    border-bottom: 1px solid #111;
+	    list-style: none;
+	}
+	
+	.order-prod-info {
+	   display: flex;
+	    justify-content: flex-start;
+	    align-items: center;
+	    flex-direction: row;
+	    padding: 40px 0 40px 20px;
+	    border-top: 1px solid #ececec;
+	}
 
-th {
-   border:solid 1px black;
-   width:200px;
-}
-
-td {
-   border:solid 1px black;
-}
-
-td.wonga{
-	text-decoration: line-through;
-}
+	.order-prod-text {
+	   display: flex;
+	   width: 100%;
+	    justify-content: flex-start;
+	    align-items: flex-start;
+	    flex-direction: column;
+	    margin-left: 25px;
+	}
+	
+	.prod-name {
+	   margin: 0 0 10px;
+	    width: 100%;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    line-height: 1.6;
+	    text-decoration: none;
+	}
+	
+	.order-price-text {
+	    margin: 0;
+	    padding-top: 25px;
+	    display: flex;
+	    justify-content: flex-start;
+	    align-items: flex-end;
+	    flex-direction: column;
+	}
+	
+	.price-unit {
+	   margin-left: 3px;
+	}
+	
+	.section-payment-info {
+	   width: auto;
+	}
+	
+	.section-payment-info-title {
+	   border-bottom: 1px solid #ececec;
+	   padding-bottom: 20px;
+	   font-weight: 600;
+	}
+	
+	.payment-type-list {
+	   padding: 20px 0;
+	   margin: 0;
+	   list-style: none;
+	}
+	
+	.right-section-info {
+	   max-width: 634px;
+	   width: auto;
+	   margin: 0;
+	   margin-right: 70px;
+	}
+	
+	.right-section-price-info {
+	   background-color: #D5E2E2;
+	   position: relative;
+	   margin-right: 70px;
+	   padding: 50px;
+	   opacity: 0.9;
+	}
+	
+	.expected-price-list {
+	   padding: 20px 0;
+	   margin: 0;
+	   list-style: none;
+	}
+	
+	.expected-price-item {
+	   margin: 0;
+	   display: flex;
+	   justify-content: space-between;
+	   align-items: center;
+	}
+	
+	.total-expected-price {
+	    margin-top: 20px;
+	    margin-bottom: 50px;
+	    padding-top: 20px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	}
+	
+	button#totalpoint{
+		margin-left: 5px; 
+		background: #6D919C; 
+		border: none; 
+		color:white; 
+		border-radius: 2px; 
+		width: 80px; 
+		height: 25px;
+	}
+	
+	.btn-order {
+	   width: 100%;
+	   position: absolute;
+	   bottom: 0;
+	   left: 0;
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   height: 80px;
+	   color: white;
+	   background: #6D919C;
+	   border: none;
+	}
+	
+	.orderSec-right{
+		position: sticky;
+		top: 81%;
+		left: 50%;
+		width: 50%;
+	}
+	
+	.salestatus{
+		margin-top: 5%;
+		padding: 10px 10px 10px 10px;
+		background-color: rgba(255, 255, 255, 0.6);
+		width: 100%;
+	}
+	
 
 </style>
 
@@ -224,21 +462,38 @@ td.wonga{
         }); // end of $.ajax
 	 } // end of function goOrder
 
+	   $(window).on("scroll", function() {
+		      var scrollNow = window.scrollY;
+		     
+		     console.log(scrollNow);
+
+	         if(scrollNow < 1200) {
+	              $(".orderSec-right").css('position', 'fixed');
+	              $(".orderSec-right").css('top', '30%');
+	          } 
+	          if (scrollNow < 400){
+	              $(".orderSec-right").css('position', 'sticky');
+	              $(".orderSec-right").css('top', '30%');
+	           }
+
+		   });  
+	 
 </script>
     
 
-<div id="contents">
+<div class="contents">
    
-   <div>
-      <h3>주문/결제창</h3>
+   <div style="margin: 120px 0 0 50px;">
+      <h3 style="padding: 40px 0 40px 0; font-size: 30px; font-weight: bolder; color: #6D919C;">주문/결제</h3>
     </div>
 
-   <div id="allProductInfo">   
+   <div class="allProductInfo">   
       <!-- 상품 정보 시작 -->
-       <table style="margin-top:30px;">
+       <div class="section-order-info left-section">
+       <table class="table table-hover" style="margin-top:30px; border: 1px solid #B6B6B6; ">
             <thead>
                <tr>
-                  <th colspan="2">상품정보</th>
+                  <th colspan="2" style="text-align: center;">상품정보</th>
                   <th>판매가</th>
                   <th>수량</th>
                   <th>예상적립금</th>
@@ -251,19 +506,19 @@ td.wonga{
                <c:forEach var="productMap" items="${requestScope.orderPageList}">
                   <input type="hidden" class="fk_pnum" value="${productMap.pnum}"/>
                   <input type="hidden" class="cartno" value="${productMap.cartnoArr}"/>
-                  <tr>   
-                       <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${productMap.fk_productid} ><img src="<%= ctxPath%>/images/${productMap.pimage1}" width="80px" height="80px" /></a></td>
-                       <td style="width:130px;">${productMap.productname}</td>
-                       <td class="wonga"><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원</td>
-                       <td rowspan="2">${productMap.cntArr}개<input type="hidden" class="odqty" value="${productMap.cntArr}"/></td>
-                       <td rowspan="2">${productMap.oneExpectpoint}원</td>
-                       <td rowspan="2">
+                  <tr style="background-color: white; border-top: 0px;">   
+                       <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${productMap.fk_productid} ><img src="<%= ctxPath%>/images/${productMap.pimage1}" width="80px" height="80px"  style="border-radius: 20%; margin-left:5%;"/></a></td>
+                       <td width="15%">${productMap.productname}</td>
+                       <td class="wonga"  style="text-decoration: line-through; font-size: 12px; width: 8%"><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원</td>
+                       <td rowspan="2" style="vertical-align: middle;">${productMap.cntArr}개<input type="hidden" class="odqty" value="${productMap.cntArr}"/></td>
+                       <td rowspan="2" style="vertical-align: middle;">${productMap.oneExpectpoint}원</td>
+                       <td rowspan="2" style="vertical-align: middle;">
                            <c:choose>
                               <c:when test="${productMap.doption eq 0}">무료배송</c:when>
                               <c:when test="${productMap.doption eq 1}">기본배송</c:when>
                            </c:choose>
                        </td>
-                        <td rowspan="2" id="doption">
+                        <td rowspan="2" id="doption" style="vertical-align: middle;">
                            <c:choose>
                               <c:when test="${productMap.doption eq 0}">무료</c:when>
                               <c:when test="${productMap.doption eq 1}">3,000원</c:when>
@@ -271,9 +526,9 @@ td.wonga{
                         </td>
                     </tr>
                     
-                   <tr> 
-                      <td>옵션:&nbsp;${productMap.modelname}(${productMap.pcolor})</td>
-                      <td><fmt:formatNumber value="${productMap.saleprice}" pattern="#,###,###" />원<input type="hidden" class="saleprice" value="${productMap.saleprice}"/></td>
+                   <tr style="background-color: white;"> 
+                      <td width="15%">[옵션]&nbsp;${productMap.modelname}(${productMap.pcolor})</td>
+                      <td id="salePrice" style="font-size: 15px; font-weight: bolder; color: red;"><fmt:formatNumber value="${productMap.saleprice}" pattern="#,###,###" />원<input type="hidden" class="saleprice" value="${productMap.saleprice}"/></td>
                    </tr>
             </c:forEach>
             </tbody>
@@ -390,39 +645,41 @@ td.wonga{
             <div class="right-section-price-info">
                <h3>결제 금액</h3>
                <ul class="expected-price-list">
-                  <li>
-                     <span style="margin-right:265px">총 상품 금액</span>
-                     <span id="totalProPrice"><fmt:formatNumber value="${requestScope.totalProPrice}" type="number" pattern="#,###,###"/>원</span>
+                  <li class="expected-price-item">
+                     <span class="expected-price-title">총 상품 금액</span>
+                     <span style="font-weight: 600;"><fmt:formatNumber value="${requestScope.totalProPrice}" type="number" pattern="#,###,###"/>원</span>
                   </li>
                   <li class="expected-price-item">
                      <span class="expected-price-title">배송비</span>
-                     <span>
+                     <span style="font-weight: 600;">
                         <fmt:formatNumber value="${requestScope.allShipfee}" type="number" pattern="#,###,###"/>원
                      </span>
                   </li>
-                  <li class="expected-price-item">
-                     <input id="totalpoint" type="text" readonly="readonly" /><span>보유중 포인트: ${requestScope.totalpoint}원 </span> 
-                     <button id="totalpoint" type="button">포인트사용</button>
-                  </li>
-                  <li class="expected-price-item">
-                     <select id="coupon">
-                     	<option value="">쿠폰을 선택하세요.</option>
-                     	<c:forEach var="couponMap" items="${requestScope.couponList}">
-                     		<option value="${couponMap.cpno}">${couponMap.cpname}</option>
+                  <li class="salestatus">
+	                  	 <h4> 할인 및 포인트</h4><br>	
+	                     <span><span style="display:inline-block; width:10%;">포인트</span><input id="totalpoint" type="text" readonly="readonly" style="width: 150px;"/></span>
+	                  	 <button id="totalpoint" type="button" >전액 사용</button>
+						 <span>(보유중 포인트: ${requestScope.totalpoint}원) </span>
+						 <br><br>
+						 <span style="display:inline-block; width:10%;">쿠폰</span>
+                     	 <select id="coupon"> 	 
+                     	 <option value="">쿠폰을 선택하세요.</option>
+                     	 <c:forEach var="couponMap" items="${requestScope.couponList}">
+                     	  option value="${couponMap.cpno}">${couponMap.cpname}
                      	</c:forEach>
                      </select>                  
                   </li>
                </ul>
                <p class="total-expected-price">
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
-                  <span id="finalamount" style="font-weight:bolder; font-size:20pt" ></span>
+                  <span id="finalamount" style="font-weight:bolder; font-size:20pt;  color: red;" ></span>
                </p>
                <button class="btn-order" type="button">주문 완료하기</button>
             </div>
          </div>
       </div>
       <!-- 우측 결제정보 끝 -->
-     
+     </div>
 </div>    
 
 

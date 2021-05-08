@@ -252,7 +252,7 @@
 	}
 	
 	.orderSec-right{
-		position: absolute;
+		position: sticky;
 		top: 81%;
 		left: 50%;
 		width: 50%;
@@ -529,7 +529,7 @@
             <table class="table table-hover" style="margin-top:30px; border: 1px solid #B6B6B6; ">
                <thead>
                     <tr>
-                       <th colspan="2">상품정보</th>
+                       <th colspan="2" style="text-align: center;">상품정보</th>
                        <th>판매가</th>
                        <th>수량</th>
                        <th>적립금</th>
@@ -542,7 +542,7 @@
                <tr style="background-color: white; border-top: 0px;">
                   <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.para2Map.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.para2Map.pimage1}" width="80px" height="80px" style="border-radius: 20%; padding:5%;" /></a></td>
                         <td>${requestScope.para2Map.productname}</td>
-                        <td><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
+                        <td style="text-decoration: line-through; font-size: 12px;"><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
                         <td rowspan="2" style="vertical-align: middle;">${cnt}개</td>
                         <td rowspan="2" style="vertical-align: middle;">${requestScope.expectPoint}원</td>
                         <td rowspan="2" style="vertical-align: middle;">
@@ -560,8 +560,8 @@
                   </tr>
                   
                   <tr style="background-color: white;"> 
-                     <td>옵션:&nbsp;${requestScope.para2Map.modelname}(${requestScope.para2Map.pcolor})</td>
-                     <td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>                     
+                     <td>[옵션]&nbsp;${requestScope.para2Map.modelname}(${requestScope.para2Map.pcolor})</td>
+                     <td id="salePrice"  style="font-size: 15px; font-weight: bolder; color: red;"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>                     
                   </tr>
 
                </tbody>
@@ -623,7 +623,7 @@
                <!-- 새로운 배송지 -->
                <div class="newDelAddr" style="display: none;">
                   <div>
-                  <table class="delivery-input">
+                  <table>
                        <tr>
                           <td style="width: 20%; font-weight: bold;">수령인 이름</td>
                           <td style="width: 80%; text-align: left;"><input type="text" name="name" id="name" /></td>
@@ -702,7 +702,7 @@
                </ul>
                <p class="total-expected-price">
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
-                  <span id="finalamount" style="font-weight:bolder; font-size:20pt" ></span>
+                  <span id="finalamount" style="font-weight:bolder; font-size:20pt; color: red;" ></span>
                </p>
                <button class="btn-order" type="button">주문 완료하기</button>
             </div>
