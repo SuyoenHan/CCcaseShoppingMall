@@ -122,7 +122,7 @@
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 <jsp:include page="../../WEB-INF/header.jsp" />
 <jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
-
+<jsp:include page="../../WEB-INF/member/myPageHeader.jsp"/>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
