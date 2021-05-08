@@ -41,9 +41,28 @@
 	}
 	
 
+
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$.ajax({
+		url : "<%= request.getContextPath()%>/member/myPageHeader.cc", //데이터베이스에 접근해 현재페이지로 결과를 뿌려줄 페이지
+		data : {
+		"userid":"${sessionScope.loginuser.userid}" //dbGet.jsp페이지로 데이터를 보냄
+		},
+		dataType:"json",
+		success : function(json){ //DB접근 후 가져온 데이터
+			//console.log($.trim(item)); //jsp페이지 통째로 가져오다보니 공백을 자를 필요가 있음.
+			 $("div#coupon").html(json.acnt+"장");
+			 $("div#order").html(json.ocnt+"건");
+		}
+		});
+
+});
 
 
+</script>
 <div id="mypage">
 	<div id="myInfo">
 		<div id="myInfo1">
@@ -78,11 +97,16 @@
 					</td>
 				</tr>
 				<tr>
-					<td style="font-size: 13pt;text-align: center;"> 0 건 </td>
-					<td style="font-size: 13pt;text-align: center;"><a>${sessionScope.loginuser.totalpoint}</a>point</td>
-					<td style="font-size: 13pt;text-align: center;">1장</td>
+					<td style="font-size: 13pt;text-align: center;"><a href="<%= ctxPath %>/order/myOrderList.cc"><div id="order"></div></a></td>
+					<td style="font-size: 13pt;text-align: center;"><a>${sessionScope.loginuser.totalpoint}point</a></td>
+					<td style="font-size: 13pt;text-align: center;"><a href="<%= ctxPath %>/member/availableCoupon.cc"><div id="coupon">장</div></a></td>
 				</tr>
 			</table>
+
 		</div>
 	</div>
 </div>
+	<form action="<%= ctxPath%>/member/myPageHeader.cc" name="frm" >
+		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid}" />
+	</form>
+			
