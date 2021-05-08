@@ -267,8 +267,8 @@
             	<div id="text">기회는 단 한번! 안내면 진다 가위 바위 보 !</div>
             	<div id= "userSel" style="border:solid 0px gray; width:67%; margin:100px auto;">
             		<button type="button" class="userSel button" id="gawi" name="gawi" value="1" ><img src='/CCcaseShoppingMall/images/event/가위.png' style='width:100px; height:100px; margin:0px auto;' />가위</button>
-            		<button type="button" class="userSel button" id="bawi" name="bawi" value="2"><img src='/CCcaseShoppingMall/images/event/가위.png' style='width:100px; height:100px; margin:0px auto;' />바위 </button>
-            		<button type="button" class="userSel button" id="bo" name="bo" value="3"><img src='/CCcaseShoppingMall/images/event/가위.png' style='width:100px; height:100px; margin:0px auto;' />보 </button>
+            		<button type="button" class="userSel button" id="bawi" name="bawi" value="2"><img src='/CCcaseShoppingMall/images/event/주먹.png' style='width:100px; height:100px; margin:0px auto;' />바위 </button>
+            		<button type="button" class="userSel button" id="bo" name="bo" value="3"><img src='/CCcaseShoppingMall/images/event/보.png' style='width:100px; height:100px; margin:0px auto;' />보 </button>
             	</div>
             	<div id="pcSel" style=" width:30%; height:250px; margin:30px auto">[ PC 결과 ]</div>
             	

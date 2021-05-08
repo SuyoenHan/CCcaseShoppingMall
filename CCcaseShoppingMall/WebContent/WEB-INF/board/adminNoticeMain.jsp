@@ -20,7 +20,8 @@
     	margin-right: 35px ;
 		color: #333;
 		width:70%;
-		
+		height: 1200px;
+		overflow: visible;
 	}
 	
 	.container{
@@ -40,19 +41,12 @@
 	}
 
 	
-	table , tr {
-		border:solid 1px gray;
-		border-collapse: none;
-		line-height: 30px;
-	}
-	
 	button.button{
 	 width:80px;
 	 height:40px;
-	 margin-left: 35px;
+	 margin-left: 35px ;
 	 border:solid 1px #98B7C1;
      background-color: #98B7C1;
-    
 	}
 	
 	.button:hover{
@@ -60,22 +54,12 @@
 		color: white;
     	
 	}
-	
-	thead th {
-	
-		background-color: #8c8c8c;
-	}
-	
-     
-    .cal{
-    	font-weight: bold;
-    	font-size:16px;
-    	border: solid 1px gray;
-    	margin-left: 35px ;
-    	margin-right: 35px ;
-    	line-height: 40px;
-    	
+	 td{
+    	height: 35px;
+   		
     }
+     
+    
     .noticecontent{
     	background-color: #e6e6e6;
     	border: solid 1px gray; 
@@ -85,7 +69,7 @@
     }
     
     tr.noticeSimple{
-
+     
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -97,20 +81,32 @@
 	   transition: 2s;
     }
     tr.noticeSimple:hover{
-   	 background-color:  #ecf2f9 ;
+   		 background-color: #ecf2f9 !important;
     }
     
-    #noticeDetail{
-    	width:100%;
-    	border:solid 1px gray;
-    	
-    }
+ 
     div#notice{
-		background-color: #6D919C;
+		background-color: #6D919C ;
 	}
-	 div#notice:hover{
-		background-color: #CCF2F4;
-	}
+    div#notice:hover{
+    	background-color:#CCF2F4; 
+    }
+    
+    
+    tr#tr1{
+     	background-color: #6D919C !important;
+     	font-weight: bold;
+   		font-size: 18px;
+   		text-align: center;
+   		color: white;
+   		height: 40px;
+     	
+     }
+   
+   	table.noticeDetail{
+   		border-bottom: solid 1px #6D919C;
+   	}
+    
     
 </style>
   
@@ -147,21 +143,38 @@
 		$("tr.noticeSimple").click(function(event){
 			
 			if($(this).next().css('display')=="none"){
-				location.href="<%=ctxPath%>/board/noticeList.cc?currentShowPageNo=${currentShowPageNo}&sizePerPage=${sizePerPage}&noticeno="+$(this).next().prop("id");			
-			}
-			else{
-				$(this).next().css('display','none');
-			}
+				
+				   var $viewCount = $(this).find("#nviewcount");
+				   var noticeno = $(this).next().prop("id");
+					$.ajax({
+			    		  url:"<%= ctxPath%>/board/updateNoticeViewCount.cc",
+			    		  type:"post",
+			    		  data:{"noticeno": noticeno},
+			    		  dataType:"json",
+			    		  success:function(json){ // {"n":1}   {"n":0}
+			                      // 조회수 등록 성공 되어지면
+			                      var j = json.viewCount;
+			                      // console.log(j);
+			    		          $viewCount.text(j); 
+			                      
+			    			//	$(this).find("td#fnum").text(json.viewCount);
+			    			
+			    		  },
+			    		  error: function(request, status, error){
+			  	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			  	       	  }
+			    		
+					});
+					  $(this).next().css('display','');
 			
-		});
-		
-		//목록버튼 클릭했을 때
-		$("button.noticeList").click(function(){
+				
+				}
+				else{
+					$(this).next().css('display','none');
+				}
 			
-			//alert("목록클릭!");
-			location.href="<%=ctxPath%>/board/noticeList.cc";
 			
-		});
+		 });
 		
 		
 		
@@ -248,7 +261,7 @@
 		  <form name="noticeFrm">
 			<table class="table table-hover">
 				<thead>
-					<tr style="width:80%;">
+					<tr id="tr1"style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
 						<th>작성자</th>
@@ -270,7 +283,7 @@
 					</tr>
 					
 					<tr class="noticeDetail" id="${nvo.noticeno}">
-						<td colspan="4"> 
+						<td colspan="5"> 
 							<table id="noticeDetail">
 								<tr>
 									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp;<span>${nvo.ntitle}</span></div>
