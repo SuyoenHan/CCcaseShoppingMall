@@ -547,14 +547,13 @@
 </script>
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../productListLeftSide.jsp" />
 
-<div id="contents" style="margin: 80px 0px;">
+<div id="contents" style="margin: 80px 0px 80px 150px;">
 	<div style="margin-left:50px; width:50px; height:50px;" id="rightSide">
 			<img src="<%=ctxPath%>/images/product/goUpIcon.png" width="50px" height="50px" />
 	</div>
-	<div class="pdetail" id="pImg" style="width: 500px;">
-		<div id="primaryImg">
+	<div class="pdetail" id="pImg" style="width: 500px; border:solid 2px #e3e3e3;">
+		<div id="primaryImg" style="cursor:pointer;">
 			<img src="<%=ctxPath%>/images/${onePInfo.pimage1}" id="bigImg" width="495px" height="350px" />
 		</div>
 		<div>
@@ -576,13 +575,13 @@
 	</div>
 	
 	<div class="pdetail" id="pdetailInfo" style="margin-left: 50px; border:solid 2px #e3e3e3; padding: 40px 0px 0px 10px;">
-		<div class="pdetailTitle" align="center" style="color:blue;" id="${onePInfo.productname}">
+		<div class="pdetailTitle" align="center" style="color:#0033cc; font-weight:bold;" id="${onePInfo.productname}">
 			<div style="font-size:20px; margin-bottom:5px;">
 				[${onePInfo.cname}]&nbsp;[${onePInfo.modelname}]
 			</div>
 			${onePInfo.productname}
 		</div>
-		<div class="pdetailTitle" style="width: 90px; margin-left: 20px;">
+		<div class="pdetailTitle" style="width: 90px; margin-left: 20px; cursor:pointer;">
 			<img src="<%=ctxPath%>/images/product/heartIcon.png" width="70x" height="70px;" class="heart" />
 		</div>
 		<input type="hidden" id="productid" value="${onePInfo.productid}">
@@ -603,13 +602,13 @@
 				<tr>
 					<th>할인판매가</th>
 					<td>
-						<fmt:formatNumber value="${onePInfo.saleprice}" pattern="#,###,###" />원
+						<span style="color:red; font-weight:bold;"><fmt:formatNumber value="${onePInfo.saleprice}" pattern="#,###,###" />원</span>
 					</td>
 				</tr>
 				<tr>
 					<th>판매가</th>
 					<td>
-						<fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+						<span style="text-decoration: line-through;"><fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
 					</td>
 				</tr>
 			</c:if>
