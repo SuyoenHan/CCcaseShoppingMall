@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
 import my.util.Myutil;
 
 public class ReviewListAction extends AbstractController {

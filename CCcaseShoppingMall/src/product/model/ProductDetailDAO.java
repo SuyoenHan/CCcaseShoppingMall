@@ -194,25 +194,41 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		try {
 
 			conn = ds.getConnection();
-			String sql = " insert into tbl_pdetail(pnum,fk_productid,pname,pcolor,pqty,fk_snum,pcontent,pinputdate,doption) "+
-						 " values(?||'-'||seq_pdetail_pnum.nextval,?,?,?,?,?,?,?,?) ";
+			if(Integer.parseInt(pdetailmap.get("fk_snum"))!=-1) {
+				String sql = " insert into tbl_pdetail(pnum,fk_productid,pname,pcolor,pqty,fk_snum,pcontent,pinputdate,doption) "+
+							 " values(?||'-'||seq_pdetail_pnum.nextval,?,?,?,?,?,?,?,?) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pdetailmap.get("productid"));
+				pstmt.setString(2, pdetailmap.get("productid"));
+				pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
+				pstmt.setString(4, pdetailmap.get("pcolor"));
+				pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
+				pstmt.setInt(6, Integer.parseInt(pdetailmap.get("fk_snum")));
+				pstmt.setString(7, pdetailmap.get("pcontent"));
+				pstmt.setString(8, pdetailmap.get("pinputdate"));
+				pstmt.setInt(9, Integer.parseInt(pdetailmap.get("doption")));
+			}else {
+				String sql = " insert into tbl_pdetail(pnum,fk_productid,pname,pcolor,pqty,pcontent,pinputdate,doption) "+
+						 	 " values(?||'-'||seq_pdetail_pnum.nextval,?,?,?,?,?,?,?) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pdetailmap.get("productid"));
+				pstmt.setString(2, pdetailmap.get("productid"));
+				pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
+				pstmt.setString(4, pdetailmap.get("pcolor"));
+				pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
+				pstmt.setString(6, pdetailmap.get("pcontent"));
+				pstmt.setString(7, pdetailmap.get("pinputdate"));
+				pstmt.setInt(8, Integer.parseInt(pdetailmap.get("doption")));
+			}
 			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pdetailmap.get("productid"));
-			pstmt.setString(2, pdetailmap.get("productid"));
-			pstmt.setString(3, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
-			pstmt.setString(4, pdetailmap.get("pcolor"));
-			pstmt.setInt(5, Integer.parseInt(pdetailmap.get("pqty")));
-			pstmt.setInt(6, Integer.parseInt(pdetailmap.get("fk_snum")));
-			pstmt.setString(7, pdetailmap.get("pcontent"));
-			pstmt.setString(8, pdetailmap.get("pinputdate"));
-			pstmt.setInt(9, Integer.parseInt(pdetailmap.get("doption")));
 			
 			int n = pstmt.executeUpdate();
 			
 			if(n==1) {
 				
-				sql = " select seq_pdetail_pnum.currval "+
+				String sql = " select seq_pdetail_pnum.currval "+
 					  " from dual ";
 				
 				pstmt = conn.prepareStatement(sql);

@@ -26,7 +26,6 @@
 		text-decoration: none;
 		padding-top: 5px;
 	}
-
 	
 
 </style> 
@@ -34,7 +33,7 @@
 
  
  
-<div id="leftSide">
+<div id="leftSide" style="border-right: solid 2px #caceca;">
 	<div id="leftContainer">
 		
 		<div class="comLeftSection" id="faq">

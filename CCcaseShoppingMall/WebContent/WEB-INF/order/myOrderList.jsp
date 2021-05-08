@@ -57,7 +57,7 @@
 	 background-color: #98B7C1;
 	}
 	
-	tr#tr2{
+	tr#tr2 {
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -67,7 +67,13 @@
 	   font-weight:bold;
 	   font-size: 15px;
 	   transition: 2s;
+	   height:80px;
+	  
 	}
+	tr#tr2  > td {
+		 vertical-align:middle; 
+	}
+	
 	tr#tr2:hover{
 	   
    	 background-color:  #ecf2f9 ;
@@ -223,9 +229,9 @@
   	                  html +=  
   	                	  	   "<tr id='tr2'> "+
   				      		   "     <td> "+
-  							   "		<span><img src='/CCcaseShoppingMall/images/product/"+item.pimage1+"' name='pimage1'id='pimage1'style='width:55px; height:55px; float:left'/></span> "+ 
-  							   "		<span id='productname' name='productname'>"+item.productname+"</span>&nbsp;&nbsp;<span id='pcolor' name='pcolor'>"+item.pcolor+"</span><br>  "+             
-  							   " 		<span>옵션:&nbsp</span><span id='modelname' name='modelname'>"+item.modelname+"</span> "+
+  							   "		<span><img src='/CCcaseShoppingMall/images/"+item.pimage1+"' name='pimage1'id='pimage1'style='width:60px; height:60px; float:left'/></span> "+ 
+  							   "		&nbsp;&nbsp;<span id='productname' name='productname'>"+item.productname+"</span>&nbsp;&nbsp;<span id='pcolor' name='pcolor'>"+item.pcolor+"</span><br>  "+             
+  							   " 		&nbsp;&nbsp;<span>옵션:&nbsp</span><span id='modelname' name='modelname'>"+item.modelname+"</span> "+
   							   "     </td>	 "+
   							   "     <td id='orderdate' name='orderdate'>"+item.orderdate+"</td> "+
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
@@ -363,7 +369,7 @@
 <div id="contents" style="margin:20px 0px 0px 20px; width: 80%;">
 <form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
-	  <h2>[ <span name="userid" id= "userid" style="color:#6D919C;">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회(3개월) ]</span></h2>
+	  <h3>[ <span name="userid" id= "userid" style="color:#6D919C;">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회(3개월) ]</span></h3>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
 	  <table class="table table-hover" style="width: 95%;">
 	    

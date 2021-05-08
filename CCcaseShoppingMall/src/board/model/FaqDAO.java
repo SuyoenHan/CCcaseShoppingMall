@@ -1,8 +1,6 @@
 package board.model;
 
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.*;
 
@@ -358,6 +356,36 @@ public class FaqDAO implements InterFaqDAO {
 		return n;
 	}
 
+	
+	
+	///////////////////////////////// 백원빈 시작 ////////////////////////////////
+	
+	// FAQ글 갯수 알아오기
+	@Override
+	public int getFaqCnt() throws SQLException {
+		
+		int faqCnt = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " select count(*) "+
+						 " from tbl_faq ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				faqCnt=rs.getInt(1);
+			}
+			
+		} finally {
+			close();
+		}
+
+		return faqCnt;
+	}
+	///////////////////////////////// 백원빈 끝 ////////////////////////////////
 
 	
 	

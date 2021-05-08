@@ -63,6 +63,8 @@
 	
 	$(document).ready(function(){
 		
+		goLikeCnt();
+		
 		goBackURL = "${requestScope.goBackURL}"	;
 		goBackURL = goBackURL.replace(/ /gi, "&");
 		
@@ -75,7 +77,7 @@
 			var index = $(this).index();
 			obj.src = $(this).eq(index).src;
 		});
-		
+	
 		
 		
 	}); // end of $(document).ready(function(){})--------------------------------------
@@ -86,8 +88,10 @@
 			location.href="<%=ctxPath%>/board/reviewList.cc";
 	}
 	
+	
 	// **** 특정제품에 대한 좋아요 등록하기 **** // 
 	function goAddlike(reviewno) {
+		
 		if(${empty sessionScope.loginuser}) {
 			alert("도움이 돼요를 누르시려면 먼저 로그인 하셔야 합니다.");
 			return;
@@ -96,11 +100,12 @@
 		$.ajax({
 			url: "<%=ctxPath%>/board/likeAdd.cc",
 			type: "POST",
-			data: {"reviewno":reviewno},
+			data: {"userid":"${sessionScope.loginuser.userid}"
+						,"reviewno":reviewno},
 			dataType: "json",
 			success:function(json){
 				alert(json.msg);
-				goLikeCnt();
+				goLikeCnt(reviewno);
 			},
 			error: function(request, status, error) {
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -114,10 +119,10 @@
 		
 		$.ajax ({
 			url:"<%=ctxPath%>/board/likeCount.cc",
-			data:{"reviewno","${requestScope.reviewno}"},
+			data:{"reviewno": reviewno},
 			dataType:"json",
 			success:function(json) {
-				$("div#likeCnt").html(json.likecnt);
+				$("span#likeCnt").html(json.likecnt);
 			},
 			error: function(request,status,error){
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -127,14 +132,34 @@
 	}
 
 	function goProdDetail() {
-		var productid = "${requestScope.pvo.productid}";
+		var productid = "${requestScope.pdvo.fk_productid}";
 		var snum = "${requestScope.snum}";
 		location.href="<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL=${requestScope.goBackURL}"
 	}
 	
-	function goDelOneRev() {
+	// 리뷰 삭제하기
+	function goDelOneRev(reviewno) {
 		if(confirm("리뷰를 삭제하시겠습니까?")) {
-			location.href="<%=ctxPath%>/board/reviewDel.cc";
+			
+			$.ajax({
+				url:"<%=ctxPath%>/board/reviewDel.cc",
+				type:"post",
+				data:{"reviewno":reviewno},
+				dataType:"json",
+				success:function(json){
+					if(json.n == 1){
+						alert("리뷰를 삭제하였습니다.");
+						location.href="reviewList.cc";
+					}	
+				},
+				error: function(request, status, error) {
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+			
+		}
+		else {
+			alert("리뷰 삭제를 취소하셨습니다.");
 		}
 	}
 	
@@ -186,7 +211,7 @@
 		<br>
 		
 		<div id="reviewInfo" style="width: 700px; height: 700px;">
-			
+			<input type="hidden" id="satisfaction" name="satisfaction" value="${requestScope.rvo.satisfaction}"/>
 			<span id="rating" style="font-size: 15pt;">
 				<c:choose>
 					<c:when test="${requestScope.rvo.satisfaction eq '1'}">
@@ -208,16 +233,24 @@
 			</span>
 		
 				<div id="revBox">
+					<input type="hidden" id="fk_userid" name="fk_userid" value="${requestScope.rvo.fk_userid}"/>
 					<span style="font-weight:bold;">${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
 					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}">
-					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
+					<input type="hidden" id="rregisterdate" name="rregisterdate" value="${requestScope.rregisterdate}" />
+					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>	
+					<c:if test="${requestScope.rvo.rregisterdate ne requestScope.rvo.rupdatedate}">
+						<input type="hidden" id="rupdatedate" name="rupdatedate" value="${requestScope.rupdatedate}" />
+						<span>${requestScope.rvo.rupdatedate}&nbsp;|&nbsp;</span>	
+					</c:if>	
 					<span>${requestScope.rvo.rviewcount}</span><br><br>
+					<input type="hidden" id="rvtitle" name="rvtitle" value="${requestScope.rvo.rvtitle}"/>
 					<span style="font-size: 15pt; font-weight: bolder;">${requestScope.rvo.rvtitle}</span><br>
+					<input type="hidden" id="rvcontent" name="rvcontent" value="${requestScope.rvo.rvcontent}"/>
 					<p>${requestScope.rvo.rvcontent}</p>
 				</div>
 				<div id="ddabong" >
 					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #000);" onclick="goAddlike(${requestScope.reviewno})"/>&nbsp;&nbsp;
-					<div id="likeCnt" style="color:black; font-weight: bold;"></div>
+					<span id="likeCnt" style="color:black; font-weight: bold; font-size:15pt;"></span>
 				</div>
 			
 				<div id="btnRevList" style="float:right;">
@@ -225,7 +258,7 @@
 				<c:if test="${sessionScope.loginuser.userid eq requestScope.rvo.fk_userid}">	
 					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewEdit.cc'">수정</button><%-- 로그인 후에 보여질지 결정 --%>
 					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}"/>
-					<button type="button" onclick="goDelOneRev();">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
+					<button type="button" onclick="goDelOneRev(${requestScope.reviewno});">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
 				</c:if>	
 				</div>
 		</div>		

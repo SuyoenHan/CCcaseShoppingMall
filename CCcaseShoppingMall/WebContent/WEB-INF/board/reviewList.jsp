@@ -120,10 +120,7 @@
 		$("a.goDetail").click(function(){
 			var reviewno = $(this).prop('id');
 			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno="+reviewno;
-			
 		}); // end of $("button.btnReadMore").click(function(){-------------------
-		
-		
 		
 	});// end of $(document).ready(function(){})----------------------------------
 	
@@ -158,6 +155,7 @@
 			<c:forEach var="rvo" items="${requestScope.revList}">
 				<li style="display : inline;">
 					<c:if test="${rvo.reviewimage1 != null}">
+					<input type="hidden" name="satisfaction" id="satisfaction" value="${rvo.satisfaction}" />
 					<input type="hidden" name="reviewno" id="reviewno" value="${rvo.reviewno}"/>
 					<a id="${rvo.reviewno}" class="goDetail" style="margin-right: 18px;"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
 				</li>
@@ -182,14 +180,15 @@
 			<tbody>
 				<c:forEach var="rvo" items="${requestScope.revList}">
 				<tr class="reviewInfo">
-					<td style="vertical-align:middle; text-align: center;" class="reviewno" id="${rvo.reviewno}">
+					<td style="vertical-align:middle; text-align: center;" class="reviewno" id="${rvo.reviewno}">${rvo.reviewno}
 					<td style="vertical-align:middle; width:20%; text-align: left;">
 						<img src="../images/${rvo.pimage1}" style="width:200px; height:150px;">
 					</td>
 					<td class="rvtitle" style="text-align:left; vertical-align:middle;">
 						<span id="prodName" style="color: #737373; font-size: 10pt;">${rvo.fk_pname}</span><br><br>
 						<span style="font-weight:bold; font-size:14pt;">"${rvo.rvtitle}"</span><br>
-						<span style="font-size:10pt;">${rvo.rvcontent}</span>
+						<span style="font-size:10pt;">${rvo.rvcontent}</span>&nbsp;&nbsp;&nbsp;
+						<a class="readMore" style="font-style:italic;" href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno=${rvo.reviewno}">더보기</a>
 					</td>
 					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br>
 							${rvo.fk_userid}</td>

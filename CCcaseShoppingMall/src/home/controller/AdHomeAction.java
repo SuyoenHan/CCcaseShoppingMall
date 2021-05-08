@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import admin.model.*;
-import board.model.InterQnaDAO;
-import board.model.QnaDAO;
+import board.model.*;
 import common.controller.AbstractController;
 import product.model.*;
 
@@ -120,14 +119,25 @@ public class AdHomeAction extends AbstractController {
 		InterQnaDAO qdao = new QnaDAO();
 		
 		String sCntQna = " from tbl_qna ";
-		int cntQna = qdao.getCntQnaCmt(sCntQna);
+		int qnaCnt = qdao.getCntQnaCmt(sCntQna);
+		session.setAttribute("qnaCnt", qnaCnt);
 		
 		String sCntCmt = " from tbl_qna join tbl_qnacmt on qnano = fk_qnano ";
 		int cntCmt = qdao.getCntQnaCmt(sCntCmt);
 		
-		int noCmtCnt = cntQna - cntCmt;
+		int noCmtCnt = qnaCnt - cntCmt;
 		
 		session.setAttribute("noCmtCnt", noCmtCnt);
+		
+		// 공지사항 글 수
+		InterNoticeDAO indao = new NoticeDAO();
+		int noticeCnt = indao.getNoticeCnt();
+		session.setAttribute("noticeCnt", noticeCnt);
+		
+		// FAQ글수
+		InterFaqDAO ifdao = new FaqDAO();
+		int faqCnt = ifdao.getFaqCnt();
+		session.setAttribute("faqCnt", faqCnt);
 		
 		
 		

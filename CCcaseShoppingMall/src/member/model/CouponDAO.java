@@ -232,13 +232,45 @@ public class CouponDAO implements InterCouponDAO {
 
 		return cpdiscount;
 	}
-
 	
 
 	///////////////////// 백원빈 끝 /////////////////////////////
 
-	   
-	   
+	
+	// ==================== 한수연 시작 =========================
+	
+	// 이벤트로 발급된 쿠폰 insert 메소드 
+	@Override
+	public int insertCoupon(CouponVO cpvo) throws SQLException {
+
+		int n=0;
+		try {
+			conn=ds.getConnection();
+			String sql= " insert into tbl_coupon(cpno, fk_userid, cpstatus,cpcontent, cpname, cpdiscount) "+
+						" values (seq_coupon_cpno.nextval, ?, ?, ?, ?, ? ) ";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, cpvo.getFk_userid());
+			pstmt.setInt(2, cpvo.getCpstatus());
+			pstmt.setInt(3, cpvo.getCpcontent());
+			pstmt.setString(4, cpvo.getCpname());
+			pstmt.setDouble(5,Double.parseDouble(cpvo.getCpdiscount()));
+			
+			n= pstmt.executeUpdate();
+			
+		}finally{
+			close();
+		}
+		
+		return n;
+		
+		 /*
+		 	insert 성공 시 n==1
+		 	insert 실패 시 n==0
+		 */
+	}
+  
+	// ==================== 한수연 끝 =========================   
 }
 
 

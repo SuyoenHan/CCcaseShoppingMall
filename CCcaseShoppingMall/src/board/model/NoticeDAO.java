@@ -361,6 +361,34 @@ public class NoticeDAO implements InterNoticeDAO {
 			return n;
 		}
 
+		//////////////////////////////// 백원빈 시작 ////////////////////////////////////
+		// 공지사항 글 갯수 알아오기
+		@Override
+		public int getNoticeCnt() throws SQLException {
+			
+			int noticeCnt = 0;
+			
+			try {
+				
+				conn = ds.getConnection();
+				String sql = " select count(*) "+
+							 " from tbl_notice ";
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					noticeCnt=rs.getInt(1);
+				}
+				
+			} finally {
+				close();
+			}
+			
+			
+			return noticeCnt;
+		}
+		//////////////////////////////백원빈 시작 //////////////////////////////////////
 
 
 

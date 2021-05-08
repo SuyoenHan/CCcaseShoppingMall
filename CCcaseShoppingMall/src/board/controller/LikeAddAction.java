@@ -18,11 +18,16 @@ public class LikeAddAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String userid = request.getParameter("userid");
 		String reviewno = request.getParameter("reviewno");
+		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		paraMap.put("reviewno",reviewno);
 		
 		InterReviewDAO rdao = new ReviewDAO();
 		
-		int n = rdao.likeAdd(reviewno);
+		int n = rdao.likeAdd(paraMap);
 		
 		String msg = "";
 		

@@ -89,13 +89,13 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewno, pimage1, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+			String sql = " select reviewno, pimage1, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount, satisfaction"+
 					" from "+
 					" ( "+
-					" select rno, reviewno, pimage1, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount "+
+					" select rno, reviewno, pimage1, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, rviewcount, satisfaction "+
 					" from "+
 					" ( "+
-					" select rownum as rno, pimage1, reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount "+
+					" select rownum as rno, pimage1, reviewno, fk_userid, reviewimage1, fk_pname, rvtitle, rvcontent, rregisterdate, rviewcount, satisfaction"+
 					" from tbl_review R "+
 					" JOIN tbl_product P "+
 					" ON R.fk_pname = P. productname "+
@@ -145,6 +145,7 @@ public class ReviewDAO implements InterReviewDAO {
 				 rvo.setRvcontent(rs.getString(7));
 				 rvo.setRregisterdate(rs.getString(8));
 				 rvo.setRviewcount(rs.getInt(9));
+				 rvo.setSatisfaction(rs.getInt(10));
 				 
 				 revList.add(rvo);
 				 
@@ -194,7 +195,7 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select rvtitle, rvcontent, fk_pname,  reviewimage1, reviewimage2, reviewimage3, "
-							+ " to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate, rviewcount, fk_userid, fk_odetailno "
+							+ " to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate, rviewcount, fk_userid, fk_odetailno, satisfaction "
 							+ " from tbl_review "
 							+ " where reviewno = ? ";
 			
@@ -217,7 +218,7 @@ public class ReviewDAO implements InterReviewDAO {
 				rvo.setRviewcount(rs.getInt(9));
 				rvo.setFk_userid(rs.getString(10));
 				rvo.setFk_odetailno(rs.getString(11));
-				
+				rvo.setSatisfaction(rs.getInt(12));
 			}
 			
 		} finally {
@@ -256,48 +257,11 @@ public class ReviewDAO implements InterReviewDAO {
 		} finally {
 			close();
 		}
-		
 		return n;
 	}
 	
 	//리뷰 글내용 수정을 위해 하나의 리뷰를 select해오기
-		@Override
-		public ReviewVO revEditOneView(String reviewno) throws SQLException {
-			
-			ReviewVO rvo = null;
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " select reviewno, rvtitle, satisfaction, rvcontent, reviewimage1, reviewimage2, reviewimage3 "
-								+ " from tbl_review"
-								+ " where reviewno = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, reviewno);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					
-					rvo = new ReviewVO();
-					
-					rvo.setReviewno(rs.getInt(1));
-					rvo.setRvtitle(rs.getString(2));
-					rvo.setSatisfaction(rs.getInt(3));
-					rvo.setRvcontent(rs.getString(4));
-					rvo.setReviewimage1(rs.getString(5));
-					rvo.setReviewimage2(rs.getString(6));
-					rvo.setReviewimage3(rs.getString(7));
-					
-				}
-				
-			} finally {
-				close();
-			}
-			
-			return rvo;
-		}
+	
 	
 	// 리뷰 내용 수정하기(update)
 	@Override
@@ -578,17 +542,18 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// 특정 회원이 특정 리뷰에 대해 도움이돼요 투표하기(insert) 
 	@Override
-	public int likeAdd(String reviewno) throws SQLException {
+	public int likeAdd(Map<String, String> paraMap) throws SQLException {
 		int n = 0;
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_likecnt(fk_reviewno, likecount) "
-							+ " values(?, 1) ";
+			String sql = " insert into tbl_likecnt(fk_reviewno, fk_userid) "
+							+ " values(?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reviewno);
+			pstmt.setString(1, paraMap.get("reviewno"));
+			pstmt.setString(2, paraMap.get("userid"));
 			
 			n = pstmt.executeUpdate();
 			
@@ -615,11 +580,10 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select "
-							+ " (select count(*) "
-							+ " from tbl likecnt "
-							+ " where reviewno = ?) as likecnt "
-							+ " from dual ";
+			String sql = " select totalCnt from "
+							+ " (select count(*) as totalCnt "
+							+ " from tbl_likecnt "
+							+ " where fk_reviewno = ?) A ";
 							 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reviewno);
@@ -711,45 +675,20 @@ public class ReviewDAO implements InterReviewDAO {
 		return rvo;
 	}
 	
-	// 리뷰번호 채번 해오기
-	@Override
-	public int getReviewno() throws SQLException {
-		int reviewno = 0;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select seq_review_reviewno.nextval as reviewno "
-							+ " from dual ";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			
-			rs.next();
-			reviewno = rs.getInt(1);
-			
-			
-		} finally {
-			close();
-		}
-		return reviewno;
-	}
-	
 	// tbl_review 테이블에 제품의 추가 이미지 파일명 update 해주기
 	@Override
-	public int review_imagefile_Insert(int reviewno, String attachFileName) throws SQLException {
+	public int review_imagefile_Insert(String fk_odetailno, String attachFileName) throws SQLException {
 		int result = 0;
 		
 		try {
 			conn = ds.getConnection();
 			
 			String sql = " update tbl_review set reviewimage1 = ? "
-							+ " where reviewno = ? ";
+							+ " where fk_odetailno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, attachFileName);
-			pstmt.setInt(2, reviewno);
+			pstmt.setInt(2, Integer.parseInt(fk_odetailno));
 			
 			result = pstmt.executeUpdate();
 			

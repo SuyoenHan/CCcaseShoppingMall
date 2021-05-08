@@ -24,8 +24,8 @@ public interface InterReviewDAO {
 	// tbl_review 테이블에 리뷰정보 insert 하기
 	int reviewInsert(ReviewVO rvo) throws SQLException;
 
-	// 리뷰 글내용 수정을 위해 하나의 리뷰를 select해오기
-	ReviewVO revEditOneView(String reviewno) throws SQLException;
+	// 리뷰 수정 내용 업데이트 하기 
+	// int revEditOneView(String reviewno) throws SQLException;
 	
 	// 리뷰 글내용 수정하기(update)
 	int revEditUpdate(ReviewVO rvo) throws SQLException;
@@ -52,7 +52,7 @@ public interface InterReviewDAO {
 	ProductVO selectProduct(String reviewno) throws SQLException;
 	
 	// 특정 회원이 특정 리뷰에 대해 도움이돼요 투표하기(insert) 
-	int likeAdd(String reviewno) throws SQLException;
+	int likeAdd(Map<String, String> paraMap) throws SQLException;
 	
 	// 특정 리뷰에 대한 도움이 돼요 투표 결과(select)
 	int getLikeCnt(String reviewno) throws SQLException;
@@ -62,12 +62,9 @@ public interface InterReviewDAO {
 	
 	// 쓰여진 리뷰 내용 받아오기
 	ReviewVO getReviewContents(String userid, String reviewno) throws SQLException;
-
-	// 리뷰번호 채번 해오기
-	int getReviewno() throws SQLException;
 	
 	// tbl_review 테이블에 제품의 추가 이미지 파일명 update 해주기
-	int review_imagefile_Insert(int reviewno, String attachFileName) throws SQLException;
+	int review_imagefile_Insert(String fk_odetailno, String attachFileName) throws SQLException;
 
 	// 리뷰 목록을 조회해오기
 	List<ReviewVO> selectRevList() throws SQLException;

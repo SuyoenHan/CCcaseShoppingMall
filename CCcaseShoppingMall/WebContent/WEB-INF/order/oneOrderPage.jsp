@@ -14,6 +14,12 @@
 
 <style type="text/css">
 	
+	/* 백원빈 아래 td#price 추가 */
+	
+	td#price{
+		text-decoration: line-through;
+	}
+	
 	.contents {
 	   width: 100%;
 	   height: auto;
@@ -277,23 +283,77 @@
       $("span.error").hide();
             
       //판매가 계산하기
-      var price = Number(${requestScope.paraMap.price});      
-      var salepercent = Number(${requestScope.paraMap.salepercent});
-      var saleprice = Number(price*(1-salepercent));
-      var finalamount =  ${requestScope.totalProPrice} + ${requestScope.shipfee};
-     
+      var price = Number(${requestScope.paraMap.price});   //원가    
+      var salepercent = Number(${requestScope.paraMap.salepercent}); // 할인율
+      var saleprice = Number(price*(1-salepercent));                 // 판매가
+      var shipfee = Number(${requestScope.shipfee});
+      var totalProPrice = Number(${requestScope.totalProPrice});   // 총상품가격(판매가*수량)
+      var finalamount =  totalProPrice + shipfee;
+      var qUsepoint = $("input#totalpoint").val(); 	
           
-      // 예상 총계산액
+      // 예상 총결제액
       $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
       
-      if(salepercent==0){
       
-         $("td#saleprice").text(price);
-      }
-      else{
-         $("td#saleprice").text(price);
-      }
-       
+     // 쿠폰선택했을시 할인률 적용해주기
+      $("select#coupon").bind('change',function(){
+    	
+    	var cpno = $(this).val();
+    	
+    	// console.log($(this).val());
+    	if(cpno!=""){
+    		
+    		$.ajax({
+    			url:"<%= ctxPath%>/order/getCouponSale.cc",
+    			type:"post",
+    			data:{"cpno":cpno},
+    			dataType:"json",
+    			success:function(json){
+  	              
+    				var cpdiscount = Number(json.cpdiscount);
+    				// console.log(cpdiscount);
+    				
+    				if($("input#totalpoint").val()==""){
+    					totalProPrice = Number("${requestScope.totalProPrice}");
+    					totalProPrice = parseInt(totalProPrice*(1-cpdiscount));
+    					finalamount=totalProPrice+shipfee;
+    					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+    					
+    				}
+    				else{
+    					totalProPrice = Number("${requestScope.totalProPrice}");
+    					totalProPrice = parseInt(totalProPrice*(1-cpdiscount));
+    					finalamount=totalProPrice+shipfee-Number($("input#totalpoint").val());
+    					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+    					
+    				}
+  	             
+  	           },
+  	           error: function(request, status, error){
+  	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+  	                } 
+
+          }); // end of $.ajax
+    		
+    	}// end of if 
+    	else{
+    		if($("input#totalpoint").val()==""){
+    			totalProPrice = Number("${requestScope.totalProPrice}");
+				finalamount=totalProPrice+shipfee;
+				$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+				
+			}
+			else{
+				totalProPrice = Number("${requestScope.totalProPrice}");
+				finalamount=totalProPrice+shipfee-Number($("input#totalpoint").val());
+				$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+				
+			}
+    	}
+    	
+    	
+    }); // end of $("select#coupon").bind('change',function(){
+	  
       // 전화번호 유효성검사
        $("input#hp2").blur(function(){
           
@@ -344,8 +404,8 @@
        
           
           // 우편번호 유효성 검사 
-       $("img#zipcodeSearch").click(function(){
-          new daum.Postcode({
+       	$("img#zipcodeSearch").click(function(){
+         	 new daum.Postcode({
                 oncomplete: function(data) {
                     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
@@ -396,48 +456,52 @@
           
           if("${requestScope.totalpoint}"==0){
              alert("보유중인 포인트가 없습니다.");
+             qUsepoint = 0;
              return;
           }
           else{
-             $("input#totalpoint").val("${requestScope.totalpoint}");
-          }
-          
-          finalamount = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
+             $("input#totalpoint").val(Number("${requestScope.totalpoint}"));
+             qUsepoint=Number("${requestScope.totalpoint}");
+             finalamount= finalamount-Number(qUsepoint);
              $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+          }
             
       }); // end of $("button#totalpoint").click(function(){})---------------------------
        
-       // ?? 위치 헷갈림 일단 여기 두기로 ??   
+ 
        // 결제 버튼 처리 
-          $("button.btn-order").click(function(){
-              sessionStorage.setItem('finalamount', $("span#finalamount").val());
-                
-                // 아임포트 결제 팝업창 띄우기
-                var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
+      $("button.btn-order").click(function(){
+    	  
+          sessionStorage.setItem('finalamount', finalamount);
+            
+            // 아임포트 결제 팝업창 띄우기
+          var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
 
-                window.open(url, "orderSuccess",
+          window.open(url, "orderSuccess",
                                 	 "left=350px, top=100px, width=800px, height=570px");      
       }); // end of  $("button.btn-order").click(function(){})---------------------------
-       
-    });     
-   // end of $(document).ready(function(){})----------------------------------------------
+      
+      
+      $(window).on("scroll", function() {
+          var scrollNow = window.scrollY;
+         
+         console.log(scrollNow);
+
+              if(scrollNow < 900) {
+                  $(".orderSec-right").css('position', 'fixed');
+                  $(".orderSec-right").css('top', '30%');
+              } 
+              if (scrollNow <300){
+                  $(".orderSec-right").css('position', 'sticky');
+                  $(".orderSec-right").css('top', '30%');
+               }
+
+       });  
+      
+    }); // end of $(document).ready(function(){})----------------------------------------------
    
   
-   $(window).on("scroll", function() {
-      var scrollNow = window.scrollY;
-     
-     console.log(scrollNow);
-
-          if(scrollNow < 900) {
-              $(".orderSec-right").css('position', 'fixed');
-              $(".orderSec-right").css('top', '30%');
-          } 
-          if (scrollNow <300){
-              $(".orderSec-right").css('position', 'sticky');
-              $(".orderSec-right").css('top', '30%');
-           }
-
-   });  
+  
 
     // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
     function setDisplay(){
@@ -478,7 +542,7 @@
 		if(qUsepoint==""){
 			qUsepoint = 0;
 		}
-		var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
+	//	var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
         var pnum = "${requestScope.para2Map.pnum}";       // 제품번호
 		var odqty = "${requestScope.cnt}"; // 주문량
 		var pdetailprice = parseInt("${requestScope.saleprice}");
@@ -543,6 +607,7 @@
                   <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.para2Map.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.para2Map.pimage1}" width="80px" height="80px" style="border-radius: 20%; padding:5%;" /></a></td>
                         <td>${requestScope.para2Map.productname}</td>
                         <td style="text-decoration: line-through; font-size: 12px;"><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
+                        <td id="price"><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
                         <td rowspan="2" style="vertical-align: middle;">${cnt}개</td>
                         <td rowspan="2" style="vertical-align: middle;">${requestScope.expectPoint}원</td>
                         <td rowspan="2" style="vertical-align: middle;">
@@ -694,10 +759,18 @@
                      <span style="font-weight: 600;"><fmt:formatNumber value="${requestScope.shipfee}" type="number" pattern="#,###,###"/>원</span>
                   </li>
                   <li class="salestatus">
-	                  	 <h4> 할인 및 포인트</h4>	
+	                  	 <h4>포인트</h4>	
 	                     <span><input id="totalpoint" type="text" readonly="readonly" style="width: 150px;"/></span>
 	                  	 <button id="totalpoint" type="button" >전액 사용</button>
 						 <span>(보유중 포인트: ${requestScope.totalpoint}원) </span>
+                  </li>
+                  <li class="expected-price-item">
+                     <select id="coupon">
+                     	<option value="">쿠폰을 선택하세요.</option>
+                     	<c:forEach var="couponMap" items="${requestScope.couponList}">
+                     		<option value="${couponMap.cpno}">${couponMap.cpname}</option>
+                     	</c:forEach>
+                     </select>                  
                   </li>
                </ul>
                <p class="total-expected-price">

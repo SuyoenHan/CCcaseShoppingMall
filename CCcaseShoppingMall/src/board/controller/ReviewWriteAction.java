@@ -23,7 +23,7 @@ public class ReviewWriteAction extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if(loginuser != null) {
+		if(loginuser != null ) {
 		
 			String method = request.getMethod();
 		
@@ -50,7 +50,6 @@ public class ReviewWriteAction extends AbstractController {
 				// cos.jar 라이브러리에서 제공하는 MultipartRequest 객체의 getFilesystemName("form에서의 첨부파일 name명") 메소드를 사용 한다. 
 				// 이때 업로드 된 파일이 없는 경우에는 null을 반환한다.		  
 				
-				
 					String rvtitle = mtrequest.getParameter("rvtitle");
 					String satisfaction = mtrequest.getParameter("satisfaction");
 					String reviewimage1 = mtrequest.getParameter("reviewimage1");
@@ -67,17 +66,17 @@ public class ReviewWriteAction extends AbstractController {
 				
 				InterReviewDAO rdao = new ReviewDAO();
 				
-				int reviewno = rdao.getReviewno(); // 리뷰번호 채번 해오기
+				String fk_odetailno = request.getParameter("odetailno");
 				
 				ReviewVO rvo = new ReviewVO();
-				rvo.setReviewno(reviewno);
 				rvo.setRvtitle(rvtitle);
 				rvo.setSatisfaction(Integer.parseInt(satisfaction));
 				rvo.setReviewimage1(reviewimage1);
 				rvo.setReviewimage2(reviewimage2);
 				rvo.setReviewimage3(reviewimage3);
 				rvo.setRvcontent(rvcontent);
-								
+				rvo.setFk_odetailno(fk_odetailno);
+				
 				// tbl_review 테이블에 제품정보 insert 하기
 				int n = rdao.reviewInsert(rvo);
 				
@@ -95,7 +94,7 @@ public class ReviewWriteAction extends AbstractController {
 				for(int i=0; i<attachCount; i++) {
 					String attachFileName = mtrequest.getFilesystemName("attach"+i);
 					
-					m = rdao.review_imagefile_Insert(reviewno, attachFileName);
+					m = rdao.review_imagefile_Insert(fk_odetailno, attachFileName);
 					
 					if(m == 0) break;
 				}// end of for-------------------------------------
