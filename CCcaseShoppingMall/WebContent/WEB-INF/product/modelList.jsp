@@ -21,11 +21,11 @@
 	}
 	
 	div#cname{
+		background-color: #94b0b8;
+		color: #fff;
 		margin-top:50px;
 		font-size: 20pt;
 		font-weight: bold;
-		background-color: #2c302c;
-		color: #fff;
 		width: 220px;
 		border-radius: 5%;
 		text-align: center;
@@ -35,17 +35,16 @@
 	
 	div#ImgBox{
 		clear: both;
-		border: solid 0px red;
+		border: solid 0px red; 
 		padding-top: 50px;
 		padding-left: 50px;
 	}
 	
 	div.cp {
-		border: solid 0px green;
-		background-color: #fff;
+		background-color: #f0f4f5;
+		border-radius: 10%;
 		width: 230px;
 		height: 40px;
-		border-radius: 10%;
 		text-align: center;
 		padding-top: 7px;
 		font-weight: bold;
@@ -61,7 +60,9 @@
 	}
 	
 	table.modeltable tr:hover{
-		background-color: #ffffcc;
+		background-color: #e1e8ea;
+		font-weight: bold;
+		cursor: pointer;
 		font-weight: bold;
 	}
 	
@@ -99,6 +100,13 @@
 		}); // end of $("button.case").each(function(){----------
 		
 		
+		if("${cnum}"=="2"){
+			$("div#ImgBox").html('<img src="<%=ctxPath%>/images/homeMain/homeMain4.png" id="menuClickImg" width="950px" height="300px;" />')
+		}
+			
+		if("${cnum}"=="3"){
+			$("div#ImgBox").html('<img src="<%=ctxPath%>/images/homeMain/homeMain.jpg" id="menuClickImg" width="950px" height="300px;" />')
+		}	
 		
 		
 	}); // end of $(document).ready(function(){----------------------
@@ -107,10 +115,9 @@
 </script>
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../leftSide.jsp" />
 
 
-<div id="contents" style="background-color: #f2f2f2;">
+<div id="contents" style="background-color: #fff; border: solid 2px #e1e1db; margin: 0px 0px 80px 250px;">
 	
 	<div class="menuModel" id="cname">${cname}</div>
 	
@@ -173,7 +180,7 @@
 	</div>
 	
 	<div id="ImgBox" style="margin-bottom: 50px;">
-		<img src="<%=ctxPath%>/images/product/menuClickImg.png" id="menuClickImg" width="950px"/>
+		<img src="<%=ctxPath%>/images/homeMain/homeMain3.jpg" id="menuClickImg" width="950px" height="300px;" />
 	</div>
 </div> 
 

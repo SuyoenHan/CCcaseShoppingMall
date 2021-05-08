@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>관리자페이지</title>
+<title>CCcase 관리자페이지</title>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 
@@ -27,18 +27,21 @@
 	}
 	
 	button.menuEach{
-		background-color: #d6d6c2;
+		background-color: #fff;
 		border: none;
+		border-bottom: solid 2px #6d919c;		
 		text-align: center;
-		width: 120px;
-		height: 80px;
+		width: 140px;
+		height: 50px;
+		cursor: pointer;
+		font-size:12pt;
 	}
 	
 	div.menuSort{
 		display: none;
 		margin-top: 15px;
 		padding-left: 10px;
-		background-color: #e1e1db;
+		background-color: #fff;
 		border: solid 1px #e1e1db;
 	}
 	
@@ -47,18 +50,18 @@
 	}
 	
 	div.menuEachContainer:hover > button.menuEach{
-		background-color: #33ccff;
-		color: #fff;
+		background-color: #e1e8ea;
+		font-weight: bold;
+		cursor: pointer;
 	}
 	
 	button.loginSection:hover {
 		background-color: #33ccff;
-		color: black;
 	}
 	
 	button#logout{
 		border: solid 0px blue;
-		background-color: #f2f2f2;
+		background-color: #f0f4f5;
 		display: inline-block;
 		font-size: 10pt;
 		width: 175px;
@@ -66,18 +69,25 @@
 		margin-top: 15px;
 		margin-left: 5px;
 		text-align: center;
+		cursor: pointer;
 	}
 	
 	button#logout:hover{
-		background-color: #33ccff;
-		color: black;
+		background-color: #b4c6cb;
+		font-weight: bold;
 	}
 
 	div.menuSort span{
 		border: solid 0px red;
 		display: inline-block;
 		width: 100px;
-		margin-left:5px;
+		margin-left:10px;
+		margin-bottom: 8px;
+	}
+	
+	div.menuSort span:hover{
+		background-color: #b4c6cb;
+		cursor: pointer;
 	}
 	
 	span.dropMenu{
@@ -93,21 +103,29 @@
 	
 	button.loginSection{
 		border: solid 0px blue;
-		background-color: #f2f2f2;
+		background-color:  #f0f4f5;
 		display: inline-block;
 		font-size: 10pt;
 		width: 170px !important;
 		height: 40px;
-		margin-top: 15px;
+		margin-top: 5px;
 		margin-left: 5px;
 		text-align: center;
+		cursor: pointer;
 	}
 	
 	button.loginSection:hover {
-		background-color: #33ccff;
-		color: black;
+		background-color: #b4c6cb;
+		cursor: pointer;
+		font-weight: bold;
 	}
 	
+	img#logoImg{
+		position: relative;
+		top:10px;
+		left:20px;
+		cursor: pointer;
+	}
 
 	
 </style>
@@ -155,32 +173,32 @@
 	<div id="container">
 	
 		<div id="logo">
-			<img id="logo" src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="170" height="80" />
+			<img id="logo" src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="180" height="100" id="logoImg" />
 		</div>
 		
 		<div id="mainMenu">
 		
-			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 300px;">
+			<div class="menuEachContainer" style="position:absolute; top: 80px; left: 300px;">
 				<button type="button" class="menuEach case" onclick="location.href='<%= ctxPath%>/admin/productRegister.cc';">상품등록</button>
 	  		</div>
 	  		
-	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 470px;">
+	  		<div class="menuEachContainer" style="position:absolute; top: 80px; left: 470px;">
 				<button type="button" class="menuEach case" onclick="location.href='<%= ctxPath%>/admin/productmanage.cc'">상품관리</button>
 	  		</div>
 			
 	  		
-			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 640px;">
+			<div class="menuEachContainer" style="position:absolute; top: 80px; left: 640px;">
 				<button type="button" class="menuEach case" onclick="location.href='<%= ctxPath%>/admin/memberList.cc';">회원조회</button>
 	  		</div>
 			
-			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 810px;">
+			<div class="menuEachContainer" style="position:absolute; top: 80px; left: 810px;">
 				<button type="button" class="menuEach case" onclick="location.href='<%= ctxPath%>/admin/changeRefund.cc'">교환 및 환불관리</button>
 	  		</div>
 			
-			<div class="menuEachContainer" style="position:absolute; top: 50px; left: 980px;">
+			<div class="menuEachContainer" style="position:absolute; top: 80px; left: 980px;">
 				<button type="button" class="menuEach case">게시물관리</button>
 				<div class="menuSort">
-					<span class="dropMenu" onclick="location.href='<%= ctxPath%>/board/faqList.cc';">FAQ관리</span>
+					<span class="dropMenu" onclick="location.href='<%= ctxPath%>/board/faqList.cc';" style="margin-top: 8px;">FAQ관리</span>
 					<span class="dropMenu" onclick="location.href='<%= ctxPath%>/board/qnaList.cc';">QNA관리</span>
 					<span class="dropMenu" onclick="location.href='<%= ctxPath%>/board/noticeList.cc';">공지사항관리</span>
 					<span class="dropMenu" onclick="location.href='<%= ctxPath%>/board/eventList.cc';">이벤트관리</span>
@@ -192,10 +210,10 @@
 		<div id="login">
 			<div>
 				<c:if test="${empty sessionScope.adminUser}">
-				<button type="button" class="loginSection" id="login">로그인</button>
+				<button type="button" class="loginSection" id="login" style="margin-top: 20px;">로그인</button>
 				</c:if>
 				<c:if test="${not empty sessionScope.adminUser}">
-				<button type="button" class="loginSection" id="logout">로그아웃</button>
+				<button type="button" class="loginSection" id="logout" style="margin-top: 20px;">로그아웃</button>
 				</c:if>
 			</div>
 			<div>

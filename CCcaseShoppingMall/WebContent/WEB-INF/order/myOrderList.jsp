@@ -350,7 +350,7 @@
 <div id="contents" style="margin:20px 0px 0px 20px; width: 80%;">
 <form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
-	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회</span></h2>
+	  <h2>[ <span name="userid" id= "userid" style="color:#6D919C;">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회(3개월) ]</span></h2>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
 	  <table class="table table-hover" style="width: 95%;">
 	    
