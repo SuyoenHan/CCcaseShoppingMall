@@ -18,37 +18,41 @@ public class ReviewDelAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			
-		try {		
+		String method = request.getMethod();
+		
+		
+		if("GET".equalsIgnoreCase(method)) {
+			 // GET 방식이라면
+	         
+	         String message = "비정상적인 경로로 들어왔습니다";
+	         String loc = "javascript:history.back()";
+	         
+	         request.setAttribute("message", message);
+	         request.setAttribute("loc", loc);
+	         
+	         super.setViewPage("/WEB-INF/msg.jsp");
+	         return;
+		}
+		else if("POST".equalsIgnoreCase(method) && super.checkLogin(request)){
+				
+			String reviewno = request.getParameter("reviewno");
+				
 				InterReviewDAO rdao = new ReviewDAO();
-				String reviewno = request.getParameter("reviewno");
 				
 				int n = rdao.revDeleteOne(reviewno);
 				
-				String message= "";
-				String loc = "";
+				JSONObject jsobj = new JSONObject();
+				jsobj.put("n", n);
 				
-				System.out.println(reviewno);
-				System.out.println(n);
+				String json = jsobj.toString();
 				
-				if(n==1) {
-					message = "삭제되었습니다.";
-					loc=request.getContextPath() + "/board/reviewList.cc"; // 
-				}
-				else {
-					message = "삭제에 실패하였습니다.";
-					loc = "javascript:history.back()";
-				}
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
+				request.setAttribute("json", json);
 				
 				// super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
+				super.setViewPage("/WEB-INF/jsonview.jsp");
 				
-		} catch(SQLException e) {
-			e.printStackTrace();
+				
 		}
-		super.setViewPage(request.getContextPath() + "/error.cc");
 	}
 
 }
