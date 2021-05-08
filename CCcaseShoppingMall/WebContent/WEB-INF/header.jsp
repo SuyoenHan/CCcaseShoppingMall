@@ -445,19 +445,19 @@
 		<div id="login">
 			<c:if test="${empty sessionScope.loginuser}">
 				<div>
-					<button type="button" class="loginSection" id="btnlogin" >로그인</button>
+					<button type="button" class="loginSection" id="btnlogin" style="margin-left:10px;">로그인</button>
 					<button class="loginSection" id="register">회원가입</button>
 				</div>
 			</c:if>
 			
 			<c:if test="${not empty sessionScope.loginuser}">	
 				<div>	
-					<button type="button" onclick="goLogOut();" id="logout" >로그아웃</button>
+					<button type="button" onclick="goLogOut();" id="logout"  style="margin-left:10px;">로그아웃</button>
 				</div>
 			</c:if>
 					
 			<div>
-				<button class="loginSection" id="wishlist">장바구니</button>
+				<button class="loginSection" id="wishlist" style="margin-left:10px;">장바구니</button>
 				<button class="loginSection" id="myPage" onclick="myProfile('${(sessionScope.loginuser).userid}');">
 					마이페이지
 				</button>
