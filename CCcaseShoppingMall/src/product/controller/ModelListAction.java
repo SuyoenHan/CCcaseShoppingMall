@@ -15,9 +15,14 @@ public class ModelListAction extends AbstractController {
 		
 		String cnum= request.getParameter("cnum");
 		
+		if(!("1".equals(cnum) || "2".equals(cnum)  || "3".equals(cnum) )) {
+			cnum="1";
+		}
+		
 		// 카테고리 코드에 해당하는 카테고리명
 		InterCategoryDAO cdao= new CategoryDAO();
 		String cname= cdao.getCname(cnum);
+		
 		request.setAttribute("cname", cname);
 		request.setAttribute("cnum", cnum);
 		
