@@ -17,7 +17,14 @@
    		margin-left: 17%;
    		margin-top: 5%;
    		width:	80%;
+   		
    }	
+   table#qnaTbl{
+   	text-align: center;
+   	margin-left: auto;
+   	 margin-right: auto;
+	
+   }
    tr.qnaInfo:hover {
         background-color: #e6ffe6;
         cursor: pointer;
@@ -26,18 +33,21 @@
    		font-weight: bold;
    		font-size: 18px;
    		height: 40px;
-   		 text-align: center;
+   		text-align: center;
+   		
    	}
    th{ 
-   		text-align: center;
+   		text-align: right;
+   		border: solid 1px red;
    }
    td{
    		width: 10%;
    		height: 35px;
    		text-align: center;
    }
-   
-    
+    thead{
+    text-align: center;
+    }
 </style>
   
 
@@ -103,7 +113,8 @@
 	<input type="radio" name="main"  id="main" style="margin-left:20px;" OnClick="main('${(sessionScope.loginuser).userid}');">전체
 	<input type="radio" name="qna"  id="qna" style="margin-left:20px;" OnClick="qna('${(sessionScope.loginuser).userid}');">Q&A
 	    <input type="radio" name="review" id="review" style="margin-left:20px;" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰
-	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
+	   
+	    <table>
 	        <thead>
 	           <tr id="menu">	 
 	              <th>No.</th>
@@ -126,7 +137,7 @@
 								<c:otherwise>Q&A</c:otherwise>
 						</c:choose>
 	    				</td>
-	    				<td>${all.qtitle}</td>
+	    				<td >${all.qtitle}</td>
 	    				<td>${all.fk_userid}</td>
 	    				<td>${all.qregisterdate}</td>
 	    				<td class="qviewcount">${all.qviewcount}</td>
@@ -147,7 +158,6 @@
 		           <tr id="menu">	 
 		              <th colspan=2>상품정보</th>
 		              <th >주문일자</th>
-
 		              <th colspan=2 >제품번호</th>
 		              
 		           </tr>
@@ -159,7 +169,7 @@
 	    				<td><img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}" width="150" height="150" style=" border-radius: 2em;"/> 
 	    				</td>
 	    				<td>
-	    				<span style="padding-top: 100px; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
+	    				<span style="margin-top: 100px; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
 	    				<span style="font-size: 10pt;">${byreview.pvo.modelname}</span>
 	    				</td>
 	    				<td>${byreview.orderdate}</td>

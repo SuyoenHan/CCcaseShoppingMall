@@ -42,8 +42,14 @@
 	
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+});
 
 
+</script>
 <div id="mypage">
 	<div id="myInfo">
 		<div id="myInfo1">
@@ -83,6 +89,11 @@
 					<td style="font-size: 13pt;text-align: center;">1장</td>
 				</tr>
 			</table>
+
 		</div>
 	</div>
 </div>
+	<form action="<%= ctxPath%>/member/myPageHeader.cc" name="frm" >
+		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid}" />
+	</form>
+			
