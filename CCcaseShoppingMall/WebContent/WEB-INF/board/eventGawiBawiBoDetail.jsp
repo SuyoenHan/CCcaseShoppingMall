@@ -23,22 +23,24 @@
    td.title{
    		width: 20%;
    		font-weight: bold;
+   		border-bottom: solid 1px #6D919C; 
    }
    
    div#titletext{
-   width: 100%;
-   text-align: center;
-   padding: 100px;
-   font-size: 20px;
+	   width: 100%;
+	   text-align: center;
+	   padding: 100px;
+	   font-size: 20px;
+	   border-top: solid 3px #6D919C; 
    
    }
    
    div#text{
-    width: 100%;
-    text-align: center;
-    font-size: 25px;
-    color:red;
-    font-weight: bold;
+	    width: 100%;
+	    text-align: center;
+	    font-size: 25px;
+	    color:red;
+	    font-weight: bold;
    }
    
    	.prev_next {
@@ -55,13 +57,40 @@
 	    text-align: center;
   }
   
+  div.font{
+  	text-align: center;
+  	
+  }
+  div#pcSel{
+  	padding:30px auto;
+  }
+  
+  button.button{
+  	  width:100px;
+	  height:50px;
+	  margin-right: 20px;
+	  align: center;
+	  background-color: #98B7C1;
+  }
+  
   button.userSel{
   
-  width:100px;
-  height:50px;
-  margin-right: 20px;
-  align: center;
+	  width:120px;
+	  height:140px;
+	  font-weight: bold;
+	  margin-right:10px;
+	  margin-left:20px;
+	  font-size: 20px;
+	 
   }
+   
+   .button:hover , .userSel:hover{
+		background-color: #98B7C1;
+		color: white;
+   
+   
+   
+   
    
   </style>
 
@@ -89,17 +118,19 @@
 			var nRandom = Math.floor( Math.random()*(3-1+1) ) + 1; // nRandom 은 1부터 3까지 중 하나이다.
 			
 			if(nRandom==1){
-				 $("div#pcSel").text("가위");
+				 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/가위.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px; '>가위</div>");
 			}
 			else if(nRandom==2){
-				 $("div#pcSel").text("바위");
+				 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/주먹.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px;'>바위</div>");
 			}
 			else if(nRandom==3){
-				 $("div#pcSel").text("보");
+				 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/보.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px;'>보</div>");
 			}
 			//console.log($("div#pcSel").text());
 			
-			var userChoice = $(event.target).val();  //내가 클릭한 곳의 value 1=가위, 2=바위, 3=보
+			var userChoice = $(this).val();  //내가 클릭한 곳의 value 1=가위, 2=바위, 3=보
+			//alert(userChoice);
+			
 			
 				$.ajax({ // 중복참여 방지를 위한 테이블에insert시켜주기
 						url:"<%=request.getContextPath()%>/board/gawibawiboEvent.cc",
@@ -112,8 +143,8 @@
 							if(json.n=="1"){
 								//참여를 하지 않은 회원이라면 
 					             if( (Number(userChoice) == "1" && nRandom == 3) || ( Number(userChoice) == "2" && nRandom == 1 ) || ( Number(userChoice) == "3" && nRandom == 2 )){
-					            	// alert( "당첨!! 축하드립니다~~ ${sessionScope.loginuser.userid}님 500point 적립!");
-										$.ajax({// point update 시켜주기 
+					            	// 이겼을때 해당 userid point update 시켜주기 
+										$.ajax({ 
 											url:"<%=request.getContextPath()%>/board/gawibawibopointUpdate.cc",
 											type:"post",
 											data:{"userid":"${sessionScope.loginuser.userid}"},
@@ -130,16 +161,17 @@
 					             else if(Number(userChoice) ==  nRandom ){
 					            	 alert(" 꽝 !! 비겼습니다 .다음기회에 다시 도전하세요.");
 					            	
-					            	
 					             }
 					             else if((Number(userChoice) == "1" && nRandom == 2) || ( Number(userChoice) == "2" && nRandom == 3 ) || ( Number(userChoice) == "3" && nRandom == 1 )){
 					            	 alert(" 꽝 !! 졌습니다 .다음기회에 다시 도전하세요.");
 					            	
-					            	
 					             }
-					            
-								
-								
+					           
+							}
+							else{
+								//중복회원일경우 
+								$("button.userSel").prop("disabled",true);
+							
 							}
 							
 							alert(json.msg);
@@ -222,7 +254,9 @@
         <tr>
             <td class="title">등록일</td>
             <td>${requestScope.evo.registerdate}</td>
+             <hr style="color:#6D919C;">
         </tr>
+        
         <tr>
             <td colspan="2" id="title">
               	<div id="titletext">지금! 가위바위보를 이겨 포인트 500 점을 얻어가세요!<br></div>
@@ -231,12 +265,13 @@
          <tr id="titletext">             
             <td colspan="2">
             	<div id="text">기회는 단 한번! 안내면 진다 가위 바위 보 !</div>
-            	<div id="pcSel" style="border:solid 1px gray; width:30%; height:50px; margin:30px auto"></div>
-            	<div id= "userSel" style="border:solid 1px gray; width:60%; height:50px; margin:100px auto;">
-            		<button type="button" class="userSel" id="gawi" name="gawi" value="1" > 가위 </button>
-            		<button type="button" class="userSel" id="bawi" name="bawi" value="2"> 바위 </button>
-            		<button type="button" class="userSel" id="bo" name="bo" value="3"> 보 </button>
+            	<div id= "userSel" style="border:solid 0px gray; width:67%; margin:100px auto;">
+            		<button type="button" class="userSel button" id="gawi" name="gawi" value="1" ><img src='/CCcaseShoppingMall/images/event/가위.png' style='width:100px; height:100px; margin:0px auto;' />가위</button>
+            		<button type="button" class="userSel button" id="bawi" name="bawi" value="2"><img src='/CCcaseShoppingMall/images/event/가위.png' style='width:100px; height:100px; margin:0px auto;' />바위 </button>
+            		<button type="button" class="userSel button" id="bo" name="bo" value="3"><img src='/CCcaseShoppingMall/images/event/가위.png' style='width:100px; height:100px; margin:0px auto;' />보 </button>
             	</div>
+            	<div id="pcSel" style=" width:30%; height:250px; margin:30px auto">[ PC 결과 ]</div>
+            	
             </td>        
           </tr>
         
@@ -244,7 +279,7 @@
 	</form>
 	  	
 	<div style="display:inline-block;">
-		<button type="button" onclick="goEventList()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
+		<button type="button" class="button" onclick="goEventList()" style="margin-top: 50px; background-color: #98B7C1; border:none; width: 100px; height: 40px; border-radius: 5px; margin-right: 60%;">목록</button>
 	</div>
 	<div style="display:inline-block;">
 		<c:if test="${sessionScope.adminUser.adminid !=null }">
