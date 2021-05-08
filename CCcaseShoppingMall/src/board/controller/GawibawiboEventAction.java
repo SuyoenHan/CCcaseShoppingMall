@@ -52,6 +52,12 @@ public class GawibawiboEventAction extends AbstractController {
 			request.setAttribute("enddate", enddate);
 			request.setAttribute("registerdate", registerdate);
 			
+			EventVO epvo= edao.prevEvent(eventno);			
+			request.setAttribute("epvo", epvo);
+			
+			EventVO envo= edao.nextEvent(eventno);
+			request.setAttribute("envo", envo);
+			
 			String goBackURL= request.getParameter("goBackURL");
 			request.setAttribute("goBackURL", goBackURL);
 			
@@ -85,6 +91,12 @@ public class GawibawiboEventAction extends AbstractController {
 			request.setAttribute("startdate", startdate);
 			request.setAttribute("enddate", enddate);
 			request.setAttribute("registerdate", registerdate);
+			
+			EventVO epvo= edao.prevEvent(eventno);			
+			request.setAttribute("epvo", epvo);
+			
+			EventVO envo= edao.nextEvent(eventno);
+			request.setAttribute("envo", envo);
 			
 			String goBackURL= request.getParameter("goBackURL");
 			request.setAttribute("goBackURL", goBackURL);

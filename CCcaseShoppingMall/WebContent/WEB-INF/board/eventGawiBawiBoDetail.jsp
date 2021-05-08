@@ -186,7 +186,12 @@
     		 location.href="<%=ctxPath%>/"+goBackURL;
          }
                   
-             
+          
+		$("td#nextEvent").click(function(){
+
+			location.href="<%=ctxPath%>/board/cardGameEvent.cc?eventno=2&goBackURL=${requestScope.goBackURL}"; 
+		});
+	
 		
              
 				
@@ -213,13 +218,8 @@
             location.href="eventDelete.cc?eventno=${requestScope.evo.eventno}";
         }
 	}// end of function goDelete()---------------------------------------------
-	function goPrev(){
-		location.href= "eventDetail.cc?eventno=${requestScope.pevo.eventno}";
-	}// end of function goPev()-------------------------------------------------
+
 	
-	function goNext(){
-		location.href= "eventDetail.cc?eventno=${requestScope.nevo.eventno}";
-	}// end of function goNext()------------------------------------------------
 </script>
 <div id="content" >
 <h2 style="margin: 20px;">EVENT</h2>
@@ -291,10 +291,10 @@
 				<tr>
 					<td style="font-weight: bold;">이전글</td>
 					<c:choose>
-						<c:when test="${requestScope.pevo.eventno eq null}">
+						<c:when test="${requestScope.epvo.eventno eq null}">
 							<td colspan="2" style="color: red; border: medium; border-bottom: 1px solid #444444;"> 이전 글이 없습니다. </td>
 						</c:when>
-						<c:when test="${requestScope.pevo.eventno ne null}">
+						<c:when test="${requestScope.epvo.eventno ne null}">
 							<td>${requestScope.pevo.eventno}</td>
 							<td onclick="goPrev()" style="cursor: pointer;">${requestScope.pevo.title}</td>
 						</c:when>
@@ -303,14 +303,14 @@
 				<tr>
 					<td style="font-weight: bold;">다음글</td>
 					<c:choose>
-						<c:when test="${requestScope.nevo.eventno eq null}">
+						<c:when test="${requestScope.envo.eventno eq null}">
 							<td colspan="2" style="color: red; border-bottom: 1px solid #444444; padding: 10px; text-align: center;">
 								 다음 글이 없습니다. 
 							</td>
 						</c:when>
-						<c:when test="${requestScope.nevo.eventno ne null}">
-							<td>${requestScope.nevo.eventno}</td>
-							<td onclick="goNext()" style="cursor: pointer;">${requestScope.nevo.title}</td>
+						<c:when test="${requestScope.envo.eventno ne null}">
+							<td>${requestScope.envo.eventno}</td>
+							<td id="nextEvent"style="cursor: pointer;">${requestScope.envo.title}</td>
 						</c:when>
 					</c:choose>
 				</tr>

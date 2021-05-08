@@ -3,7 +3,7 @@
 <%
 	String ctxPath= request.getContextPath();
 %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style type="text/css">
 
 	button.funcBt{
@@ -166,6 +166,11 @@
 			location.href = "<%=ctxPath%>/member/availableCoupon.cc";
 		});
 		
+		$("span#prevEvent").click(function(){
+			location.href="<%=ctxPath%>/board/gawibawiboEvent.cc?eventno=1&goBackURL=${requestScope.goBackURL}"; 
+		})
+		
+		
 		
 	}); // end of $(document).ready(function(){}------------
 
@@ -184,8 +189,7 @@
 		    }
 		}); // end of $.ajax({------------------- 
 	}// end of function insertCoupon-----------------------------------------
-			
-			
+	
 
 </script>
 <jsp:include page="../header.jsp" />
@@ -229,5 +233,36 @@
 		<button type="button" class="funcBt" id="goCoupon">쿠폰함 가기</button>
 		<button type="button" class="funcBt" id="goEventList">목록으로</button>
 	</div>
+	
+
+	<div style="font-weight: bold; margin-top:100px; font-size:12pt; height: 30px; border-bottom: 1px solid #444444;">
+		이전글
+		<c:choose>
+			<c:when test="${requestScope.epvo.eventno eq null}">
+				<span style="color: red; padding: 10px; text-align: center;">
+					 이전글이 없습니다. 
+				</span>
+			</c:when>
+			<c:when test="${requestScope.epvo.eventno ne null}">
+				<span style="margin-left:20px;">${requestScope.epvo.eventno}</span>
+				<span id="prevEvent" style="cursor: pointer; margin-left:20px;">${requestScope.epvo.title}</span>
+			</c:when>
+		</c:choose>
+	</div>
+	<div style="font-weight: bold; margin-top:10px; font-size:12pt;">
+		다음글
+		<c:choose>
+			<c:when test="${requestScope.envo.eventno eq null}">
+				<span style="color: red; padding: 10px; text-align: center; margin-left:20px;">
+					 다음 글이 없습니다. 
+				</span>
+			</c:when>
+			<c:when test="${requestScope.envo.eventno ne null}">
+				<span style="margin-left:20px;">${requestScope.envo.eventno}</span>
+				<span style="cursor: pointer; margin-left:20px;">${requestScope.envo.title}</span>
+			</c:when>
+		</c:choose>
+	</div>
+	
 </div>
 <jsp:include page="../footer.jsp" />
