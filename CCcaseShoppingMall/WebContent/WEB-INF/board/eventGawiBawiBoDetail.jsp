@@ -22,6 +22,23 @@
    
    td.title{
    		width: 20%;
+   		font-weight: bold;
+   }
+   
+   div#titletext{
+   width: 100%;
+   text-align: center;
+   padding: 100px;
+   font-size: 20px;
+   
+   }
+   
+   div#text{
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    color:red;
+    font-weight: bold;
    }
    
    	.prev_next {
@@ -37,6 +54,14 @@
 	    padding: 10px;
 	    text-align: center;
   }
+  
+  button.userSel{
+  
+  width:100px;
+  height:50px;
+  margin-right: 20px;
+  align: center;
+  }
    
   </style>
 
@@ -48,8 +73,105 @@
 
 		goBackURL = "${requestScope.goBackURL}";
 		goBackURL = goBackURL.replace(/ /gi, "&");
+		
+	
+		
+		
+		
+		
+	if("${sessionScope.loginuser.userid}" != ""){	
+		
+		 $("button.userSel").bind("click",function(){
+					
+			 /*== 자바스크립트에서 난수 발생시키기 ==//
+			        공식 :  Math.floor( Math.random()*(max-min+1) ) + min; 
+			*/
+			var nRandom = Math.floor( Math.random()*(3-1+1) ) + 1; // nRandom 은 1부터 3까지 중 하나이다.
+			
+			if(nRandom==1){
+				 $("div#pcSel").text("가위");
+			}
+			else if(nRandom==2){
+				 $("div#pcSel").text("바위");
+			}
+			else if(nRandom==3){
+				 $("div#pcSel").text("보");
+			}
+			//console.log($("div#pcSel").text());
+			
+			var userChoice = $(event.target).val();  //내가 클릭한 곳의 value 1=가위, 2=바위, 3=보
+			
+				$.ajax({ // 중복참여 방지를 위한 테이블에insert시켜주기
+						url:"<%=request.getContextPath()%>/board/gawibawiboEvent.cc",
+						type:"post",
+						data:{"userid":"${sessionScope.loginuser.userid}",
+							  "eventno":"${requestScope.evo.eventno}"},
+						dataType:"json",
+						success:function(json){
+							// 중복테이블에 아이디 존재하는 경우. alert 창, 버튼상태 disable-true줌
+							if(json.n=="1"){
+								//참여를 하지 않은 회원이라면 
+					             if( (Number(userChoice) == "1" && nRandom == 3) || ( Number(userChoice) == "2" && nRandom == 1 ) || ( Number(userChoice) == "3" && nRandom == 2 )){
+					            	// alert( "당첨!! 축하드립니다~~ ${sessionScope.loginuser.userid}님 500point 적립!");
+										$.ajax({// point update 시켜주기 
+											url:"<%=request.getContextPath()%>/board/gawibawibopointUpdate.cc",
+											type:"post",
+											data:{"userid":"${sessionScope.loginuser.userid}"},
+											dataType:"json",
+											success:function(json){
+												alert(json.msg);
+											},
+											error: function(request, status, error){
+									            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+									        }
+										});//end of ajax()-------------------------
+									
+					             }
+					             else if(Number(userChoice) ==  nRandom ){
+					            	 alert(" 꽝 !! 비겼습니다 .다음기회에 다시 도전하세요.");
+					            	
+					            	
+					             }
+					             else if((Number(userChoice) == "1" && nRandom == 2) || ( Number(userChoice) == "2" && nRandom == 3 ) || ( Number(userChoice) == "3" && nRandom == 1 )){
+					            	 alert(" 꽝 !! 졌습니다 .다음기회에 다시 도전하세요.");
+					            	
+					            	
+					             }
+					            
+								
+								
+							}
+							
+							alert(json.msg);
+							// 중복테이블에 아이디 존재하지 않는 경우. 이벤트 할수있음.
+						},
+						error: function(request, status, error){
+				            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				       }
+						
+					
+				   });
+			 
+			 });//end of $("span.buttons").bind("click",function(){} --
+			 
+	    }	
+         else{
+    		 alert("로그인 후 이용 가능합니다.");
+    		 goEventList();
+    	 }
+                  
+             
+		
+             
 				
 	});// end of $(document).ready(function(){})------------------------
+	
+	
+	// function doEvent 
+	
+	
+	
+	
 	
 	// Function Declaration
 	function goEventList() {
@@ -83,7 +205,7 @@
 
         <tr>
             <td class="title">제목</td>
-            <td>${requestScope.evo.title}</td>        
+            <td>가위바위보 이벤트!!! </td>        
         </tr>
         <tr>
             <td class="title">작성자</td>
@@ -102,12 +224,20 @@
             <td>${requestScope.evo.registerdate}</td>
         </tr>
         <tr>
-            <td id="title">
-               글내용
+            <td colspan="2" id="title">
+              	<div id="titletext">지금! 가위바위보를 이겨 포인트 500 점을 얻어가세요!<br></div>
             </td>
          </tr>
-         <tr>             
-            <td colspan="2">${requestScope.evo.content}</td>        
+         <tr id="titletext">             
+            <td colspan="2">
+            	<div id="text">기회는 단 한번! 안내면 진다 가위 바위 보 !</div>
+            	<div id="pcSel" style="border:solid 1px gray; width:30%; height:50px; margin:30px auto"></div>
+            	<div id= "userSel" style="border:solid 1px gray; width:60%; height:50px; margin:100px auto;">
+            		<button type="button" class="userSel" id="gawi" name="gawi" value="1" > 가위 </button>
+            		<button type="button" class="userSel" id="bawi" name="bawi" value="2"> 바위 </button>
+            		<button type="button" class="userSel" id="bo" name="bo" value="3"> 보 </button>
+            	</div>
+            </td>        
           </tr>
         
 	</table>
