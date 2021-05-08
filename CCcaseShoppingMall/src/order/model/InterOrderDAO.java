@@ -58,12 +58,6 @@ public interface InterOrderDAO {
 
 	
 	
-	// ================= 다시 조연재 ====================== //
-	
-	// 상품 주문완료 후 주문 테이블에 insert
-	int insertNewOrder(Map<String, String> paraMap) throws SQLException;
-	
-	
 
 
 
