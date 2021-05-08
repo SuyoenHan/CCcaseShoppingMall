@@ -83,8 +83,9 @@
 		$("tr.eventInfo").click(function(){
 
 			var eventno = $(this).children(".eventno").text();
-
-			location.href ="eventDetail.cc?eventno="+eventno+"&goBackURL=${requestScope.goBackURL}";
+			if(eventno=="1"){
+				location.href="<%=ctxPath%>/board/gawibawiboEvent.cc?goBackURL=${requestScope.goBackURL}"; 
+			}
 
 		}); 	
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------
