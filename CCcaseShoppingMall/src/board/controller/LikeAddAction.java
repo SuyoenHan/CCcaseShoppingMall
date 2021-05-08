@@ -5,27 +5,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
 import board.model.*;
 import common.controller.AbstractController;
+import member.model.MemberVO;
 
 public class LikeAddAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String userid = request.getParameter("userid");
 		String reviewno = request.getParameter("reviewno");
-		
-		Map<String, String> paraMap = new HashMap<>();
-		paraMap.put("userid", userid);
-		paraMap.put("reviewno",reviewno);
 		
 		InterReviewDAO rdao = new ReviewDAO();
 		
-		int n = rdao.likeAdd(paraMap);
+		int n = rdao.likeAdd(reviewno);
 		
 		String msg = "";
 		

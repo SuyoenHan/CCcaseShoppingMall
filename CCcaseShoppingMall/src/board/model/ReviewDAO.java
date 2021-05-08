@@ -577,35 +577,34 @@ public class ReviewDAO implements InterReviewDAO {
 	}
 	
 	// 특정 회원이 특정 리뷰에 대해 도움이돼요 투표하기(insert) 
-		@Override
-		public int likeAdd(Map<String, String> paraMap) throws SQLException {
+	@Override
+	public int likeAdd(String reviewno) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
 			
-			int n = 0;
+			String sql = " insert into tbl_likecnt(fk_reviewno, likecount) "
+							+ " values(?, 1) ";
 			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " insert into tbl_likecnt "
-								+ " where fk_userid = ? and reviewno = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("userid"));
-				pstmt.setString(2, paraMap.get("reviewno"));
-				
-				n = pstmt.executeUpdate();
-				
-				if(n==1) {
-					conn.commit();
-				}
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reviewno);
 			
-			} catch(SQLIntegrityConstraintViolationException e ) {
-				conn.rollback();
-			} finally {
-				close();
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				conn.commit();
 			}
-			
-			return n;
+		
+		} catch(SQLIntegrityConstraintViolationException e ) {
+			conn.rollback();
+		} finally {
+			close();
 		}
+		return n;
+	}
+
+
 	
 	// 특정 리뷰에 대한 도움이 돼요 투표 결과(select)
 	@Override

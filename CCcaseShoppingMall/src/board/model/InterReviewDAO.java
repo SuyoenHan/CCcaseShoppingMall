@@ -52,7 +52,7 @@ public interface InterReviewDAO {
 	ProductVO selectProduct(String reviewno) throws SQLException;
 	
 	// 특정 회원이 특정 리뷰에 대해 도움이돼요 투표하기(insert) 
-	int likeAdd(Map<String, String> paraMap) throws SQLException;
+	int likeAdd(String reviewno) throws SQLException;
 	
 	// 특정 리뷰에 대한 도움이 돼요 투표 결과(select)
 	int getLikeCnt(String reviewno) throws SQLException;
