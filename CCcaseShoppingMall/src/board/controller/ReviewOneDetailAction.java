@@ -21,7 +21,6 @@ public class ReviewOneDetailAction extends AbstractController {
 		
 		
 		String reviewno = request.getParameter("reviewno");
-		
 		InterReviewDAO rdao = new ReviewDAO();
 		ReviewVO rvo = rdao.reviewOneDetail(reviewno);
 		request.setAttribute("rvo", rvo);

@@ -134,7 +134,7 @@
 	function goProdDetail() {
 		var productid = "${requestScope.pdvo.fk_productid}";
 		var snum = "${requestScope.snum}";
-		location.href="<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL=${requestScope.goBackURL}"
+		location.href="<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL=${requestScope.goBackURL}";
 	}
 	
 	// 리뷰 삭제하기

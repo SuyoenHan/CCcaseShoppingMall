@@ -119,7 +119,7 @@
 		// 포토리뷰의 사진 클릭시 리뷰상세페이지로 이동
 		$("a.goDetail").click(function(){
 			var reviewno = $(this).prop('id');
-			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno="+reviewno;
+			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno="+reviewno+"&goBackURL=${goBackURL}";
 		}); // end of $("button.btnReadMore").click(function(){-------------------
 		
 	});// end of $(document).ready(function(){})----------------------------------
@@ -188,7 +188,7 @@
 						<span id="prodName" style="color: #737373; font-size: 10pt;">${rvo.fk_pname}</span><br><br>
 						<span style="font-weight:bold; font-size:14pt;">"${rvo.rvtitle}"</span><br>
 						<span style="font-size:10pt;">${rvo.rvcontent}</span>&nbsp;&nbsp;&nbsp;
-						<a class="readMore" style="font-style:italic;" href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno=${rvo.reviewno}">더보기</a>
+						<a class="readMore" style="font-style:italic;" href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno=${rvo.reviewno}&goBackURL=${goBackURL}">더보기</a>
 					</td>
 					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br>
 							${rvo.fk_userid}</td>
