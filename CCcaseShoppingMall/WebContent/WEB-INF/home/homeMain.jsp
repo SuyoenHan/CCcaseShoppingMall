@@ -24,6 +24,7 @@
 		margin: 0px 10px 100px 35px;
 		width:210px;
 		height: 300px;
+		cursor: pointer;
 	}
 	
 	span.netPrice{
@@ -357,9 +358,15 @@
 					<img src="<%=ctxPath%>/images/${pInfoMapBest.pimage1}" class="pImg" id="${pInfoMapBest.productid}" width="210" height="200" />
 					<div class="productName">[${pInfoMapBest.cname}]&nbsp;[${pInfoMapBest.modelname}]<br>${pInfoMapBest.productname}</div>
 					
+					
 					<div>
-						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapBest.saleprice}" pattern="#,###,###" />원</span>
+						<c:if test="${pInfoMapBest.salepercent eq '0'}">					
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${pInfoMapBest.salepercent ne '0'}">					
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapBest.saleprice}" pattern="#,###,###" />원</span>
+						</c:if>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -406,8 +413,13 @@
 					<div class="productName">[${pInfoMapNew.cname}]&nbsp;[${pInfoMapNew.modelname}]<br>${pInfoMapNew.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapNew.saleprice}" pattern="#,###,###" />원</span>
+						<c:if test="${pInfoMapNew.salepercent eq '0'}">					
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${pInfoMapNew.salepercent ne '0'}">					
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapNew.saleprice}" pattern="#,###,###" />원</span>
+						</c:if>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -457,8 +469,13 @@
 					<div class="productName">[${pInfoMapFree.cname}]&nbsp;[${pInfoMapFree.modelname}]<br>${pInfoMapFree.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapFree.saleprice}" pattern="#,###,###" />원</span>
+						<c:if test="${pInfoMapFree.salepercent eq '0'}">					
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${pInfoMapFree.salepercent ne '0'}">					
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapFree.saleprice}" pattern="#,###,###" />원</span>
+						</c:if>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
