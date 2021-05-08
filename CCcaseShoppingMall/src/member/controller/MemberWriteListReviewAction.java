@@ -12,6 +12,9 @@ import board.model.ReviewDAO;
 import board.model.ReviewVO;
 import common.controller.AbstractController;
 import my.util.Myutil;
+import order.model.InterOrderDAO;
+import order.model.OrderDAO;
+import order.model.OrderVO;
 
 public class MemberWriteListReviewAction extends AbstractController {
 
@@ -31,13 +34,16 @@ public class MemberWriteListReviewAction extends AbstractController {
 			currentShowPageNo="1";
 		}
 		InterReviewDAO rdao = new ReviewDAO();
-		
+		InterOrderDAO odao = new OrderDAO();
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
 		List<ReviewVO> revList= rdao.reviewMywrite(paraMap);
 		request.setAttribute("revList", revList);
+		
+		List<OrderVO> byreview=odao.byreview(paraMap);
+        request.setAttribute("byreview",byreview);
 		
 		int totalPage = rdao.reviewMywriteTotalPage(userid);
 		//System.out.println("확인용 totalPage=>"+totalPage);

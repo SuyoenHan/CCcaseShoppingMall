@@ -16,9 +16,6 @@ public class ReviewListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
-		
 		String method = request.getMethod();
 		
 		if("GET".equalsIgnoreCase(method)) {
@@ -31,16 +28,14 @@ public class ReviewListAction extends AbstractController {
 		if(currentShowPageNo == null) {
 			currentShowPageNo = "1";
 		}
-		
-		request.setAttribute("currentShowPageNo", currentShowPageNo);
-		
-		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자 아닌 문자를 입력한 경우 또는 
-        //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
+		 
 		try { //사용자가 장난치는경우 INT값을 넘기는 경우 1페이지10개로 나타나게 해준다.
 			Integer.parseInt(currentShowPageNo);
 		}catch(NumberFormatException e) {
 			currentShowPageNo ="1";
 		}
+		
+		request.setAttribute("currentShowPageNo", currentShowPageNo);
 		
 		//	==== 검색어가 들어온 경우 ==== //
 		String searchType = request.getParameter("searchType");
@@ -53,11 +48,6 @@ public class ReviewListAction extends AbstractController {
 		paraMap.put("searchType", searchType);
 		paraMap.put("searchWord", searchWord);
 		
-		
-		// 리뷰 총 개수 알아오기
-		int rtotalCnt = rdao.selectRevCnt();
-		request.setAttribute("rtotalCnt", rtotalCnt);
-		
 		// 페이징처리를 위해서 전체리뷰에 대한 총페이지 개수 알아오기(select)
 		int totalPage = rdao.selectTotalPage(paraMap);
 		
@@ -69,6 +59,10 @@ public class ReviewListAction extends AbstractController {
 		// 페이징 처리를 한 모든 리뷰 또는 검색한 리뷰 목록 보여주기
 		List<ReviewVO> revList= rdao.selectPagingReview(paraMap);
 		request.setAttribute("revList", revList);
+		
+		// 리뷰 총 개수 알아오기
+		int rtotalCnt = rdao.selectRevCnt();
+		request.setAttribute("rtotalCnt", rtotalCnt);
 		
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("searchType", searchType);
@@ -98,7 +92,7 @@ public class ReviewListAction extends AbstractController {
 		while( !(loop > blockSize || pageNo > totalPage) ) {
 			
 			if( pageNo == Integer.parseInt(currentShowPageNo)) {
-				pageBar += "&nbsp;<span id='pagination' >" +pageNo + "</span>&nbsp;";
+				pageBar += "&nbsp;<span id='pagination' style='border:solid 1px gray; color:red; padding:2px 4px;'>" +pageNo + "</span>&nbsp;";
 			}
 			else {
 				pageBar += "&nbsp;<a href='reviewList.cc?currentShowPageNo="+pageNo+"&searchType="+searchType+"&searchWord="+searchWord+"' >" + pageNo + "</a>&nbsp;";

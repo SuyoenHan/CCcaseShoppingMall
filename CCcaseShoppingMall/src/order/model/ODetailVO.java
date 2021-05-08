@@ -6,7 +6,7 @@ public class ODetailVO {
 	private String  fk_orderno;   //주문번호
 	private String  fk_pnum;      // 제품상세번호
 	private int odqty;            // 제품상세구매수량
-	
+	private int pdetailprice;
 	
 	public String getOdetailno() {
 		return odetailno;
@@ -31,6 +31,12 @@ public class ODetailVO {
 	}
 	public void setOdqty(int odqty) {
 		this.odqty = odqty;
+	}
+	public int getPdetailprice() {
+		return pdetailprice;
+	}
+	public void setPdetailprice(int pdetailprice) {
+		this.pdetailprice = pdetailprice;
 	}
 	
 	

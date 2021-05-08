@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +31,10 @@
 	#revBox {
 		border: solid 1px black;
 		float:left;
-		width: 750px;
+		width: 700px;
 		height:430px;
 		margin-top: 8px;
+		padding: 20px;
 	}
 
 	#btnRevList {
@@ -68,28 +70,29 @@
 		
 		goLikeCnt();
 		
+		$("button#btnDetail").click(function(){
+			goProdDetail();
+		});
+		
+		$(document).on("mouseover","#imgRev", function(){
+			var obj = document.getElementById("big");
+			var index = $(this).index();
+			obj.src = $(this).eq(index).src;
+		})
+		
 	}); // end of $(document).ready(function(){})--------------------------------------
 	
-	// Function Declaration 
+	// Function Declaration
+	
+	function showBig() {
+		 
+		  obj.src = "../images/" + value;
+	}
+	
 	function goBack2List() {
 			location.href="<%=ctxPath%>/board/reviewList.cc";
 	}
 	
-	// 이미지 보여주기
-	function showBig(val) {
-	 var obj = document.getElementById("big");
-	  obj.src = "../images/" + val;
-	} 
-	
-	// 수정 버튼 클릭시 //
-	function revEdit() {	
-		location.href="<%=ctxPath%>/board/reviewEdit.cc";
-	}
-	
-	// 삭제버튼 클릭시 //
-	function revDel() {
-		location.href="<%=ctxPath%>/board/reviewDel.cc";
-	}
 	
 	// **** 특정제품에 대한 좋아요 등록하기 **** // 
 	function goAddlike() {
@@ -132,10 +135,45 @@
 		});
 	}
 
+	function goProdDetail() {
+		var productid = "${requestScope.pvo.productid}";
+		var snum = "${requestScope.snum}";
+		location.href="<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL=${requestScope.goBackURL}"
+	}
+	
+	function delMyReview(review_seq) {
+		
+		var bool = confirm("정말로 리뷰를 삭제하시겠습니까?");
+		
+		if(bool) {
+			$.ajax({
+				url:"<%=ctxPath%>/board/reviewDel.cc",
+				type:"post",
+				data: {"reviewno":reviewno},
+				dataType:"json",
+				success:function(json){
+					if(json.n == 1) {
+						alert("리뷰가 삭제되었습니다.");
+						location.href="<%=ctxPath%>/board/reviewList.cc";
+					}
+					else {
+						alert("리뷰 삭제에 실패하였습니다.";)
+					}
+				},
+				error: function(request, status, error) {
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+				
+			});
+		}
+		
+	}
+	
+	
 </script>
 
 
-<div id="title" style=""> 
+<div id="title"> 
 	커뮤니티
 </div>
 
@@ -146,22 +184,30 @@
 	<div id="revImg" class="col-md-4 line">
 			<img src="../images/${requestScope.rvo.reviewimage1}" width="400" height="400" id="big"/>
 			<br/><br/>
-			<img src="../images/${requestScope.rvo.reviewimage1}" width="130" height="130" onmouseover="showBig('${requestScope.rvo.reviewimage1}');"/>
-			<img src="../images/${requestScope.rvo.reviewimage2}" width="130" height="130" onmouseover="showBig('${requestScope.rvo.reviewimage2}');"/>
-			<img src="../images/${requestScope.rvo.reviewimage3}" width="130" height="130" onmouseover="showBig('${requestScope.rvo.reviewimage3}');"/>
+			<img src="../images/${requestScope.rvo.reviewimage1}" width="130" height="130" id="imgRev">
+			<img src="../images/${requestScope.rvo.reviewimage2}" width="130" height="130" id="imgRev">
+			<img src="../images/${requestScope.rvo.reviewimage3}" width="130" height="130" id="imgRev">
 	</div>
 
-<div id="main">
-<div class="col=md-8 line">
+<div id="main" style="float:right; width: 700px;"class="col=md-8 line">
 		
 		<table>
 			<tbody>
 				<tr style="border:solid 1px gray; height:40px;">
-					<td><img src="../images/${requestScope.pvo.pimage1}"></td>
-					<td><span>${requestScope.spvo.sname}</span><br>
-							<span>${requestScope.pvo.productname}</span><br>
-							<span>${requestScope.pvo.price}</span>&nbsp;&nbsp;&nbsp;
-							<button id="btnDetail" type="button" onclick="location.href='<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL="+${requestScope.goBackURL}+" ' ">제품상세보기</button><br>
+					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px"></td>
+					<td style="padding: 10px; width: 650px;">
+						<c:if test="${requestScope.snum eq 1}">
+							<span style="background-color: #cc8800; font-weight:bold; font-size:8pt; color:white;">NEW</span><br>
+						</c:if>
+						<c:if test="${requestScope.snum eq 0}">
+							<span style="background-color:#009900; font-weight:bold; font-size:8pt; color:white;">BEST</span><br>
+						</c:if>
+						<c:if test="${requestScope.snum eq -1}">
+							<span>-</span><br>   <%-- 신상품도 베스틑상품도 아닌경우 --%>
+						</c:if>
+						<span style="font-weight:bold;">${requestScope.pvo.productname}</span><br>
+						<span><fmt:formatNumber value="${requestScope.pvo.price}" pattern="#,###" />원</span>&nbsp;&nbsp;&nbsp;
+						<button id="btnDetail" type="button" onclick="goProdDetail()" style="">제품상세보기</button><br>
 					</td>
 				</tr>
 			</tbody>
@@ -169,7 +215,7 @@
 
 		<br>
 		
-		<div id="reviewInfo">
+		<div id="reviewInfo" style="width: 700px; height: 700px;">
 			
 			<span id="rating" style="font-size: 15pt;">
 				<c:choose>
@@ -192,30 +238,29 @@
 			</span>
 		
 				<div id="revBox">
-					<span>${sessionScope.loginuser.userid}&nbsp;|&nbsp;</span>
+					<span style="font-weight:bold;">${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
 					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
-					<span>${requestScope.rvo.rviewcount}&nbsp;|&nbsp;</span><br>	
-					<span>${requestScope.rvo.rvtitle}</span><br>
-					<p>${requesetScope.rvo.rvcontent}</p>
+					<span>${requestScope.rvo.rviewcount}</span><br><br>
+					<span style="font-size: 15pt; font-weight: bolder;">${requestScope.rvo.rvtitle}</span><br>
+					<p>${requestScope.rvo.rvcontent}</p>
 				</div>
-				<div style="align:center;">
-				<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 40px;" onclick="goAddlike(${requestScope.rvo.reviewno})"/>&nbsp;&nbsp;
-				<div id="likeCnt" style="color:black; font-weight: bold;"></div>
-			</div>
-			</div>
+				<div id="ddabong" >
+					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #000);" onclick="goAddlike(${requestScope.rvo.reviewno})"/>&nbsp;&nbsp;
+					<div id="likeCnt" style="color:black; font-weight: bold;"></div>
+				</div>
 			
-			
-			
-		</div>
-	</div>	
+				<div id="btnRevList" style="float:right;">
+					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewList.cc'">목록</button>
+					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewEdit.cc'">수정</button><%-- 로그인 후에 보여질지 결정 --%>
+					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewDel.cc'">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
+				</div>
+		</div>		
+		
 	
 	</div>
 	
-	<div id="btnRevList" align="right">
-		<button type="button" onclick="goBack2List()">목록</button>
-		<button type="button" onclick="revEdit()">수정</button><%-- 로그인 후에 보여질지 결정 --%>
-		<button type="button" onclick="revDel()">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
-	</div>
+	
 </div>
 
+</div>
 <jsp:include page="../footer.jsp" />

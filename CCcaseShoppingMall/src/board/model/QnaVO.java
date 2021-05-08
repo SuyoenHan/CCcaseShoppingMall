@@ -16,12 +16,28 @@ public class QnaVO {
 	private String email;				// 이메일
 	private String qstatus;           	   // 공개여부  
 	private String qnapwd;           // 글 비밀번호
-	
+	private int qstate;         //qna 분류번호
+	public int getQstate() {
+		return qstate;
+	}
+
+	public void setQstate(int qstate) {
+		this.qstate = qstate;
+	}
+
 	public MemberVO memberVO;
 	public AdminVO adminVO;
+	public ReviewVO reviewVO;
 	
 	
-	
+	public ReviewVO getReviewVO() {
+		return reviewVO;
+	}
+
+	public void setReviewVO(ReviewVO reviewVO) {
+		this.reviewVO = reviewVO;
+	}
+
 	public QnaVO() {}
 	
 	public QnaVO(String qtitle, String fk_userid, String email, String fk_productid, String qstatus, String qnapwd, String qcontent) {

@@ -20,25 +20,46 @@
    		margin-top: 5%;
    		width:	80%;
    }	
-   tr.qnaInfo:hover {
-        background-color: #e6ffe6;
+   
+   tr.eventInfo:hover {
+        background-color: #ecf2f9;
         cursor: pointer;
+        transition: 2s;
    }  
+   
    tr#menu{
    		font-weight: bold;
    		font-size: 18px;
-   		background-color: gray;
+   		background: #6D919C;
+   		text-align: center;
+   		color: white;
    		height: 40px;
    }
+   
    th{
    		border: none;
    }
+   
    td{
    		width: 10%;
    		height: 35px;
    		text-align: center;
    }
-   
+
+   div#pageBar{
+   		width:30%; 
+   		margin: 0 auto; 
+   		font-size: 20px;
+   }
+     
+  	div#event{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#event:hover{
+     	background-color:#CCF2F4; 
+     }   
 </style>
 
 <script type="text/javascript">
@@ -86,27 +107,27 @@
 </script>
 
 <div id="content" >
-	<h2 style="margin: 20px;">이 벤 트</h2>
+	<h2 style="margin: 20px;">EVENT</h2>
 	   
 	    <table id="eventTbl" class="table table-bordered" style="margin-top: 20px;">
 	        <thead>
 	           <tr id="menu">	 
-	              <th>No.</th>
-	              <th>제목</th>
+	              <th style="width:3%;">No.</th>
+	              <th style="width:20%;">제목</th>
 	              <th>기간</th>
 	              <th>등록일</th>
-	              <th>조회수</th>
+	              <th style="width:3%;">조회수</th>
 	           </tr>
 	        </thead>
 
 	    	<tbody>
 	    		<c:forEach var="evo" items="${requestScope.eventList}">
 	    			<tr class="eventInfo">
-	    				<td class="eventno">${evo.eventno}</td>
-	    				<td>${evo.title}</td>
-	    				<td>${evo.startdate} - ${evo.enddate}</td>
+	    				<td class="eventno" style="width:3%;">${evo.eventno}</td>
+	    				<td style="width:20%;">${evo.title}</td>
+	    				<td>${evo.startdate} - <br> ${evo.enddate}</td>
 	    				<td>${evo.registerdate}</td>
-	    				<td class="viewcount">${evo.viewcount}</td>
+	    				<td class="viewcount" style="width:3%;">${evo.viewcount}</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>

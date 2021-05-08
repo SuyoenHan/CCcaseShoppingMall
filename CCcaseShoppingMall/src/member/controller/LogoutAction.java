@@ -34,7 +34,7 @@ public class LogoutAction extends AbstractController {
 		}
 		else {
 			//돌아갈 페이지가 없거나 또는 관리로 로그아웃을 하면 무조건 /MYMVC/index.up
-		super.setViewPage(request.getContextPath()+"/home.up");
+		super.setViewPage(request.getContextPath()+"/home.cc");
 		// WAS 사이트 페이지에 연결만 하면 세션은 자동적으로 다시 생성된다.
 		}
 	  }
