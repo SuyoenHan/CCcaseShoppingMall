@@ -12,8 +12,18 @@
  <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
  
 <style>
+	table#tblByreviewList {
+			width: 100%; 
+			height:210px;
+			font-size: 18px;
+            margin-top: 20px;
+           margin-bottom: 20px;
+    }
+     
+   table#tblByreviewList tr {height: 40px;border-bottom: solid gray 1px;}
+   table#tblByreviewList th {border-bottom: solid gray 1px;}
+   
 
-	 
   div#content{
    		margin-left: 17%;
    		margin-top: 5%;
@@ -151,7 +161,15 @@
 	        </thead>
 
 	    	<tbody >
-
+			<c:if test="${empty requestScope.allList}">
+					   <tr>
+					   	  <td colspan="6" align="center" style="font-size: 18px;">
+					   	    <span>
+					   	    	작성한 글이 없습니다
+					   	    </span>
+					   	  </td>	
+					   </tr>
+			   </c:if>	
 	    		<c:forEach var="all" items="${requestScope.allList}">
 	    			<tr class="qnaInfo">
 	    				<td class="qnano">${all.qnano}</td>
@@ -174,45 +192,57 @@
 	    	${requestScope.pageBar}
 	    </div>
 	    
-	    <div id="reviewDiv">
-	    	<h3>작성가능한 리뷰</h3>
-	    	<hr>
-	    	<table id="reviewTbl">
-	    		 <thead id="reviewhead" >
-		           <tr id="menu">	 
-		              <th colspan=2><span style="display:inline-block; padding-left: 200px; font-weight: bold; font-size: 13pt;">상품정보</span></th> 
-		              <th ><span style="display:inline-block; padding-left: 50px; font-weight: bold; font-size: 13pt;">주문일자</span></th>
-
-		              <th colspan=2 ><span style="display:inline-block; padding-left: 50px; font-weight: bold; font-size: 13pt;">제품번호</span></th>
-		              
-		           </tr>
-	        </thead>
-	       
-	        <tbody  align=center>
-	       
-	       <c:forEach var="byreview" items="${requestScope.byreview}">
-	    			
-	    			<tr>
-	    			 
-	    				<td><span style="display:inline-block; padding-top: 20px;"><img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}" width="150" height="150" style=" border-radius: 2em;"/> </span>
-	    				</td>
-	    				<td>
-
-	    				<span style="display:inline-block; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
-	    				
-	    				<span style="font-size: 10pt;">${byreview.pvo.modelname}</span>
-	    				</td>
-	    				<td>${byreview.orderdate}</td>
-	    				<td>${byreview.pdvo.pnum}</td>
-	    				<td colspan=2><button style ="color:white; border:none; border-radius: 5px;background: #6D919C; width: 200px; height: 35px;"onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button></td>
-	    			</tr>
-	    		</c:forEach>	
-		    	
-	    	</tbody>
-	    		</table>
-	    
-	    <hr>
-	    </div>
+	  
+     <table id="tblByreviewList" >
+	 <thead>
+	   <tr style="background: #6D919C; color:white;">
+		  <th colspan="2" style="width:35%; text-align: center;">제품명</th>
+	   	  <th style="width:17%; text-align: center;">주문일자</th>
+	   	  <th style="width:20%; text-align: center;">제품 번호</th>
+	   	  <th></th>
+	   </tr>	
+	 </thead>
+	 
+	 <tbody>
+	   <c:if test="${empty requestScope.byreview}">
+	   <tr>
+	   	  <td colspan="5" align="center">
+	   	    <span >
+	   	    	작성 가능한 리뷰가  없습니다.
+	   	    </span>
+	   	  </td>	
+	   </tr>
+	   </c:if>	
+	   
+	   	<c:if test="${not empty requestScope.byreview}">
+		   	   	  
+		      <c:forEach var="byreview" items="${requestScope.byreview}"> 
+		       <tr>
+	               <td align="center"> <%-- 제품이미지1 및 제품명 --%> 
+	                  <a href="<%= ctxPath%>/product/productDetail.cc?productid=${byreview.pvo.productid}">
+	                  	<img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}"  width="150" height="150" style=" border-radius: 2em;" />
+	                  </a> 
+	               </td>
+	               <td align="center"> 
+	               	   <span style="display:inline-block; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span>
+	               	  <br/>  <span style="font-size: 10pt;">옵션:${byreview.pvo.modelname}</span>
+	               </td>
+	               <td align="center"> <%-- 실제판매단가 및 포인트 --%> 
+	                  ${byreview.orderdate}
+	               </td>
+	               <td align="center"> <%-- 총금액 및 총포인트 --%> 
+	                  ${byreview.pdvo.pnum}
+	               </td>
+	               <td align="center"> <%-- 장바구니에서 해당 제품 삭제하기 --%> 
+	              <button style ="color:white; border:none; border-radius: 5px;background: #6D919C; width: 200px; height: 35px;"onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button>
+	               </td>
+	            </tr>
+		   	  </c:forEach>
+	   	</c:if>	
+	    </tbody>
+	 </table>
+	
+	   
 	    
 	    
 	    
