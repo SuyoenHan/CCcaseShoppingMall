@@ -6,24 +6,38 @@
 <jsp:include page="../adminheader.jsp" />    
 
 <style>
-	div#leftSide{
-		clear:both; 
-	}
 	
 	th{
 		border:solid 1px black;
 		width:170px;
 		text-align: center !important;
+		background-color: #98B7C1;
+	}
+	
+	tr:hover{
+		background-color: #C5D7DD;
+		cursor: pointer !important;
 	}
 	
 	td{
 		border:solid 1px black;
 		text-align: center;
+		height: 40px !important;
 	}
 	
 	table{
 		padding-left: 100px;
+		margin-top: 50px;
+		margin-left: 120px;
 	}
+	
+	form#pageBar{
+		margin-left: 119px;
+		border:solid 0px red;
+		margin-top: 15px;
+		margin-bottom: 20px;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -144,24 +158,25 @@
 	
 	</table>
 	<br>	
-	<form name="search">
+	<form name="search" id="pageBar">
 		<input type="hidden" name="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
-		<select name="sizePerPage" id="sizePerPage">
+		<select name="sizePerPage" id="sizePerPage" style="height:30px;">
 			<option value="10">10</option>
 			<option value="5">5</option>
 			<option value="3">3</option>
 		</select>
 		
-		<select name="searchType" id="searchType">
+		<select name="searchType" id="searchType" style="height:30px; width:90px;">
 			<option value="pnum">상품번호</option>
 			<option value="pname">상품명</option>
 			<option value="pcolor">색상</option>
 		</select>
-		<input type="text" name="searchWord" id="searchWord"/>
-		<button type="button" id="searchBtn" style="margin-right: 30px;">검색</button>
+		
+			<input type="text" name="searchWord" id="searchWord"/>
+			<button type="button" id="searchBtn" style="margin-right:85px; height:30px;">검색</button>
+			<span>${requestScope.pageBar}</span>	
 	</form>
 	
-	<div>${requestScope.pageBar}</div>
 	
 </div>
 

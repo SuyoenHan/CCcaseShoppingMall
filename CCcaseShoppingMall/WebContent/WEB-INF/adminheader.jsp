@@ -125,7 +125,9 @@
 		top:10px;
 		left:20px;
 		cursor: pointer;
+		margin-bottom: 20px !important;
 	}
+	
 
 	
 </style>
