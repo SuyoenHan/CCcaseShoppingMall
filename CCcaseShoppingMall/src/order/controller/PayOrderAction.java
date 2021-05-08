@@ -96,7 +96,7 @@ public class PayOrderAction extends AbstractController {
 			
 			
 			// 장바구니에서 여러개의 상품이 넘어온경우
-			if(cartno!=null && pnumArr.length!= 1) { 
+			if(cartno!=null && pnumArr.length> 1) { 
 				
 				InterOrderDAO odao = new OrderDAO();
 				

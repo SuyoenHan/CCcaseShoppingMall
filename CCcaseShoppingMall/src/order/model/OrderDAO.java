@@ -345,7 +345,7 @@ public class OrderDAO implements InterOrderDAO {
 						 "from dual";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				
@@ -360,7 +360,7 @@ public class OrderDAO implements InterOrderDAO {
 	}
 	
 	
-	// 주문완료시 여러 테이블에 insert 및  등등 작업
+	// 즉시구매 주문시 여러 테이블에 insert 및  등등 작업
 	@Override
 	public int orderAdd(Map<String, String> para2Map) throws SQLException {
 		
@@ -393,7 +393,7 @@ public class OrderDAO implements InterOrderDAO {
 			pstmt.setInt(5, Integer.parseInt(para2Map.get("finalamount")));
 			
 			n1 = pstmt.executeUpdate();
-			System.out.println("n1 : "+n1);
+			//System.out.println("n1 : "+n1);
 			
 			// 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
 			if(n1==1) {
@@ -408,7 +408,7 @@ public class OrderDAO implements InterOrderDAO {
 				pstmt.setInt(5, Integer.parseInt(para2Map.get("pdetailprice")));
 				
 				n2 = pstmt.executeUpdate();
-				System.out.println("n2 : "+n2);
+				//System.out.println("n2 : "+n2);
 				
 				// 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
 				if(n2==1) {
@@ -421,7 +421,7 @@ public class OrderDAO implements InterOrderDAO {
 					pstmt.setString(2, para2Map.get("pnum"));
 					
 					n3 = pstmt.executeUpdate();
-					System.out.println("n3 : "+n3);
+					//System.out.println("n3 : "+n3);
 					
 					// 4. 이용자가 포인트를 사용한 경우.. => 포인트 차감시키기, + 또는 적립금 넣어주기
 					if(n3==1) {
@@ -432,10 +432,10 @@ public class OrderDAO implements InterOrderDAO {
 						pstmt = conn.prepareStatement(sql);
 						pstmt.setInt(1, Integer.parseInt(para2Map.get("expectPoint")));
 						pstmt.setInt(2, Integer.parseInt(para2Map.get("qUsepoint")));
-						pstmt.setString(2, para2Map.get("fk_userid"));
+						pstmt.setString(3, para2Map.get("fk_userid"));
 						
 						n4 = pstmt.executeUpdate();
-						System.out.println("n4 : "+n4);
+						//System.out.println("n4 : "+n4);
 					}
 					
 				}
@@ -468,7 +468,125 @@ public class OrderDAO implements InterOrderDAO {
 	
 	
 	
-	
+	// 장바구니에서 한개 상품만 구매 시 여러 테이블에 insert 및  등등 작업
+	@Override
+	public int oneCartorder(Map<String, String> para2Map) throws SQLException {
+		
+		int success = 0;
+		int n1=0, n2=0, n3=0, n4=0,n5=0;
+		// 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
+	    // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
+        // 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
+        // 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
+        // 4. 이용자가 포인트를 사용한 경우.. => 포인트 차감시키기, + 또는 적립금 넣어주기
+        //  update이며 , tbl_member에서(where userid,totalpoint) 
+        // 5. 장바구니에서 해당 제품 삭제 tbl_cart delete(cartno필요,fk_userid)
+        // 모든처리가 성공되었을 시 commit하기 (수동커밋)
+        // 6. SQL오류 발생 시 rollback하기
+		
+		try {
+			
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			
+			// 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
+			String sql = " insert into tbl_order(orderno,fk_userid,totalPrice,shipstartdate,depositdate,shipfee,finalamount) "+
+						 " values(?,?,?,sysdate,sysdate,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, para2Map.get("orderno"));
+			pstmt.setString(2, para2Map.get("fk_userid"));
+			pstmt.setInt(3, Integer.parseInt(para2Map.get("totalPrice")));
+			pstmt.setInt(4, Integer.parseInt(para2Map.get("shipfee")));
+			pstmt.setInt(5, Integer.parseInt(para2Map.get("finalamount")));
+			
+			n1 = pstmt.executeUpdate();
+			//System.out.println("n1 : "+n1);
+			
+			// 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
+			if(n1==1) {
+				sql = " insert into tbl_odetail(odetailno,fk_orderno,fk_pnum,odqty,shipstatus,pdetailprice) "+
+					  " values(seq_odetail_odetailno.nextval,?,?,?,?,?) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, para2Map.get("orderno"));
+				pstmt.setString(2, para2Map.get("pnum"));
+				pstmt.setInt(3, Integer.parseInt(para2Map.get("odqty")));
+				pstmt.setInt(4, Integer.parseInt("1"));
+				pstmt.setInt(5, Integer.parseInt(para2Map.get("pdetailprice")));
+				
+				n2 = pstmt.executeUpdate();
+				//System.out.println("n2 : "+n2);
+				
+				// 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
+				if(n2==1) {
+					
+					sql = " update tbl_pdetail set pqty = pqty - ? "+
+			    		  " where pnum = ?";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, Integer.parseInt(para2Map.get("odqty")));
+					pstmt.setString(2, para2Map.get("pnum"));
+					
+					n3 = pstmt.executeUpdate();
+					//System.out.println("n3 : "+n3);
+					
+					// 4. 이용자가 포인트를 사용한 경우.. => 포인트 차감시키기, + 또는 적립금 넣어주기
+					if(n3==1) {
+						
+						sql = " update tbl_member set totalpoint = totalpoint + ? - ? "+
+							  " where userid= ? ";
+						
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setInt(1, Integer.parseInt(para2Map.get("expectPoint")));
+						pstmt.setInt(2, Integer.parseInt(para2Map.get("qUsepoint")));
+						pstmt.setString(3, para2Map.get("fk_userid"));
+						
+						n4 = pstmt.executeUpdate();
+						//System.out.println("n4 : "+n4);
+						
+						// 5. 장바구니에서 해당 제품 삭제 tbl_cart delete(cartno필요,fk_userid)
+						if(n4==1) {
+							
+							
+							 sql = " delete from tbl_cart "+
+								   " where cartno= ? ";
+							 
+							 pstmt = conn.prepareStatement(sql);
+							 pstmt.setInt(1,Integer.parseInt(para2Map.get("cartno")));
+							 
+							 n5 = pstmt.executeUpdate();
+							// System.out.println("n5 : "+n5);
+							
+						}
+					}
+					
+				}
+				
+			}// end of if(n1==1)
+			
+			if(n1*n2*n3*n4*n5 > 0) {
+				
+				conn.commit(); // 커밋
+				
+				conn.setAutoCommit(true); // 자동커밋으로 전환
+				
+				success=1;
+				
+			}
+
+		} catch(SQLException e) {
+			conn.rollback(); // 롤백
+            
+            conn.setAutoCommit(true); // 자동커밋으로 전환
+		}
+	      finally {
+			close();
+		}
+		
+
+		return success;
+	}
 	
 	
 	
@@ -682,7 +800,6 @@ public class OrderDAO implements InterOrderDAO {
 	
 	
 	
-	
 	//###################조승진 시작########################//
 	
 	//게시물 관리에서 리뷰작성 가능하도록 불러오기
@@ -753,6 +870,8 @@ public class OrderDAO implements InterOrderDAO {
 	      return reviewList;
 	}
 	//###################조승진 종료########################//
+
+
 
 
 
