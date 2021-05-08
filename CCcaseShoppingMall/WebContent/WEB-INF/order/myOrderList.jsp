@@ -27,6 +27,10 @@
   
 <style>
 
+
+	div.contents{
+		width:80%;
+	}
 	div#dateGroup{
 		background-color: #a6a6a6;
 		color:
