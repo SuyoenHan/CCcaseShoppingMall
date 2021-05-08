@@ -51,24 +51,20 @@ public class EventPartDAO implements InterEventPartDAO {
 		
 		try {
 			
-			conn= ds.getConnection();
-			conn.setAutoCommit(false); 
+			conn= ds.getConnection(); 
 			
 			String sql = " insert into tbl_eventPart(fk_eventno,fk_userid) " + 
 						 " values (?,?) ";
 			
 			pstmt= conn.prepareStatement(sql);
-			pstmt.setString(1, eventno);
+			pstmt.setInt(1, Integer.parseInt(eventno));
 			pstmt.setString(2, userid);
 			
 			n = pstmt.executeUpdate();
-
-			 if(n==1) {
-	        	 conn.commit(); // 둘다 업데이트 되어지면 커밋해줌
-	         }
 			
 		}catch(SQLIntegrityConstraintViolationException e){ // 중복되어졌을때 제약조건 위배되기 때문에 exception 처리해줌 그렇게 되면 n=0으로 return되어진다.
-			conn.rollback();
+			n=0;
+		
 		}finally {
 			close();
 		}

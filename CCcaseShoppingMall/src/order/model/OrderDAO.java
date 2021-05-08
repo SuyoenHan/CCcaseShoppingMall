@@ -990,7 +990,6 @@ public class OrderDAO implements InterOrderDAO {
 		             ProductDetailVO pdvo = new ProductDetailVO();		 
 		             pdvo.setPnum(pnum);
 
-		             
 		             ODetailVO odvo = new ODetailVO();
 		             odvo.setOdetailno(odetailno);
 		             
@@ -1007,6 +1006,35 @@ public class OrderDAO implements InterOrderDAO {
 	      }
 	      
 	      return reviewList;
+	}
+	
+	
+	//myPageHeader에서 주문건수 불러오기 
+	@Override
+	public int countOrder(String userid) throws SQLException {
+		int ocnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(*) "
+							+ " from tbl_order "
+							+ " where fk_userid = ? ";
+			
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setNString(1, userid);
+			
+			 rs = pstmt.executeQuery();
+	          
+	         rs.next();
+			 
+	         ocnt = rs.getInt(1);
+	         
+		} finally {
+			close();
+		}
+		
+		return ocnt;
 	}
 	//###################조승진 종료########################//
 

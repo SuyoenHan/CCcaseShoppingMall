@@ -82,9 +82,18 @@
 		// 특정 글을 그 글의 상세정보를 보여주도록 한다.
 		$("tr.eventInfo").click(function(){
 
-			var eventno = $(this).children(".eventno").text();
-
-			location.href ="eventDetail.cc?eventno="+eventno+"&goBackURL=${requestScope.goBackURL}";
+			if("${loginuser}"==""){
+				alert("이벤트 내용은 로그인 후 확인 가능합니다.");
+				response.sendRedirect("javascript:history.back()");
+				return;
+			}
+			else{
+				var eventno = $(this).children(".eventno").text();
+				if(eventno=="1"){
+					location.href="<%=ctxPath%>/board/gawibawiboEvent.cc?eventno="+eventno+"&goBackURL=${requestScope.goBackURL}"; 
+					return;
+				}
+			}
 
 		}); 	
 	});// end of $(document).ready(function(){})-------------------------------------------------------------------

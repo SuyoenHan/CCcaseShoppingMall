@@ -61,8 +61,8 @@ public class MemberWriteListReviewAction extends AbstractController {
 		//System.out.println(pageNo);
 		//***[맨처음] [이전] 만들기***//
 		if(pageNo != 1) {
-			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo=1'>[맨처음]</a>&nbsp;";  
-			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo=1'><<</a>&nbsp;";  
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'><</a>&nbsp;";
 		}
 		while( !(loop > blockSize || pageNo > totalPage) ) {
             
@@ -80,8 +80,8 @@ public class MemberWriteListReviewAction extends AbstractController {
          }// end of while--------------------------------
 		
 		if(!(pageNo > totalPage)) {
-			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";
-			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+totalPage+"'>[마지막]</a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+pageNo+"'>></a>&nbsp;";
+			pageBar += "&nbsp;<a href='memberWriteListReview.cc?userid="+userid+"&currentShowPageNo="+totalPage+"'>>></a>&nbsp;";
 		}
 		
 		request.setAttribute("pageBar", pageBar);

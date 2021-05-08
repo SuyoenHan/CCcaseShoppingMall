@@ -190,7 +190,6 @@
 						<span id="prodName" style="color: #737373; font-size: 10pt;">${rvo.fk_pname}</span><br><br>
 						<span style="font-weight:bold; font-size:14pt;">"${rvo.rvtitle}"</span><br>
 						<span style="font-size:10pt;">${rvo.rvcontent}</span>
-						&nbsp;&nbsp;&nbsp;<a class="btnReadMore" style="font-style:italic;">더보기</a>
 					</td>
 					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br>
 							${rvo.fk_userid}</td>

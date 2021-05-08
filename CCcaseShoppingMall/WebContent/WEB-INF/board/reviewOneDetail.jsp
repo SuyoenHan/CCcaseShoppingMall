@@ -86,9 +86,8 @@
 			location.href="<%=ctxPath%>/board/reviewList.cc";
 	}
 	
-	
 	// **** 특정제품에 대한 좋아요 등록하기 **** // 
-	function goAddlike() {
+	function goAddlike(reviewno) {
 		if(${empty sessionScope.loginuser}) {
 			alert("도움이 돼요를 누르시려면 먼저 로그인 하셔야 합니다.");
 			return;
@@ -96,9 +95,8 @@
 		
 		$.ajax({
 			url: "<%=ctxPath%>/board/likeAdd.cc",
-			type: "post",
-			data: {"userid":"${sessionScope.loginuser.userid}"
-					  ,"reviewno":reviewno},
+			type: "POST",
+			data: {"reviewno":reviewno},
 			dataType: "json",
 			success:function(json){
 				alert(json.msg);
@@ -112,7 +110,7 @@
 	}// end of function goAddlike() {}-----------------------------------------------------------
 
 	// **** 특정 제품에 대한 좋아요, 싫어요 갯수를 보여주기 **** //
-	function goLikeCnt() {
+	function goLikeCnt(reviewno) {
 		
 		$.ajax ({
 			url:"<%=ctxPath%>/board/likeCount.cc",
@@ -218,7 +216,7 @@
 					<p>${requestScope.rvo.rvcontent}</p>
 				</div>
 				<div id="ddabong" >
-					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #000);" onclick="goAddlike(${requestScope.rvo.reviewno})"/>&nbsp;&nbsp;
+					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #000);" onclick="goAddlike(${requestScope.reviewno})"/>&nbsp;&nbsp;
 					<div id="likeCnt" style="color:black; font-weight: bold;"></div>
 				</div>
 			
