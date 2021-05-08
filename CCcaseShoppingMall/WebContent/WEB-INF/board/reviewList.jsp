@@ -116,12 +116,6 @@
 			goRSearch();
 		});	
 		
-		$(document).on("click","#btnWrite", function(){
-			location.href="<%=ctxPath%>/board/reviewWrite.cc";
-		});
-			
-		
-		
 		// 포토리뷰의 사진 클릭시 리뷰상세페이지로 이동
 		$("a.goDetail").click(function(){
 			var reviewno = $(this).prop('id');
@@ -163,7 +157,9 @@
 		<ul style="list-style:none; margin-top: 10px;">
 			<c:forEach var="rvo" items="${requestScope.revList}">
 				<li style="display : inline;">
-					<c:if test="${rvo.reviewimage1 != null}"><a id="${rvo.reviewno}" class="goDetail"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
+					<c:if test="${rvo.reviewimage1 != null}">
+					<input type="hidden" name="reviewno" id="reviewno" value="${rvo.reviewno}"/>
+					<a id="${rvo.reviewno}" class="goDetail"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
 				</li>
 			</c:forEach>
 		</ul>
@@ -186,7 +182,7 @@
 			<tbody>
 				<c:forEach var="rvo" items="${requestScope.revList}">
 				<tr class="reviewInfo">
-					<td style="vertical-align:middle; text-align: center;" class="reviewno" id="${rvo.reviewno}">${rvo.reviewno}</td>
+					<td style="vertical-align:middle; text-align: center;" class="reviewno" id="${rvo.reviewno}">
 					<td style="vertical-align:middle; width:20%; text-align: left;">
 						<img src="../images/${rvo.pimage1}" style="width:200px; height:150px;">
 					</td>
@@ -208,10 +204,7 @@
 		<div id="pager" style="text-align:center; padding: 20px 0; clear:both;">
 				${requestScope.pageBar}
 		</div>
-		
-		<br>
-		
-		<button type="button" id="btnWrite">글쓰기</button>
+
 		
 </div>
 <jsp:include page="../footer.jsp" />

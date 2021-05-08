@@ -20,8 +20,7 @@ public class ReviewEditAction extends AbstractController {
 		String method = request.getMethod();
 		String userid = request.getParameter("fk_userid");
 		
-		
-		if(loginuser != null && userid.equals(loginuser.getUserid())) {
+		if(super.checkLogin(request)) {
 		
 			String reviewno = request.getParameter("reviewno");
 			

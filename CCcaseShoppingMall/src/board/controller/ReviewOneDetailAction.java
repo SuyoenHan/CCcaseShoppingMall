@@ -25,6 +25,7 @@ public class ReviewOneDetailAction extends AbstractController {
 		ReviewVO rvo = rdao.reviewOneDetail(reviewno);
 		request.setAttribute("rvo", rvo);
 		
+		request.setAttribute("reviewno", reviewno);
 		// 해당리뷰 구매제품의 스펙번호 알아오기 
 		String odetailno= rvo.getFk_odetailno();		
 		int snum= rdao.getSnumByReviewno(odetailno);
