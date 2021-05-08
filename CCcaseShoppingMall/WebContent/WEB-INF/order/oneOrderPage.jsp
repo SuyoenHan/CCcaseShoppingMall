@@ -45,7 +45,6 @@
 	
 	.delivery-condition {
 	   position: relative;
-	   padding-bottom: 40px;
 	}
 	
 	.delivery-condition-name {
@@ -182,6 +181,7 @@
 	.section-payment-info-title {
 	   border-bottom: 1px solid #ececec;
 	   padding-bottom: 20px;
+	   font-weight: 600;
 	}
 	
 	.payment-type-list {
@@ -416,7 +416,7 @@
                 var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
 
                 window.open(url, "orderSuccess",
-                                 "left=350px, top=100px, width=650px, height=570px");      
+                                	 "left=350px, top=100px, width=800px, height=570px");      
       }); // end of  $("button.btn-order").click(function(){})---------------------------
        
     });     
@@ -574,8 +574,8 @@
          <!-- 배송/주문자 정보 시작 -->
          <div class="delivery-info left-section">
             <div class="delivery-user">
-               <h3 style="font-weight: 600;">주문자 정보</h3>
-               <ul class="delivery-user-info">
+               <h3 style="font-weight: 600; padding-bottom: 20px;">주문자 정보</h3>
+               <ul class="delivery-user-info" >
                   <li>
                      <span class="info-type">이름</span>
                      <strong class="info-value">${sessionScope.loginuser.name}</strong>
@@ -590,7 +590,7 @@
                   </li>
                </ul>
             </div>
-            <h3>배송 정보</h3>
+            <h4 style="font-weight: 600; padding-top: 20px;">배송 정보</h4>
             <div class="delivery-condition">
             <!-- 등록된 배송지/새로운 배송지 중에 선택 
                   등록된 배송지:회원정보 배송지, 새로운 배송지:새로 입력한 주소-->
