@@ -28,79 +28,61 @@ td {
 <script type="text/javascript">
    
    $(document).ready(function(){
-      
-      var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
-      var allShipfee="${requestScope.allShipfee}";    // 배송료
-      var totalpoint ="${requestScope.allExpectPoint}" // 총예상적립금
-      var qUsepoint = Number($("input#totalpoint").val());
-      
-      // 흠..............
-      if(qUsepoint==""){
-         qUsepoint = 0;
-      }
-      
-      var finalamount=Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
-      // if()해줘서 point사용했냐 안했냐에 따라 point차감도 넣어주자
-      
-      var pnumArr = new Array();
-      var odqtyArr = new Array();
-      var pdetailpriceArr = new Array();
-      var cartnoArr = new Array();
-      
-      // 넘어온 배열의 크기
-      var listSize = Number("${requestScope.listSize}");
-      // console.log(listSize);
-      
-      for(var i=0; i<listSize; i++){
-         
-         pnumArr.push($("input.fk_pnum").eq(i).val());
-      //   console.log("pnum : "+$("input.fk_pnum").eq(i).val());
-         odqtyArr.push($("input.odqty").eq(i).text());
-      //   console.log($("input.odqty").eq(i).val());
-         pdetailpriceArr.push($("input.pdetailprice").eq(i).val());
-      //   console.log($("input.odqty").eq(i).val());
-         cartnoArr.push($("input.cartno").eq(i).val())
+     	
+	    var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
+	    var allShipfee="${requestScope.allShipfee}";    // 배송료
+	    var totalpoint ="${requestScope.allExpectPoint}"; // 총예상적립금
+	    var qUsepoint = Number($("input#totalpoint").val());
+	      
+	    if(qUsepoint==""){
+	         qUsepoint = 0;
+	    }
+	    
+	    var finalamount=Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
+	      // if()해줘서 point사용했냐 안했냐에 따라 point차감도 넣어주자
 
-      }// end of for ----
-      
-      $.ajax({
-           url:"<%= ctxPath%>/order/manyOrderUpdate.cc",
-           type:"post",
-           data:{"totalPrice":totalPrice,
-	                "allShipfee":allShipfee,
-	                "totalpoint":totalpoint,
-	                "qUsepoint":qUsepoint,
-	                "finalamount":finalamount,
-	                "pnum_es":pnumArr,
-	                "odqty_es":odqtyArr,
-	                "pdetailprice_es":pdetailpriceArr,
-	                "cartno_es":cartnoArr},
-	       dataType:"json",
-           success:function(json){
-              
-              if(json.isSuccess == 1){
-                
-                 location.href="<%= ctxPath%>/order/myOrderList.cc";
-              }
-              
-           },
-           error: function(request, status, error){
-                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-                } 
+	       // 포인트 버튼 처리
+	       $("button#totalpoint").click(function(){
+	          
+	          if("${requestScope.totalpoint}"==0){
+	             alert("보유중인 포인트가 없습니다.");
+	             qUsepoint = 0;
+	             return;
+	          }
+	          else{
+	             $("input#totalpoint").val(Number("${requestScope.totalpoint}"));
+	             qUsepoint=Number("${requestScope.totalpoint}");
+	          }
+	          
+	          
+	          finalamount =Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);
+	          $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+	            
+	      }); // end of $("button#totalpoint").click(function(){})---------------------------
+	         
+	       // 결제 버튼 처리 
+	          $("button.btn-order").click(function(){
+	              sessionStorage.setItem('finalamount', $("span#finalamount").val());
+	                
+	                // 아임포트 결제 팝업창 띄우기
+	                var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
 
-        }); // end of $.ajax
-      
+	                window.open(url, "orderSuccess",
+	                                 "left=350px, top=100px, width=650px, height=570px");      
+	      }); // end of  $("button.btn-order").click(function(){})---------------------------
+	       
+
         // 결제 버튼 처리 
         $("button.btn-order").click(function(){
             sessionStorage.setItem('finalamount', $("span#finalamount").val());
               
               // 아임포트 결제 팝업창 띄우기
-              var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
+            var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
 
-              window.open(url, "orderSuccess",
+            window.open(url, "orderSuccess",
                                "left=350px, top=100px, width=800px, height=600px");     
               
-    }); // end of  $("button.btn-order").click(function(){})---------------------------
+   		}); // end of  $("button.btn-order").click(function(){})---------------------------
       
    });// end of $(document).ready(function(){
 
@@ -121,16 +103,78 @@ td {
       }
   
 	}// end of function setDisplay()--------------------------------------
+	
+	
 
+	// 결제가 성공했을때 이루어지는 함수
 	function goOrder(userid, finalamount) {
-	    var frm = document.orderUpdateFrm;
-	    frm.userid.value = userid;
-	    frm.finalamount.value = finalamount;
-	    
-	    frm.action = "<%=request.getContextPath()%>/order/manyOrderUpdate.cc";
-	    frm.method="POST";
-	    frm.submit();
-	 }
+					
+		  var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
+	      var allShipfee="${requestScope.allShipfee}";    // 배송료	
+		  var qUsepoint= $("input#totalpoint").val();	
+		  var totalpoint ="${requestScope.allExpectPoint}";
+		  
+	      // console.log("totalPrice :"+totalPrice);
+	      // console.log("allShipfee :"+allShipfee);
+	      // console.log("qUsepoint :"+qUsepoint);
+	      
+		  var finalamount = Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
+	      var pnumArr = new Array();
+	      var odqtyArr = new Array();
+	      var pdetailpriceArr = new Array();
+	      var cartnoArr = new Array();
+	      // console.log("finalamount :"+finalamount);
+
+	      
+	      // 넘어온 배열의 크기
+	      var listSize = Number("${requestScope.listSize}");
+	      // console.log(listSize);
+	      
+	      for(var i=0; i<listSize; i++){
+	         
+	         pnumArr.push($("input.fk_pnum").eq(i).val());
+	         console.log("pnum : "+$("input.fk_pnum").eq(i).val());
+	         odqtyArr.push($("input.odqty").eq(i).val());
+	         console.log("odqty : "+$("input.odqty").eq(i).val());
+	         pdetailpriceArr.push($("input.saleprice").eq(i).val());
+	         console.log("pdetailprice : "+$("input.saleprice").eq(i).val());
+	         cartnoArr.push($("input.cartno").eq(i).val());
+	         console.log("cartno : "+$("input.cartno").eq(i).val());
+
+	      }// end of for ----
+		
+	      var pnum_es = pnumArr.join();
+	      var odqty_es = odqtyArr.join();
+	      var pdetailprice_es = pdetailpriceArr.join();
+	      var cartno_es = cartnoArr.join();
+	      
+		$.ajax({
+	           url:"<%= ctxPath%>/order/manyOrderUpdate.cc",
+	           type:"post",
+	           data:{"totalPrice":totalPrice,
+		             "allShipfee":allShipfee,
+		             "totalpoint":totalpoint,
+		             "qUsepoint":qUsepoint,
+		             "finalamount":finalamount,
+		             "pnum_es":pnum_es,
+		             "odqty_es":odqty_es,
+		             "pdetailprice_es":pdetailprice_es,
+		             "cartno_es":cartno_es},
+		       dataType:"json",
+	           success:function(json){
+	              
+	              if(json.success == 1){
+	                
+	                 location.href="<%= ctxPath%>/order/myOrderList.cc";
+	              }
+	              
+	           },
+	           error: function(request, status, error){
+	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                } 
+
+        }); // end of $.ajax
+	 } // end of function goOrder
 
 </script>
     
@@ -149,7 +193,7 @@ td {
                   <th colspan="2">상품정보</th>
                   <th>판매가</th>
                   <th>수량</th>
-                  <th>적립금</th>
+                  <th>예상적립금</th>
                   <th>배송구분</th>
                   <th>배송비</th>
                </tr>
@@ -162,7 +206,7 @@ td {
                   <tr>   
                        <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${productMap.fk_productid} ><img src="<%= ctxPath%>/images/${productMap.pimage1}" width="80px" height="80px" /></a></td>
                        <td style="width:130px;">${productMap.productname}</td>
-                       <td><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원<input type="hidden" class="pdetailprice" value="${productMap.price}"/></td>
+                       <td><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원</td>
                        <td rowspan="2">${productMap.cntArr}개<input type="hidden" class="odqty" value="${productMap.cntArr}"/></td>
                        <td rowspan="2">${productMap.oneExpectpoint}원</td>
                        <td rowspan="2">
@@ -180,8 +224,8 @@ td {
                     </tr>
                     
                    <tr> 
-                      <td>옵션:&nbsp;${productMap.modelname}</td>
-                      <td id="salePrice"><fmt:formatNumber value="${productMap.saleprice}" pattern="#,###,###" />원</td>
+                      <td>옵션:&nbsp;${productMap.modelname}(${productMap.pcolor})</td>
+                      <td><fmt:formatNumber value="${productMap.saleprice}" pattern="#,###,###" />원<input type="hidden" class="saleprice" value="${productMap.saleprice}"/></td>
                    </tr>
             </c:forEach>
             </tbody>
@@ -305,7 +349,7 @@ td {
                   <li class="expected-price-item">
                      <span class="expected-price-title">배송비</span>
                      <span>
-                        <fmt:formatNumber value="${requestScope.shipfee}" type="number" pattern="#,###,###"/>원
+                        <fmt:formatNumber value="${requestScope.allShipfee}" type="number" pattern="#,###,###"/>원
                      </span>
                   </li>
                   <li class="expected-price-item">
