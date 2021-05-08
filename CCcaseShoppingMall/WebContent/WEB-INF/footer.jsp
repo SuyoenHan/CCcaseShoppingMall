@@ -16,7 +16,7 @@
 	}
 	
 	div.footerInfo{
-		background-color: #333300;
+		background-color: #698d96;
 		color: #fff;
 		font-weight: bold;
 		text-align: center;
