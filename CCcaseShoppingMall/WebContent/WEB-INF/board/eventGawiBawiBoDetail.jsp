@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 
 <style type="text/css">
-
    div#content{
    		margin-left: 20%;
    		margin-top: 5%;
@@ -95,13 +94,9 @@
    
    
   </style>
-
 <script type="text/javascript">
-
     var goBackURL = "";
-
 	$(document).ready(function(){
-
 		goBackURL = "${requestScope.goBackURL}";
 		goBackURL = goBackURL.replace(/ /gi, "&");
 		
@@ -218,7 +213,6 @@
             location.href="eventDelete.cc?eventno=${requestScope.evo.eventno}";
         }
 	}// end of function goDelete()---------------------------------------------
-
 	function goPrev(){
 		location.href= "eventDetail.cc?eventno=${requestScope.pevo.eventno}";
 	}// end of function goPev()-------------------------------------------------
@@ -227,33 +221,30 @@
 		location.href= "eventDetail.cc?eventno=${requestScope.nevo.eventno}";
 	}// end of function goNext()------------------------------------------------
 </script>
-
 <div id="content" >
 <h2 style="margin: 20px;">EVENT</h2>
     
     <form name="eventDetailForm">
     <table style="width: 700px; border-color: lightgray;">
-
         <tr>
             <td class="title">제목</td>
-            <td>가위바위보 이벤트!!! </td>        
+            <td style="padding-left:20px;">${title}</td>        
         </tr>
         <tr>
             <td class="title">작성자</td>
-            <td>${requestScope.evo.fk_adminid}</td>
+            <td style="padding-left:20px;">${fk_adminid}</td>
         </tr>
         <tr>
             <td class="title">시작일</td>
-            <td>${requestScope.evo.startdate}</td>
+            <td style="padding-left:20px;">${startdate}</td>
         </tr>
         <tr>
             <td class="title">종료일</td>
-            <td>${requestScope.evo.enddate}</td>
+            <td style="padding-left:20px;">${enddate}</td>
         </tr>
         <tr>
             <td class="title">등록일</td>
-            <td>${requestScope.evo.registerdate}</td>
-             <hr style="color:#6D919C;">
+            <td style="padding-left:20px;">${registerdate}</td>
         </tr>
         
         <tr>
@@ -286,7 +277,6 @@
 			<button type="button" onclick="goDelete()" style="margin-top: 50px; background-color: rgb(224, 224, 224); border:none; width: 100px; height: 40px; border-radius: 5px;">삭제</button>
 		</c:if>
 	</div>
-
   	<!-- 이전글, 다음글 조회 -->
 	<div>
 		<table class="prev_next">
@@ -329,6 +319,4 @@
 	</div>
 	<!-- 이전글, 다음글 끝 -->	
 </div>
-
-
- <jsp:include page="../footer.jsp" />
+<jsp:include page="../footer.jsp" />
