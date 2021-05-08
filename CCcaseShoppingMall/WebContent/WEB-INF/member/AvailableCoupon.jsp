@@ -6,7 +6,7 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="../../WEB-INF/header.jsp" />
+<jsp:include page="../../WEB-INF/member/myPageHeader.jsp" />
 <jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
 
 <style type="text/css">

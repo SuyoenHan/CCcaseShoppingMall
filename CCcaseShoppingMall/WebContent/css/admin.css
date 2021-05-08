@@ -12,7 +12,7 @@ div#container{
 }
 
 div#logo{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 15%;
 	height: 120px;
@@ -21,7 +21,7 @@ div#logo{
 }
 
 div#mainMenu{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 68%;
 	height: 120px;
@@ -31,7 +31,7 @@ div#mainMenu{
 }
 
 div#login{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 15%;
 	height: 120px;
@@ -55,7 +55,7 @@ div#contents{
 
 div#footer{
 	clear: both;
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	height: 400px;
 	margin-bottom: 100px;
 }

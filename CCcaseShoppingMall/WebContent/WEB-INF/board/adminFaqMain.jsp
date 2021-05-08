@@ -12,20 +12,20 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  
 <style>
-
-	 
-
-	div#contents {
+div#contents {
 		margin-left: 35px ;
     	margin-right: 35px ;
 		color: #333;
 		width:70%;
+		height: 1200px;
+		overflow: visible;
 		
 	}
 	
 	.container{
 		width:100% !important;
 		margin-top:20px;
+		
 	}
 
 	div#title{
@@ -40,11 +40,7 @@
 	}
 
 	
-	table , tr {
-		border:solid 1px gray;
-		border-collapse: none;
-		line-height: 30px;
-	}
+	
 	
 	button.button{
 	 width:80px;
@@ -52,6 +48,7 @@
 	 margin-left: 35px ;
 	 border:solid 1px #98B7C1;
      background-color: #98B7C1;
+    
 	}
 	
 	.button:hover{
@@ -60,20 +57,9 @@
     	
 	}
 	
-	thead th {
-	
-		background-color: #8c8c8c;
-	}
-	
-     
-    .cal{
-    	font-weight: bold;
-    	font-size:16px;
-    	border: solid 1px gray;
-    	margin-left: 35px ;
-    	margin-right: 35px ;
-    	line-height: 40px;
-    	
+    td{
+    	height: 35px;
+   		
     }
     .faqcontent{
     	background-color: #e6e6e6;
@@ -84,7 +70,7 @@
     }
     
     tr.faqSimple{
-     
+      
 	   color: #444;
 	   cursor: pointer;
 	   padding: 18px;
@@ -96,7 +82,7 @@
 	   transition: 2s;
     }
     tr.faqSimple:hover{
-   	 background-color:   #ecf2f9 ;
+   	 background-color:  #ecf2f9 !important;
     }
     
   
@@ -107,6 +93,20 @@
      div#faq:hover{
      	background-color:#CCF2F4; 
      }
+     
+     tr#tr1{
+     	background-color: #6D919C !important;
+     	font-weight: bold;
+   		font-size: 18px;
+   		text-align: center;
+   		color: white;
+   		height: 40px;
+     	
+     }
+   
+   	table.faqDetail{
+   		border-bottom: solid 1px #6D919C;
+   	}
     
 </style>
   
@@ -271,7 +271,7 @@
 		  <form name="faqFrm">
 			<table class="table table-hover">
 				<thead>
-					<tr style="width:80%;">
+					<tr id="tr1"style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
 						<th>등록일자</th>

@@ -18,12 +18,15 @@
     	margin-right: 35px ;
 		color: #333;
 		width:70%;
+		height: 1200px;
+		overflow: visible;
 		
 	}
 	
 	.container{
 		width:100% !important;
 		margin-top:20px;
+		
 	}
 
 	div#title{
@@ -38,11 +41,7 @@
 	}
 
 	
-	table , tr {
-		border:solid 1px gray;
-		border-collapse: none;
-		line-height: 30px;
-	}
+	
 	
 	button.button{
 	 width:80px;
@@ -59,20 +58,9 @@
     	
 	}
 	
-	thead th {
-	
-		background-color: #8c8c8c;
-	}
-	
-     
-    .cal{
-    	font-weight: bold;
-    	font-size:16px;
-    	border: solid 1px gray;
-    	margin-left: 35px ;
-    	margin-right: 35px ;
-    	line-height: 40px;
-    	
+    td{
+    	height: 35px;
+   		
     }
     .faqcontent{
     	background-color: #e6e6e6;
@@ -98,10 +86,7 @@
    	 background-color:  #ecf2f9 !important;
     }
     
-    #contents > div.container > table > tbody > tr.faqDetail {
-    	 
-    	background-color: white;
-    }
+  
     
     div#faq{
 		background-color: #6D919C;
@@ -109,8 +94,20 @@
      div#faq:hover{
      	background-color:#CCF2F4; 
      }
+     
+     tr#tr1{
+     	background-color: #6D919C !important;
+     	font-weight: bold;
+   		font-size: 18px;
+   		text-align: center;
+   		color: white;
+   		height: 40px;
+     	
+     }
    
-   
+   	table.faqDetail{
+   		border-bottom: solid 1px #6D919C;
+   	}
 </style>
   
 
@@ -239,24 +236,23 @@
 					<tr class="faqDetail" id="${fvo.faqno}">
 						<td colspan="4"> 
 							<table id="faqDetail">
-								<tr>
+								<tr class="faqDetailtr">
 									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; <span>${fvo.ftitle}</span></div>
 									
 								</tr>
-								<tr>
+								<tr  class="faqDetailtr">
 									<div class="cal" id="writer" name="writer">작성자: &nbsp;&nbsp;<span id="writer" name="writer">${fvo.fk_adminid}</span></div>
 								</tr>
-								<tr>
+								<tr class="faqDetailtr">
 								   <div class="cal">
 									<span >등록일:&nbsp;&nbsp;<span>${fvo.fregisterdate}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<span >최근수정일:&nbsp;&nbsp;<span>${fvo.fupdatedate}</span></span>
 									</div>
 								</tr>
-								<tr>
+								<tr  class="faqDetailtr">
 									<div class="cal">글내용</div>
 									<div class="faqcontent">${fvo.fcontent}</div>
-								     
 								</tr>
 							</table>
 						

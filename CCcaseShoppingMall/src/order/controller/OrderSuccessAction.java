@@ -10,8 +10,8 @@ import member.model.MemberVO;
 
 public class OrderSuccessAction extends AbstractController {
 
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+   @Override
+   public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");

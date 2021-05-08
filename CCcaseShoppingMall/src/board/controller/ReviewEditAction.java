@@ -14,69 +14,32 @@ public class ReviewEditAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		
 		String method = request.getMethod();
-		String userid = request.getParameter("fk_userid");
 		
+		String reviewno = request.getParameter("reviewno");
 		
-		if(loginuser != null && userid.equals(loginuser.getUserid())) {
-		
-			String reviewno = request.getParameter("reviewno");
+		if("GET".equalsIgnoreCase(method)) {
 			
-			if("POST".equalsIgnoreCase(method)) {
-				
-				userid = loginuser.getUserid();
-				
-				InterReviewDAO rdao = new ReviewDAO();
-				ReviewVO rvo = rdao.getReviewContents(userid , reviewno);
-				
-				request.setAttribute("rvo", rvo);
-				
-				String rvcontent = request.getParameter("rvcontent");
-				rvcontent = rvcontent.replaceAll("<", "&lt;");
-				rvcontent = rvcontent.replaceAll(">", "&gt;");
-				
-				rvcontent = rvcontent.replaceAll("\r\n","<br>");
-				
-				int n = rdao.revEditUpdate(rvo);
-				
-				String message = "";
-				String loc ="";
-				
-				if(n==1) {
-					message = "리뷰 수정이 완료되었습니다.";
-					loc = request.getContextPath() + "/board/reviewList.cc";
-				}
-				else {
-					message = "리뷰 수정에 실패하였습니다.";
-					loc = "javascript:history.back()";
-				}
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				
-				// super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
-			}
-			else {
-				InterReviewDAO rdao = new ReviewDAO();
-				
-				ReviewVO rvo = rdao.revEditOneView(reviewno);
-				
-				request.setAttribute("rvo", rvo);
-			}
+			InterReviewDAO rdao = new ReviewDAO();
+			
+			ReviewVO rvo = rdao.revEditOneView(reviewno);
+			
+			request.setAttribute("rvo", rvo);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/board/reviewEdit.jsp");
+			
 		}
 		else {
-			String message = "로그인 후 사용 가능합니다!";
-			String loc = "javascript:history.back()";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			super.setViewPage("/WEB-INF/msg.jsp");
-			
+		String goBackURL = request.getParameter("goBackURL");
+		request.setAttribute("goBackURL", goBackURL);
+		
+		reviewno = request.getParameter("reviewno");
+		String rvtitle = request.getParameter("rvtitle");
+		
+		
+	//	super.setRedirect(false);
+		super.setViewPage("/WEB-INF/board/reviewEdit.cc");
 		}
 	}
 

@@ -144,6 +144,8 @@
 	  var lenOrderList = 4;
 	 // orderList "더보기..." 버튼을 클릭할때 보여줄 상품의 개수(단위)크기 
 	 
+	 
+	 
 	 var fk_userid = "${sessionScope.loginuser.userid}";
 	 // display 할 orderList 정보를 추가 요청하기(Ajax 로 처리해야 함)
 	 function displayOrderList(start){ 
@@ -212,8 +214,12 @@
  	            	  }
   	            	   
  	            	  
- 	            	  
- 	            	  
+ 	            	 var totalPrice = item.totalPrice;
+ 		       		 //console.log(totalPrice);    
+ 		       	 	//상품가격에 , 찍어주기
+ 		             totalPrice= totalPrice.toLocaleString('en')+" 원";
+ 		            	  
+ 	            	 
   	                  html +=  
   	                	  	   "<tr id='tr2'> "+
   				      		   "     <td> "+
@@ -225,17 +231,19 @@
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
   							   "     <td id='odetailno' name='odetailno'>"+item.odetailno+"</td> "+
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
-  							   "     <td id='totalPrice' name='totalPrice'>"+item.totalPrice+"원</td> "+
+  							   "     <td id='totalPrice' name='totalPrice'>"+totalPrice+"</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
   							   "     <td>"+shipstatus+"<input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"' /></td> " +
   						       "</tr>"
   						     
 	            	  	        //console.log(item.odetailno);        
   	             	
-	
+	                                      
 	                  
-	               }); 
-	               
+	               }); //$.each(json, function(index, item) -------------------
+               
+               
+
 	               // 결과를 출력하기
 	               $("tbody#displayOrderList").append(html);
 	               
@@ -277,6 +285,11 @@
 						
 						
 					});
+	               
+	   ///////////            
+	              
+	               	
+	   //////////////            
 					
 					
 					//상품평관리 클릭
@@ -350,7 +363,7 @@
 <div id="contents" style="margin:20px 0px 0px 20px; width: 80%;">
 <form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
-	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회</span></h2>
+	  <h2>[ <span name="userid" id= "userid" style="color:#6D919C;">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회(3개월) ]</span></h2>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
 	  <table class="table table-hover" style="width: 95%;">
 	    

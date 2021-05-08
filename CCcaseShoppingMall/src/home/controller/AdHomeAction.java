@@ -210,6 +210,7 @@ public class AdHomeAction extends AbstractController {
 		
 		request.setAttribute("pInfoListDFree",pInfoListDFree);
 		request.setAttribute("pFreeCnt",pFreeCnt);
+	
 		
 		// ========================== 한수연 끝 ========================================
 		

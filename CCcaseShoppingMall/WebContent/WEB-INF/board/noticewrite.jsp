@@ -18,7 +18,7 @@
 	textarea {
 	 	 width:100%;
 	 	 height:400px;
-	 	 background-color: #e6e6e6;
+	 	 background-color: #ecf2f9;
 	 	 overflow: visible;
 	 	 border: none;
 	 	 
@@ -34,7 +34,7 @@
 	}
 
 	
-	 td {
+	 td.td {
 		border-bottom:solid 1px gray;
 		border-top:solid 1px gray;
 		border-collapse: collapse;
@@ -46,6 +46,7 @@
 		 width:80px;
 		 height:40px;
 		 margin-left: 35px ;
+		 margin-top: 30px;
 		 border:solid 1px #98B7C1;
 	     background-color: #98B7C1;
 	}

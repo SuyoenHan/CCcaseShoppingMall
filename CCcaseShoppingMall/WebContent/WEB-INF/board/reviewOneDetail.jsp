@@ -66,10 +66,6 @@
 		goBackURL = "${requestScope.goBackURL}"	;
 		goBackURL = goBackURL.replace(/ /gi, "&");
 		
-		func_height();
-		
-		goLikeCnt();
-		
 		$("button#btnDetail").click(function(){
 			goProdDetail();
 		});
@@ -78,16 +74,13 @@
 			var obj = document.getElementById("big");
 			var index = $(this).index();
 			obj.src = $(this).eq(index).src;
-		})
+		});
+		
+		
 		
 	}); // end of $(document).ready(function(){})--------------------------------------
 	
 	// Function Declaration
-	
-	function showBig() {
-		 
-		  obj.src = "../images/" + value;
-	}
 	
 	function goBack2List() {
 			location.href="<%=ctxPath%>/board/reviewList.cc";
@@ -123,7 +116,7 @@
 		
 		$.ajax ({
 			url:"<%=ctxPath%>/board/likeCount.cc",
-			data:{"reviewno","${requestScope.rvo.reviewno}"},
+			data:{"reviewno","${requestScope.reviewno}"},
 			dataType:"json",
 			success:function(json) {
 				$("div#likeCnt").html(json.likecnt);
@@ -141,34 +134,11 @@
 		location.href="<%=ctxPath%>/product/productDetail.cc?productid="+ productid + "&snum="+snum+"&goBackURL=${requestScope.goBackURL}"
 	}
 	
-	function delMyReview(review_seq) {
-		
-		var bool = confirm("정말로 리뷰를 삭제하시겠습니까?");
-		
-		if(bool) {
-			$.ajax({
-				url:"<%=ctxPath%>/board/reviewDel.cc",
-				type:"post",
-				data: {"reviewno":reviewno},
-				dataType:"json",
-				success:function(json){
-					if(json.n == 1) {
-						alert("리뷰가 삭제되었습니다.");
-						location.href="<%=ctxPath%>/board/reviewList.cc";
-					}
-					else {
-						alert("리뷰 삭제에 실패하였습니다.";)
-					}
-				},
-				error: function(request, status, error) {
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-				
-			});
+	function goDelOneRev() {
+		if(confirm("리뷰를 삭제하시겠습니까?")) {
+			location.href="<%=ctxPath%>/board/reviewDel.cc";
 		}
-		
 	}
-	
 	
 </script>
 
@@ -194,7 +164,9 @@
 		<table>
 			<tbody>
 				<tr style="border:solid 1px gray; height:40px;">
-					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px"></td>
+					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px">
+					<input type="hidden" id="productid" name="productid" value="${requestScope.pdvo.fk_productid}"/>
+					<input type="hidden" id="pnum" name="pnum" value="${requestScope.pdvo.pnum}" /></td>
 					<td style="padding: 10px; width: 650px;">
 						<c:if test="${requestScope.snum eq 1}">
 							<span style="background-color: #cc8800; font-weight:bold; font-size:8pt; color:white;">NEW</span><br>
@@ -239,6 +211,7 @@
 		
 				<div id="revBox">
 					<span style="font-weight:bold;">${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
+					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}">
 					<span>${requestScope.rvo.rregisterdate}&nbsp;|&nbsp;</span>			
 					<span>${requestScope.rvo.rviewcount}</span><br><br>
 					<span style="font-size: 15pt; font-weight: bolder;">${requestScope.rvo.rvtitle}</span><br>
@@ -251,8 +224,11 @@
 			
 				<div id="btnRevList" style="float:right;">
 					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewList.cc'">목록</button>
+				<c:if test="${sessionScope.loginuser.userid eq requestScope.rvo.fk_userid}">	
 					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewEdit.cc'">수정</button><%-- 로그인 후에 보여질지 결정 --%>
-					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewDel.cc'">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
+					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}"/>
+					<button type="button" onclick="goDelOneRev();">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
+				</c:if>	
 				</div>
 		</div>		
 		

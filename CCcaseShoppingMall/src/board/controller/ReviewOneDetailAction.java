@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
+import product.model.ProductDetailVO;
 import product.model.ProductVO;
 
 public class ReviewOneDetailAction extends AbstractController {
@@ -25,6 +26,7 @@ public class ReviewOneDetailAction extends AbstractController {
 		ReviewVO rvo = rdao.reviewOneDetail(reviewno);
 		request.setAttribute("rvo", rvo);
 		
+		request.setAttribute("reviewno", reviewno);
 		// 해당리뷰 구매제품의 스펙번호 알아오기 
 		String odetailno= rvo.getFk_odetailno();		
 		int snum= rdao.getSnumByReviewno(odetailno);
@@ -34,13 +36,15 @@ public class ReviewOneDetailAction extends AbstractController {
 		 		snum=0  베스트상품
 		 		snum=1    신상품
 		  */
-		
 		request.setAttribute("snum", snum);
 		
 		// 해당 리뷰의 구매 제품 가져오기 
 		ProductVO pvo = rdao.selectProduct(reviewno);
-		
 		request.setAttribute("pvo", pvo);
+		
+		// pnum 알아오기
+		ProductDetailVO pdvo = rdao.getPnum(reviewno);
+		request.setAttribute("pdvo", pdvo);
 		
 		// 조회수 증가시키기
 		if(reviewno != null) {
