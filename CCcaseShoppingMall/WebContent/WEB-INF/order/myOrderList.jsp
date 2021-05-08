@@ -9,9 +9,8 @@
 
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../member/myPageHeader.jsp" />  
 <jsp:include page="../mypageleftSide.jsp" />    
-
+<jsp:include page="../member/myPageHeader.jsp" />  
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,10 +26,6 @@
   
 <style>
 
-
-	div.contents{
-		width:80%;
-	}
 	div#dateGroup{
 		background-color: #a6a6a6;
 		color:
@@ -226,11 +221,11 @@
   							   "		<span id='productname' name='productname'>"+item.productname+"</span>&nbsp;&nbsp;<span id='pcolor' name='pcolor'>"+item.pcolor+"</span><br>  "+             
   							   " 		<span>옵션:&nbsp</span><span id='modelname' name='modelname'>"+item.modelname+"</span> "+
   							   "     </td>	 "+
-  							   "     <td id='orderdate' name='orderdate'>주문일자 "+item.orderdate+"</td> "+
+  							   "     <td id='orderdate' name='orderdate'>"+item.orderdate+"</td> "+
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
   							   "     <td id='odetailno' name='odetailno'>"+item.odetailno+"</td> "+
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
-  							   "     <td id='totalPrice' name='totalPrice'>주문금액"+item.totalPrice+"원</td> "+
+  							   "     <td id='totalPrice' name='totalPrice'>"+item.totalPrice+"원</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
   							   "     <td>"+shipstatus+"<input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"' /></td> " +
   						       "</tr>"
@@ -352,12 +347,12 @@
 </head>
 <body>
 
-<div id="contents">
+<div id="contents" style="margin:20px 0px 0px 20px; width: 80%;">
 <form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
 	  <h2><span name="userid" id= "userid">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회</span></h2>
 	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
-	  <table class="table table-hover">
+	  <table class="table table-hover" style="width: 95%;">
 	    
 	    <thead>
 	     
