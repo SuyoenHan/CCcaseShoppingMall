@@ -45,7 +45,7 @@
    
 
    
-   td{
+   table#reviewTbl td{
    		width: 10%;
    		height: 35px;
    		text-align: center;
