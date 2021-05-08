@@ -5,24 +5,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class NewOrderUpdateAction extends AbstractController {
+
+public class ManyOrderUpdateAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String userid = request.getParameter("userid");
-		String finalPrice = request.getParameter("finalPrice");
+		String finalamount = request.getParameter("finalamount");
 		
 		request.setAttribute("userid", userid);
-		request.setAttribute("finalPrice", finalPrice);
+		request.setAttribute("finalamount", finalamount);
 		
-		// userid, finalPrice 넘어오는것까지 확인
 		
 	//	super.setRedirect(false);
-		super.setViewPage("/WEB-INF/order/newOrderUpdate.jsp");
-		
-		
-		
+	//	super.setViewPage("/WEB-INF/order/manyOrderUpdate.jsp");
 	}
 
 }

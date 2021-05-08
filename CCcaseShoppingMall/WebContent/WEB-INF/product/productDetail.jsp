@@ -14,7 +14,7 @@
 		float: left;
 		width: 450px;
 		height: 510px;
-		margin: 0px 0px 50px 100px;
+		margin: 0px 0px 80px 100px;
 	}
 	
 	div#primaryImg{
@@ -71,11 +71,18 @@
 		height: 60px;
 		margin-top: 20px;
 		margin-left: 20px;
-		background-color: #bfbfbf;
+		background-color: #98B7C1;
 		font-size: 18pt;
 		font-weight: bold;
 		text-align: center;
 		padding-top: 13px;
+		cursor:pointer;
+	}
+	
+	div.pdetailbt:hover{
+		background-color: #4d7380;
+		color:#fff;
+		font-weight: bold;
 	}
 	
 	div#pDescribeTitle{
@@ -93,10 +100,8 @@
 		height: 50px;
 		padding-top: 15px;
 		text-align: center;
-	}
-	
-	div#pDescribeTitle span:hover{
-		background-color: #bfc0bf;
+		background-color: #d0dee1;
+		border-bottom: solid 1px #797c79;
 		font-weight: bold;
 	}
 	
@@ -118,11 +123,17 @@
 	div#goBack{
 		width:120px; 
 		height:50px; 
-		background-color: #747472;
-		color: #fff;
 		padding-top: 15px;
 		font-size: 15pt;
 		margin-top:100px;
+		background-color: #98B7C1;
+		font-weight: bold;
+	}
+	
+	div#goBack:hover{
+		background-color: #4d7380;
+		color:#fff;
+		font-weight: bold;
 	}
 	
 	input#pcnt{
@@ -181,7 +192,7 @@
 		$(window).scroll(function(){
 			
 			var scrollTop= $(window).scrollTop();
-			// console.log(scrollTop);
+			//console.log(scrollTop);
 			
 			if(scrollTop<580){
 				$("div#rightSide").hide();// 상품상세설명  부분만 goUp아이콘이 나오도록 hide() 처리
@@ -191,7 +202,7 @@
 				$("div#rightSide").show();
 			}
 			
-			if(scrollTop>2800){
+			if(scrollTop>2500){
 				return false; // footer 부분 침범하지 않도록 이벤트 종료
 			}
 			
@@ -516,16 +527,15 @@
 			 		$.ajax({ // 재고량체크
 			 			url: "<%=ctxPath%>/product/checkProductQty.cc",
 						type: "post",
-						data: {"pnum":pnum,"cnt":cnt},
+						data: {"str_pnumArr":pnum,"str_cntArr":cnt},
 						dataType: "JSON",
 						success:function(json){
 							
 							if(json.n==1){
-								location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
+								alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
 							}
 							else{
-								alert(productname+"["+pcolor+"]의 재고량은 "+json.qty+"입니다. 주문 수량을 변경해 주세요!");	
-							
+								location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
 							}
 						},
 						error: function(request, status, error){
@@ -548,17 +558,16 @@
 </script>
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../productListLeftSide.jsp" />
 
-<div id="contents" style="margin: 80px 0px;">
+<div id="contents" style="margin: 80px 0px 80px 150px;">
 	<div style="margin-left:50px; width:50px; height:50px;" id="rightSide">
 			<img src="<%=ctxPath%>/images/product/goUpIcon.png" width="50px" height="50px" />
 	</div>
 	<div class="pdetail" id="pImg" style="width: 500px;">
-		<div id="primaryImg">
+		<div id="primaryImg" style="cursor:pointer;">
 			<img src="<%=ctxPath%>/images/${onePInfo.pimage1}" id="bigImg" width="495px" height="350px" />
 		</div>
-		<div>
+		<div style="cursor:pointer;">
 			<c:forEach var="primeFileName" items="${primePlusImgFile}" varStatus="status">
 				<c:if test="${status.index < 3}">
 					<c:if test="${status.index== 0}">
@@ -577,13 +586,13 @@
 	</div>
 	
 	<div class="pdetail" id="pdetailInfo" style="margin-left: 50px; border:solid 2px #e3e3e3; padding: 40px 0px 0px 10px;">
-		<div class="pdetailTitle" align="center" style="color:blue;" id="${onePInfo.productname}">
+		<div class="pdetailTitle" align="center" style="color:#0033cc; font-weight:bold;" id="${onePInfo.productname}">
 			<div style="font-size:20px; margin-bottom:5px;">
 				[${onePInfo.cname}]&nbsp;[${onePInfo.modelname}]
 			</div>
 			${onePInfo.productname}
 		</div>
-		<div class="pdetailTitle" style="width: 90px; margin-left: 20px;">
+		<div class="pdetailTitle" style="width: 90px; margin-left: 20px; cursor:pointer;">
 			<img src="<%=ctxPath%>/images/product/heartIcon.png" width="70x" height="70px;" class="heart" />
 		</div>
 		<input type="hidden" id="productid" value="${onePInfo.productid}">
@@ -604,20 +613,21 @@
 				<tr>
 					<th>할인판매가</th>
 					<td>
-						<fmt:formatNumber value="${onePInfo.saleprice}" pattern="#,###,###" />원
+						<span style="color:red; font-weight:bold;"><fmt:formatNumber value="${onePInfo.saleprice}" pattern="#,###,###" />원</span>
 					</td>
 				</tr>
 				<tr>
 					<th>판매가</th>
 					<td>
-						<fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원&nbsp;&nbsp;<span>${onePInfo.salepercent}% OFF</span>
+						<span style="text-decoration: line-through;"><fmt:formatNumber value="${onePInfo.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;
+						<span style="color:#fff; font-weight:bold; background-color: #006680;">&nbsp;&nbsp;&nbsp;${onePInfo.salepercent}% OFF&nbsp;&nbsp;&nbsp;</span>
 					</td>
 				</tr>
 			</c:if>
 			<tr>
 				<th>색상 옵션</th>
 				<td>
-					<select id="cOption">
+					<select id="cOption" style="cursor:pointer;">
 						<option value="-">색상을 선택해 주세요</option>
 						<c:forEach var="pDetailInfo" items="${onePDetailInfoList}" >
 							<option value="${pDetailInfo.pnum}">${pDetailInfo.pcolor}</option>
@@ -627,7 +637,7 @@
 			</tr>
 			<tr>
 				<th>수량</th>
-				<td>
+				<td style="cursor:pointer;">
 					<input type="number" min="1" max="50" value="1" id="pcnt">&nbsp;&nbsp;개
 				</td>
 			<tr>
@@ -649,8 +659,6 @@
 
 	<div id="pDescribeTitle">
 		<span id="pDescribe" style="margin-left: 40px;">제품 설명</span>
-		<span>구매 후기[개수]</span>
-		<span>Q&A</span>
 	</div>
 	
 	<div class="pDetailContent" id="pDescribe" align="center">
@@ -681,8 +689,10 @@
 				</c:if>
 			</c:forEach>
 		</div>
-		<div style="border: solid 1px red; width: 500px; height: 70px; margin-top:30px;">
-			제품설명칸
+		<div style="border: solid 0px red; width: 500px; height: 70px; margin-top:30px;">
+			<c:forEach var="pDetailInfo" items="${onePDetailInfoList}" >
+				<div style="margin-bottom: 5px;">${pDetailInfo.pcontent}</div>
+			</c:forEach>
 		</div>
 		<c:forEach var="extraFileName" items="${extraPlusImgFile}" varStatus="status">
 			<c:if test="${status.index < 3}">
@@ -696,7 +706,7 @@
 		</c:forEach>
 
 		
-		<div id="goBack">목록으로</div>
+		<div id="goBack" style="cursor:pointer;">목록으로</div>
 	</div>
 </div>
 

@@ -12,10 +12,10 @@
 	div.homeBorderImg{
 		border: solid 0px blue;
 		width: 1100px;
-		height: 100px;
+		height: 5px;
 		clear: both;
 		margin-left: 30px;
-		background-color: #dcdcda;
+		background-color: #fff;
 	}
 	
 	div.productOuter{
@@ -24,6 +24,7 @@
 		margin: 0px 10px 100px 35px;
 		width:210px;
 		height: 300px;
+		cursor: pointer;
 	}
 	
 	span.netPrice{
@@ -324,7 +325,7 @@
 			location.href="<%=ctxPath%>/product/productDetail.cc?productid="+pIdForLink+"&doption="+doption+"&goBackURL=${requestScope.goBackURL}";
 		});
 		
-		
+	
 		
 	}); // end of $(document).ready(function(){-----------------------
 	
@@ -335,9 +336,11 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../leftSide.jsp" />
 
-<div id="contents" style="height:2000px;">
+<div id="contents" style="height:2200px;">
 
-	<div class="homeBorderImg" style="margin-top:30px;">경계이미지</div>
+	<div class="homeBorderImg" style="margin:30px 0px 50px 130px; width:900px; height: 400px;">
+		<img src="<%=ctxPath%>/images/homeMain/homeMain2.jpg" style="width:900px; height: 400px;"  />
+	</div>
 
 	
 	<div class="mainTitle" align="center">&nbsp;&nbsp;BEST</div>	
@@ -355,9 +358,15 @@
 					<img src="<%=ctxPath%>/images/${pInfoMapBest.pimage1}" class="pImg" id="${pInfoMapBest.productid}" width="210" height="200" />
 					<div class="productName">[${pInfoMapBest.cname}]&nbsp;[${pInfoMapBest.modelname}]<br>${pInfoMapBest.productname}</div>
 					
+					
 					<div>
-						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapBest.saleprice}" pattern="#,###,###" />원</span>
+						<c:if test="${pInfoMapBest.salepercent eq '0'}">					
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${pInfoMapBest.salepercent ne '0'}">					
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapBest.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapBest.saleprice}" pattern="#,###,###" />원</span>
+						</c:if>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -384,7 +393,8 @@
 	</div>
 
 
-	<div class="homeBorderImg" style="clear:both;">경계이미지</div>
+	
+	<div class="homeBorderImg" style="clear:both; margin-bottom: 50px;"></div>
 	
 	
 	<div class="mainTitle" align="center">&nbsp;&nbsp;NEW</div>	
@@ -403,8 +413,13 @@
 					<div class="productName">[${pInfoMapNew.cname}]&nbsp;[${pInfoMapNew.modelname}]<br>${pInfoMapNew.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapNew.saleprice}" pattern="#,###,###" />원</span>
+						<c:if test="${pInfoMapNew.salepercent eq '0'}">					
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${pInfoMapNew.salepercent ne '0'}">					
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapNew.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapNew.saleprice}" pattern="#,###,###" />원</span>
+						</c:if>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -432,7 +447,8 @@
 	
 	
 	
-	<div class="homeBorderImg" style="clear:both;">경계이미지</div>
+	<div class="homeBorderImg" style="clear:both; margin-bottom: 50px;"></div>
+	
 	<%-- 배송비여부는 제품별이 아닌 제품상세별로 다르다. 따라서 홈메인에는 제품 이미지를 보여주겠지만, 해당 이미지를 클릭해서 상세페이지로 넘어갔을때 옵션(색상)에, 
 	           해당 제품 중 무료배송인 제품상세의 정보 값을 넣어 줄 것이다  --%>
 	
@@ -453,8 +469,13 @@
 					<div class="productName">[${pInfoMapFree.cname}]&nbsp;[${pInfoMapFree.modelname}]<br>${pInfoMapFree.productname}</div>
 					
 					<div>
-						<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
-						<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapFree.saleprice}" pattern="#,###,###" />원</span>
+						<c:if test="${pInfoMapFree.salepercent eq '0'}">					
+							<span class="netPrice" style="text-decoration: none;">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${pInfoMapFree.salepercent ne '0'}">					
+							<span class="netPrice">정가: <fmt:formatNumber value="${pInfoMapFree.price}" pattern="#,###,###" />원</span>&nbsp;&nbsp;&nbsp;
+							<span class="salePrice">할인가: <fmt:formatNumber value="${pInfoMapFree.saleprice}" pattern="#,###,###" />원</span>
+						</c:if>
 					</div>
 					
 					<%-- fk_snum이 0이면 BEST 상품, 1이면 NEW 상품, -1이면 해당 없음 --%>
@@ -479,27 +500,6 @@
 	<div class="caseGroup" id="fNext" style="margin-left:20px; margin-top:120px;">
 		<img src="<%=ctxPath%>/images/homeMain/nextIcon.png" class="movebt" />
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 </div>
 	

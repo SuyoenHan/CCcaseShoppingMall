@@ -10,28 +10,18 @@
 
 <jsp:include page="../header.jsp" />
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>주문/결제</title>
-
+<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 <style type="text/css">
 
-.order-content {
+.contents {
    width: 100%;
    height: auto;
    background-color: #f9f9f9;
    padding-bottom: 200px;
-      margin-bottom: -200px;
+   margin-bottom: -200px;
 }
 
-.order-header {
-    align-items: center;
-    padding: 100px 0 50px;
-}
-
-.orderInfo {
+.allProductInfo {
    width: 100%;
    height: auto;
    margin: 0 auto;
@@ -40,13 +30,6 @@
 .orderSec-left {
    padding-right: 45%;
    padding-left: 2%;
-}
-
-.orderSec-right {
-
-   top: 40%;
-   left: 55%;
-    width: 50%;
 }
 
 .left-section-delivery-info {
@@ -239,10 +222,11 @@
 }
 
 .right-section-price-info {
-   background-color: white;
+   background-color: #D5E2E2;
    position: relative;
    margin-right: 70px;
    padding: 80px;
+   opacity: 0.9;
 }
 
 .expected-price-list {
@@ -290,12 +274,17 @@ td{
    border:solid 1px black;
 }
 
+.orderSec-right{
+	position: absolute;
+	top: 84%;
+	left: 55%;
+	width: 50%;
+}
 
 </style>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
 <script type="text/javascript">
 
    $(document).ready(function(){
@@ -447,22 +436,23 @@ td{
     });     
    // end of $(document).ready(function(){})----------------------------------------------
    
-   
+  
    $(window).on("scroll", function() {
       var scrollNow = window.scrollY;
-//      console.log(scrollNow);
+     
+     console.log(scrollNow);
 
-          if(scrollNow > 900) {
-              $(".orderSec-right").css('position', 'absolute');
-              $(".orderSec-right").css('top', '70%');
-          } else {
-             $(".orderSec-right").css('position', 'fixed');
-             $(".orderSec-right").css('top', '30%');
-          }
+          if(scrollNow < 900) {
+              $(".orderSec-right").css('position', 'fixed');
+              $(".orderSec-right").css('top', '30%');
+          } 
+          if (scrollNow <300){
+              $(".orderSec-right").css('position', 'sticky');
+              $(".orderSec-right").css('top', '30%');
+           }
 
-   });
-   
-   
+   });  
+
     // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
     function setDisplay(){
        
@@ -482,6 +472,7 @@ td{
 
 
    function goOrder(userid, finalPrice) {
+
       var frm = document.orderUpdateFrm;
       frm.userid.value = userid;
       frm.finalPrice.value = finalPrice;
@@ -489,23 +480,71 @@ td{
       frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
       frm.method="POST";
       frm.submit();
+		
+	   // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
+       // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
+       // 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
+       // 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
+       // 4. 이용자가 포인트를 사용한 경우.. => 포인트 차감시키기, + 또는 적립금 넣어주기
+       //  update이며 , tbl_member에서(where userid,totalpoint) 
+       // 5. 장바구니에서 해당 제품 삭제 tbl_cart delete(cartno필요,fk_userid)
+       // 모든처리가 성공되었을 시 commit하기 (수동커밋)
+       // 6. SQL오류 발생 시 rollback하기
+       
+       var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
+       var shipfee="${requestScope.shipfee}";          // 배송비
+       var expectPoint="${requestScope.expectPoint}";  // 예상적립금
+       var qUsepoint = Number($("input#totalpoint").val()); // 사용예정포인트
+		
+		if(qUsepoint==""){
+			qUsepoint = 0;
+		}
+		var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
+        var pnum = "${requestScope.para2Map.pnum}";       // 제품번호
+		var odqty = "${requestScope.cnt}"; // 주문량
+		var pdetailprice = parseInt("${requestScope.saleprice}");
+		var cartno = "${requestScope.cartno}"; // 장바구니 번호
+		// cartno가 없으면 null로 나올것임
+		
+		$.ajax({
+        	url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
+        	type:"post",
+        	data:{"totalPrice":totalPrice,
+        		  "shipfee":shipfee,
+        		  "expectPoint":expectPoint,
+        		  "qUsepoint":qUsepoint,
+        		  "finalamount":finalamount,
+        		  "pnum":pnum,
+        		  "odqty":odqty,
+        		  "cartno":cartno,
+        		  "pdetailprice":pdetailprice},
+        	dataType:"json",
+        	success:function(json){
+     		   
+     		   if(json.success == 1){
+     			   
+     			   location.href="<%= ctxPath%>/order/myOrderList.cc";
+     		   }
+     		   
+     	   },
+     	   error: function(request, status, error){
+             		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+          		} 
+
+        }); // end of $.ajax
+	   
    }
 
 </script>
-</head>
-<body>
 
-<div class="order-content">
-
-<c:set var="prodPriceAll" value="0" />
-
-   <div class="order-header">
-      <br><br><br>
+<div class="contents">
+   
+   <div>
       <h3>주문/결제창</h3>
    </div>
 
    <!-- 하단박스 시작 -->
-   <div class="orderInfo">
+   <div class="allProductInfo">
       <!-- 상품 정보 시작 -->
          <div class="section-order-info left-section">
             <h3>배송 상품</h3>
@@ -523,35 +562,32 @@ td{
                   
                <tbody>
                <tr>
-                  <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.paraMap.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.paraMap.pimage1}" width="80px" height="80px" /></a></td>
-                        <td>${requestScope.paraMap.productname}</td>
-                        <td><fmt:formatNumber value="${requestScope.paraMap.price}" pattern="#,###,###" />원</td>
+                  <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.para2Map.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.para2Map.pimage1}" width="80px" height="80px" /></a></td>
+                        <td>${requestScope.para2Map.productname}</td>
+                        <td><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
                         <td rowspan="2">${cnt}개</td>
                         <td rowspan="2">${requestScope.expectPoint}원</td>
                         <td rowspan="2">
                            <c:choose>
-                              <c:when test="${requestScope.paraMap.doption eq 0}">무료배송</c:when>
-                              <c:when test="${requestScope.paraMap.doption eq 1}">기본배송</c:when>
+                              <c:when test="${requestScope.para2Map.doption eq 0}">무료배송</c:when>
+                              <c:when test="${requestScope.para2Map.doption eq 1}">기본배송</c:when>
                            </c:choose>
                         </td>
                         <td rowspan="2" id="doption">
                            <c:choose>
-                              <c:when test="${requestScope.paraMap.doption eq 0}">무료</c:when>
-                              <c:when test="${requestScope.paraMap.doption eq 1}">3,000원</c:when>
+                              <c:when test="${requestScope.para2Map.doption eq 0}">무료</c:when>
+                              <c:when test="${requestScope.para2Map.doption eq 1}">3,000원</c:when>
                            </c:choose>
                         </td>
                   </tr>
                   
                   <tr> 
-                     <td>옵션:&nbsp;${requestScope.paraMap.modelname}</td>
-                     <td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>
-                     
+                     <td>옵션:&nbsp;${requestScope.para2Map.modelname}(${requestScope.para2Map.pcolor})</td>
+                     <td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>                     
                   </tr>
 
                </tbody>
-
             </table>
-
          </div>
          <!-- 상품 정보 끝 -->
          
@@ -690,7 +726,7 @@ td{
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
                   <span id="finalPrice" style="font-weight:bolder; font-size:20pt" ></span>
                </p>
-               <button class="btn-order" type="button" onclick="goPay()">주문 완료하기</button>
+               <button class="btn-order" type="button">주문 완료하기</button>
             </div>
          </div>
       </div>
@@ -704,7 +740,5 @@ td{
    <input type="hidden" name="userid" />
    <input type="hidden" name="finalPrice" />
 </form>
-</body>
-</html>
 
 <jsp:include page="../footer.jsp" />
