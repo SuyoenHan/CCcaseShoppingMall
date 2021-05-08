@@ -39,7 +39,7 @@ td {
          qUsepoint = 0;
       }
       
-      var finalamount=totalPrice+allShipfee-qUsepoint;  // 총 결제금액
+      var finalamount=Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
       // if()해줘서 point사용했냐 안했냐에 따라 point차감도 넣어주자
       
       var pnumArr = new Array();
@@ -67,15 +67,15 @@ td {
            url:"<%= ctxPath%>/order/manyOrderUpdate.cc",
            type:"post",
            data:{"totalPrice":totalPrice,
-                "allShipfee":allShipfee,
-                "totalpoint":totalpoint,
-                "qUsepoint":qUsepoint,
-                "finalamount":finalamount,
-                "pnum_es":pnumArr,
-                "odqty_es":odqtyArr,
-                "pdetailprice_es":pdetailpriceArr,
-                "cartno_es":cartnoArr},
-           dataType:"json",
+	                "allShipfee":allShipfee,
+	                "totalpoint":totalpoint,
+	                "qUsepoint":qUsepoint,
+	                "finalamount":finalamount,
+	                "pnum_es":pnumArr,
+	                "odqty_es":odqtyArr,
+	                "pdetailprice_es":pdetailpriceArr,
+	                "cartno_es":cartnoArr},
+	       dataType:"json",
            success:function(json){
               
               if(json.isSuccess == 1){
@@ -90,7 +90,17 @@ td {
 
         }); // end of $.ajax
       
-      
+        // 결제 버튼 처리 
+        $("button.btn-order").click(function(){
+            sessionStorage.setItem('finalamount', $("span#finalamount").val());
+              
+              // 아임포트 결제 팝업창 띄우기
+              var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
+
+              window.open(url, "orderSuccess",
+                               "left=350px, top=100px, width=800px, height=600px");     
+              
+    }); // end of  $("button.btn-order").click(function(){})---------------------------
       
    });// end of $(document).ready(function(){
 
@@ -110,7 +120,17 @@ td {
           $(".newAddr").show();
       }
   
-}// end of function setDisplay()--------------------------------------
+	}// end of function setDisplay()--------------------------------------
+
+	function goOrder(userid, finalamount) {
+	    var frm = document.orderUpdateFrm;
+	    frm.userid.value = userid;
+	    frm.finalamount.value = finalamount;
+	    
+	    frm.action = "<%=request.getContextPath()%>/order/manyOrderUpdate.cc";
+	    frm.method="POST";
+	    frm.submit();
+	 }
 
 </script>
     
@@ -295,9 +315,9 @@ td {
                </ul>
                <p class="total-expected-price">
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
-                  <span id="finalPrice" style="font-weight:bolder; font-size:20pt" ></span>
+                  <span id="finalamount" style="font-weight:bolder; font-size:20pt" ></span>
                </p>
-               <button class="btn-order" type="button" onclick="goPay()">주문 완료하기</button>
+               <button class="btn-order" type="button">주문 완료하기</button>
             </div>
          </div>
       </div>
@@ -309,7 +329,7 @@ td {
 <%-- PG(Payment Gateway 결제)에 코인금액을 카드(카카오페이등)로 결제후 DB상에 사용자의 코인액을 update 를 해주는 폼이다. --%>
 <form name="orderUpdateFrm">
    <input type="hidden" name="userid" />
-   <input type="hidden" name="finalPrice" />
+   <input type="hidden" name="finalamount" />
 </form>
 
 <jsp:include page="../footer.jsp" />

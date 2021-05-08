@@ -515,11 +515,10 @@ public class OrderDAO implements InterOrderDAO {
 		         pstmt.setString(2, paraMap.get("totalPrice"));
 		         pstmt.setString(3, paraMap.get("shipfee"));
 		         pstmt.setString(4, paraMap.get("finalamount"));
-		         
-		         
-	         n1 = pstmt.executeUpdate();
-	         System.out.println("~~~~~~n1 : " + n1);
-		    	         
+		                  
+		         n1 = pstmt.executeUpdate();
+		         System.out.println("~~~~~~n1 : " + n1);
+			    	         
 	         // 3. 주문상세 테이블에 채번해온 주문전표, 제품번호, 주문량, 주문금액을 insert 하기(수동커밋처리)
 /*
 	         if(n1 == 1) {
@@ -549,7 +548,7 @@ public class OrderDAO implements InterOrderDAO {
 	          }// end of if---------------------------
 	*/         
 			} catch(SQLException e) {
-				
+				e.printStackTrace();
 			} finally {
 				close();
 			}
