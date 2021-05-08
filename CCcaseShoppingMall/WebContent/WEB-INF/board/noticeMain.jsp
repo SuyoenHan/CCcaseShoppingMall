@@ -20,7 +20,8 @@
     	margin-right: 35px ;
 		color: #333;
 		width:70%;
-		
+		height: 1200px;
+		overflow: visible;
 	}
 	
 	.container{
@@ -40,12 +41,6 @@
 	}
 
 	
-	table , tr {
-		border:solid 1px gray;
-		border-collapse: none;
-		line-height: 30px;
-	}
-	
 	button.button{
 	 width:80px;
 	 height:40px;
@@ -59,22 +54,12 @@
 		color: white;
     	
 	}
-	
-	thead th {
-	
-		background-color: #8c8c8c;
-	}
-	
-     
-    .cal{
-    	font-weight: bold;
-    	font-size:16px;
-    	border: solid 1px gray;
-    	margin-left: 35px ;
-    	margin-right: 35px ;
-    	line-height: 40px;
-    	
+	 td{
+    	height: 35px;
+   		
     }
+     
+    
     .noticecontent{
     	background-color: #e6e6e6;
     	border: solid 1px gray; 
@@ -96,21 +81,31 @@
 	   transition: 2s;
     }
     tr.noticeSimple:hover{
-   	 background-color: #ecf2f9 !important;
+   		 background-color: #ecf2f9 !important;
     }
     
-      #contents > div.container > table > tbody > tr.faqDetail {
-    	 
-    	background-color: white;
-    }
-    
-    
+ 
     div#notice{
 		background-color: #6D919C ;
 	}
     div#notice:hover{
     	background-color:#CCF2F4; 
     }
+    
+    
+    tr#tr1{
+     	background-color: #6D919C !important;
+     	font-weight: bold;
+   		font-size: 18px;
+   		text-align: center;
+   		color: white;
+   		height: 40px;
+     	
+     }
+   
+   	table.noticeDetail{
+   		border-bottom: solid 1px #6D919C;
+   	}
     
 </style>
   
@@ -223,7 +218,7 @@
 		  <form name="noticeFrm">
 			<table class="table table-hover">
 				<thead>
-					<tr style="width:80%;">
+					<tr id="tr1" style="width:80%;">
 						<th>NO.</th>
 						<th>제목</th>
 						<th>작성자</th>
@@ -245,7 +240,7 @@
 					</tr>
 					
 					<tr class="noticeDetail" id="${nvo.noticeno}">
-						<td colspan="4"> 
+						<td colspan="5"> 
 							<table id="noticeDetail">
 								<tr>
 									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp;<span>${nvo.ntitle}</span></div>

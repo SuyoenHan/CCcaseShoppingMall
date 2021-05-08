@@ -8,7 +8,7 @@
     
 <link rel="stylesheet" href="<%=ctxPath%>/css/admin.css" />
 <jsp:include page="../adminheader.jsp" />
-<jsp:include page="../leftSide.jsp" />
+<jsp:include page="../communityLeftSide.jsp" />
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,7 +18,7 @@
 	textarea {
 	 	 width:100%;
 	 	 height:400px;
-	 	 background-color: #e6e6e6;
+	 	 background-color: #ecf2f9;
 	 	 overflow: visible;
 	 	 border: none;
 	 	 
@@ -34,7 +34,7 @@
 	}
 
 	
-	 td {
+	 td.td {
 		border-bottom:solid 1px gray;
 		border-top:solid 1px gray;
 		border-collapse: collapse;
@@ -139,25 +139,25 @@
 	<form name ="faqwrite">
 	<table>
 		<tr>
-			<td>제목</td>
-			<td>
+			<td class="td">제목</td>
+			<td class="td">
 				<input type="text" id="ftitle" class="requiredInfo" name="ftitle" />
 				
 			</td>
 		</tr>
 		
 		<tr>
-			<td>작성자(default)</td>
-			<td><input type="text" id="adminid" name="adminid" value="${avo.adminid}" readonly="readonly" /></td>
+			<td class="td">작성자(default)</td>
+			<td class="td"><input type="text" id="adminid" name="adminid" value="${avo.adminid}" readonly="readonly" /></td>
 		</tr>
 		
 		<tr>
-			<td>등록일(default)</td>
-			<td><input type="text" id="fregisterdate" name="fregisterdate" value="" /></td>
+			<td class="td">등록일(default)</td>
+			<td class="td"><input type="text" id="fregisterdate" name="fregisterdate" value="" /></td>
 		</tr>
 		
 		<tr>
-			<td colspan="2" id="text">
+			<td class="td"colspan="2" id="text">
 				<label for="story">글쓰기</label>
 				<textarea id="fcontent" name="fcontent" class="requiredInfo" >
 				
