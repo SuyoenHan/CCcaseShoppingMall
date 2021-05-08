@@ -582,7 +582,7 @@ td{
                   </tr>
                   
                   <tr> 
-                     <td>옵션:&nbsp;${requestScope.para2Map.modelname}</td>
+                     <td>옵션:&nbsp;${requestScope.para2Map.modelname}(${requestScope.para2Map.pcolor})</td>
                      <td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>                     
                   </tr>
 
