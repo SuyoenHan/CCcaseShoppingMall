@@ -38,6 +38,16 @@
 		padding-left: 20px;
 	}
 
+	div#event{
+		background-color: #6d919c;
+		font-weight: bold;
+	}
+	
+	div#event a{
+		text-decoration: none;
+		color:#fff;
+		font-weight: bold;
+	}
 </style>
 
 
@@ -57,7 +67,7 @@
 		
 		var html="";
 		for(var i=0;i<arrImg.length;i++){
-			html+="<img class='cardBack' src='<%=ctxPath%>/images/event/cardGameBackImg.png' width='180' height='230' style='margin-left:25px;' />";
+			html+="<img class='cardBack' src='<%=ctxPath%>/images/event/cardGameBackImg.png' width='180' height='230' style='margin-left:25px; cursor:pointer;' />";
 		}
 		
 		$("div#div1").html(html);
@@ -116,7 +126,7 @@
 						else{
 							var html="";
 							for(var i=0;i<arrNewImg.length;i++){
-								html+="<img class='cardFront' src='<%=ctxPath%>/images/event/"+arrNewImg[i]+".png' width='180' height='230' style='margin-left:25px;' />";
+								html+="<img class='cardFront' src='<%=ctxPath%>/images/event/"+arrNewImg[i]+".png' width='180' height='230' style='margin-left:25px; cursor:pointer;' />";
 							}
 							$("div#div1").html(html);
 							
@@ -224,7 +234,7 @@
 	<div style="border-bottom: solid 2px #caceca; margin-top: 20px;"></div>
 
 	<div style="border: solid 0px red; margin: 30px 0px 50px 0px; font-size:15pt;" align="center">
-		카트 한장을 선택해주세요 [60% 당첨확률]
+		카드 한장을 선택해주세요 [60% 당첨확률]
 	</div>
 	<div id="div1"></div>
 	<div id="result" align="center" style="margin: 30px 0px 50px 0px;"></div>

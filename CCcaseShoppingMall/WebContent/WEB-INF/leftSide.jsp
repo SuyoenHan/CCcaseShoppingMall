@@ -35,7 +35,7 @@
 			var scrollTop= $(window).scrollTop();
 			//console.log(scrollTop);
 			
-			if(scrollTop>1700){
+			if(scrollTop>2500){
 				return false; // footer 부분 침범하지 않도록 이벤트 종료
 			}
 			
@@ -50,11 +50,11 @@
 		}); 
 		
 		$("div#new").click(function(){
-			window.scrollTo(0,1100);
+			window.scrollTo(0,1400);
 		});
 		
 		$("div#free").click(function(){
-			window.scrollTo(0,1650);
+			window.scrollTo(0,2400);
 		});
 		
 	}); // end of $document.ready(function(){

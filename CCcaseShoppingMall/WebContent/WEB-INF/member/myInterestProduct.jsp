@@ -10,8 +10,10 @@
 <style type="text/css">
 	
 	div#myInterestProduct{
-		background-color: #3385ff;
-	}	
+		background-color: #6d919c;
+		font-weight: bold;
+		color:#fff;
+	}
 	
 	div#title{
 		font-size: 20pt;
