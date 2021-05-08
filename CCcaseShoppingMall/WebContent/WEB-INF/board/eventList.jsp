@@ -93,6 +93,10 @@
 					location.href="<%=ctxPath%>/board/gawibawiboEvent.cc?eventno="+eventno+"&goBackURL=${requestScope.goBackURL}"; 
 					return;
 				}
+				else if(eventno=="2"){
+					location.href="<%=ctxPath%>/board/cardGameEvent.cc?eventno="+eventno+"&goBackURL=${requestScope.goBackURL}"; 
+					return;
+				}
 			}
 
 		}); 	
