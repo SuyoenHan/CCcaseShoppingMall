@@ -38,13 +38,15 @@
 		border-radius: 20%;
 	}
 	
-	td.cartUpdate > span{
-		background-color: #a0aca0;
+	td.cartUpdate > span{		
+		border: solid 2px #6d919c;
 		text-align: center;
 	}
 	
 	td.cartUpdate > span:hover{
-		background-color: #ecffb3;
+		background-color: #6D919C;
+		color: #fff;
+		font-weight: bold;
 	}
 	
 	div#delete > span{
@@ -55,13 +57,15 @@
 		font-size: 13pt;
 		text-align: center;
 		padding-top: 8px;
-		background-color: #a0aca0;
+		background-color: #98B7C1;
 		margin-left: 100px;
 		font-weight: bold;
 	}
 	
 	div#delete > span:hover{
-		background-color: #ecffb3;
+		background-color: #4d7380;
+		color:#fff;
+		font-weight: bold;
 	}
 	
 	table#priceInfo{
@@ -86,7 +90,7 @@
 		border: solid 1px green;
 		width: 250px;
 		height: 50px;
-		background-color: #a0aca0;
+		background-color: #98B7C1;
 		margin-left: 580px;
 		margin-top: 10px;
 		text-align: center;
@@ -96,7 +100,9 @@
 	}
 	
 	div.bottomBt:hover{
-		background-color: #ecffb3;
+		background-color: #4d7380;
+		color:#fff;
+		font-weight: bold;
 	}
 	
 	input.pcnt{
@@ -515,7 +521,7 @@
 <jsp:include page="../header.jsp" />
 <div id="contents" style="clear:both; margin-top:50px; width:100%;">
 	
-	<div id="cartTitle"><span style="color:blue;">${name}</span>님의&nbsp;장바구니</div>
+	<div id="cartTitle"><span style="color:#003399; font-weight: bold;">${name}</span>님의&nbsp;장바구니</div>
 	
 	<c:forEach var="cartRequiredInfo" items="${cartRequiredInfoList}">
 		<table class="eachWishList">
@@ -525,9 +531,9 @@
 				<td><input type="hidden" class="doption" value="${cartRequiredInfo.doption}" /></td>
 			</tr>
 			<tr>
-				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px;"></div></td>
+				<td colspan="9"><div style="background-color: #b4c6cb; height: 20px;"></div></td>
 			</tr>
-			<tr style="border-top: solid 1px #a0aca0; border-bottom: solid 1px #a0aca0;">
+			<tr style="border-top: solid 1px #6d919c; border-bottom: solid 1px #6d919c;">
 				<th style="width: 70px;">선택</th>
 				<th style="width: 160px;">이미지</th>
 				<th style="width: 230px;">상품정보</th>
@@ -547,7 +553,7 @@
 					<input type="number" min="1" max="50" value="${cartRequiredInfo.cinputcnt}"개 class="pcnt">&nbsp;&nbsp;개
 				</td>
 				<c:if test="${cartRequiredInfo.salepercent eq 0}">
-					<td class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
+					<td class="price" id="${cartRequiredInfo.price}" style="padding-top:10px;"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
 				</c:if>
 				<c:if test="${cartRequiredInfo.salepercent ne 0}">
 					<td style="text-decoration: line-through;" class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${cartRequiredInfo.price}" pattern="#,###,###" />원</td>
@@ -562,7 +568,7 @@
 				<c:if test="${cartRequiredInfo.doption eq '색상에 따라 상이'}">
 					<td rowspan="2">색상에 따라 상이</td>
 				</c:if>
-				<td rowspan="2"><fmt:formatNumber value="${cartRequiredInfo.totalPrice}" pattern="#,###,###" />원</td>
+				<td rowspan="2" style="font-weight:bold;"><fmt:formatNumber value="${cartRequiredInfo.totalPrice}" pattern="#,###,###" />원</td>
 			</tr>
 			<tr>
 				<td style="border-top:solid 1px #a0aca0;">[${cartRequiredInfo.cname}]&nbsp;[${cartRequiredInfo.modelname}]</td>
@@ -571,12 +577,12 @@
 					<td class="salePrice" rowspan="2" id="0"></td>
 				</c:if>
 				<c:if test="${cartRequiredInfo.salepercent ne 0}">
-					<td style="color:red;" class="salePrice" id="${cartRequiredInfo.saleprice}"><fmt:formatNumber value="${cartRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
+					<td style="color:red; font-weight: bold;" class="salePrice" id="${cartRequiredInfo.saleprice}"><fmt:formatNumber value="${cartRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
 				</c:if>
 				
 			</tr>
 			<tr>
-				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px; border-top: solid 1px #a0aca0; "></div></td>
+				<td colspan="9"><div style="background-color: #b4c6cb; height: 20px; border-top: solid 1px #6d919c; "></div></td>
 			</tr>
 		</table>
 	</c:forEach>
