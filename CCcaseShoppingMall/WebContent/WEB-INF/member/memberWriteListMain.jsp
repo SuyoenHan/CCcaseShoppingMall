@@ -192,6 +192,7 @@
 	    	${requestScope.pageBar}
 	    </div>
 	    
+<<<<<<< HEAD
 	  
      <table id="tblByreviewList" >
 	 <thead>
@@ -243,6 +244,47 @@
 	 </table>
 	
 	   
+=======
+	    <div id="reviewDiv">
+	    	<h3>작성가능한 리뷰</h3>
+	    	<hr>
+	    	<table id="reviewTbl">
+	    		 <thead id="reviewhead" >
+		           <tr id="menu">	 
+		              <th colspan=2><span style="display:inline-block; padding-left: 200px; font-weight: bold; font-size: 13pt;">상품정보</span></th> 
+		              <th ><span style="display:inline-block; padding-left: 50px; font-weight: bold; font-size: 13pt;">주문일자</span></th>
+
+		              <th colspan=2 ><span style="display:inline-block; padding-left: 50px; font-weight: bold; font-size: 13pt;">제품번호</span></th>
+		              
+		           </tr>
+	        </thead>
+	       
+	        <tbody  align=center>
+	       
+	       <c:forEach var="byreview" items="${requestScope.byreview}">
+	    			
+	    			<tr>
+	    			 
+	    				<td><span style="display:inline-block; padding-top: 20px;"><img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}" width="150" height="150" style=" border-radius: 2em;"/> </span>
+	    				</td>
+	    				<td>
+
+	    				<span style="display:inline-block; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
+	    				
+	    				<span style="font-size: 10pt;">${byreview.pvo.modelname}</span>
+	    				</td>
+	    				<td>${byreview.orderdate}</td>
+	    				<td>${byreview.pdvo.pnum}</td>
+	    				<td colspan=2><button style ="color:white; border:none; border-radius: 5px;background: #6D919C; width: 200px; height: 35px;"onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button></td>
+	    			</tr>
+	    		</c:forEach>	
+		    	
+	    	</tbody>
+	    		</table>
+	    
+	    <hr>
+	    </div>
+>>>>>>> branch 'main' of https://github.com/SuyoenHan/CCcaseShoppingMall.git
 	    
 	    
 	    
