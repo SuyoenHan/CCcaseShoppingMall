@@ -128,7 +128,7 @@ public class ProductListAction extends AbstractController {
 		
 		while(!(loop>blockSize || pageNo > totalPage) ) {
 			if(pageNo == Integer.parseInt(currentShowPageNo)) {
-				pageBar += "&nbsp;<span style='padding:2px 4px; font-weight: bold; background-color: #ffff99;'>"+pageNo+"</span>&nbsp;";
+				pageBar += "&nbsp;<span style='padding:2px 4px; font-weight: bold; background-color: #b4c6cb;'>"+pageNo+"</span>&nbsp;";
 			}
 			else {
 				pageBar += "&nbsp;<a href='productList.cc?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&mnum="+mnum+"&cnum="+cnum+"&modelName="+modelName+"'>"+pageNo+"</a>&nbsp;";

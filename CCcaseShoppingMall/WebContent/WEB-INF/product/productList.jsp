@@ -9,13 +9,14 @@
 <style type="text/css">
 
 	div#contentTitle{
-		width: 1100px;
+		width: 1000px;
 		height: 100px;
-		border: solid 0px black;
-		background-color: #cbcdcb;
-		margin-top: 15px;
-		margin-left: 15px;
+		border: solid 2px #caceca;
+		background-color: #fff;
+		margin-top: 30px;
+		margin-left: 70px;
 		padding-top: 20px;
+		color: #000066;
 	}
 
 	select#modelName{
@@ -30,6 +31,7 @@
 		margin: 0px 0px 100px 60px;
 		width:210px;
 		height: 300px;
+		cursor: pointer;
 	}
 	
 	span.netPrice{
@@ -205,9 +207,8 @@
 </script>
 
 <jsp:include page="../header.jsp" />
-<jsp:include page="../productListLeftSide.jsp" />
 
-<div id="contents" style="margin-bottom: 100px;">
+<div id="contents" style="margin-bottom: 100px; margin-left: 150px;">
 	
 	<div id="contentTitle" align="center">
 		<c:if test="${empty modelName}">
@@ -282,7 +283,7 @@
 	</div>
 	
 	<div style="height: 50px;" align="center">
-		<span style=" border: solid 0px blue; font-size: 15pt;">${pageBar}</span>
+		<span style=" border: solid 0px red;font-size: 15pt;"><br>${pageBar}</span>
 	</div>
 	
 </div>
