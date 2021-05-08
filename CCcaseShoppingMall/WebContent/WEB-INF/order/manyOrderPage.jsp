@@ -20,6 +20,10 @@ td {
    border:solid 1px black;
 }
 
+td.wonga{
+	text-decoration: line-through;
+}
+
 </style>
 
 
@@ -29,61 +33,104 @@ td {
    
    $(document).ready(function(){
      	
-	    var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
-	    var allShipfee="${requestScope.allShipfee}";    // 배송료
-	    var totalpoint ="${requestScope.allExpectPoint}"; // 총예상적립금
-	    var qUsepoint = Number($("input#totalpoint").val());
-	      
-	    if(qUsepoint==""){
-	         qUsepoint = 0;
-	    }
+	    var totalPrice=Number("${requestScope.totalProPrice}"); // 총 상품가격
+	    var allShipfee=Number("${requestScope.allShipfee}");    // 배송료
+	    var totalpoint =Number("${requestScope.allExpectPoint}"); // 총예상적립금
+	    var qUsepoint = Number($("input#totalpoint").val()); // 사용포인트
+	    var finalamount=totalPrice+allShipfee;  // 총 결제금액
 	    
-	    var finalamount=Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
-	      // if()해줘서 point사용했냐 안했냐에 따라 point차감도 넣어주자
+		$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+	    
+	    
+	    // 쿠폰선택했을시 할인률 적용해주기
+	    $("select#coupon").bind('change',function(){
+	    	
+	    	var cpno = $(this).val();
+	    	
+	    	// console.log($(this).val());
+	    	if(cpno!=""){
+	    		
+	    		$.ajax({
+	    			url:"<%= ctxPath%>/order/getCouponSale.cc",
+	    			type:"post",
+	    			data:{"cpno":cpno},
+	    			dataType:"json",
+	    			success:function(json){
+	  	              
+	    				var cpdiscount = Number(json.cpdiscount);
+	    				// console.log(cpdiscount);
+	    				
+	    				if($("input#totalpoint").val()==""){
+	    					totalPrice = Number("${requestScope.totalProPrice}");
+	    					totalPrice = parseInt(totalPrice*(1-cpdiscount));
+	    					finalamount=totalPrice+allShipfee;
+	    					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+	    					
+	    				}
+	    				else{
+	    					totalPrice = Number("${requestScope.totalProPrice}");
+	    					totalPrice = parseInt(totalPrice*(1-cpdiscount));
+	    					finalamount=totalPrice+allShipfee-Number($("input#totalpoint").val());
+	    					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+	    					
+	    				}
+	  	             
+	  	           },
+	  	           error: function(request, status, error){
+	  	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	  	                } 
 
-	       // 포인트 버튼 처리
-	       $("button#totalpoint").click(function(){
-	          
-	          if("${requestScope.totalpoint}"==0){
-	             alert("보유중인 포인트가 없습니다.");
-	             qUsepoint = 0;
-	             return;
-	          }
-	          else{
-	             $("input#totalpoint").val(Number("${requestScope.totalpoint}"));
-	             qUsepoint=Number("${requestScope.totalpoint}");
-	          }
-	          
-	          
-	          finalamount =Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);
-	          $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
-	            
-	      }); // end of $("button#totalpoint").click(function(){})---------------------------
-	         
-	       // 결제 버튼 처리 
-	          $("button.btn-order").click(function(){
-	              sessionStorage.setItem('finalamount', $("span#finalamount").val());
-	                
-	                // 아임포트 결제 팝업창 띄우기
-	                var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
-
-	                window.open(url, "orderSuccess",
-	                                 "left=350px, top=100px, width=650px, height=570px");      
-	      }); // end of  $("button.btn-order").click(function(){})---------------------------
-	       
-
-        // 결제 버튼 처리 
-        $("button.btn-order").click(function(){
-            sessionStorage.setItem('finalamount', $("span#finalamount").val());
-              
-              // 아임포트 결제 팝업창 띄우기
-            var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
-
-            window.open(url, "orderSuccess",
-                               "left=350px, top=100px, width=800px, height=600px");     
-              
-   		}); // end of  $("button.btn-order").click(function(){})---------------------------
+	          }); // end of $.ajax
+	    		
+	    	}// end of if 
+	    	else{
+	    		if($("input#totalpoint").val()==""){
+					totalPrice = Number("${requestScope.totalProPrice}");
+					finalamount=totalPrice+allShipfee;
+					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+					
+				}
+				else{
+					totalPrice = Number("${requestScope.totalProPrice}");
+					finalamount=totalPrice+allShipfee-Number($("input#totalpoint").val());
+					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+					
+				}
+	    	}
+	    	
+	    	
+	    }); // end of $("select#coupon").bind('change',function(){
+	      
+        // 포인트 버튼 처리
+        $("button#totalpoint").click(function(){
+          
+          if("${requestScope.totalpoint}"==0){
+             alert("보유중인 포인트가 없습니다.");
+             qUsepoint = 0;
+             
+          }
+          else{
+             $("input#totalpoint").val(Number("${requestScope.totalpoint}"));
+             qUsepoint=Number("${requestScope.totalpoint}");
+             finalamount= finalamount-Number(qUsepoint);
+             $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+          }
+            
+         }); // end of $("button#totalpoint").click(function(){})---------------------------
+	   
       
+         // 결제하기 버튼 클릭 시 
+         $("button.btn-order").click(function(){
+        	 
+              sessionStorage.setItem('finalamount', finalamount);
+                
+              // 아임포트 결제 팝업창 띄우기
+              var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
+
+              window.open(url, "orderSuccess",
+                               "left=350px, top=100px, width=800px, height=570px");      
+         }); // end of  $("button.btn-order").click(function(){})---------------------------
+
    });// end of $(document).ready(function(){
 
 
@@ -105,7 +152,7 @@ td {
 	}// end of function setDisplay()--------------------------------------
 	
 	
-
+	
 	// 결제가 성공했을때 이루어지는 함수
 	function goOrder(userid, finalamount) {
 					
@@ -118,7 +165,7 @@ td {
 	      // console.log("allShipfee :"+allShipfee);
 	      // console.log("qUsepoint :"+qUsepoint);
 	      
-		  var finalamount = Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
+		//var finalamount = Number(totalPrice)+Number(allShipfee)-Number(qUsepoint);  // 총 결제금액
 	      var pnumArr = new Array();
 	      var odqtyArr = new Array();
 	      var pdetailpriceArr = new Array();
@@ -133,13 +180,13 @@ td {
 	      for(var i=0; i<listSize; i++){
 	         
 	         pnumArr.push($("input.fk_pnum").eq(i).val());
-	         console.log("pnum : "+$("input.fk_pnum").eq(i).val());
+	        // console.log("pnum : "+$("input.fk_pnum").eq(i).val());
 	         odqtyArr.push($("input.odqty").eq(i).val());
-	         console.log("odqty : "+$("input.odqty").eq(i).val());
+	        // console.log("odqty : "+$("input.odqty").eq(i).val());
 	         pdetailpriceArr.push($("input.saleprice").eq(i).val());
-	         console.log("pdetailprice : "+$("input.saleprice").eq(i).val());
+	        // console.log("pdetailprice : "+$("input.saleprice").eq(i).val());
 	         cartnoArr.push($("input.cartno").eq(i).val());
-	         console.log("cartno : "+$("input.cartno").eq(i).val());
+	        // console.log("cartno : "+$("input.cartno").eq(i).val());
 
 	      }// end of for ----
 		
@@ -166,6 +213,7 @@ td {
 	              if(json.success == 1){
 	                
 	                 location.href="<%= ctxPath%>/order/myOrderList.cc";
+	                 
 	              }
 	              
 	           },
@@ -206,7 +254,7 @@ td {
                   <tr>   
                        <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${productMap.fk_productid} ><img src="<%= ctxPath%>/images/${productMap.pimage1}" width="80px" height="80px" /></a></td>
                        <td style="width:130px;">${productMap.productname}</td>
-                       <td><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원</td>
+                       <td class="wonga"><fmt:formatNumber value="${productMap.price}" pattern="#,###,###" />원</td>
                        <td rowspan="2">${productMap.cntArr}개<input type="hidden" class="odqty" value="${productMap.cntArr}"/></td>
                        <td rowspan="2">${productMap.oneExpectpoint}원</td>
                        <td rowspan="2">
@@ -327,7 +375,7 @@ td {
             <h3 class="section-payment-info-title">결제수단</h3>
             <ul class="payment-type-list">
                <li class="payment-type-item mgb10">
-                  <input type="radio" name="pay-type-item" value="card" />
+                  <input type="radio" id="card" name="pay-type-item" value="card" />
                   <span>카드결제</span>
                </li>
             </ul>
@@ -355,6 +403,14 @@ td {
                   <li class="expected-price-item">
                      <input id="totalpoint" type="text" readonly="readonly" /><span>보유중 포인트: ${requestScope.totalpoint}원 </span> 
                      <button id="totalpoint" type="button">포인트사용</button>
+                  </li>
+                  <li class="expected-price-item">
+                     <select id="coupon">
+                     	<option value="">쿠폰을 선택하세요.</option>
+                     	<c:forEach var="couponMap" items="${requestScope.couponList}">
+                     		<option value="${couponMap.cpno}">${couponMap.cpname}</option>
+                     	</c:forEach>
+                     </select>                  
                   </li>
                </ul>
                <p class="total-expected-price">
