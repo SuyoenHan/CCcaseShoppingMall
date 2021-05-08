@@ -144,6 +144,8 @@
 	  var lenOrderList = 4;
 	 // orderList "더보기..." 버튼을 클릭할때 보여줄 상품의 개수(단위)크기 
 	 
+	 
+	 
 	 var fk_userid = "${sessionScope.loginuser.userid}";
 	 // display 할 orderList 정보를 추가 요청하기(Ajax 로 처리해야 함)
 	 function displayOrderList(start){ 
@@ -212,8 +214,12 @@
  	            	  }
   	            	   
  	            	  
- 	            	  
- 	            	  
+ 	            	 var totalPrice = item.totalPrice;
+ 		       		 //console.log(totalPrice);    
+ 		       	 	//상품가격에 , 찍어주기
+ 		             totalPrice= totalPrice.toLocaleString('en')+" 원";
+ 		            	  
+ 	            	 
   	                  html +=  
   	                	  	   "<tr id='tr2'> "+
   				      		   "     <td> "+
@@ -225,17 +231,19 @@
   							   "     <td id='orderno' name='orderno'>"+item.orderno+"</td> "+
   							   "     <td id='odetailno' name='odetailno'>"+item.odetailno+"</td> "+
   							   "	 <td id='pnum' name='pnum'>"+item.pnum+"</td> "+
-  							   "     <td id='totalPrice' name='totalPrice'>"+item.totalPrice+"원</td> "+
+  							   "     <td id='totalPrice' name='totalPrice'>"+totalPrice+"</td> "+
   							   "     <td id='odqty' name='odqty'>"+item.odqty+"</td> "+
   							   "     <td>"+shipstatus+"<input type='hidden' id='odetailno' name='odetailno' value='"+item.odetailno+"' /></td> " +
   						       "</tr>"
   						     
 	            	  	        //console.log(item.odetailno);        
   	             	
-	
+	                                      
 	                  
-	               }); 
-	               
+	               }); //$.each(json, function(index, item) -------------------
+               
+               
+
 	               // 결과를 출력하기
 	               $("tbody#displayOrderList").append(html);
 	               
@@ -277,6 +285,11 @@
 						
 						
 					});
+	               
+	   ///////////            
+	              
+	               	
+	   //////////////            
 					
 					
 					//상품평관리 클릭
