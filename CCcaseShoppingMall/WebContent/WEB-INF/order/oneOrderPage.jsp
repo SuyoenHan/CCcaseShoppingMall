@@ -275,10 +275,10 @@ td{
 }
 
 .orderSec-right{
-	position: absolute;
-	top: 84%;
-	left: 55%;
-	width: 50%;
+   position: absolute;
+   top: 84%;
+   left: 55%;
+   width: 50%;
 }
 
 </style>
@@ -295,10 +295,11 @@ td{
       var price = Number(${requestScope.paraMap.price});      
       var salepercent = Number(${requestScope.paraMap.salepercent});
       var saleprice = Number(price*(1-salepercent));
-      var finalPrice =  ${requestScope.totalProPrice} + ${requestScope.shipfee};
+      var finalamount =  ${requestScope.totalProPrice} + ${requestScope.shipfee};
+     
           
       // 예상 총계산액
-      $("span#finalPrice").text(finalPrice.toLocaleString('en')+"원");
+      $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
       
       if(salepercent==0){
       
@@ -416,18 +417,18 @@ td{
              $("input#totalpoint").val("${requestScope.totalpoint}");
           }
           
-          finalPrice = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
-             $("span#finalPrice").text(finalPrice.toLocaleString('en')+"원");
+          finalamount = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
+             $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
             
       }); // end of $("button#totalpoint").click(function(){})---------------------------
        
        // ?? 위치 헷갈림 일단 여기 두기로 ??   
        // 결제 버튼 처리 
           $("button.btn-order").click(function(){
-              sessionStorage.setItem('finalPrice', $("span#finalPrice").val());
+              sessionStorage.setItem('finalamount', $("span#finalamount").val());
                 
                 // 아임포트 결제 팝업창 띄우기
-                var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalPrice="+finalPrice+"";
+                var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
 
                 window.open(url, "orderSuccess",
                                  "left=350px, top=100px, width=650px, height=570px");      
@@ -471,17 +472,10 @@ td{
    }// end of function setDisplay()--------------------------------------
 
 
-   function goOrder(userid, finalPrice) {
+   function goOrder(userid, finalamount) {
 
-      var frm = document.orderUpdateFrm;
-      frm.userid.value = userid;
-      frm.finalPrice.value = finalPrice;
       
-      frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
-      frm.method="POST";
-      frm.submit();
-		
-	   // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
+      // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
        // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
        // 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
        // 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
@@ -495,44 +489,44 @@ td{
        var shipfee="${requestScope.shipfee}";          // 배송비
        var expectPoint="${requestScope.expectPoint}";  // 예상적립금
        var qUsepoint = Number($("input#totalpoint").val()); // 사용예정포인트
-		
-		if(qUsepoint==""){
-			qUsepoint = 0;
-		}
-		var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
+      
+      if(qUsepoint==""){
+         qUsepoint = 0;
+      }
+      var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
         var pnum = "${requestScope.para2Map.pnum}";       // 제품번호
-		var odqty = "${requestScope.cnt}"; // 주문량
-		var pdetailprice = parseInt("${requestScope.saleprice}");
-		var cartno = "${requestScope.cartno}"; // 장바구니 번호
-		// cartno가 없으면 null로 나올것임
-		
-		$.ajax({
-        	url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
-        	type:"post",
-        	data:{"totalPrice":totalPrice,
-        		  "shipfee":shipfee,
-        		  "expectPoint":expectPoint,
-        		  "qUsepoint":qUsepoint,
-        		  "finalamount":finalamount,
-        		  "pnum":pnum,
-        		  "odqty":odqty,
-        		  "cartno":cartno,
-        		  "pdetailprice":pdetailprice},
-        	dataType:"json",
-        	success:function(json){
-     		   
-     		   if(json.success == 1){
-     			   
-     			   location.href="<%= ctxPath%>/order/myOrderList.cc";
-     		   }
-     		   
-     	   },
-     	   error: function(request, status, error){
-             		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-          		} 
+      var odqty = "${requestScope.cnt}"; // 주문량
+      var pdetailprice = parseInt("${requestScope.saleprice}");
+      var cartno = "${requestScope.cartno}"; // 장바구니 번호
+      // cartno가 없으면 null로 나올것임
+      
+      $.ajax({
+           url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
+           type:"post",
+           data:{"totalPrice":totalPrice,
+                "shipfee":shipfee,
+                "expectPoint":expectPoint,
+                "qUsepoint":qUsepoint,
+                "finalamount":finalamount,
+                "pnum":pnum,
+                "odqty":odqty,
+                "cartno":cartno,
+                "pdetailprice":pdetailprice},
+           dataType:"json",
+           success:function(json){
+              
+              if(json.success == 1){
+                 
+                 location.href="<%= ctxPath%>/order/myOrderList.cc";
+              }
+              
+           },
+           error: function(request, status, error){
+                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+                } 
 
         }); // end of $.ajax
-	   
+      
    }
 
 </script>
@@ -724,7 +718,7 @@ td{
                </ul>
                <p class="total-expected-price">
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
-                  <span id="finalPrice" style="font-weight:bolder; font-size:20pt" ></span>
+                  <span id="finalamount" style="font-weight:bolder; font-size:20pt" ></span>
                </p>
                <button class="btn-order" type="button">주문 완료하기</button>
             </div>
@@ -738,7 +732,7 @@ td{
 <%-- PG(Payment Gateway 결제)에 코인금액을 카드(카카오페이등)로 결제후 DB상에 사용자의 코인액을 update 를 해주는 폼이다. --%>
 <form name="orderUpdateFrm">
    <input type="hidden" name="userid" />
-   <input type="hidden" name="finalPrice" />
+   <input type="hidden" name="finalamount" />
 </form>
 
 <jsp:include page="../footer.jsp" />

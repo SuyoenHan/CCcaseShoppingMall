@@ -35,6 +35,9 @@ public interface InterOrderDAO {
 	// 장바구니에서 한개 상품만 구매 시 여러 테이블에 insert 및  등등 작업
 	int oneCartorder(Map<String, String> para2Map) throws SQLException;
 	
+	// 장바구니에 여러 제품이 들어왔을 경우 주문했을때 테이블 작업
+	int manyOrderAdd(Map<String, Object> paraMap) throws SQLException;
+	
 	/////////////////////////// 백원빈 끝 ///////////////////////////////	
 
 	
@@ -58,6 +61,8 @@ public interface InterOrderDAO {
 	//리뷰 가능한 상품 불러오기
 	List<OrderVO> byreview(Map<String, String> paraMap) throws SQLException;
 	//###################조승진 끝########################//
+	
+	
 
 
 
