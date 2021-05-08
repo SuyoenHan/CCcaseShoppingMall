@@ -56,7 +56,7 @@ $(document).ready(function() {
 			2. jQuery를 이용한 방법
 			$(opener.location).attr("href", "javascript:부모창스크립트 함수명();");
 		*/
-			opener.location.href = "javascript:goOrder('${sessionScope.loginuser.userid}','${requestScope.finalPrice}')";
+			opener.location.href = "javascript:goOrder('${sessionScope.loginuser.userid}','${requestScope.finalamount}')";
 			alert("결제 성공!!");
 		    self.close();
 			

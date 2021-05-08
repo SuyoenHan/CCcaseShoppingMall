@@ -21,11 +21,9 @@ public class OrderSuccessAction extends AbstractController {
 			// 로그인을 했으면
 			
 				String userid = request.getParameter("userid");
-				String finalPrice = request.getParameter("finalPrice");
 				String finalamount = request.getParameter("finalamount");
 				
 				request.setAttribute("userid", userid);
-				request.setAttribute("finalPrice", finalPrice);
 				request.setAttribute("finalamount", finalamount);
 				
 			//	super.setRedirect(false);
