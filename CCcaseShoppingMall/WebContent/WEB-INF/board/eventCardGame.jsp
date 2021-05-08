@@ -52,6 +52,8 @@
 	$(document).ready(function(){
 		
 		$("button#goCoupon").hide();
+		goBackURL = "${requestScope.goBackURL}";
+		goBackURL = goBackURL.replace(/ /gi, "&");
 		
 		var html="";
 		for(var i=0;i<arrImg.length;i++){
@@ -95,11 +97,7 @@
 	
 		$(document).on('click',"img.cardBack",function(){
 
-			if("${loginuser}"==""){
-				alert("로그인 후 이용 가능합니다.");
-			}
-			else{
-				
+			if("${sessionScope.loginuser.userid}" != ""){
 				var fk_userid= "${userid}";
 				var indexCardBack= $("img.cardBack").index($(this));
 			
@@ -148,14 +146,17 @@
 				           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 				    }
 				}); // end of $.ajax({--------------------	
+		
+			}
+			
+			else{
+				alert("회원 로그인 후 이용 가능합니다.");
+				location.href="<%=ctxPath%>/"+goBackURL;
 			} // end of else----------------------------------------	
 		}); // end of click event---------------------------------
 		
 		func_height();		
 		
-		
-		goBackURL = "${requestScope.goBackURL}";
-		goBackURL = goBackURL.replace(/ /gi, "&");
 		
 		$("button#goEventList").click(function(){
 			location.href = "<%=ctxPath%>/"+goBackURL;

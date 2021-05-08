@@ -81,7 +81,7 @@
 		// 특정 글을 그 글의 상세정보를 보여주도록 한다.
 		$("tr.eventInfo").click(function(){
 			
-			if("${loginuser}"==""){
+			if("${adminUser}"==""){
 				alert("이벤트 내용은 로그인 후 확인 가능합니다.");
 				response.sendRedirect("javascript:history.back()");
 				return;
