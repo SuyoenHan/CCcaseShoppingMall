@@ -40,7 +40,6 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 	}
 	
-	
 	// 페이징처리를 위해서 전체리뷰에 대한 총페이지 개수 알아오기(select)
 	@Override
 	public int selectTotalPage(Map<String, String> paraMap) throws SQLException {
@@ -795,6 +794,37 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return revList;
 	}
+
+	@Override
+	public String getReviewno2(String userid) throws SQLException {
+		
+		String reviewno = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select reviewno "
+							+ " from tbl_review "
+							+ " where fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			reviewno = rs.getString(1);
+			
+		} finally {
+			close();
+		}
+		
+		
+		return reviewno;
+	}
+
+	
 
 	
 	

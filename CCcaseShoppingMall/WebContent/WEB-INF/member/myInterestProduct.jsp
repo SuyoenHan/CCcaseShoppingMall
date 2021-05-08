@@ -17,6 +17,7 @@
 		font-size: 20pt;
 		height: 50px;
 		border-bottom: solid 2px #a8aba6;
+		margin-bottom:30px;
 	}
 	
 	table.eachInterestProduct{
@@ -45,13 +46,15 @@
 	}
 	
 	 span.funcBt{
-	 	border: solid 0px red;
-	 	background-color: #d1d7d1;
 	 	padding: 5px 0px;
+	 	border: solid 2px #6d919c;
+		text-align: center;
 	 }
 
 	span.funcBt:hover{
-		background-color: #ecffb3;
+		background-color: #6D919C;
+		color: #fff;
+		font-weight: bold;
 	}
 	
 	span.bottomBt{
@@ -62,12 +65,14 @@
 		font-size: 13pt;
 		text-align: center;
 		padding-top: 8px;
-		background-color: #a0aca0;
+		background-color:#98B7C1;
 		font-weight: bold;
 	}
 	
 	span.bottomBt:hover{
-		background-color: #ecffb3;
+		background-color: #4d7380;
+		color:#fff;
+		font-weight: bold;
 	}
 	
 	span#box{
@@ -111,6 +116,28 @@
 	 	}); // end of $("span#uncheckAll").click(function(){-----------------------------
 		
 	 		
+	 	// 체크박스를 클릭했을때 전부 선택되어져 있으면 전체상품 선택해제 버튼 표시, 하나라도 선택이 안되어져 있으면 전체상품 선택하기 버튼 표시
+	 	$("input:checkbox[name=checkList]").click(function(){
+	 		
+	 		$("input:checkbox[name=checkList]").each(function(){
+				var length= $("input:checkbox[name=checkList]").length;
+				var checkedLength=$("input:checkbox[name=checkList]:checked").length;
+				
+				if(length==checkedLength){
+					 $("span#uncheckAll").show();
+			 		 $("span#checkAll").hide();	
+				}
+				else{
+					 $("span#uncheckAll").hide();
+			 		 $("span#checkAll").show();
+				}
+	 		
+	 		}); // end of each--------------------------------
+	 		
+	 	}); // end of $("input:checkbox[name=checkList]").click(function(){----------
+	 		
+	 		
+	
 		// 쇼핑계속하기 버튼 클릭 이벤트
 	 	$("span#continueShopping").click(function(){
 	 	
@@ -158,8 +185,8 @@
 	 	$("span.deleteOne").click(function(){
 	 		
 	 		var interestno= $(this).parent().parent().parent().find("input.interestno").val();
-	 		var productname= $(this).parent().parent().prev().prev().find("td.productname").prop('id');
-	 		var pcolor= $(this).parent().parent().prev().prev().find("td.color").prop('id');
+	 		var productname= $(this).parent().parent().prev().find("td.productname").prop('id');
+	 		var pcolor= $(this).parent().parent().prev().find("td.color").text();
 	 		
 	 		$.ajax({
  				url: "<%=ctxPath%>/member/myInterestProductDelete.cc",
@@ -237,11 +264,11 @@
 	 		
 	 		var interestno= $(this).parent().parent().parent().find("input.interestno").val();
 	 		var productid= $(this).parent().parent().parent().find("input.productid").val();
-	 		var pnum=$(this).parent().parent().prev().find("td.pnum").prop('id'); // 색상 선택안한경우 pnum은 "-"
+	 		var pnum=$(this).parent().parent().find("td.pnum").prop('id'); // 색상 선택안한경우 pnum은 "-"
 			var pcnt= "1";
 	 		
-			var productname= $(this).parent().parent().prev().find("td.productname").prop('id');
-	 		var pcolor= $(this).parent().parent().prev().find("td.color").prop('id');
+			var productname= $(this).parent().parent().find("td.productname").prop('id');
+	 		var pcolor= $(this).parent().parent().find("td.color").text();
 	 		
 			$.ajax({ // 장바구니로 insert
  				url: "<%=ctxPath%>/member/myCartInsert.cc",
@@ -275,26 +302,6 @@
 	
  		}); // $("span.addCartOne").click(function(){---------------- 	
 	 		
- 			
- 		// 주문하기 버튼을 클릭한 경우 주문하기 페이지로 제품정보 이동
-		$("span.orderOne").click(function(){
-			
-			var pnum= $(this).parent().parent().find("td.color").prop('id');
-			var cnt= "1";
-			var flag= false;
-			
-			
-	 		if("-"==pnum){ // 색상이 선택되지 않은 경우
-	 			flag=true;
-	 		}
-	 	
-		 	if(flag){
-		 		alert("색상 옵션을 선택해야만 주문이 가능합니다. \n장바구니로에 담은 후 색상옵션을 변경해주세요.");
-		 	}
-		 	else{
-				location.href="<%=ctxPath%>/order/payOrderMain.cc?pnum="+pnum+"&cnt="+cnt;
-	 		}	
-		}); // end of $("div#buyBt").click(function(){
 	 		
 	 		
 	}); // end of $(document).ready(function(){----------
@@ -306,7 +313,7 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../mypageleftSide.jsp" />
 <jsp:include page="myPageHeader.jsp" />
-<div id="contents" style="border: solid 0px red; margin:20px 0px 0px 20px; width:80%;">
+<div id="contents" style="border: solid 0px red; margin:20px 0px 100px 20px; width:80%;">
 
 	<div id="title">관심상품 조회</div>
 	<c:forEach var="interestPRequiredInfo" items="${interestPRequiredInfoList}">
@@ -316,9 +323,9 @@
 				<td><input type="hidden" class="productid" value="${interestPRequiredInfo.productid}" /></td>
 			</tr>
 			<tr>
-				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px;"></div></td>
+				<td colspan="9"><div style="background-color: #b4c6cb; height: 20px;"></div></td>
 			</tr>
-			<tr style="border-top: solid 1px #a0aca0; border-bottom: solid 1px #a0aca0;">
+			<tr style="border-top: solid 1px #6d919c; border-bottom: solid 1px #6d919c;">
 				<th style="width: 50px;">선택</th>
 				<th style="width: 160px;">이미지</th>
 				<th style="width: 230px;">상품정보</th>
@@ -330,47 +337,43 @@
 				<th>선택</th>
 			</tr>
 			<tr>
-				<td rowspan="3" id="${interestPRequiredInfo.pnum}" class="pnum"><input type="checkbox" name="checkList" value="${interestPRequiredInfo.pnum}" /></td>
-				<td rowspan="3"><img src="<%=ctxPath%>/images/${interestPRequiredInfo.pimage1}" width="110px" height="100px" class="interestProductImg" /></td>
+				<td rowspan="2" id="${interestPRequiredInfo.pnum}" class="pnum"><input type="checkbox" name="checkList" value="${interestPRequiredInfo.pnum}" /></td>
+				<td rowspan="2"><img src="<%=ctxPath%>/images/${interestPRequiredInfo.pimage1}" width="110px" height="100px" class="interestProductImg" /></td>
 				<td class="productname" id="${interestPRequiredInfo.productname}">${interestPRequiredInfo.productname}</td>
-				<td rowspan="3" class="color" id="${interestPRequiredInfo.pnum}">${interestPRequiredInfo.pcolor}</td>
+				<td rowspan="2" class="color" id="${interestPRequiredInfo.pnum}">${interestPRequiredInfo.pcolor}</td>
 				<c:if test="${interestPRequiredInfo.salepercent eq 0}">
-					<td class="price" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${interestPRequiredInfo.price}" pattern="#,###,###" />원</td>
+					<td class="price" style="padding-top:10px;" id="${cartRequiredInfo.price}"><fmt:formatNumber value="${interestPRequiredInfo.price}" pattern="#,###,###" />원</td>
 				</c:if>
 				<c:if test="${interestPRequiredInfo.salepercent ne 0}">
 					<td style="text-decoration: line-through;" class="price" id="${interestPRequiredInfo.price}"><fmt:formatNumber value="${interestPRequiredInfo.price}" pattern="#,###,###" />원</td>
 				</c:if>
-				<td rowspan="3">${interestPRequiredInfo.point}&nbsp;point</td>
+				<td rowspan="2">${interestPRequiredInfo.point}&nbsp;point</td>
 				<c:if test="${interestPRequiredInfo.doption eq '0'}">
-					<td rowspan="3">무료배송</td>
+					<td rowspan="2">무료배송</td>
 				</c:if>
 				<c:if test="${interestPRequiredInfo.doption eq '1'}">
-					<td rowspan="3">3,000원</td>
+					<td rowspan="2">3,000원</td>
 				</c:if>
 				<c:if test="${interestPRequiredInfo.doption eq '색상에 따라 상이'}">
-					<td rowspan="3">색상에 따라 상이</td>
+					<td rowspan="2">색상에 따라 상이</td>
 				</c:if>
-				<td rowspan="3"><fmt:formatNumber value="${interestPRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
+				<td rowspan="2"><fmt:formatNumber value="${interestPRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
 				<td>
-					<span class="funcBt orderOne">&nbsp;&nbsp;&nbsp;&nbsp;주문하기&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span class="funcBt addCartOne">&nbsp;&nbsp;&nbsp;&nbsp;장바구니&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				</td>
 			</tr>
 			<tr>
-				<td rowspan="2" style="border-top:solid 1px #a0aca0;">[${interestPRequiredInfo.cname}]&nbsp;[${interestPRequiredInfo.modelname}]</td>
+				<td style="border-top:solid 1px #a0aca0;">[${interestPRequiredInfo.cname}]&nbsp;[${interestPRequiredInfo.modelname}]</td>
 				<c:if test="${interestPRequiredInfo.salepercent eq 0}">
 					<td class="salePrice" rowspan="2" id="0"></td>
 				</c:if>
 				<c:if test="${interestPRequiredInfo.salepercent ne 0}">
-					<td style="color:red;" rowspan="2" class="salePrice" id="${interestPRequiredInfo.saleprice}"><fmt:formatNumber value="${interestPRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
+					<td style="color:red;" class="salePrice" id="${interestPRequiredInfo.saleprice}"><fmt:formatNumber value="${interestPRequiredInfo.saleprice}" pattern="#,###,###" />원</td>
 				</c:if>
-				<td><span class="funcBt addCartOne">장바구니담기</span></td>
-			</tr>
-			<tr>
 				<td><span class="funcBt deleteOne">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 			</tr>
-			
 			<tr>
-				<td colspan="9"><div style="background-color: #d1d7d1; height: 20px;"></div></td>
+				<td colspan="9"><div style="background-color: #b4c6cb; height: 20px;"></div></td>
 			</tr>
 		</table>
 	</c:forEach>
