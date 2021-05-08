@@ -32,13 +32,6 @@
    padding-left: 2%;
 }
 
-.orderSec-right {
-
-   top: 40%;
-   left: 55%;
-    width: 50%;
-}
-
 .left-section-delivery-info {
    width: auto;
 }
@@ -229,10 +222,11 @@
 }
 
 .right-section-price-info {
-   background-color: white;
+   background-color: #D5E2E2;
    position: relative;
    margin-right: 70px;
    padding: 80px;
+   opacity: 0.9;
 }
 
 .expected-price-list {
@@ -280,9 +274,16 @@ td{
    border:solid 1px black;
 }
 
+.orderSec-right{
+	position: absolute;
+	top: 84%;
+	left: 55%;
+	width: 50%;
+}
 
 </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
@@ -435,21 +436,23 @@ td{
     });     
    // end of $(document).ready(function(){})----------------------------------------------
    
-   
+  
    $(window).on("scroll", function() {
       var scrollNow = window.scrollY;
-//     console.log(scrollNow);
-		  
-          if(scrollNow > 900) {
-              $(".orderSec-right").css('position', 'absolute');
-              $(".orderSec-right").css('top', '70%');
-          } else {
-             $(".orderSec-right").css('position', 'relative');
-             $(".orderSec-right").css('bottom', '40%');
-          }
+     
+     console.log(scrollNow);
+
+          if(scrollNow < 900) {
+              $(".orderSec-right").css('position', 'fixed');
+              $(".orderSec-right").css('top', '30%');
+          } 
+          if (scrollNow <300){
+              $(".orderSec-right").css('position', 'sticky');
+              $(".orderSec-right").css('top', '30%');
+           }
 
    });  
-   
+
     // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
     function setDisplay(){
        
@@ -469,6 +472,7 @@ td{
 
 
    function goOrder(userid, finalPrice) {
+
       var frm = document.orderUpdateFrm;
       frm.userid.value = userid;
       frm.finalPrice.value = finalPrice;
@@ -476,6 +480,59 @@ td{
       frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
       frm.method="POST";
       frm.submit();
+		
+	   // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
+       // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
+       // 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
+       // 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
+       // 4. 이용자가 포인트를 사용한 경우.. => 포인트 차감시키기, + 또는 적립금 넣어주기
+       //  update이며 , tbl_member에서(where userid,totalpoint) 
+       // 5. 장바구니에서 해당 제품 삭제 tbl_cart delete(cartno필요,fk_userid)
+       // 모든처리가 성공되었을 시 commit하기 (수동커밋)
+       // 6. SQL오류 발생 시 rollback하기
+       
+       var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
+       var shipfee="${requestScope.shipfee}";          // 배송비
+       var expectPoint="${requestScope.expectPoint}";  // 예상적립금
+       var qUsepoint = Number($("input#totalpoint").val()); // 사용예정포인트
+		
+		if(qUsepoint==""){
+			qUsepoint = 0;
+		}
+		var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
+        var pnum = "${requestScope.para2Map.pnum}";       // 제품번호
+		var odqty = "${requestScope.cnt}"; // 주문량
+		var pdetailprice = parseInt("${requestScope.saleprice}");
+		var cartno = "${requestScope.cartno}"; // 장바구니 번호
+		// cartno가 없으면 null로 나올것임
+		
+		$.ajax({
+        	url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
+        	type:"post",
+        	data:{"totalPrice":totalPrice,
+        		  "shipfee":shipfee,
+        		  "expectPoint":expectPoint,
+        		  "qUsepoint":qUsepoint,
+        		  "finalamount":finalamount,
+        		  "pnum":pnum,
+        		  "odqty":odqty,
+        		  "cartno":cartno,
+        		  "pdetailprice":pdetailprice},
+        	dataType:"json",
+        	success:function(json){
+     		   
+     		   if(json.success == 1){
+     			   
+     			   location.href="<%= ctxPath%>/order/myOrderList.cc";
+     		   }
+     		   
+     	   },
+     	   error: function(request, status, error){
+             		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+          		} 
+
+        }); // end of $.ajax
+	   
    }
 
 </script>
@@ -669,7 +726,7 @@ td{
                   <span class="total-expected-price-title">총 결제 예상 금액</span>
                   <span id="finalPrice" style="font-weight:bolder; font-size:20pt" ></span>
                </p>
-               <button class="btn-order" type="button" onclick="goPay()">주문 완료하기</button>
+               <button class="btn-order" type="button">주문 완료하기</button>
             </div>
          </div>
       </div>

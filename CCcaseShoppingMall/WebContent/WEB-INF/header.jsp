@@ -22,6 +22,9 @@
 		margin-bottom: 8px;
 		font-size: 10pt;
 		text-decoration: none;
+		color: black;
+		cursor: pointer;
+		margin-top:10px;
 	}
 	
 	div.menuEachContainer{
@@ -35,25 +38,28 @@
 	}
 	
 	button.menuEach{
-		background-color: #d6d6c2;
+		background-color: #fff;
 		border: none;
 		text-align: center;
 		width: 120px;
 		height: 80px;
+		cursor: pointer;
 	}
 	
 	a.dropMenu:hover{
-		background-color: #f2f28c;
+		background-color: #b4c6cb;
 		color: black;
 		text-decoration: none;
+		cursor: pointer;
 	}
 	
 	div.menuSort{
 		display: none;
 		margin-top: 15px;
 		padding-left: 10px;
-		background-color: #e1e1db;
+		background-color: #fff;
 		border: solid 1px #e1e1db;
+		width: 160px;
 	}
 	
 	div.menuEachContainer:hover > div.menuSort{
@@ -61,30 +67,39 @@
 	}
 	
 	div.menuEachContainer:hover > button.menuEach{
-		background-color: #33ccff;
-		color: #fff;
+		background-color: #e1e8ea;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	
+	button.loginSection{
+		background-color: #f0f4f5;
+		cursor: pointer;
 	}
 	
 	button.loginSection:hover {
-		background-color: #33ccff;
-		color: black;
+		background-color: #b4c6cb;
+		cursor: pointer;
+		font-weight: bold;
 	}
 	
 	button#logout{
 		border: solid 0px blue;
-		background-color: #f2f2f2;
+		background-color: #f0f4f5;
 		display: inline-block;
 		font-size: 10pt;
-		width: 175px;
+		width: 170px;
 		height: 40px;
 		margin-top: 15px;
 		margin-left: 5px;
 		text-align: center;
+		cursor: pointer;
 	}
 	
 	button#logout:hover{
-		background-color: #33ccff;
-		color: black;
+		background-color: #b4c6cb;
+		cursor: pointer;
+		font-weight: bold;
 	}
 	
 	div#mainAll{
@@ -96,8 +111,8 @@
 		border-right: solid 2px #caceca;
 		float: left;
 		margin-top: 40px;
-		width: 160px;
-		padding-left: 15px;
+		width: 200px;
+		padding-left: 40px;
 		height: 500px;
 	}
 	
@@ -107,18 +122,19 @@
 	}
 	
 	li.mainAllTitle{
-		background-color: #2c302c;
+		background-color: #94b0b8;
 		color: #fff;
 		border-radius: 5%;
 		text-align: center;
 		padding-top: 10px;
 		width: 130px;
 		height: 40px;	
-		font-weight: bold;	
+		font-weight: bold;
+		cursor: context-menu;	
 	}
 	
 	li.mainAllCom{
-		background-color:  #fff;
+		background-color: #f0f4f5;
 		border-radius: 5%;
 		text-align: center;
 		padding-top: 10px;
@@ -126,6 +142,7 @@
 		height: 40px;
 		font-weight: bold;
 		margin: 8px 0px;
+		cursor: context-menu;
 	}
 
 	li.mdname{
@@ -133,25 +150,58 @@
 	}
 	
 	li.mdname:hover{
-		background-color: #ffffcc;
+		background-color: #b4c6cb;
 		font-weight: bold;
 	}
 	
 	div.mainAllContent a{
 		text-decoration: none;
+		color: black;
+		cursor: pointer;
+	}
+	
+	div.mainAllContent a:hover{
+		text-decoration: none;
+		color: black;
+		cursor: pointer;
 	}
 	
 	li.mainAllCommu:hover{
-		background-color: #ffffcc;
+		background-color: #b4c6cb;
 		font-weight: bold;
+		cursor: pointer;
 	}
 	
 	div.menuSort span{
 		border: solid 0px red;
 		display: inline-block;
-		width: 65px;
-		margin-left:5px;
+		width: 80px;
+		margin-left:15px;
 	}
+	
+	button.case{
+		font-size:15pt;
+		height: 50px;
+		border-bottom: solid 2px #6d919c;
+		width: 160px;
+	}
+	
+	button#commu{
+		font-size:15pt;
+		height: 50px;
+		border-bottom: solid 2px #6d919c;
+		width: 160px;	
+	}
+	
+	img#logoImg{
+		position: relative;
+		top:10px;
+		left:20px;
+		cursor: pointer;
+	}
+	
+	
+	
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -224,14 +274,14 @@
 	<div id="container">
 	
 		<div id="logo">
-			<a href="<%= ctxPath%>/home.cc"><img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="170" height="80" /></a>
+			<a href="<%= ctxPath%>/home.cc"><img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="180" height="100" id="logoImg"/></a>
 		</div>
 		
 		<div id="mainMenu">
 		
-			<div class="menuEachContainer" id="allForEvent" style="position:absolute; top: 50px; left: 260px;">
-	  		 	<img src="<%= ctxPath%>/images/homeMain/menuAllMouseout.png" width="120" height="80" id="menuAllMouseout"/>
-		  		<img src="<%= ctxPath%>/images/homeMain/menuAllMouseover.png" width="120" height="80" id="menuAllMouseover"/>
+			<div class="menuEachContainer" id="allForEvent" style="position:absolute; top: 80px; left: 280px; cursor: pointer;">
+	  		 	<img src="<%= ctxPath%>/images/homeMain/menuAllMouseout.png" width="80" height="40" id="menuAllMouseout"/>
+		  		<img src="<%= ctxPath%>/images/homeMain/menuAllMouseover.png" width="80" height="40" id="menuAllMouseover"/>
 		  		<div class="menuSort" id="mainAll">
 		  			<div class="mainAllContent" style="margin-left:40px;">
 		  				<ul>
@@ -329,35 +379,30 @@
 		  					</a>
 		  				</ul>
 		  			</div>
-		  			<div class="mainAllContent">
-		  				<ul>
-		  					<li class="mainAllTitle">악세사리</li>
-		  					<li class="mainAllCom">에어팟케이스</li>
-		  					<li class="mainAllCom">버즈케이스</li>
-		  					<li class="mainAllCom">그립톡</li>
-		  				</ul>
-		  			</div>
 		  			<div class="mainAllContent" style="border: none;">
 		  				<ul>
 		  					<li class="mainAllTitle">커뮤니티</li>
 		  					<a href="<%=ctxPath%>/board/faqList.cc">
-		  						<li class="mainAllCom mainAllCommu">F&nbsp;A&nbsp;Q</li>
+	  							<li class="mainAllCom mainAllCommu">F&nbsp;A&nbsp;Q</li>
+	  						</a>
+	  						<a href="<%=ctxPath%>/board/qnaList.cc">
+	  							<li class="mainAllCom mainAllCommu">Q&nbsp;&&nbsp;A</li>
+	  						</a>
+	  						<a href="<%=ctxPath%>/board/eventList.cc">
+	  							<li class="mainAllCom mainAllCommu">이벤트</li>
+	  						</a>
+	  						<a href="<%=ctxPath%>/board/noticeList.cc">
+	  							<li class="mainAllCom mainAllCommu">공지사항</li>
+	  					    </a>
+	  					    <a href="<%=ctxPath%>/board/reviewList.cc">
+			  					<li class="mainAllCom mainAllCommu">고객리뷰</li>
 		  					</a>
-		  					<a href="<%=ctxPath%>/board/qnaList.cc">
-		  						<li class="mainAllCom mainAllCommu">Q&nbsp;&&nbsp;A</li>
-		  					</a>
-		  					<li class="mainAllCom mainAllCommu">이벤트</li>
-		  					<li class="mainAllCom mainAllCommu">공지사항</li>
-		  					<li class="mainAllCom mainAllCommu">
-		  						<a href="<%=ctxPath%>/board/reviewList.cc">고객리뷰</a>
-		  					</li>
-		  					
 		  				</ul>
 		  			</div>
 		  		</div>
 	  		</div>
 	  		
-	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 410px;">
+	  		<div class="menuEachContainer" style="position:absolute; top: 70px; left: 405px;">
 	  		 	<button type="button" class="menuEach case" id="hardCase" value="1">하드케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=1" class="dropMenu"><span>삼성</span>${paraMap.hardSamCnt}개</a>
@@ -366,7 +411,7 @@
 		  		</div>
 	  		</div>
 	  		
-	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 560px;">
+	  		<div class="menuEachContainer" style="position:absolute; top: 70px; left: 595px;">
 		  		<button type="button" class="menuEach case" id="jellyCase" value="2">젤리케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=2" class="dropMenu"><span>삼성</span>${paraMap.jellySamCnt}개</a>
@@ -375,7 +420,7 @@
 		  		</div>
 	  		</div>
 	  		
-	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 710px;">
+	  		<div class="menuEachContainer" style="position:absolute; top: 70px; left: 785px;">
 	  		 	<button type="button" class="menuEach case" id="bumperCase" value="3">범퍼케이스</button>
 		  		<div class="menuSort">
 		  			<a href="<%= ctxPath%>/product/productList.cc?mnum=1000&cnum=3" class="dropMenu"><span>삼성</span>${paraMap.bumpSamCnt}개</a>
@@ -384,23 +429,14 @@
 		  		</div>
 	  		</div>
 	  		
-	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 860px;">
-	  		 	<button type="button" class="menuEach">악세사리</button>
+	  		<div class="menuEachContainer" style="position:absolute; top: 70px; left: 975px;">
+	  		 	<button type="button" class="menuEach" id="commu" >커뮤니티</button>
 		  		<div class="menuSort">
-		  			<a href="" class="dropMenu">에어팟케이스&nbsp;&nbsp;&nbsp;수량</a>
-		  			<a href="" class="dropMenu">버즈케이스&nbsp;&nbsp;&nbsp;수량</a>
-		  			<a href="" class="dropMenu">그립톡&nbsp;&nbsp;&nbsp;&nbsp;수량</a>
-		  		</div>
-	  		</div>
-	  		
-	  		<div class="menuEachContainer" style="position:absolute; top: 50px; left: 1010px;">
-	  		 	<button type="button" class="menuEach" id="commu">커뮤니티</button>
-		  		<div class="menuSort">
-		  			<a href="<%=ctxPath%>/board/faqList.cc" class="dropMenu">FAQ</a>
-		  			<a href="<%=ctxPath%>/board/qnaList.cc" class="dropMenu">Q&A</a>
-		  			<a href="<%=ctxPath%>/board/eventList.cc" class="dropMenu">이벤트</a>
-		  			<a href="<%=ctxPath%>/board/noticeList.cc" class="dropMenu">공지사항</a>
-		  			<a href="<%=ctxPath%>/board/reviewList.cc" class="dropMenu">고객리뷰</a>
+		  			<a href="<%=ctxPath%>/board/faqList.cc" class="dropMenu">&nbsp;&nbsp;&nbsp;FAQ</a>
+		  			<a href="<%=ctxPath%>/board/qnaList.cc" class="dropMenu">&nbsp;&nbsp;&nbsp;Q&A</a>
+		  			<a href="<%=ctxPath%>/board/eventList.cc" class="dropMenu">&nbsp;&nbsp;&nbsp;이벤트</a>
+		  			<a href="<%=ctxPath%>/board/noticeList.cc" class="dropMenu">&nbsp;&nbsp;&nbsp;공지사항</a>
+		  			<a href="<%=ctxPath%>/board/reviewList.cc" class="dropMenu">&nbsp;&nbsp;&nbsp;고객리뷰</a>
 		  		</div>
 	  		</div>
 	  		

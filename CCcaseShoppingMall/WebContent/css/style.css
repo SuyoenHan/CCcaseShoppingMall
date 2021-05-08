@@ -12,7 +12,7 @@ div#container{
 }
 
 div#logo{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 15%;
 	height: 120px;
@@ -21,7 +21,7 @@ div#logo{
 }
 
 div#mainMenu{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 68%;
 	height: 120px;
@@ -31,7 +31,7 @@ div#mainMenu{
 }
 
 div#login{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 15%;
 	height: 120px;
@@ -40,7 +40,7 @@ div#login{
 }
 
 div#leftSide{
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	float: left;
 	width: 15%;
 	margin-right: 5px;
@@ -55,7 +55,7 @@ div#contents{
 
 div#footer{
 	clear: both;
-	border: dotted 1px gray;
+	border: dotted 0px gray;
 	height: 400px;
 	margin-bottom: 100px;
 }
@@ -74,7 +74,7 @@ button.loginSection{
 	font-size: 10pt;
 	width: 80px;
 	height: 40px;
-	margin-top: 15px;
+	margin-top: 5px;
 	margin-left: 5px;
 	text-align: center;
 }
