@@ -33,6 +33,12 @@
    		font-weight: bold;
    		font-size: 18px;
    		height: 40px;
+<<<<<<< HEAD
+=======
+   		 text-align: center;
+   	}
+   th{ 
+>>>>>>> refs/heads/main
    		text-align: center;
    		
    	}
@@ -158,6 +164,10 @@
 		           <tr id="menu">	 
 		              <th colspan=2>상품정보</th>
 		              <th >주문일자</th>
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/main
 		              <th colspan=2 >제품번호</th>
 		              
 		           </tr>
@@ -169,7 +179,11 @@
 	    				<td><img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}" width="150" height="150" style=" border-radius: 2em;"/> 
 	    				</td>
 	    				<td>
+<<<<<<< HEAD
 	    				<span style="margin-top: 100px; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
+=======
+	    				<span style=" font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span> <br> 
+>>>>>>> refs/heads/main
 	    				<span style="font-size: 10pt;">${byreview.pvo.modelname}</span>
 	    				</td>
 	    				<td>${byreview.orderdate}</td>

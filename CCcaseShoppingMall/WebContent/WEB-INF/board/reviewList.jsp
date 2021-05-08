@@ -101,8 +101,6 @@
 
 	$(document).ready(function(){
 		
-		func_height();
-		
 		if("${fn:trim(requestScope.searchWord)}" != "") {
 			$("select#searchType").val("${requestScope.searchType}");
 			$("input#searchWord").val("${requestScope.searchWord}");
@@ -123,9 +121,10 @@
 		});
 			
 		
-		// 더보기 버튼 클릭시 리뷰상세페이지로 이동
-		$("button.btnReadMore").click(function(){
-			var reviewno= $(this).parent().prev().prev().prop('id');
+		
+		// 포토리뷰의 사진 클릭시 리뷰상세페이지로 이동
+		$("a.goDetail").click(function(){
+			var reviewno = $(this).prop('id');
 			location.href="<%=ctxPath%>/board/reviewOneDetail.cc?reviewno="+reviewno;
 			
 		}); // end of $("button.btnReadMore").click(function(){-------------------
@@ -155,7 +154,7 @@
 		<div style="font-size: 15pt;">포토리뷰 모아보기(<span id="rtotalCnt">${requestScope.rtotalCnt}</span>)&nbsp;&nbsp;&nbsp;<span id="description">최근 1년간의 포토리뷰를 확인하세요</span></div>
 		
 		<div id="btnGroup">
-			<button id="btnNext" >&nbsp;&gt;&nbsp;</button>&nbsp;<button id="btnPrev" style="right;">&nbsp;&lt;&nbsp;</button>
+			<button id="btnNext" onclick="goNextPic()" >&nbsp;&gt;&nbsp;</button>&nbsp;<button id="btnPrev" style="right;" onclick="goPrevPic()">&nbsp;&lt;&nbsp;</button>
 		</div>
 		
 		<br>
@@ -164,7 +163,7 @@
 		<ul style="list-style:none; margin-top: 10px;">
 			<c:forEach var="rvo" items="${requestScope.revList}">
 				<li style="display : inline;">
-					<c:if test="${rvo.reviewimage1 != null}"><a href="<%=ctxPath%>/board/reviewOneDetail.cc?goBackURL=${requestScope.goBackURL}"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
+					<c:if test="${rvo.reviewimage1 != null}"><a id="${rvo.reviewno}" class="goDetail"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
 				</li>
 			</c:forEach>
 		</ul>
@@ -177,10 +176,9 @@
 			<select id="searchType" name="searchType" style="height: 31px; vertical-align:top;">
 				<option value="choose">선택</option>
 				<option value="fk_pname">제품명</option>
-				<option value="rvtitle">글제목</option>
-				<option value="rvcontent">글내용</option>
 			</select>
-			<input type="text" id="searchWord" style="vertical-align:top;"placeholder="제품명 입력"/>
+			<input type="text" id="searchWord" name="searchWord" style="vertical-align:top;" placeholder="제품명 입력"/>
+			<input type="text" style="display:none;">
 			<a style="cursor:pointer;" onclick="goRSearch()" id="btnSearch"><img id="searchImg" src="../images/product/look.png"></a>
 		</form>
 		
@@ -196,7 +194,7 @@
 						<span id="prodName" style="color: #737373; font-size: 10pt;">${rvo.fk_pname}</span><br><br>
 						<span style="font-weight:bold; font-size:14pt;">"${rvo.rvtitle}"</span><br>
 						<span style="font-size:10pt;">${rvo.rvcontent}</span>
-						&nbsp;&nbsp;&nbsp;<button type="button" class="btnReadMore">더보기</button>
+						&nbsp;&nbsp;&nbsp;<a class="btnReadMore" style="font-style:italic;">더보기</a>
 					</td>
 					<td style="text-align:right; vertical-align:middle;">${rvo.rregisterdate}<br>
 							${rvo.fk_userid}</td>

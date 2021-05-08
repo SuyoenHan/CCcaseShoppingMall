@@ -7,22 +7,41 @@
 <jsp:include page="../adminheader.jsp" />  
 
 <style>
+
+	div#contents {
+		display: table;
+		margin-left: 10%;
+		margin-bottom: 10%;
+	}
+	
+	div.container-row{
+		display: table-row;
+	}
+
+	div.tdstatus{
+		display: table-cell;
+		padding: 20px;
+	}
+	
+	table{
+		margin: 0 3% 5% 0;
+		width: 300px;
+		height: auto;
+	}
+
 	tr{
-		border-bottom : solid 1px black;
 		line-height: 50px;
 	}
 	
 	td{
-		border: solid 0px black;
+		text-align: center;
 		font-size : 13pt;
-		width: 100px;
+		width: 150px;
 	}
 	
 	td.qtyComment {
 		font-size:15pt !important;
 		font-weight: bolder;
-		width: 300px !important;
-		border-right: solid 1px black;
 	}
 
 </style>
@@ -43,91 +62,138 @@
 		var refresh = setInterval(function(){
 			location.href="javascript:history.go(0)";
 		},10000);
-		
-	
 			
 		
 	}); // end of $(document).ready(function(){
-		
-	// Function Declaration
 
 
 </script>
-
+<div id="tatalControl">
 <div id="contents">
 	<div id="container">
-	
-		<table>
-			<tbody>
-				<tr> 
-					<td class="qtyComment">1. 전일 총 판매량</td>
-					<td colspan="3">${sessionScope.yesterdayPdQty}개</td>
-				</tr>
-				<tr> 
-					<td class="qtyComment">2. 금일 총 판매량</td>
-					<td colspan="3">${sessionScope.todayPdQty}개</td>
-				</tr>
-				
-				<tr> 
-					<td class="qtyComment">3. 전일 총 판매액</td>
-					<td colspan="3" id="yProfit"><fmt:formatNumber value="${sessionScope.yProfit}" pattern="#,###" />원</td>
-				</tr>
-				
-				<tr> 
-					<td class="qtyComment">4. 금일 총 판매액</td>
-					<td colspan="3" id="tProfit"><fmt:formatNumber value="${sessionScope.tProfit}" pattern="#,###" />원</td>
-				</tr>
-				
-				<tr> 
-					<td rowspan="3" class="qtyComment">5. 금일 케이스별 판매량</td>
-					<td>하드케이스</td>
-					<td colspan="2">${sessionScope.hardSaleQty}개</td>
-				</tr>
-				
-				
-				<tr> 
-					<td>젤리케이스</td>
-					<td colspan="2">${sessionScope.jellySaleQty}개</td>
-				</tr>
-				
-				<tr> 
-					<td>범퍼케이스</td>
-					<td colspan="2">${sessionScope.bumpperSaleQty}개</td>
-				</tr>
-				
-				<tr> 
-					<td rowspan="3" class="qtyComment">6. 회원수</td>
-					<td>총회원수 </td>
-					<td>${sessionScope.allMemberCnt}명</td>
-					<td>탈퇴회원수</td>
-				</tr>
-				
-				<tr> 
-					<td>활동중</td>
-					<td>휴먼</td>
-					<td>${sessionScope.outMemberCnt}명</td>
-				</tr>
-				
-				<tr> 
-					<td>${sessionScope.activeMemberCnt}명</td>
-					<td colspan="2">${sessionScope.humanMemberCnt}명</td>
-				</tr>
-				
-				<tr> 
-					<td class="qtyComment">7. 금일 가입회원수</td>
-					<td colspan="3">${sessionScope.todayRegisterCnt}명</td>
-				</tr>
-				
-				<tr> 
-					<td class="qtyComment">8.QNA 미답변글수</td>
-					<td colspan="3">${sessionScope.noCmtCnt}개</td>
-				</tr>
-				
-			</tbody>
-		</table>
-	
-	
-	
+		<div class="container-row">
+			<div class="tdstatus">
+			<table class="salesQty" style="border: 1px solid #D5E2E2; ">
+				<thead style="background-color: #D5E2E2;">
+					<tr>
+						<th colspan="2" style="text-align: center; font-weight: bold; font-size: 25px;">총 판매량</th>
+					</tr>
+				</thead>
+					<tr> 
+						<td class="qtyComment">전일</td>
+						<td class="qtyComment">금일</td>
+					</tr>
+					<tr> 
+						<td>${sessionScope.yesterdayPdQty}개</td>
+						<td>${sessionScope.todayPdQty}개</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<div class="tdstatus">
+			<table class="salesAmount" style="border: 1px solid #CAD9DF; margin-left: 5%;">	
+				<thead style="background-color: #CAD9DF;">
+					<tr>
+						<th colspan="2" style="text-align: center; font-weight: bold; font-size: 25px;">총 판매액</th>
+					</tr>
+				</thead>
+				<tbody>			
+					<tr> 
+						<td class="qtyComment">전일</td>
+						<td class="qtyComment">금일</td>
+					</tr>
+					
+					<tr> 
+						<td id="yProfit"><fmt:formatNumber value="${sessionScope.yProfit}" pattern="#,###" />원</td>
+						<td id="tProfit"><fmt:formatNumber value="${sessionScope.tProfit}" pattern="#,###" />원</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>	
+			<div class="tdstatus">
+			<table style="border: 1px solid #AFCAD8; margin-left: 5%;">
+				<thead style="background-color: #AFCAD8">
+					<tr>
+						<th colspan="3" style="width: 100%; text-align: center; font-weight: bold; font-size: 25px;">금일 케이스별 판매량</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr> 
+						<td colspan="2">하드케이스</td>
+						<td>${sessionScope.hardSaleQty}개</td>
+					</tr>				
+					<tr> 
+						<td colspan="2">젤리케이스</td>
+						<td>${sessionScope.jellySaleQty}개</td>
+					</tr>			
+					<tr> 
+						<td colspan="2">범퍼케이스</td>
+						<td>${sessionScope.bumpperSaleQty}개</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		<div class="container-row">
+			<div class="tdstatus">
+			<table class="totalMember" style="border: 1px solid #7EAAC0;">
+				<thead style="background-color: #7EAAC0;">
+					<tr>
+						<th colspan="3" style="text-align: center; font-weight: bold; font-size: 25px;">회원수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr> 
+						<td colspan="2">총회원수[${sessionScope.allMemberCnt}명] </td>
+						<td>탈퇴회원수</td>
+					</tr>
+					
+					<tr> 
+						<td>활동중</td>
+						<td>휴면</td>
+						<td rowspan="2">${sessionScope.outMemberCnt}명</td>
+					</tr>
+					
+					<tr> 
+						<td>${sessionScope.activeMemberCnt}명</td>
+						<td>${sessionScope.humanMemberCnt}명</td>
+					</tr>
+					<tr> 
+						<td class="qtyComment" colspan="2"  style="background-color: #7EAAC0;">금일 가입회원수</td>
+						<td>${sessionScope.todayRegisterCnt}명</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<div class="tdstatus">
+			<table style="border: 1px solid #93C0C3; margin-left: 5%;">
+				<thead style="background-color: #93C0C3;">
+					<tr>
+						<th colspan="2" style="text-align: center; font-weight: bold; font-size: 25px;">게시물 현황</th>
+					</tr>
+				</thead>
+				<tbody>	
+					<tr> 
+						<td style="width: 50%">공지사항</td>
+						<td style="width: 50%">${sessionScope.noticeCnt}개</td>
+					</tr>
+					<tr> 
+						<td>FAQ</td>
+						<td>${sessionScope.faqCnt}개</td>
+					</tr>
+					<tr> 
+						<td>QnA</td>
+						<td>${sessionScope.qnaCnt}개</td>
+					</tr>
+					<tr>
+						<td>QNA 미답변글수</td>
+						<td>${sessionScope.noCmtCnt}개</td>
+					</tr>				
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
 	</div>
 </div>
 <jsp:include page="../footer.jsp" /> 

@@ -13,7 +13,6 @@ public class OrderSuccessAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
@@ -23,9 +22,11 @@ public class OrderSuccessAction extends AbstractController {
 			
 				String userid = request.getParameter("userid");
 				String finalPrice = request.getParameter("finalPrice");
+				String finalamount = request.getParameter("finalamount");
 				
 				request.setAttribute("userid", userid);
 				request.setAttribute("finalPrice", finalPrice);
+				request.setAttribute("finalamount", finalamount);
 				
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/order/paymentGateway.jsp");

@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-		결제성공 보여주는 화면<br>
-		${sessionScope.userid};<br>
-		${sessionScope.finalPrice};<br>
+결제성공 보여주는 화면!
+${requestScope.userid} 님의 결제가 완료되었습니다.
 </body>
 </html>
