@@ -6,8 +6,9 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="../../WEB-INF/member/myPageHeader.jsp" />
+<jsp:include page="../../WEB-INF/header.jsp" />
 <jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
+<jsp:include page="../../WEB-INF/member/myPageHeader.jsp" />
 
 <style type="text/css">
 	
@@ -15,7 +16,7 @@
 		margin-left: 20px;
 	}
 	
-	button.btn {
+	button.btn1 {
 		border: none;
 		width: 150px;
 		padding: 10px 0;
@@ -24,7 +25,7 @@
 		margin-right: 10px;
 	}
 	
-	button.btn:hover {
+	button.btn1:hover {
 		background-color: #4d4d4d;
 		color: white;
 	}
@@ -54,8 +55,8 @@
 	
 </script>
 
-<h3 style="font-weight: bold; color: navy;">나의 쿠폰 조회</h3>
-<hr style="background-color:black; height:2px;">
+<h3 style="font-weight: bold;">나의 쿠폰 조회</h3>
+<hr style="background-color:black; height:1px;">
 
 <br><br><br><br><br>
 
@@ -65,8 +66,8 @@
 
 
 <div id="btns">
-	<button type="button" id="aval" class="btn">사용가능 쿠폰(<span class="cnt">${requestScope.acnt}</span>)</button>
-	<button type="button" id="unAval" class="btn">사용완료 쿠폰(<span class="cnt">${requestScope.ucnt}</span>)</button>
+	<button type="button" id="aval" class="btn1">사용가능 쿠폰(<span class="cnt">${requestScope.acnt}</span>)</button>
+	<button type="button" id="unAval" class="btn1">사용완료 쿠폰(<span class="cnt">${requestScope.ucnt}</span>)</button>
 </div>
 
 <br>
