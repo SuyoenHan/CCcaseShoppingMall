@@ -29,8 +29,11 @@ public interface InterOrderDAO {
 	// 주문번호를 채번하는 메소드
 	String getOrderno() throws SQLException;
 	
-	// 주문완료시 여러 테이블에 insert 및  등등 작업
+	// 즉시구매시 여러 테이블에 insert 및  등등 작업
 	int orderAdd(Map<String, String> para2Map) throws SQLException;
+	
+	// 장바구니에서 한개 상품만 구매 시 여러 테이블에 insert 및  등등 작업
+	int oneCartorder(Map<String, String> para2Map) throws SQLException;
 	
 	/////////////////////////// 백원빈 끝 ///////////////////////////////	
 
@@ -62,6 +65,8 @@ public interface InterOrderDAO {
 	
 	// 상품 주문완료 후 주문 테이블에 insert
 	int insertNewOrder(Map<String, String> paraMap) throws SQLException;
+
+
 	
 	
 
