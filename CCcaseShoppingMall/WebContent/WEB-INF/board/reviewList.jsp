@@ -159,7 +159,7 @@
 				<li style="display : inline;">
 					<c:if test="${rvo.reviewimage1 != null}">
 					<input type="hidden" name="reviewno" id="reviewno" value="${rvo.reviewno}"/>
-					<a id="${rvo.reviewno}" class="goDetail"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
+					<a id="${rvo.reviewno}" class="goDetail" style="margin-right: 18px;"><img src="../images/${rvo.reviewimage1}" style="width:100px; height:100px "></a></c:if>
 				</li>
 			</c:forEach>
 		</ul>

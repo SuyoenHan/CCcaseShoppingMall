@@ -164,7 +164,9 @@
 		<table>
 			<tbody>
 				<tr style="border:solid 1px gray; height:40px;">
-					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px"></td>
+					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px">
+					<input type="hidden" id="productid" name="productid" value="${requestScope.pdvo.fk_productid}"/>
+					<input type="hidden" id="pnum" name="pnum" value="${requestScope.pdvo.pnum}" /></td>
 					<td style="padding: 10px; width: 650px;">
 						<c:if test="${requestScope.snum eq 1}">
 							<span style="background-color: #cc8800; font-weight:bold; font-size:8pt; color:white;">NEW</span><br>

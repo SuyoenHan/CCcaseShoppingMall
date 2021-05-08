@@ -9,6 +9,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import product.model.ProductDetailVO;
 import product.model.ProductVO;
 
 public class ReviewDAO implements InterReviewDAO {
@@ -794,35 +795,43 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return revList;
 	}
-
+	
+	// pnum 알아오기
 	@Override
-	public String getReviewno2(String userid) throws SQLException {
+	public ProductDetailVO getPnum(String reviewno) throws SQLException {
 		
-		String reviewno = null;
+		ProductDetailVO pdvo = null;
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewno "
-							+ " from tbl_review "
-							+ " where fk_userid = ? ";
+			String sql = " select fk_productid, pnum "+
+								" from tbl_review R "+
+								" join tbl_odetail O "+
+								" on R.fk_odetailno = O.odetailno "+
+								" join tbl_pdetail P "+
+								" on O.fk_pnum = P.pnum "+
+								" where reviewno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
+			pstmt.setString(1, reviewno);
 			
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			
-			reviewno = rs.getString(1);
-			
+			while(rs.next()) {
+				
+				pdvo = new ProductDetailVO();
+				pdvo.setFk_productid(rs.getString(1));
+				pdvo.setPnum(rs.getString(2));
+				
+			}
 		} finally {
 			close();
 		}
-		
-		
-		return reviewno;
+		return pdvo;
 	}
+
+
 
 	
 

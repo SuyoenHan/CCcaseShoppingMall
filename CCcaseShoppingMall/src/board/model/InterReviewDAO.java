@@ -3,6 +3,7 @@ package board.model;
 import java.sql.SQLException;
 import java.util.*;
 
+import product.model.ProductDetailVO;
 import product.model.ProductVO;
 
 
@@ -71,8 +72,8 @@ public interface InterReviewDAO {
 	// 리뷰 목록을 조회해오기
 	List<ReviewVO> selectRevList() throws SQLException;
 	
-	
-	String getReviewno2(String userid) throws SQLException;
+	// pnum 알아오기
+	ProductDetailVO getPnum(String reviewno) throws SQLException;
 	
 
 	
