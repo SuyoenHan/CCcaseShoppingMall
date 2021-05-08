@@ -386,5 +386,39 @@ public class EventDAO implements InterEventDAO {
 	}
 
 	
+	// =================== 한수연 시작 ======================
+	// 해당 eventno가 존재하는지 확인하는 메소드
+	@Override
+	public int checkEventno(String eventno) throws SQLException {
+	
+		int m=0;
+	
+		try {
+			
+			conn=ds.getConnection();
+			String sql= " select eventno from tbl_event where eventno= ? ";
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(eventno));
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				m=1;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return m;
+		
+		/*
+		 	m==1인경우 해당 eventno 존재
+		 	m==0인경우 해당 eventno 존재하지 않음
+		*/
+	}
+	
+	// =================== 한수연 끝 ======================
+	
 
 }
