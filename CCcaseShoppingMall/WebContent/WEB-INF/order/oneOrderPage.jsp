@@ -32,13 +32,6 @@
    padding-left: 2%;
 }
 
-.orderSec-right {
-
-   top: 40%;
-   left: 55%;
-    width: 50%;
-}
-
 .left-section-delivery-info {
    width: auto;
 }
@@ -229,10 +222,11 @@
 }
 
 .right-section-price-info {
-   background-color: white;
+   background-color: #D5E2E2;
    position: relative;
    margin-right: 70px;
    padding: 80px;
+   opacity: 0.9;
 }
 
 .expected-price-list {
@@ -280,9 +274,16 @@ td{
    border:solid 1px black;
 }
 
+.orderSec-right{
+	position: absolute;
+	top: 84%;
+	left: 55%;
+	width: 50%;
+}
 
 </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
@@ -435,21 +436,23 @@ td{
     });     
    // end of $(document).ready(function(){})----------------------------------------------
    
-   
+  
    $(window).on("scroll", function() {
       var scrollNow = window.scrollY;
-//     console.log(scrollNow);
-        
-          if(scrollNow > 900) {
-              $(".orderSec-right").css('position', 'absolute');
-              $(".orderSec-right").css('top', '70%');
-          } else {
-             $(".orderSec-right").css('position', 'relative');
-             $(".orderSec-right").css('bottom', '40%');
-          }
+     
+     console.log(scrollNow);
+
+          if(scrollNow < 900) {
+              $(".orderSec-right").css('position', 'fixed');
+              $(".orderSec-right").css('top', '30%');
+          } 
+          if (scrollNow <300){
+              $(".orderSec-right").css('position', 'sticky');
+              $(".orderSec-right").css('top', '30%');
+           }
 
    });  
-   
+
     // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
     function setDisplay(){
        
@@ -469,6 +472,14 @@ td{
 
 
    function goOrder(userid, finalPrice) {
+
+      var frm = document.orderUpdateFrm;
+      frm.userid.value = userid;
+      frm.finalPrice.value = finalPrice;
+      
+      frm.action = "<%=request.getContextPath()%>/order/newOrderUpdate.cc";
+      frm.method="POST";
+      frm.submit();
 		
 	   // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
        // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
