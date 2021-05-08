@@ -10,6 +10,8 @@
 
 	div#contents {
 		display: table;
+		margin-left: 10%;
+		margin-bottom: 10%;
 	}
 	
 	div.container-row{
@@ -22,7 +24,7 @@
 	}
 	
 	table{
-		margin: 0 3% 3% 0;
+		margin: 0 3% 5% 0;
 		width: 300px;
 		height: auto;
 	}
@@ -66,7 +68,7 @@
 
 
 </script>
-
+<div id="tatalControl">
 <div id="contents">
 	<div id="container">
 		<div class="container-row">
@@ -191,7 +193,7 @@
 			</table>
 			</div>
 		</div>
-	
+	</div>
 	</div>
 </div>
 <jsp:include page="../footer.jsp" /> 
