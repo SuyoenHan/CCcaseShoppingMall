@@ -759,13 +759,13 @@
                      <span style="font-weight: 600;"><fmt:formatNumber value="${requestScope.shipfee}" type="number" pattern="#,###,###"/>원</span>
                   </li>
                   <li class="salestatus">
-	                  	 <h4>포인트</h4>	
-	                     <span><input id="totalpoint" type="text" readonly="readonly" style="width: 150px;"/></span>
+	                  	 <h4>할인 및 포인트</h4>	<br>
+	                     <span><span style="display:inline-block; width:10%;">포인트</span><input id="totalpoint" type="text" readonly="readonly" style="width: 150px;"/></span>
 	                  	 <button id="totalpoint" type="button" >전액 사용</button>
 						 <span>(보유중 포인트: ${requestScope.totalpoint}원) </span>
-                  </li>
-                  <li class="expected-price-item">
-                     <select id="coupon">
+                  		<br><br>
+                  		<span style="display:inline-block; width:10%;">쿠폰</span>
+                     	<select id="coupon">
                      	<option value="">쿠폰을 선택하세요.</option>
                      	<c:forEach var="couponMap" items="${requestScope.couponList}">
                      		<option value="${couponMap.cpno}">${couponMap.cpname}</option>
