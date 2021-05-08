@@ -32,6 +32,12 @@ public interface InterEventDAO {
 	
 	// eventno로 다음 event글 불러오기
 	EventVO nextEvent(String eventno) throws SQLException;
+
+	// ============ 한수연 시작 ==================
 	
+	// 해당 eventno가 존재하는지 확인하는 메소드
+	int checkEventno(String eventno) throws SQLException;
+	
+	// ============ 한수연 끝 ==================
 	
 }

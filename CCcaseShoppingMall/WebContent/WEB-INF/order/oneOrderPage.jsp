@@ -11,275 +11,266 @@
 <jsp:include page="../header.jsp" />
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
+
 <style type="text/css">
+	
+	/* 백원빈 아래 td#price 추가 */
+	
+	td#price{
+		text-decoration: line-through;
+	}
+	
+	.contents {
+	   width: 100%;
+	   height: auto;
+	   background-color: #f9f9f9;
+	   padding-bottom: 100px;
+	   margin-bottom: 100px;
+	}
+	
+	.allProductInfo {
+	   width: 100%;
+	   height: auto;
+	   margin: 0 auto;
+	}
+	
+	.orderSec-left {
+	   margin-right: 50%;
+	   margin-left: 7%;
+	}
+	
+	.left-section-delivery-info {
+	   width: auto;
+	}
+	
+	.left-section {
+	   margin: 0px 0px 10px;
+	   padding: 30px 80px 80px 80px;
 
-.contents {
-   width: 100%;
-   height: auto;
-   background-color: #f9f9f9;
-   padding-bottom: 200px;
-   margin-bottom: -200px;
-}
+	}
+	
+	.delivery-condition {
+	   position: relative;
+	}
+	
+	.delivery-condition-name {
+	   display: flex;
+	   justify-content: space-between;
+	}
+	
+	.delivery-condition-info {
+	   margin: 0;
+	   padding: 0;
+	   list-style: none;
+	   display: block;
+	}
+	
+	.delivery-request {
+	   margin: 25px 0 20px;
+	}
+	
+	.btn-request {
+	   display: flex;
+	   align-items: center;
+	   justify-content: space-between;
+	   flex-direction: row;
+	   width: 100%;
+	   padding: 13px 12px 11px;
+	   text-align: left;
+	   background-color: #f9f9f9;
+	}
+	
+	.btn-change-addr {
+	   position: absolute;
+	   top: 0;
+	   right: 0;
+	}
+	
+	.left-section-btn {
+	    padding: 8px 9px 6px 8px;
+	    border: 1px solid rgb(221, 221, 221);
+	    background: rgb(255, 255, 255);
+	    cursor: pointer;
+	}
+	
+	.delivery-user {
+	   position: relative;
+	    padding: 0 0 30px;
+	    border-bottom: 1px solid #ececec;
+	}
+	
+	.delivery-user-info {
+	   margin: 0;
+	   padding: 0;
+	   list-style: none;
+	}
+	
+	.info-type {
+	   display: inline-block;
+	   width: 50px;
+	   margin-right: 10px;
+	    font-size: 13px;
+	    font-weight: normal;
+	    color: #999;
+	}
+	
+	.info-value {
+	    font-weight: normal;
+	    color: #555;
+	}
+	
+	.btn-change-order {
+	   position: absolute;
+	    top: 40px;
+	    right: 0;
+	    padding: 8px 9px 6px 8px;
+	    border: 1px solid #ddd;
+	}
+	
+	.section-order-info {
+	   width: auto;
+	   background-color: #F9F9F9;
+	   border-top: 15px dashed #D8E4E4;
+	}
+	
+	.order-prod-list {
+	    margin: 0;
+	    padding: 0;
+	    border-bottom: 1px solid #111;
+	    list-style: none;
+	}
+	
+	.order-prod-info {
+	   display: flex;
+	    justify-content: flex-start;
+	    align-items: center;
+	    flex-direction: row;
+	    padding: 40px 0 40px 20px;
+	    border-top: 1px solid #ececec;
+	}
 
-.allProductInfo {
-   width: 100%;
-   height: auto;
-   margin: 0 auto;
-}
-
-.orderSec-left {
-   padding-right: 45%;
-   padding-left: 2%;
-}
-
-.left-section-delivery-info {
-   width: auto;
-}
-
-.left-section {
-   margin: 0px 0px 10px;
-   padding: 80px;
-   background-color: white;
-}
-
-.delivery-condition {
-   position: relative;
-   padding-bottom: 40px;
-}
-
-.delivery-condition-name {
-   display: flex;
-   justify-content: space-between;
-}
-
-.delivery-condition-info {
-   margin: 0;
-   padding: 0;
-   list-style: none;
-   display: block;
-}
-
-.delivery-request {
-   margin: 25px 0 20px;
-}
-
-.btn-request {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   flex-direction: row;
-   width: 100%;
-   padding: 13px 12px 11px;
-   text-align: left;
-   background-color: #f9f9f9;
-}
-
-.btn-change-addr {
-   position: absolute;
-   top: 0;
-   right: 0;
-}
-
-.left-section-btn {
-    padding: 8px 9px 6px 8px;
-    border: 1px solid rgb(221, 221, 221);
-    background: rgb(255, 255, 255);
-    cursor: pointer;
-}
-
-.delivery-user {
-   position: relative;
-    padding: 0 0 30px;
-    border-bottom: 1px solid #ececec;
-}
-
-.delivery-user-info {
-   margin: 0;
-   padding: 0;
-   list-style: none;
-}
-
-.info-type {
-   display: inline-block;
-   width: 50px;
-   margin-right: 10px;
-    font-size: 13px;
-    font-weight: normal;
-    color: #999;
-}
-
-.info-value {
-    font-weight: normal;
-    color: #555;
-}
-
-.btn-change-order {
-   position: absolute;
-    top: 40px;
-    right: 0;
-    padding: 8px 9px 6px 8px;
-    border: 1px solid #ddd;
-}
-
-.section-order-info {
-   width: auto;
-}
-
-.order-prod-list {
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid #111;
-    list-style: none;
-}
-
-.order-prod-info {
-   display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: row;
-    padding: 40px 0 40px 20px;
-    border-top: 1px solid #ececec;
-}
-
-.order-prod-img-a {
-   width: 80px;
-    display: block;
-    position: relative;
-    overflow: hidden;
-    padding-top: 106px;
-}
-
-.order-prod-img-span {
-    display: block;
-    position: absolute;
-    inset: 0px;
-    transform: translate(50%, 50%);
-}
-
-.order-prod-img-span > img {
-    max-width: 100%;
-    max-height: 100%;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    transform: translate(-50%, -50%);
-}
-
-.order-prod-text {
-   display: flex;
-   width: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    margin-left: 25px;
-}
-
-.prod-name {
-   margin: 0 0 10px;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.6;
-    text-decoration: none;
-}
-
-.order-price-text {
-    margin: 0;
-    padding-top: 25px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
-    flex-direction: column;
-}
-
-.price-unit {
-   margin-left: 3px;
-}
-
-.section-payment-info {
-   width: auto;
-}
-
-.section-payment-info-title {
-   border-bottom: 1px solid #ececec;
-   padding-bottom: 20px;
-}
-
-.payment-type-list {
-   padding: 20px 0;
-   margin: 0;
-   list-style: none;
-}
-
-.right-section-info {
-   max-width: 634px;
-   width: auto;
-   margin: 0;
-   margin-right: 70px;
-}
-
-.right-section-price-info {
-   background-color: #D5E2E2;
-   position: relative;
-   margin-right: 70px;
-   padding: 80px;
-   opacity: 0.9;
-}
-
-.expected-price-list {
-   padding: 20px 0;
-   margin: 0;
-   list-style: none;
-}
-
-.expected-price-item {
-   margin: 0;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-}
-
-.total-expected-price {
-    margin-top: 20px;
-    margin-bottom: 100px;
-    padding-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid #ececec;
-}
-
-.btn-order {
-   width: 100%;
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 80px;
-   color: white;
-   background: #6D919C;
-   border: none;
-}
-
-th{
-   border:solid 1px black !important;
-}
-
-td{
-   border:solid 1px black;
-}
-
-.orderSec-right{
-   position: absolute;
-   top: 84%;
-   left: 55%;
-   width: 50%;
-}
+	.order-prod-text {
+	   display: flex;
+	   width: 100%;
+	    justify-content: flex-start;
+	    align-items: flex-start;
+	    flex-direction: column;
+	    margin-left: 25px;
+	}
+	
+	.prod-name {
+	   margin: 0 0 10px;
+	    width: 100%;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    line-height: 1.6;
+	    text-decoration: none;
+	}
+	
+	.order-price-text {
+	    margin: 0;
+	    padding-top: 25px;
+	    display: flex;
+	    justify-content: flex-start;
+	    align-items: flex-end;
+	    flex-direction: column;
+	}
+	
+	.price-unit {
+	   margin-left: 3px;
+	}
+	
+	.section-payment-info {
+	   width: auto;
+	}
+	
+	.section-payment-info-title {
+	   border-bottom: 1px solid #ececec;
+	   padding-bottom: 20px;
+	   font-weight: 600;
+	}
+	
+	.payment-type-list {
+	   padding: 20px 0;
+	   margin: 0;
+	   list-style: none;
+	}
+	
+	.right-section-info {
+	   max-width: 634px;
+	   width: auto;
+	   margin: 0;
+	   margin-right: 70px;
+	}
+	
+	.right-section-price-info {
+	   background-color: #D5E2E2;
+	   position: relative;
+	   margin-right: 70px;
+	   padding: 50px;
+	   opacity: 0.9;
+	}
+	
+	.expected-price-list {
+	   padding: 20px 0;
+	   margin: 0;
+	   list-style: none;
+	}
+	
+	.expected-price-item {
+	   margin: 0;
+	   display: flex;
+	   justify-content: space-between;
+	   align-items: center;
+	}
+	
+	.total-expected-price {
+	    margin-top: 20px;
+	    margin-bottom: 50px;
+	    padding-top: 20px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	}
+	
+	button#totalpoint{
+		margin-left: 5px; 
+		background: #6D919C; 
+		border: none; 
+		color:white; 
+		border-radius: 2px; 
+		width: 80px; 
+		height: 25px;
+	}
+	
+	.btn-order {
+	   width: 100%;
+	   position: absolute;
+	   bottom: 0;
+	   left: 0;
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   height: 80px;
+	   color: white;
+	   background: #6D919C;
+	   border: none;
+	}
+	
+	.orderSec-right{
+		position: absolute;
+		top: 81%;
+		left: 50%;
+		width: 50%;
+	}
+	
+	.salestatus{
+		margin-top: 5%;
+		padding: 10px 10px 10px 10px;
+		background-color: rgba(255, 255, 255, 0.6);
+		width: 100%;
+	}
+	
 
 </style>
 
@@ -292,23 +283,77 @@ td{
       $("span.error").hide();
             
       //판매가 계산하기
-      var price = Number(${requestScope.paraMap.price});      
-      var salepercent = Number(${requestScope.paraMap.salepercent});
-      var saleprice = Number(price*(1-salepercent));
-      var finalamount =  ${requestScope.totalProPrice} + ${requestScope.shipfee};
-     
+      var price = Number(${requestScope.paraMap.price});   //원가    
+      var salepercent = Number(${requestScope.paraMap.salepercent}); // 할인율
+      var saleprice = Number(price*(1-salepercent));                 // 판매가
+      var shipfee = Number(${requestScope.shipfee});
+      var totalProPrice = Number(${requestScope.totalProPrice});   // 총상품가격(판매가*수량)
+      var finalamount =  totalProPrice + shipfee;
+      var qUsepoint = $("input#totalpoint").val(); 	
           
-      // 예상 총계산액
+      // 예상 총결제액
       $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
       
-      if(salepercent==0){
       
-         $("td#saleprice").text(price);
-      }
-      else{
-         $("td#saleprice").text(price);
-      }
-       
+     // 쿠폰선택했을시 할인률 적용해주기
+      $("select#coupon").bind('change',function(){
+    	
+    	var cpno = $(this).val();
+    	
+    	// console.log($(this).val());
+    	if(cpno!=""){
+    		
+    		$.ajax({
+    			url:"<%= ctxPath%>/order/getCouponSale.cc",
+    			type:"post",
+    			data:{"cpno":cpno},
+    			dataType:"json",
+    			success:function(json){
+  	              
+    				var cpdiscount = Number(json.cpdiscount);
+    				// console.log(cpdiscount);
+    				
+    				if($("input#totalpoint").val()==""){
+    					totalProPrice = Number("${requestScope.totalProPrice}");
+    					totalProPrice = parseInt(totalProPrice*(1-cpdiscount));
+    					finalamount=totalProPrice+shipfee;
+    					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+    					
+    				}
+    				else{
+    					totalProPrice = Number("${requestScope.totalProPrice}");
+    					totalProPrice = parseInt(totalProPrice*(1-cpdiscount));
+    					finalamount=totalProPrice+shipfee-Number($("input#totalpoint").val());
+    					$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+    					
+    				}
+  	             
+  	           },
+  	           error: function(request, status, error){
+  	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+  	                } 
+
+          }); // end of $.ajax
+    		
+    	}// end of if 
+    	else{
+    		if($("input#totalpoint").val()==""){
+    			totalProPrice = Number("${requestScope.totalProPrice}");
+				finalamount=totalProPrice+shipfee;
+				$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+				
+			}
+			else{
+				totalProPrice = Number("${requestScope.totalProPrice}");
+				finalamount=totalProPrice+shipfee-Number($("input#totalpoint").val());
+				$("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+				
+			}
+    	}
+    	
+    	
+    }); // end of $("select#coupon").bind('change',function(){
+	  
       // 전화번호 유효성검사
        $("input#hp2").blur(function(){
           
@@ -359,8 +404,8 @@ td{
        
           
           // 우편번호 유효성 검사 
-       $("img#zipcodeSearch").click(function(){
-          new daum.Postcode({
+       	$("img#zipcodeSearch").click(function(){
+         	 new daum.Postcode({
                 oncomplete: function(data) {
                     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
@@ -411,48 +456,52 @@ td{
           
           if("${requestScope.totalpoint}"==0){
              alert("보유중인 포인트가 없습니다.");
+             qUsepoint = 0;
              return;
           }
           else{
-             $("input#totalpoint").val("${requestScope.totalpoint}");
-          }
-          
-          finalamount = ${requestScope.totalProPrice} + ${requestScope.shipfee} - ${requestScope.totalpoint};
+             $("input#totalpoint").val(Number("${requestScope.totalpoint}"));
+             qUsepoint=Number("${requestScope.totalpoint}");
+             finalamount= finalamount-Number(qUsepoint);
              $("span#finalamount").text(finalamount.toLocaleString('en')+"원");
+          }
             
       }); // end of $("button#totalpoint").click(function(){})---------------------------
        
-       // ?? 위치 헷갈림 일단 여기 두기로 ??   
+ 
        // 결제 버튼 처리 
-          $("button.btn-order").click(function(){
-              sessionStorage.setItem('finalamount', $("span#finalamount").val());
-                
-                // 아임포트 결제 팝업창 띄우기
-                var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
+      $("button.btn-order").click(function(){
+    	  
+          sessionStorage.setItem('finalamount', finalamount);
+            
+            // 아임포트 결제 팝업창 띄우기
+          var url = "<%=request.getContextPath() %>/order/orderSuccess.cc?userid=${sessionScope.loginuser.userid}&finalamount="+finalamount+"";
 
-                window.open(url, "orderSuccess",
-                                 "left=350px, top=100px, width=650px, height=570px");      
+          window.open(url, "orderSuccess",
+                                	 "left=350px, top=100px, width=800px, height=570px");      
       }); // end of  $("button.btn-order").click(function(){})---------------------------
-       
-    });     
-   // end of $(document).ready(function(){})----------------------------------------------
+      
+      
+      $(window).on("scroll", function() {
+          var scrollNow = window.scrollY;
+         
+         console.log(scrollNow);
+
+              if(scrollNow < 900) {
+                  $(".orderSec-right").css('position', 'fixed');
+                  $(".orderSec-right").css('top', '30%');
+              } 
+              if (scrollNow <300){
+                  $(".orderSec-right").css('position', 'sticky');
+                  $(".orderSec-right").css('top', '30%');
+               }
+
+       });  
+      
+    }); // end of $(document).ready(function(){})----------------------------------------------
    
   
-   $(window).on("scroll", function() {
-      var scrollNow = window.scrollY;
-     
-     console.log(scrollNow);
-
-          if(scrollNow < 900) {
-              $(".orderSec-right").css('position', 'fixed');
-              $(".orderSec-right").css('top', '30%');
-          } 
-          if (scrollNow <300){
-              $(".orderSec-right").css('position', 'sticky');
-              $(".orderSec-right").css('top', '30%');
-           }
-
-   });  
+  
 
     // 새로운 주소 선택시에만 새로운 주소 입력칸 보여주기
     function setDisplay(){
@@ -474,8 +523,8 @@ td{
 
    function goOrder(userid, finalamount) {
 
-      
-      // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
+		
+	   // 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
        // 1. 주문테이블에 insert(채번번호,fk_userid,totalPrice,shipstartdate,depositdate,finalamount)
        // 2. 주문상세테이블에  insert(odetailno,채번번호,fk_pnum,odqty,shipstatus,pdetailprice)
        // 3. 제품상세테이블에서 제품상세번호에 해당하는 제품 재고량 감소update(pnum,pqty )
@@ -489,85 +538,84 @@ td{
        var shipfee="${requestScope.shipfee}";          // 배송비
        var expectPoint="${requestScope.expectPoint}";  // 예상적립금
        var qUsepoint = Number($("input#totalpoint").val()); // 사용예정포인트
-      
-      if(qUsepoint==""){
-         qUsepoint = 0;
-      }
-      var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
+		
+		if(qUsepoint==""){
+			qUsepoint = 0;
+		}
+	//	var finalamount=Number(totalPrice)+Number(shipfee)-Number(qUsepoint); //총결제금액
         var pnum = "${requestScope.para2Map.pnum}";       // 제품번호
-      var odqty = "${requestScope.cnt}"; // 주문량
-      var pdetailprice = parseInt("${requestScope.saleprice}");
-      var cartno = "${requestScope.cartno}"; // 장바구니 번호
-      // cartno가 없으면 null로 나올것임
-      
-      $.ajax({
-           url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
-           type:"post",
-           data:{"totalPrice":totalPrice,
-                "shipfee":shipfee,
-                "expectPoint":expectPoint,
-                "qUsepoint":qUsepoint,
-                "finalamount":finalamount,
-                "pnum":pnum,
-                "odqty":odqty,
-                "cartno":cartno,
-                "pdetailprice":pdetailprice},
-           dataType:"json",
-           success:function(json){
-              
-              if(json.success == 1){
-                 
-                 location.href="<%= ctxPath%>/order/myOrderList.cc";
-              }
-              
-           },
-           error: function(request, status, error){
-                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-                } 
+		var odqty = "${requestScope.cnt}"; // 주문량
+		var pdetailprice = parseInt("${requestScope.saleprice}");
+		var cartno = "${requestScope.cartno}"; // 장바구니 번호
+		// cartno가 없으면 null로 나올것임
+		
+		$.ajax({
+        	url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
+        	type:"post",
+        	data:{"totalPrice":totalPrice,
+        		  "shipfee":shipfee,
+        		  "expectPoint":expectPoint,
+        		  "qUsepoint":qUsepoint,
+        		  "finalamount":finalamount,
+        		  "pnum":pnum,
+        		  "odqty":odqty,
+        		  "cartno":cartno,
+        		  "pdetailprice":pdetailprice},
+        	dataType:"json",
+        	success:function(json){
+     		   
+     		   if(json.success == 1){
+     			   
+     			   location.href="<%= ctxPath%>/order/myOrderList.cc";
+     		   }
+     		   
+     	   },
+     	   error: function(request, status, error){
+             		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+          		} 
 
         }); // end of $.ajax
-      
+	   
    }
 
 </script>
 
 <div class="contents">
    
-   <div>
-      <h3>주문/결제창</h3>
+   <div style="margin: 120px 0 0 50px;">
+      <h3 style="padding: 40px 0 40px 0; font-size: 30px; font-weight: bolder; color: #6D919C;">주문/결제</h3>
    </div>
 
    <!-- 하단박스 시작 -->
    <div class="allProductInfo">
       <!-- 상품 정보 시작 -->
          <div class="section-order-info left-section">
-            <h3>배송 상품</h3>
-            <table class="table table-hover" style="margin-top:30px;">
+            <table class="table table-hover" style="margin-top:30px; border: 1px solid #B6B6B6; ">
                <thead>
-                      <tr>
+                    <tr>
                        <th colspan="2">상품정보</th>
                        <th>판매가</th>
                        <th>수량</th>
                        <th>적립금</th>
                        <th>배송구분</th>
                        <th>배송비</th>
-                    </tr>
+                   </tr>
                </thead>
                   
                <tbody>
-               <tr>
-                  <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.para2Map.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.para2Map.pimage1}" width="80px" height="80px" /></a></td>
+               <tr style="background-color: white; border-top: 0px;">
+                  <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.para2Map.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.para2Map.pimage1}" width="80px" height="80px" style="border-radius: 20%; padding:5%;" /></a></td>
                         <td>${requestScope.para2Map.productname}</td>
-                        <td><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
-                        <td rowspan="2">${cnt}개</td>
-                        <td rowspan="2">${requestScope.expectPoint}원</td>
-                        <td rowspan="2">
+                        <td id="price"><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
+                        <td rowspan="2" style="vertical-align: middle;">${cnt}개</td>
+                        <td rowspan="2" style="vertical-align: middle;">${requestScope.expectPoint}원</td>
+                        <td rowspan="2" style="vertical-align: middle;">
                            <c:choose>
                               <c:when test="${requestScope.para2Map.doption eq 0}">무료배송</c:when>
                               <c:when test="${requestScope.para2Map.doption eq 1}">기본배송</c:when>
                            </c:choose>
                         </td>
-                        <td rowspan="2" id="doption">
+                        <td rowspan="2" id="doption" style="vertical-align: middle;">
                            <c:choose>
                               <c:when test="${requestScope.para2Map.doption eq 0}">무료</c:when>
                               <c:when test="${requestScope.para2Map.doption eq 1}">3,000원</c:when>
@@ -575,7 +623,7 @@ td{
                         </td>
                   </tr>
                   
-                  <tr> 
+                  <tr style="background-color: white;"> 
                      <td>옵션:&nbsp;${requestScope.para2Map.modelname}(${requestScope.para2Map.pcolor})</td>
                      <td id="salePrice"><fmt:formatNumber value="${requestScope.saleprice}" pattern="#,###,###" />원</td>                     
                   </tr>
@@ -590,8 +638,8 @@ td{
          <!-- 배송/주문자 정보 시작 -->
          <div class="delivery-info left-section">
             <div class="delivery-user">
-               <h3>주문자 정보</h3>
-               <ul class="delivery-user-info">
+               <h3 style="font-weight: 600; padding-bottom: 20px;">주문자 정보</h3>
+               <ul class="delivery-user-info" >
                   <li>
                      <span class="info-type">이름</span>
                      <strong class="info-value">${sessionScope.loginuser.name}</strong>
@@ -606,7 +654,7 @@ td{
                   </li>
                </ul>
             </div>
-            <h3>배송 정보</h3>
+            <h4 style="font-weight: 600; padding-top: 20px;">배송 정보</h4>
             <div class="delivery-condition">
             <!-- 등록된 배송지/새로운 배송지 중에 선택 
                   등록된 배송지:회원정보 배송지, 새로운 배송지:새로 입력한 주소-->
@@ -638,8 +686,8 @@ td{
                </div>
                <!-- 새로운 배송지 -->
                <div class="newDelAddr" style="display: none;">
-                  <div class="delivery-condition-info">
-                  <table>
+                  <div>
+                  <table class="delivery-input">
                        <tr>
                           <td style="width: 20%; font-weight: bold;">수령인 이름</td>
                           <td style="width: 80%; text-align: left;"><input type="text" name="name" id="name" /></td>
@@ -675,7 +723,7 @@ td{
                </div>
                
                <h4 class="delivery-request">배송 요청사항</h4>
-               <input type="text" class="btn-request" placeholder="입력해 주세요."/>
+               <input type="text" class="btn-request" placeholder="입력해 주세요." />
             </div>
 
          </div>
@@ -686,7 +734,7 @@ td{
             <h3 class="section-payment-info-title">결제수단</h3>
             <ul class="payment-type-list">
                <li class="payment-type-item mgb10">
-                  <input type="radio" name="pay-type-item" value="card" />
+                  <input type="radio" name="pay-type-item" value="card" checked="checked"/>
                   <span>카드결제</span>
                </li>
             </ul>
@@ -699,21 +747,29 @@ td{
       <div class="orderSec-right">
          <div class="right-section-info">
             <div class="right-section-price-info">
-               <h3>결제 금액</h3>
+               <h3 style="font-weight: 600;">결제 금액</h3>
                <ul class="expected-price-list">
-                  <li>
-                     <span style="margin-right:265px">총 상품 금액</span>
-                     <span id="totalProPrice"><fmt:formatNumber value="${requestScope.totalProPrice}" type="number" pattern="#,###,###"/>원</span>
+                  <li class="expected-price-item">
+                     <span class="expected-price-title">총 상품 금액</span>
+                     <span style="font-weight: 600;"><fmt:formatNumber value="${requestScope.totalProPrice}" type="number" pattern="#,###,###"/>원</span>
                   </li>
                   <li class="expected-price-item">
                      <span class="expected-price-title">배송비</span>
-                     <span>
-                        <fmt:formatNumber value="${requestScope.shipfee}" type="number" pattern="#,###,###"/>원
-                     </span>
+                     <span style="font-weight: 600;"><fmt:formatNumber value="${requestScope.shipfee}" type="number" pattern="#,###,###"/>원</span>
+                  </li>
+                  <li class="salestatus">
+	                  	 <h4>포인트</h4>	
+	                     <span><input id="totalpoint" type="text" readonly="readonly" style="width: 150px;"/></span>
+	                  	 <button id="totalpoint" type="button" >전액 사용</button>
+						 <span>(보유중 포인트: ${requestScope.totalpoint}원) </span>
                   </li>
                   <li class="expected-price-item">
-                     <input id="totalpoint" type="text" readonly="readonly" /><span>보유중 포인트: ${requestScope.totalpoint}원 </span> 
-                     <button id="totalpoint" type="button">포인트사용</button>
+                     <select id="coupon">
+                     	<option value="">쿠폰을 선택하세요.</option>
+                     	<c:forEach var="couponMap" items="${requestScope.couponList}">
+                     		<option value="${couponMap.cpno}">${couponMap.cpname}</option>
+                     	</c:forEach>
+                     </select>                  
                   </li>
                </ul>
                <p class="total-expected-price">

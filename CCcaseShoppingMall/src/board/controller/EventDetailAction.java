@@ -38,7 +38,7 @@ public class EventDetailAction extends AbstractController {
 		// event 이전글, 다음글 불러오기
 		
 		//	super.setRedirect(false); 
-		super.setViewPage("/WEB-INF/board/eventGawiBawiBoDetail.jsp");
+		super.setViewPage("/WEB-INF/board/eventDetail.jsp");
 		
 		// 글을 보는 사람이 관리자만 아니라면 조회수 증가
 		if( loginuser != null || loginuser == null) {

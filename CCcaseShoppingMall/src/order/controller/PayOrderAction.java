@@ -7,14 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import member.model.*;
 import order.model.InterOrderDAO;
 import order.model.OrderDAO;
-import product.model.InterProductDAO;
-import product.model.InterProductDetailDAO;
-import product.model.ProductDAO;
-import product.model.ProductDetailDAO;
-
+import product.model.*;
 
 public class PayOrderAction extends AbstractController {
 
@@ -81,6 +77,13 @@ public class PayOrderAction extends AbstractController {
 			String[] pnumArr = new String[0];
 			String[] cntArr = new String[0];
 			
+			// 사용가능한 쿠폰조회해오기
+			InterCouponDAO icdao = new CouponDAO();
+			List<Map<String,String>> couponList = icdao.selectAvailCoupon(fk_userid);
+			
+			request.setAttribute("couponList", couponList);
+			
+			
 			if(cartno!=null && cartno.indexOf(",") != -1) {
 				cartnoArr = cartno.split(",");
 			}
@@ -93,6 +96,7 @@ public class PayOrderAction extends AbstractController {
 			if(cnt.indexOf(",") != -1) {
 				cntArr = cnt.split(",");
 			}
+			
 			
 			
 			// 장바구니에서 여러개의 상품이 넘어온경우

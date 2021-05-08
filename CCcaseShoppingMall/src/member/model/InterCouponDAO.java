@@ -13,6 +13,14 @@ public interface InterCouponDAO {
 	
 	// 아이디를 가지고 해당 쿠폰 정보 조회해오기
 	List<CouponVO> selectCouponList(Map<String, String> paraMap) throws SQLException;
+	
+	//////////////////////////// 백원빈 시작///////////////////////////////
+	// 주문시 사용가능한 쿠폰 조회해오기
+	List<Map<String, String>> selectAvailCoupon(String fk_userid) throws SQLException;
+	
+	// 쿠폰번호를 가지고 할인율을 가져오는 메소드
+	String getCouponsale(String cpno) throws SQLException;
+	//////////////////////////   백원빈   끝///////////////////////////////
 
 	
 	

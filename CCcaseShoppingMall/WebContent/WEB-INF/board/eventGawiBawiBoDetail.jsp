@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String ctxPath =request.getContextPath();
+%>
     
 <jsp:include page="../header.jsp" /> 
 <jsp:include page="../communityLeftSide.jsp"/>
@@ -50,7 +53,6 @@
 	    border-collapse: collapse;
 	}
 	
-  .prev_next >  thead > tr > th, 
   .prev_next >  tbody > tr > td {
 	    border-bottom: 1px solid #444444;
 	    padding: 10px;
@@ -103,47 +105,47 @@
 		goBackURL = "${requestScope.goBackURL}";
 		goBackURL = goBackURL.replace(/ /gi, "&");
 		
-	
-		
-		
 		
 		
 	if("${sessionScope.loginuser.userid}" != ""){	
 		
 		 $("button.userSel").bind("click",function(){
+			    var userChoice = $(this).val();  //내가 클릭한 곳의 value 1=가위, 2=바위, 3=보
+				// alert(userChoice);
+			
+			    /*== 자바스크립트에서 난수 발생시키기 ==//
+	      		  공식 :  Math.floor( Math.random()*(max-min+1) ) + min; 
+				*/
+				var nRandom = Math.floor( Math.random()*(3-1+1) ) + 1; // nRandom 은 1부터 3까지 중 하나이다.
+				
+				if(nRandom==1){
+					 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/가위.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px; '>가위</div>");
+				}
+				else if(nRandom==2){
+					 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/주먹.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px;'>바위</div>");
+				}
+				else if(nRandom==3){
+					 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/보.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px;'>보</div>");
+				}
+				// console.log($("div#pcSel").text());
 					
-			 /*== 자바스크립트에서 난수 발생시키기 ==//
-			        공식 :  Math.floor( Math.random()*(max-min+1) ) + min; 
-			*/
-			var nRandom = Math.floor( Math.random()*(3-1+1) ) + 1; // nRandom 은 1부터 3까지 중 하나이다.
-			
-			if(nRandom==1){
-				 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/가위.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px; '>가위</div>");
-			}
-			else if(nRandom==2){
-				 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/주먹.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px;'>바위</div>");
-			}
-			else if(nRandom==3){
-				 $("div#pcSel").html("<img src='/CCcaseShoppingMall/images/event/보.png' style='width:200px; height:200px; margin:0px auto;' /><div class='font' style='font-weight:bold; font-size:20px;'>보</div>");
-			}
-			//console.log($("div#pcSel").text());
-			
-			var userChoice = $(this).val();  //내가 클릭한 곳의 value 1=가위, 2=바위, 3=보
-			//alert(userChoice);
-			
-			
+			    
+			    
 				$.ajax({ // 중복참여 방지를 위한 테이블에insert시켜주기
-						url:"<%=request.getContextPath()%>/board/gawibawiboEvent.cc",
+						url:"<%=request.getContextPath()%>/board/gawibawiboEventInsert.cc",
 						type:"post",
 						data:{"userid":"${sessionScope.loginuser.userid}",
-							  "eventno":"${requestScope.evo.eventno}"},
+							  "eventno":"${eventno}"},
 						dataType:"json",
 						success:function(json){
 							// 중복테이블에 아이디 존재하는 경우. alert 창, 버튼상태 disable-true줌
-							if(json.n=="1"){
+							
+							if(json.n==1){
 								//참여를 하지 않은 회원이라면 
+								
 					             if( (Number(userChoice) == "1" && nRandom == 3) || ( Number(userChoice) == "2" && nRandom == 1 ) || ( Number(userChoice) == "3" && nRandom == 2 )){
 					            	// 이겼을때 해당 userid point update 시켜주기 
+					            	console.log("여기");
 										$.ajax({ 
 											url:"<%=request.getContextPath()%>/board/gawibawibopointUpdate.cc",
 											type:"post",
@@ -159,28 +161,25 @@
 									
 					             }
 					             else if(Number(userChoice) ==  nRandom ){
-					            	 alert(" 꽝 !! 비겼습니다 .다음기회에 다시 도전하세요.");
+					            	 alert(" 꽝 !! 비겼습니다 .");
 					            	
 					             }
 					             else if((Number(userChoice) == "1" && nRandom == 2) || ( Number(userChoice) == "2" && nRandom == 3 ) || ( Number(userChoice) == "3" && nRandom == 1 )){
-					            	 alert(" 꽝 !! 졌습니다 .다음기회에 다시 도전하세요.");
+					            	 alert(" 꽝 !! 졌습니다 .");
 					            	
 					             }
 					           
 							}
 							else{
-								//중복회원일경우 
-								$("button.userSel").prop("disabled",true);
-							
+								//중복회원일경우
+								alert(json.msg);
+								location.href="<%=ctxPath%>/board/eventList.cc";
+								return;
 							}
-							
-							alert(json.msg);
-							// 중복테이블에 아이디 존재하지 않는 경우. 이벤트 할수있음.
 						},
 						error: function(request, status, error){
 				            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 				       }
-						
 					
 				   });
 			 
@@ -207,7 +206,7 @@
 	
 	// Function Declaration
 	function goEventList() {
-		location.href = "/CCcaseShoppingMall/"+goBackURL;
+		location.href = "<%=ctxPath%>/"+goBackURL;
 	}// function goEventList()----------------------------------------------------
 	
 	function goEdit(){

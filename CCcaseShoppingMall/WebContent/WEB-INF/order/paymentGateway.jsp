@@ -61,7 +61,7 @@ $(document).ready(function() {
 		    self.close();
 			
         } else {
-            location.href="/CCcaseShoppingMall";
+            location.href="/CCcaseShoppingMall.home.cc";
             alert("결제에 실패하였습니다.");
        }
 

@@ -161,10 +161,81 @@ public class CouponDAO implements InterCouponDAO {
 		
 		return cpList;
 	}
+	
+	
+	///////////////////// 백원빈 시작 /////////////////////////////
+	
+    // 주문시 사용가능한 쿠폰 조회해오기
+	@Override
+	public List<Map<String, String>> selectAvailCoupon(String fk_userid) throws SQLException {
+		
+		List<Map<String, String>> couponList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " select cpno, cpname, cpdiscount "+
+						 " from tbl_coupon "+
+						 " where fk_userid= ? and cpstatus =0 ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				Map<String,String> couponMap = new HashMap<>();
+				couponMap.put("cpno", rs.getString(1));
+				couponMap.put("cpname", rs.getString(2));
+				couponMap.put("cpdiscount", String.valueOf(rs.getDouble(3)));
+				couponList.add(couponMap);
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		
+		
+		return couponList;
+		
+	}
+	
+	
+	// 쿠폰번호를 가지고 할인율을 가져오는 메소드
+	@Override
+	public String getCouponsale(String cpno) throws SQLException {
+		
+		String cpdiscount ="";
+		
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " select cpdiscount "+
+						 " from tbl_coupon "+
+						 " where cpno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cpno);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {				
+				cpdiscount = String.valueOf(rs.getDouble(1));
+			}
+			
+		} finally {
+			close();
+		}
+
+		return cpdiscount;
+	}
 
 	
 
-	
+	///////////////////// 백원빈 끝 /////////////////////////////
 
 	   
 	   

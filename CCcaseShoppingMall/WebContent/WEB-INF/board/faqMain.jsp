@@ -105,8 +105,9 @@
      	
      }
    
-   	table.faqDetail{
+   	table#faqDetail >tr{
    		border-bottom: solid 1px #6D919C;
+   		padding: 25px ;
    	}
 </style>
   
@@ -237,22 +238,23 @@
 						<td colspan="4"> 
 							<table id="faqDetail">
 								<tr class="faqDetailtr">
-									<div class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; <span>${fvo.ftitle}</span></div>
+									<td class="cal" style="margin-top: 20px ;">제목:&nbsp;&nbsp; <span>${fvo.ftitle}</span></td>
 									
 								</tr>
 								<tr  class="faqDetailtr">
-									<div class="cal" id="writer" name="writer">작성자: &nbsp;&nbsp;<span id="writer" name="writer">${fvo.fk_adminid}</span></div>
+									<td class="cal" id="writer" name="writer">작성자: &nbsp;&nbsp;<span id="writer" name="writer">${fvo.fk_adminid}</span></td>
 								</tr>
 								<tr class="faqDetailtr">
-								   <div class="cal">
+								   <td class="cal">
 									<span >등록일:&nbsp;&nbsp;<span>${fvo.fregisterdate}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<span >최근수정일:&nbsp;&nbsp;<span>${fvo.fupdatedate}</span></span>
-									</div>
+									</td>
 								</tr>
-								<tr  class="faqDetailtr">
-									<div class="cal">글내용</div>
+								<tr class="faqDetailtr">
+									<td class="cal">글내용
 									<div class="faqcontent">${fvo.fcontent}</div>
+									</td>
 								</tr>
 							</table>
 						

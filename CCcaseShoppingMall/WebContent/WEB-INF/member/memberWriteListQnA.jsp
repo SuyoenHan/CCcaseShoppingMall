@@ -9,35 +9,79 @@
 %>
 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
+ <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 <style>
+		table#tblByreviewList {
+			width: 100%; 
+			height:210px;
+			font-size: 18px;
+            margin-top: 20px;
+           margin-bottom: 20px;
+    }
+     
+   table#tblByreviewList tr {height: 40px;border-bottom: solid gray 1px;}
+   table#tblByreviewList th {border-bottom: solid gray 1px;}
+   
 
-	 
- div#content{
+  div#content{
    		margin-left: 17%;
    		margin-top: 5%;
    		width:	80%;
    }	
+   
+   table#qnaTbl {
+   		border-left: none;
+   		border-right: none;
+   }
+   table#review{
+   		display:inline-block;
+   		border: solid 1px red;
+   
+   }
    tr.qnaInfo:hover {
-        background-color: #e6ffe6;
+        background-color: #ecf2f9;
         cursor: pointer;
+        transition: 2s;
    }  
+   
    tr#menu{
    		font-weight: bold;
    		font-size: 18px;
-   		background-color: gray;
+   		background: #6D919C;
+   		text-align: center;
+   		color: white;
    		height: 40px;
    }
-   th{
-   		border: none;
-   }
-   td{
+   
+
+   
+  table#reviewTbl td{
    		width: 10%;
    		height: 35px;
    		text-align: center;
    }
    
-    
+   div#pageBar{
+   		width:30%; 
+   		margin: 0 auto; 
+   		font-size: 20px;
+   }
+     
+    div#qna{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#qna:hover{
+     	background-color:#CCF2F4; 
+     }
+     thead#reviewhead {
+   
+		 border-bottom: solid 1px gray;
+
+	}
+     
+     
 </style>
   
 
@@ -78,14 +122,20 @@
 			$("input#qna").prop("checked", false);
 			location.href="<%= request.getContextPath()%>/member/memberWriteListMain.cc?userid="+userid;
 		}
-
+		function revieWirte(odetailno){
+			
+			location.href="<%= request.getContextPath()%>/board/reviewWrite.cc?odetailno="+odetailno;
+			
+			
+		}
 
 </script>
+
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
 <jsp:include page="../../WEB-INF/header.jsp" />
 <jsp:include page="../../WEB-INF/mypageleftSide.jsp" />
-
+<jsp:include page="../../WEB-INF/member/myPageHeader.jsp"/>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -98,8 +148,9 @@
 	<h4>게시물 분류</h4>
 	<input type="radio" name="main"  id="main" style="margin-left:20px;" OnClick="main('${(sessionScope.loginuser).userid}');">전체
 	<input type="radio" name="qna"  id="qna" style="margin-left:20px;" OnClick="qna('${(sessionScope.loginuser).userid}');">Q&A
-	    <input type="radio" name="review" id="review" style="margin-left:20px;" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰
-	    <table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
+	 <input type="radio" name="review" id="review" style="margin-left:20px;" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰
+	   
+	    <table id="qnaTbl" class="table table-bordered">
 	        <thead>
 	           <tr id="menu">	 
 	              <th>No.</th>
@@ -111,8 +162,17 @@
 	           </tr>
 	        </thead>
 
-	    	<tbody>
-		    	<c:forEach var="qvo" items="${requestScope.qnaList}">
+	    	<tbody >
+			<c:if test="${empty requestScope.qnaList}">
+					   <tr>
+					   	  <td colspan="6" align="center" style="font-size: 18px;">
+					   	    <span>
+					   	    	작성한 글이 없습니다
+					   	    </span>
+					   	  </td>	
+					   </tr>
+			   </c:if>	
+	    		<c:forEach var="qvo" items="${requestScope.qnaList}">
 	    			<tr class="qnaInfo">
 	    				<td class="qnano">${qvo.qnano}</td>
 	    				<td>Q&A</td>
@@ -122,34 +182,66 @@
 	    				<td class="qviewcount">${qvo.qviewcount}</td>
 	    			</tr>
 	    		</c:forEach>
+		    	
 	    	</tbody>
 	    </table>
-	    
-	    <div style="width:30%; margin: 0 auto;">
+  	<div style="width:30%; margin: 0 auto;">
 	    	${requestScope.pageBar}
 	    </div>
 	    
-	    <div>
-	    	<h3>작성가능한 리뷰</h3>
-	    	<hr>
-	    	<table id="qnaTbl" class="table table-bordered" style="margin-top: 20px;">
-	    		 <thead>
-		           <tr id="menu">	 
-		              <th>상품정보</th>
-		              <th>주문일자</th>
-		              <th>제품번호</th>
-		           </tr>
-	        </thead>
-	    	
-	    	
-	    		</table>
-	    
-	    
-	    </div>
-	    
-	    
+	  
+     <table id="tblByreviewList" >
+	 <thead>
+	   <tr style="background: #6D919C; color:white;">
+		  <th colspan="2" style="width:35%; text-align: center;">제품명</th>
+	   	  <th style="width:17%; text-align: center;">주문일자</th>
+	   	  <th style="width:20%; text-align: center;">제품 번호</th>
+	   	  <th></th>
+	   </tr>	
+	 </thead>
+	 
+	 <tbody>
+	   <c:if test="${empty requestScope.byreview}">
+	   <tr>
+	   	  <td colspan="5" align="center">
+	   	    <span >
+	   	    	작성 가능한 리뷰가  없습니다.
+	   	    </span>
+	   	  </td>	
+	   </tr>
+	   </c:if>	
+	   
+	   	<c:if test="${not empty requestScope.byreview}">
+		   	   	  
+		      <c:forEach var="byreview" items="${requestScope.byreview}"> 
+		       <tr>
+	               <td align="center"> <%-- 제품이미지1 및 제품명 --%> 
+	                  <a href="<%= ctxPath%>/product/productDetail.cc?productid=${byreview.pvo.productid}">
+	                  	<img src="<%= ctxPath%>/images/${byreview.pvo.pimage1}"  width="150" height="150" style=" border-radius: 2em;" />
+	                  </a> 
+	               </td>
+	               <td align="center"> 
+	               	   <span style="display:inline-block; font-weight: bold; font-size: 13pt;">${byreview.pvo.productname}</span>
+	               	  <br/>  <span style="font-size: 10pt;">옵션:${byreview.pvo.modelname}</span>
+	               </td>
+	               <td align="center"> <%-- 실제판매단가 및 포인트 --%> 
+	                  ${byreview.orderdate}
+	               </td>
+	               <td align="center"> <%-- 총금액 및 총포인트 --%> 
+	                  ${byreview.pdvo.pnum}
+	               </td>
+	               <td align="center"> <%-- 장바구니에서 해당 제품 삭제하기 --%> 
+	              <button style ="color:white; border:none; border-radius: 5px;background: #6D919C; width: 200px; height: 35px;"onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button>
+	               </td>
+	            </tr>
+		   	  </c:forEach>
+	   	</c:if>	
+	    </tbody>
+	 </table>
+	
 	    
 </div>
+
 
 <jsp:include page="../footer.jsp" />
 

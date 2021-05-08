@@ -950,10 +950,10 @@ public class OrderDAO implements InterOrderDAO {
 	      try {
 	          conn = ds.getConnection();
 
-				String sql = "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno \n"+
+				String sql = "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno,productid\n"+
 							" from "+
 							" ( "+
-							" select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno "+
+							" select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno,P.productid"+
 							" from tbl_order O Left join tbl_odetail OD "+
 							"on O.orderno = OD.fk_orderno  "+
 							" left join tbl_pdetail PD "+
@@ -976,6 +976,7 @@ public class OrderDAO implements InterOrderDAO {
 		             String orderdate = rs.getString("orderdate");
 		             String pnum = rs.getString("pnum");
 		             String odetailno = rs.getString("odetailno");	             
+		             String productid =rs.getString("productid");
 		             
 		             OrderVO ovo = new OrderVO();
 		             ovo.setOrderdate(orderdate);
@@ -984,13 +985,12 @@ public class OrderDAO implements InterOrderDAO {
 		             pvo.setPimage1(pimage1);
 		             pvo.setModelname(modelname);
 		             pvo.setProductname(productname);
-		            
+		             pvo.setProductid(productid);
 		             ovo.setPvo(pvo);
 		             
 		             ProductDetailVO pdvo = new ProductDetailVO();		 
 		             pdvo.setPnum(pnum);
 
-		             
 		             ODetailVO odvo = new ODetailVO();
 		             odvo.setOdetailno(odetailno);
 		             
@@ -1007,6 +1007,35 @@ public class OrderDAO implements InterOrderDAO {
 	      }
 	      
 	      return reviewList;
+	}
+	
+	
+	//myPageHeader에서 주문건수 불러오기 
+	@Override
+	public int countOrder(String userid) throws SQLException {
+		int ocnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(*) "
+							+ " from tbl_order "
+							+ " where fk_userid = ? ";
+			
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setNString(1, userid);
+			
+			 rs = pstmt.executeQuery();
+	          
+	         rs.next();
+			 
+	         ocnt = rs.getInt(1);
+	         
+		} finally {
+			close();
+		}
+		
+		return ocnt;
 	}
 	//###################조승진 종료########################//
 
