@@ -30,7 +30,11 @@ public interface InterNoticeDAO {
 
 	//FAQ 글내용 삭제하기(DELETE)
 	int noticeDeleteOne(NoticeVO nvo) throws SQLException;
-
+	
+	/////////////////////// 백원빈 시작 //////////////////////
+	// 공지사항 글 갯수 알아오기
+	int getNoticeCnt() throws SQLException;
+	////////////////////// 백원빈 끝 //////////////////////
 	
 	
 }

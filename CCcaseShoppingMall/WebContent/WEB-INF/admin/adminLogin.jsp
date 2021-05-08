@@ -7,6 +7,27 @@
 
 <jsp:include page="../adminheader.jsp" /> 
 
+<style>
+	
+	
+	div#contents{
+		width: 400px;
+		margin-top: 50px;
+		margin-left: 600px;
+		border:solid 0px red;
+	}
+	
+	button#adminLogin{
+		margin-left: 170px;
+	}
+	
+	img#loginimg{
+		margin-left: 100px;
+	} 
+
+</style>
+
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -73,7 +94,7 @@
 	<div id="loginContents">
 		<div class="loginView" > 
 			<div id="loginlogo">
-				<img src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="250" height="100" />
+				<img id="loginimg" src="<%= ctxPath%>/images/homeMain/logo.png" alt="로고이미지" width="200" height="80" />
 			</div>
 			
 		    <form method="post" name="loginFrm">

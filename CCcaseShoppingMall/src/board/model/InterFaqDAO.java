@@ -30,7 +30,13 @@ public interface InterFaqDAO {
 
 	//FAQ 글내용 삭제하기(DELETE)
 	int faqDeleteOne(FaqVO fvo) throws SQLException;
-
+	
+	
+	
+	//////////////////// 백원빈 시작 ////////////////////
+	// FAQ글 갯수 알아오기
+	int getFaqCnt() throws SQLException;
+	//////////////////// 백원빈 시작 ////////////////////
 	
 
 

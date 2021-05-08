@@ -104,7 +104,7 @@ public class ProductRegisterAction extends AbstractController {
 				request.setAttribute("mapSize",mapSize);
 		
 				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/admin/productRegister2.jsp");
+				super.setViewPage("/WEB-INF/admin/productRegister.jsp");
 					
 			} else { // POST방식
 				
