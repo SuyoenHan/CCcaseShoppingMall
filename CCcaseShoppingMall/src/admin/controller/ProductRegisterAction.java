@@ -114,7 +114,7 @@ public class ProductRegisterAction extends AbstractController {
 				
 				String imagesDir = svlCtx.getRealPath("/images");
 				
-				imagesDir = "C:\\Users\\BAEK\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images";
+				imagesDir = "C:\\Users\\SY HAN\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images";
 				
 				try {
 					mtrRequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
