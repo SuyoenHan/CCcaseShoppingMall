@@ -951,23 +951,23 @@ public class OrderDAO implements InterOrderDAO {
 	          conn = ds.getConnection();
 
 	          String sql = "select pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno, productid "+
-	        		  "from "+
-	        		  "( "+
-	        		  "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno,productid, "+
-	        		  "(select count (*) from tbl_review W where W.fk_odetailno = v.odetailno) as cnt  "+
-	        		  " from "+
-	        		  " (   "+
-	        		  " select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno,P.productid  "+
-	        		  " from tbl_order O Left join tbl_odetail OD "+
-	        		  "on O.orderno = OD.fk_orderno  "+
-	        		  " left join tbl_pdetail PD "+
-	        		  " on OD.fk_pnum = PD.pnum  "+
-	        		  " left join tbl_product P  "+
-	        		  " on PD.fk_productid = P.productid  "+
-	        		  "where O.fk_userid= ? and shipstatus= 3 "+
-	        		  ") V  "+
-	        		  ") "+
-	        		  "where cnt = 0 ";
+		        		  "from "+
+		        		  "( "+
+		        		  "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno,productid, "+
+		        		  "(select count (*) from tbl_review W where W.fk_odetailno = v.odetailno) as cnt  "+
+			        		  " from "+
+			        		  " (   "+
+			        		  " select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno,P.productid  "+
+			        		  " from tbl_order O Left join tbl_odetail OD "+
+			        		  "		on O.orderno = OD.fk_orderno  "+
+			        		  " 	left join tbl_pdetail PD "+
+			        		  "		on OD.fk_pnum = PD.pnum  "+
+			        		  " 	left join tbl_product P  "+
+			        		  " 	on PD.fk_productid = P.productid  "+
+			        		  "		where O.fk_userid= ? and shipstatus= 3 "+
+			        		  ") V  "+
+			        	 ") "+
+			        	"where cnt = 0 ";
 	          
 	          pstmt = conn.prepareStatement(sql);
 	          pstmt.setString(1, paraMap.get("userid"));
@@ -1044,13 +1044,6 @@ public class OrderDAO implements InterOrderDAO {
 		return ocnt;
 	}
 	//###################조승진 종료########################//
-
-
-	@Override
-	public int reviewExist(String odetailno) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 
