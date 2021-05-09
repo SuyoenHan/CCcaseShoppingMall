@@ -3,21 +3,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <% String ctxPath=request.getContextPath(); %>
 <jsp:include page="../adminheader.jsp" />
-<jsp:include page="../adminleftSide.jsp" />
 
 <style>
 	
-	label.Infoname {
-		width: 300px;
+	div#container{
+		margin-left:80px;
+	}
+	
+	td.Info {
+		padding-left: 15px;	
+	}
+	
+	td.Infoname {
+		width: 250px !important;
 		height: 50px;
-		margin: 0 auto;
+		margin-left: 15px;
+		margin-top:20px;
 		padding-top: 14px;
+		padding-left: 15px;
 		font-size: 12pt;
-		border: solid 0px red;
+		background-color: #C5D7DD;
+	}
+	
+	td {
+		border-bottom: solid 1px black;
 	}
 	
 	h2 {
 		margin-left: 30px;
+		margin-bottom: 30px !important;
+		font-weight: bolder !important;
 	}
 	
 	div#buttons{
@@ -189,12 +204,12 @@
 				<table>
 					<tbody>
 						<tr> 
-							<td id="info1"><label class="Infoname" for="productname">1. 제품명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td><input type="text" name="productname" class="pilsu" id="productname" placeholder="ex) 냥냥케이스" /></td>				
+							<td id="info1" class="Infoname"><label for="productname">1. 제품명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info"><input type="text" name="productname" class="pilsu" id="productname" placeholder="ex) 냥냥케이스" /></td>				
 						</tr>
 						<tr> 
-							<td id="info2"><label class="Infoname" for="fk_mnum">2. 회사명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td>
+							<td id="info2" class="Infoname"><label for="fk_mnum">2. 회사명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info">
 								<select id="fk_mnum" name="fk_mnum" class="pilsu" >
 									<option value="">선택하세요</option>
 									<c:forEach var="coList" items="${requestScope.companyList}">
@@ -204,8 +219,8 @@
 							</td>				
 						</tr>
 						<tr> 
-							<td id="info3"><label class="Infoname" for="modelname">3. 기종명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td>
+							<td id="info3" class="Infoname"><label for="modelname">3. 기종명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info">
 								<select name="modelname" class="pilsu" id="modelname">
 									<option value="">선택하세요</option>
 									<c:forEach var="gijong" items="${requestScope.gijongList}">
@@ -215,8 +230,8 @@
 							</td>				
 						</tr>		
 						<tr> 
-							<td id="info4"><label class="Infoname" for="fk_cnum">4. 카테고리명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td> 
+							<td id="info4" class="Infoname"><label for="fk_cnum">4. 카테고리명 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info"> 
 								<select id="fk_cnum" name="fk_cnum" class="pilsu">
 									<option value="-1">선택하세요</option>
 									<c:forEach var="cList" items="${requestScope.categoryList}">
@@ -226,21 +241,21 @@
 							</td>				
 						</tr>										
 						<tr> 
-							<td id="info5"><label class="Infoname" for="price">5. 제품정가</label></td>
-							<td><input type="number" name="price" id="price" value="1"/>원</td>				
+							<td id="info5" class="Infoname"><label for="price">5. 제품정가</label></td>
+							<td class="Info"><input type="number" name="price" id="price" value="1"/>원</td>				
 						</tr>
 						<tr> 
-							<td id="info6"><label class="Infoname" for="salepercent">6. 할인율<span style="font-size:10pt">(0.0 ~ 1.0만 가능합니다.)</span></label></td>
-							<td><input type="number" name="salepercent" id="salepercent" min="0.0" max="1.0" value="0.0" step="0.1" /></td>				
+							<td id="info6" class="Infoname"><label for="salepercent">6. 할인율<span style="font-size:10pt">(0.0 ~ 1.0만 가능합니다.)</span></label></td>
+							<td class="Info"><input type="number" name="salepercent" id="salepercent" min="0.0" max="1.0" value="0.0" step="0.1" /></td>				
 						</tr>
 						<tr> 
-							<td id="info7"><label class="Infoname" for="pimage1">7. 대표이미지파일명</label></td>
-							<td><input type="file" name="pimage1" id="pimage1" /></td>				
+							<td id="info7" class="Infoname"><label for="pimage1">7. 대표이미지파일명</label></td>
+							<td class="Info"><input type="file" name="pimage1" id="pimage1" /></td>				
 						</tr>
 						
 						<tr> 
-							<td id="info8"><label class="Infoname" for="pcolor">8. 색상 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td>
+							<td id="info8" class="Infoname"><label for="pcolor">8. 색상 <span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info">
 								<select name="pcolor" class="pilsu" id="pcolor">
 									<option value="">선택하세요</option>
 									<c:forEach var="pcolor" items="${requestScope.colorList}">
@@ -250,12 +265,12 @@
 							</td>				
 						</tr>
 						<tr> 
-							<td id="info9"><label class="Infoname" for="pqty">9. 입고량</label></td>
-							<td><input type="number" name="pqty" id="pqty" min="0" value="1" step="1" style="width:50px; height:30px;" /></td>				
+							<td id="info9" class="Infoname"><label for="pqty">9. 입고량</label></td>
+							<td class="Info"><input type="number" name="pqty" id="pqty" min="0" value="1" step="1" style="width:50px; height:30px;" /></td>				
 						</tr>
 						<tr> 
-							<td id="info10"><label class="Infoname" for="fk_snum">10. 제품스펙</label></td>
-							<td>
+							<td id="info10" class="Infoname"><label for="fk_snum">10. 제품스펙</label></td>
+							<td class="Info">
 								<select id="fk_snum" name="fk_snum">
 									<option value="-1">선택하세요</option>
 									<c:forEach var="map" items="${requestScope.specList}">
@@ -265,12 +280,12 @@
 							</td>				
 						</tr>
 						<tr> 
-							<td id="info11"><label class="Infoname" for="pinputdate">11. 제품입고일자</label></td>
-							<td><input type="date" name="pinputdate" id="pinputdate" /></td>				
+							<td id="info11" class="Infoname"><label for="pinputdate">11. 제품입고일자</label></td>
+							<td class="Info"><input type="date" name="pinputdate" id="pinputdate" /></td>				
 						</tr>
 						<tr> 
-							<td id="info12"><label class="Infoname" for="doption">12. 배송조건<span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td>
+							<td id="info12" class="Infoname"><label for="doption">12. 배송조건<span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info">
 							<select id="doption" name= "doption" class="pilsu">
 								<option value="">선택하세요</option>
 								<option value="0">무료</option>
@@ -279,20 +294,20 @@
 							</td>				
 						</tr>
 						<tr> 
-							<td id="info13"><label class="Infoname" for="pcontent">13. 제품설명<br><br></label></td>
-							<td colspan="2"><textarea name="pcontent" id="pcontent" rows="5" cols="40" placeholder="간단히 설명하세요" maxlength="100"></textarea></td>				
+							<td id="info13" class="Infoname"><label for="pcontent">13. 제품설명<br><br></label></td>
+							<td colspan="2" class="Info"><textarea name="pcontent" id="pcontent" rows="5" cols="40" placeholder="간단히 설명하세요" maxlength="100"></textarea></td>				
 						</tr>
 						<tr> 
-							<td id="info14"><label class="Infoname" for="imgPlus1">14. 추가이미지1<span style="color:red; font-size:10pt;">(필수)</span></label></td>
-							<td><input type="file" name="imgPlus1" id="imgPlus1" class="pilsu" /></td>		
+							<td id="info14" class="Infoname"><label for="imgPlus1">14. 추가이미지1<span style="color:red; font-size:10pt;">(필수)</span></label></td>
+							<td class="Info"><input type="file" name="imgPlus1" id="imgPlus1" class="pilsu" /></td>		
 						</tr>
 						<tr> 
-							<td id="info15"><label class="Infoname" for="imgPlus2">15. 추가이미지2<span style="font-size:10pt;">(선택)</span></label></td>
-							<td><input type="file" name="imgPlus2" id="imgPlus2" /></td>		
+							<td id="info15" class="Infoname"><label for="imgPlus2">15. 추가이미지2<span style="font-size:10pt;">(선택)</span></label></td>
+							<td class="Info"><input type="file" name="imgPlus2" id="imgPlus2" /></td>		
 						</tr>
 						<tr> 
-							<td id="info16"><label class="Infoname" for="imgPlus3">16. 추가이미지3<span style="font-size:10pt;">(선택)</span></label></td>
-							<td><input type="file" name="imgPlus3" id="imgPlus3" /></td>		
+							<td id="info16" class="Infoname"><label for="imgPlus3">16. 추가이미지3<span style="font-size:10pt;">(선택)</span></label></td>
+							<td class="Info"><input type="file" name="imgPlus3" id="imgPlus3" /></td>		
 						</tr>																										
 					</tbody>
 				
