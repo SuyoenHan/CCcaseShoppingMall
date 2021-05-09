@@ -548,6 +548,7 @@
 		var pdetailprice = parseInt("${requestScope.saleprice}");
 		var cartno = "${requestScope.cartno}"; // 장바구니 번호
 		// cartno가 없으면 null로 나올것임
+		var cpno = $("select#coupon").val();
 		
 		$.ajax({
         	url:"<%= ctxPath%>/order/oneOrderUpdate.cc",
@@ -560,7 +561,8 @@
         		  "pnum":pnum,
         		  "odqty":odqty,
         		  "cartno":cartno,
-        		  "pdetailprice":pdetailprice},
+        		  "pdetailprice":pdetailprice,
+        		  "cpno":cpno},
         	dataType:"json",
         	success:function(json){
      		   
