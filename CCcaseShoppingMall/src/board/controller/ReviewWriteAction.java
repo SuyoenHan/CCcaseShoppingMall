@@ -14,6 +14,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import board.model.*;
 import common.controller.AbstractController;
 import member.model.*;
+import product.model.ProductDetailVO;
 
 public class ReviewWriteAction extends AbstractController {
 
@@ -23,11 +24,13 @@ public class ReviewWriteAction extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
+		String odetailno = request.getParameter("odetailno");
+		
 		if(loginuser != null ) {
 		
 			String method = request.getMethod();
 		
-			if("GET".equalsIgnoreCase(method)) {
+			if(!"GET".equalsIgnoreCase(method)) {
 				
 				MultipartRequest mtrequest = null;
 				
@@ -35,7 +38,7 @@ public class ReviewWriteAction extends AbstractController {
 				ServletContext svlCtx = session.getServletContext();
 				String imagesDir = svlCtx.getRealPath("/images");
 				
-				imagesDir = "C:\\Users\\User\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images";
+				imagesDir = "C:\\Users\\User\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images\\review";
 				
 				try {
 					mtrequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
@@ -63,10 +66,8 @@ public class ReviewWriteAction extends AbstractController {
 				rvcontent = rvcontent.replaceAll("<", "&lt;");
 				rvcontent = rvcontent.replaceAll(">","&gt;");
 				rvcontent = rvcontent.replaceAll("\r\n", "<br>");
-				
+	
 				InterReviewDAO rdao = new ReviewDAO();
-				
-				String fk_odetailno = request.getParameter("odetailno");
 				
 				ReviewVO rvo = new ReviewVO();
 				rvo.setRvtitle(rvtitle);
@@ -75,7 +76,7 @@ public class ReviewWriteAction extends AbstractController {
 				rvo.setReviewimage2(reviewimage2);
 				rvo.setReviewimage3(reviewimage3);
 				rvo.setRvcontent(rvcontent);
-				rvo.setFk_odetailno(fk_odetailno);
+				rvo.setFk_odetailno(odetailno);
 				
 				// tbl_review 테이블에 제품정보 insert 하기
 				int n = rdao.reviewInsert(rvo);
@@ -94,7 +95,7 @@ public class ReviewWriteAction extends AbstractController {
 				for(int i=0; i<attachCount; i++) {
 					String attachFileName = mtrequest.getFilesystemName("attach"+i);
 					
-					m = rdao.review_imagefile_Insert(fk_odetailno, attachFileName);
+					m = rdao.review_imagefile_Insert(odetailno, attachFileName);
 					
 					if(m == 0) break;
 				}// end of for-------------------------------------
@@ -111,26 +112,20 @@ public class ReviewWriteAction extends AbstractController {
 				}
 				
 			}
-			else {	// POST 방식일때
+			else {	
 				
 				InterReviewDAO rdao = new ReviewDAO();
-				List<ReviewVO> revList = rdao.selectRevList();
+				List<ReviewVO> revList = rdao.selectRevList(odetailno);
 				request.setAttribute("revList", revList);
 				
+				ProductDetailVO pdvo = rdao.selectProdInfo(odetailno);
+				request.setAttribute("pdvo", pdvo);
 				
-				super.setRedirect(false);
+				
+				// super.setRedirect(false);
 				super.setViewPage("/WEB-INF/board/reviewWrite.jsp");	
 		}
-			
-		} else {
-			String message = "로그인 후 사용하세요.";
-			String loc = "javascript:history.back()";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-		}
+	}
+		
 	}
 }

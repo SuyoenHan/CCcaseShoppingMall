@@ -260,8 +260,6 @@ public class ReviewDAO implements InterReviewDAO {
 		return n;
 	}
 	
-	//리뷰 글내용 수정을 위해 하나의 리뷰를 select해오기
-	
 	
 	// 리뷰 내용 수정하기(update)
 	@Override
@@ -700,17 +698,19 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// 리뷰 목록을 조회해오기
 	@Override
-	public List<ReviewVO> selectRevList() throws SQLException {
+	public List<ReviewVO> selectRevList(String odetailno) throws SQLException {
 		List<ReviewVO> revList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select reviewno, rvtitle, rvcontent, reviewimage1, reviewimage2, reviewimage3, satisfaction, rregisterdate "
+			String sql = " select reviewno, rvtitle, rvcontent, reviewimage1, reviewimage2, reviewimage3, satisfaction, rregisterdate"
 							+ " from tbl_review "
+							+ " where fk_odetailno = ? "
 							+ " order by reviewno desc ";
 			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(odetailno));
 			
 			rs = pstmt.executeQuery();
 			
@@ -768,6 +768,42 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		return pdvo;
 	}
+
+	// 제품명과 제품색상 함께 알아오기
+	@Override
+	public ProductDetailVO selectProdInfo(String fk_odetailno) throws SQLException {
+		ProductDetailVO pdvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select distinct pname, pcolor "+
+								" from tbl_review R "+
+								" join tbl_odetail O "+
+								" on R.fk_odetailno = O.odetailno "+
+								" join tbl_pdetail P "+
+								" on O.fk_pnum = P.pnum "+
+								" where O.odetailno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_odetailno);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				pdvo = new ProductDetailVO();
+				pdvo.setPname(rs.getString(1));
+				pdvo.setPcolor(rs.getString(2));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return pdvo;
+	}
+
 
 
 

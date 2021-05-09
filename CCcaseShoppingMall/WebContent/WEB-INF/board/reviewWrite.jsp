@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="../header.jsp" />
@@ -12,20 +10,39 @@
 
 <style type="text/css">
 
-div#title{
-	/* 	border:solid 1px gray; */
+	#rcontainer {
+		float: right;
+		width: 84%;
+	}
+
+	div#title{
 		background-color: #ccc;
-		width:100%;
 		height:60px;
 		padding:15px;
 		margin:20px auto;
 		text-align: left;
 		font-size: 20pt;
+		float: left; 
+		width:84%;
 	}
-
-
+	
+	tr {
+		height: 50px;
+	}
+	
+	div#btns {
+		margin: 30px 0 50px 0;
+		float:right;
+	}
+	
+	.button {
+		border: none; 
+		color:white; 
+		box-shadow: 3px 3px 3px #ccc;
+		font-size: 15pt;
+		padding: 8px 12px	;
+	}
 </style>
-
 
 <script type="text/javascript">
 
@@ -37,7 +54,7 @@ div#title{
 						$(this).spinner("value",3);
 						return false;
 					} 
-					else iif(ui.value < 0) {
+					else if(ui.value < 0) {
 						$(this).spinner("value",0);
 						return false;
 					}
@@ -59,12 +76,8 @@ div#title{
 			    $("input#attachCount").val(cnt);
 			});
 			
-			// 1. 목록 버튼 클릭시
-			$("button.revList").click(function(){
-					myConfirm();
-			});
 			
-			// 2. 등록 버튼 클릭시 
+			// 1. 등록 버튼 클릭시 
 			$("button.revInsert").click(function(){
 				
 				var bFlagRequiredInfo = false;
@@ -89,19 +102,17 @@ div#title{
 				}
 			});// end of $("button.revInsert").click(function(){})--------------------------
 			
-			// 3. 취소 버튼 클릭시
-			$("button.regCancel").click(function(){
-				alert("리뷰 작성을 취소하셨습니다.");
-				location.href="<%=ctxPath%>/board/reviewList.cc";
-			});
-			
 		}); // end of $(document).ready(function(){})-------------------------------------------
 
+		function regCancel() {
+			if(confirm("현재 페이지를 종료하시겠습니까? 입력하신 내용은 저장되지 않습니다.")){
+				location.href="<%=ctxPath%>/member/memberWriteListMain.cc?userid=${sessionScope.loginuser.userid}";
+			}
+		}
+		
 		// Function Declaration 
 		function myConfirm() {
-			if(confirm("현재 페이지를 종료하시겠습니까? 입력하신 내용은 저장되지 않습니다.")){
-				location.href="<%=ctxPath%>/board/reviewList.cc";
-			}
+			
 			
 		}
 	
@@ -111,7 +122,7 @@ div#title{
 	커뮤니티
 </div>
 
-<div id="container">
+<div id="rcontainer">
 <h3>고객리뷰</h3>
 
 <form name="reviewRegFrm">
@@ -138,11 +149,7 @@ div#title{
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					<select>
-						<c:forEach var="pname" items="${requestScope.rvo.fk_pname}">
-							<option value="${fk_pname}">${fk_pname}</option>
-						</c:forEach>
-					</select>
+					<%-- ${requestScope.pdvo.pname}&nbsp;${requestScope.pdvo.pcolor} --%>
 				</td>
 			</tr>
 			<tr>
@@ -159,9 +166,9 @@ div#title{
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" id="revcontent">
-				<label for="rcontent">글쓰기</label>
-				<textarea id="rcontent" name="rcontent" class="rqdInfo" rows="10" cols="60" placeholder="내용을 입력하세요.">
+				<td>글쓰기</td>
+				<td>
+				<textarea id="rcontent" name="rcontent" class="rqdInfo" rows="10" cols="100" placeholder="내용을 입력하세요.">
 				</textarea>
 				</td>
 			</tr>
@@ -179,10 +186,12 @@ div#title{
 		</tbody>
 	</table>
 	
-	<button type="button" class="button revList" style="align:left;">목록</button>
-	<button type="button" class="button revInsert" style="align:right;">등록</button>&nbsp;
-	<button type="button" class="button regCancel" style="align:right;">취소</button>
 </form>
+
+	<div id="btns">
+		<button type="button" class="button revInsert" style="background-color:#6d919c;">등록</button>&nbsp;
+		<button type="button" class="button" onclick="regCancel()" style="background-color:#c5d7dd;" >취소</button>
+	</div>
 
 </div>
 

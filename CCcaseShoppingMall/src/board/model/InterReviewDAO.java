@@ -67,11 +67,15 @@ public interface InterReviewDAO {
 	int review_imagefile_Insert(String fk_odetailno, String attachFileName) throws SQLException;
 
 	// 리뷰 목록을 조회해오기
-	List<ReviewVO> selectRevList() throws SQLException;
+	List<ReviewVO> selectRevList(String fk_odetailno) throws SQLException;
 	
 	// pnum 알아오기
 	ProductDetailVO getPnum(String reviewno) throws SQLException;
 	
+	// 제품명과 제품색상 함께 알아오기
+	ProductDetailVO selectProdInfo(String odetailno) throws SQLException;
+	
+
 
 	
 	

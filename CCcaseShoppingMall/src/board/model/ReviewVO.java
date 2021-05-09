@@ -1,6 +1,7 @@
 package board.model;
 
 import member.model.MemberVO;
+import product.model.ProductDetailVO;
 import product.model.ProductVO;
 import product.model.SpecVO;
 
@@ -26,6 +27,7 @@ public class ReviewVO {
 	private String pimage1;
 	
 	private SpecVO svo;
+	private ProductDetailVO pdvo;
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	public ReviewVO () {
@@ -34,7 +36,7 @@ public class ReviewVO {
 	
 	public ReviewVO(int reviewno, String fk_userid, String fk_odetailno, String rvtitle, String rvcontent, String rregisterdate,
 			String rupdatedate, int rviewcount, int satisfaction, String reviewimage1, String reviewimage2,
-			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo, String pimage1) {
+			String reviewimage3, String fk_pname, int likecount, MemberVO mvo, ProductVO pvo, SpecVO svo, String pimage1, ProductDetailVO pdvo) {
 		super();
 		this.reviewno = reviewno;
 		this.fk_userid = fk_userid;
@@ -54,6 +56,7 @@ public class ReviewVO {
 		this.pvo = pvo;
 		this.pimage1 = pimage1;
 		this.svo = svo;
+		this.pdvo = pdvo;
 	}
 
 	public int getReviewno() {
@@ -197,6 +200,14 @@ public class ReviewVO {
 
 	public void setPimage1(String pimage1) {
 		this.pimage1 = pimage1;
+	}
+
+	public ProductDetailVO getPdvo() {
+		return pdvo;
+	}
+
+	public void setPdvo(ProductDetailVO pdvo) {
+		this.pdvo = pdvo;
 	}
 
 	

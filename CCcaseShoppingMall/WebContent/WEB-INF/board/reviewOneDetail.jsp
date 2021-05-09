@@ -50,6 +50,8 @@
 	
 	button#btnDetail {
 		border: none;
+		font-size: 8pt;
+		padding: 5px;
 	}
 	
 </style>
@@ -249,7 +251,7 @@
 					<p>${requestScope.rvo.rvcontent}</p>
 				</div>
 				<div id="ddabong" >
-					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #000);" onclick="goAddlike(${requestScope.reviewno})"/>&nbsp;&nbsp;
+					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #b3b3b3);" onclick="goAddlike(${requestScope.reviewno})"/>&nbsp;&nbsp;
 					<span id="likeCnt" style="color:black; font-weight: bold; font-size:15pt;"></span>
 				</div>
 			
