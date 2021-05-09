@@ -28,15 +28,18 @@
 
 	div#dateGroup{
 		background-color: #a6a6a6;
-		color:
+		
+		
 	}
 	
 	 div#myOrderList{
 		background-color: #6D919C;
+		
 	}
 	
 	 div#myOrderList:hover{
 		background-color: #CCF2F4;
+		transition: 1s;
 	}
 	
 	button.button{
@@ -55,6 +58,9 @@
 	
 	tr#tr1{
 	 background-color: #98B7C1;
+	 color: white;
+	 height: 65px;
+	 font-size: 17px;
 	}
 	
 	tr#tr2 {
@@ -79,6 +85,8 @@
    	 background-color:  #ecf2f9 ;
     }
 	
+	
+	
 </style>
 
 <script type="text/javascript">
@@ -90,8 +98,7 @@
 		
 		func_height();  //사이드바와 바디컨텐츠 높이 맞추기.
 		
-		$("sapn#totalOrderListCount").hide();
-		$("sapn#countOrderList").hide();
+		//페이징 처리 1 번부터 시작되도록 
 		displayOrderList("1");
 		
 		// 주문목록 더보기 위하여 "더보기..." 버튼 클릭액션 이벤트 등록하기
@@ -114,18 +121,6 @@
 		
 		
 		
-		
-		//상품평관리 클릭
-		$("button#productReviewBtn").click(function(){
-			
-			//하나의 상품(내가 클릭한 곳)리뷰 다는 곳으로 이동 시켜준다.
-			var frm = document.orderListFrm;
-			frm.action="<%=ctxPath%>/board/reviewWrite.cc";
-			frm.method="GET"; // 나중에 POST로 바꿔!?
-			frm.submit();
-			
-		});
-		
 				
 		
 	});//end of $(document).ready(function(){})------------------------------
@@ -137,16 +132,14 @@
 	  var lenOrderList = 4;
 	 // orderList "더보기..." 버튼을 클릭할때 보여줄 상품의 개수(단위)크기 
 	 
-	 
+	
 	 
 	 var fk_userid = "${sessionScope.loginuser.userid}";
 	 // display 할 orderList 정보를 추가 요청하기(Ajax 로 처리해야 함)
 	 function displayOrderList(start){ 
-	    // start가 1이라면 1~8 까지 상품 8개를 보여준다.
-	    // start가 9이라면 9~16 까지 상품 8개를 보여준다.
-	    // start가 17이라면 17~24 까지 상품 8개를 보여준다.
-	    // start가 25이라면 25~32 까지 상품 8개를 보여준다.
-	    // start가 33이라면 33~36 까지 상품 4개를 보여준다.(마지막 상품)
+	    // start가 1이라면 1~4 까지 상품 4개를 보여준다.
+	    // start가 5이라면 5~8 까지 상품 4개를 보여준다.
+	   
 		
 		 $.ajax({
 	         url:"/CCcaseShoppingMall/order/orderListDisplayJSON.cc", 
@@ -164,18 +157,29 @@
                 // !!! 주의 !!!
                 // if(json == null) 이 아님!!!
                 // if(json.length == 0) 으로 해야함!!
-                html += "주문내역 상품이 없습니다.";
+                html += "<< 주문내역이 없습니다. 구매 후 확인해주세요. >>";
                 
-                // HIT 상품 결과를 출력하기
+                // 상품 결과를 출력하기
                 $("tbody#displayOrderList").html(html);
             }
             
             else if( json.length > 0 ) {
                // 데이터가 존재하는 경우
              
+              
                $.each(json, function(index, item){
             	
-            	   var shipstatus ="";
+            	  var totalPrice = item.totalPrice;
+ 		          //console.log(totalPrice);    
+ 		       	  //상품가격에 , 찍어주기
+ 		          totalPrice= totalPrice.toLocaleString('en')+" 원";
+            	  
+ 		       	  //중복리뷰달기 방지 >> 리뷰테이블에 odetailno 있는지 확인을 위한 변수
+            	  var odetailno =  item.odetailno;
+            	   
+            	   
+            	  var shipstatus ="";
+ 		       	  
  	            	  if(item.shipstatus==0){
  	            		  shipstatus = "<span>입금완료</span>";
  	            		  
@@ -190,9 +194,40 @@
 			 			        	  "<button type='button' class='shipStatusBtn' id='shipRefundBtn' name='shipDeleteBtn' >환불접수</button>";
  	            	  }
  	            	 else if(item.shipstatus==3){
- 	            		 shipstatus = "<span>구매확정</span><br>"+
- 			        				  "<button type='button' class='shipstatusBtn' id='productReviewBtn' name='productReviewBtn' >상품평관리</button>";
+ 	            		
+ 	            		var n =0;
+ 	            		 $.ajax({
+ 	            			 url:"/CCcaseShoppingMall/order/shipstatus3.cc", 
+           		      //     type:"GET", 
+           		             data:{"odetailno": odetailno},  
+           		             dataType:"JSON",
+           		             success:function(json){
+           		            	 
+           		            	 n=json.n
+           		            	 console.log(n);
+           		            	
+           		             },
+           		            error: function(request, status, error){
+           		           		 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+           		            }
+           		             
+           		           
+           		          
+ 	            		 });
+ 	            		 
+ 	            		 if(n==0){
+ 	            			 shipstatus = "<span>구매확정</span><br>"+
+	        				  "<button type='button' class='shipstatusBtn' id='productReviewBtn' name='productReviewBtn' >상품평관리</button>";
+	        				  
+ 	            		}
+ 	            		else if(n==1){
+ 	            			shipstatus = "<span>구매확정</span><br>"+
+   		            		"<button type='button' class='shipstatusBtn' id='productReviewExist' name='productReviewExist' >상품평등록완료</button>";
+   		            		
+ 	            		}
+ 	            		
  	            	  }
+ 	            	  
  	            	 else if(item.shipstatus==4){
  	            		 shipstatus = "<span>교환처리중</span><br>";
  	            	  }
@@ -207,10 +242,7 @@
  	            	  }
   	            	   
  	            	  
- 	            	 var totalPrice = item.totalPrice;
- 		       		 //console.log(totalPrice);    
- 		       	 	//상품가격에 , 찍어주기
- 		             totalPrice= totalPrice.toLocaleString('en')+" 원";
+ 	         //  console.log(shipstatus);
  		            	  
  	            	 
   	                  html +=  
@@ -235,7 +267,7 @@
 	                  
 	               }); //$.each(json, function(index, item) -------------------
                
-               
+	            		   
 
 	               // 결과를 출력하기
 	               $("tbody#displayOrderList").append(html);
@@ -253,7 +285,7 @@
 	               
 	               // 더보기... 버튼을 계속해서 클릭하여 countOrderListCount 값과 totalOrderListCount 값이 일치하는 경우 
 	               if( $("span#totalOrderListCount").text() == $("span#countOrderList").text() ) {
-	              $("span#end").html("더이상 조회할 제품이 없습니다.");
+	              $("span#end").html("더이상 조회할 제품이 없습니다.<br>");
 	                  $("button#btnMoreOrderList").text("처음으로");
 	                  $("span#countOrderList").text("0");
 	               }
@@ -287,10 +319,15 @@
 					//상품평관리 클릭
 					$("button#productReviewBtn").click(function(){
 						
+						var orderno =$(this).parent().parent().find("td#orderno").text();
+						var productname =$(this).parent().parent().find("span#productname").text();
+						var modelname =$(this).parent().parent().find("span#modelname").text();
+						var odetailno=$(this).parent().parent().find("input#odetailno").val();			
+						
 						//하나의 상품(내가 클릭한 곳)리뷰 다는 곳으로 이동 시켜준다.
 						var frm = document.orderListFrm;
-						frm.action="<%=ctxPath%>/board/reviewWrite.cc";
-						frm.method="GET"; // 나중에 POST로 바꿔!?
+						frm.action="<%=ctxPath%>/board/reviewWrite.cc?orderno="+orderno+"&productname="+productname+"&odetailno="+odetailno;
+						frm.method="POST"; // 나중에 POST로 바꿔!?
 						frm.submit();
 						
 					});
@@ -325,9 +362,7 @@
 					});
 					
 					
-					
-	           
-	              
+				
 	            }
 	            
 	         },
@@ -336,6 +371,8 @@
 	         }
 	      }); 
 	   
+	               
+	
 	   }// end of displayOrderList()---------------------------------------
 	
 	
@@ -356,7 +393,7 @@
 <form name ="orderListFrm" action="<%=ctxPath %>/order/myOrderList.cc" >
 	<div class="container">
 	  <h3>[ <span name="userid" id= "userid" style="color:#6D919C;">${sessionScope.loginuser.userid}</span><span> 님 주문내역 조회(3개월) ]</span></h3>
-	  <p>-- 배송상태 (0 입금대기 / 1 입금완료 / 2 배송중 / 3 배송완료 / 4 구매확정 / 5 교환  6 환불)</p>            
+	  <p>------------------------------------------------------------------------------------------------------</p>            
 	  <table class="table table-hover" style="width: 95%;">
 	    
 	    <thead>
