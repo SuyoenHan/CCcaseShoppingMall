@@ -65,7 +65,7 @@
 	
 	$(document).ready(function(){
 		
-		goLikeCnt();
+		goLikeCnt("${reviewno}");
 		
 		goBackURL = "${requestScope.goBackURL}"	;
 		goBackURL = goBackURL.replace(/ /gi, "&");
@@ -165,6 +165,11 @@
 		}
 	}
 	
+	
+	function goUpdateOneRev(reviewno) {
+		location.href="<%=ctxPath%>/board/reviewEdit.cc?reviewno="+reviewno;
+	}
+	
 </script>
 
 
@@ -190,7 +195,7 @@
 			<tbody>
 				<tr style="border:solid 1px gray; height:40px;">
 					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px">
-					<input type="hidden" id="productid" name="productid" value="${requestScope.pdvo.fk_productid}"/>
+					<input type="hidden" id="productid" name="productid" value="${requestScope.pdvo.fk_productid}" />
 					<input type="hidden" id="pnum" name="pnum" value="${requestScope.pdvo.pnum}" /></td>
 					<td style="padding: 10px; width: 650px;">
 						<c:if test="${requestScope.snum eq 1}">
@@ -236,7 +241,7 @@
 			</span>
 		
 				<div id="revBox">
-					<input type="hidden" id="fk_userid" name="fk_userid" value="${requestScope.rvo.fk_userid}"/>
+					<input type="hidden" id="fk_userid" name="fk_userid" value="${requestScope.rvo.fk_userid}" />
 					<span style="font-weight:bold;">${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
 					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}">
 					<input type="hidden" id="rregisterdate" name="rregisterdate" value="${requestScope.rregisterdate}" />
@@ -259,7 +264,7 @@
 				<div id="btnRevList" style="float:right;">
 					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewList.cc'">목록</button>
 				<c:if test="${sessionScope.loginuser.userid eq requestScope.rvo.fk_userid}">	
-					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewEdit.cc'">수정</button><%-- 로그인 후에 보여질지 결정 --%>
+					<button type="button" onclick="goUpdateOneRev(${requestScope.reviewno});">수정</button><%-- 로그인 후에 보여질지 결정 --%>
 					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}"/>
 					<button type="button" onclick="goDelOneRev(${requestScope.reviewno});">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
 				</c:if>	
