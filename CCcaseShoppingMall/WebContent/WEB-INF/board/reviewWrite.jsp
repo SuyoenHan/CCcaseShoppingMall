@@ -51,6 +51,15 @@
 		padding-top: 20px;
 	}
 	
+	div#review{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#review:hover{
+     	background-color:#CCF2F4; 
+     }
+	
 </style>
 
 

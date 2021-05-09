@@ -8,6 +8,8 @@
 <jsp:include page="../header.jsp" />
 <jsp:include page="../communityLeftSide.jsp"/>
 
+<link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
+
 <style>
 	
 	#rcontainer {
@@ -93,6 +95,15 @@
 		padding: 7px 7px; 
 		font: 13pt bold;
 	}
+	
+	div#review{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#review:hover{
+     	background-color:#CCF2F4; 
+     }
 	
 </style>
 

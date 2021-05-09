@@ -208,27 +208,34 @@ div#contents {
 		//삭제버튼 클릭했을 때
 		$("button.faqDel").click(function(){
 			
+		   var faqno = $(this).parent().parent().prop("id");
 			
-			$.ajax({
-				url:"<%=ctxPath%>/board/faqDelete.cc",
-				type:"POST",
-				data:{"faqno":"${faqno}"},
-				dataType:"json",
-				success:function(json){ //웹페이지에 보여질 결과물을 java객체인 json에담아 보여줄 것이다.
-					   alert(json.message);   //json 에 담아준 msg를 보여준다.
-					  // swal(json.msg);
-					   location.href="<%=ctxPath%>/board/faqList.cc";
-			   },
-			   error: function(request, status, error){
-		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		       }
-				   
-			   }); //end of $.ajax({});-------------------------
-			
-				
-			});//end of $("button.faqDel").click(function(){})---------------------------------
+		   var bool =  confirm(faqno +"번 글을 정말로 삭제 하시겠습니까?")
+			   
+		   if(bool){ // 확인을 눌렀을때
+				$.ajax({
+					url:"<%=ctxPath%>/board/faqDelete.cc",
+					type:"POST",
+					data:{"faqno":faqno},
+					dataType:"json",
+					success:function(json){ //웹페이지에 보여질 결과물을 java객체인 json에담아 보여줄 것이다.
+						   alert(json.message);   //json 에 담아준 msg를 보여준다.
+						  // swal(json.msg);
+						   location.href="<%=ctxPath%>/board/faqList.cc";
+				   },
+				   error: function(request, status, error){
+			            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			       }
+					   
+				   }); //end of $.ajax({});-------------------------
+			 }
+	       else{//취소를 눌렀을때
+	    	  alert("해당 글 삭제를 취소하셨습니다.");
+	      }	
+					
+		});//end of $("button.faqDel").click(function(){})---------------------------------
 		
-			
+		
 			
 			
 	    //글쓰기 버튼을 클릭했을 때
