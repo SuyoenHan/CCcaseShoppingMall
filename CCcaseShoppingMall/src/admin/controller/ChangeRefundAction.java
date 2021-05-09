@@ -27,7 +27,7 @@ public class ChangeRefundAction extends AbstractController {
 			
 			if(!"post".equalsIgnoreCase(method)) { //get방식일때
 			
-				// DB에서 테이블 4개를 조인하여 해당정보만 뽑아오자.
+				// DB에서 이용자의 교환 및 환불 건수가 있는지 조회해오기(select)
 				InterChRefundDAO icrdao =new ChRefundDAO(); 
 				List<Map<String,String>> chRefundList =icrdao.selectchRefundList();
 				
@@ -47,7 +47,7 @@ public class ChangeRefundAction extends AbstractController {
 				String fk_odetailno = request.getParameter("odetailno");
 				
 				int shipstatus;
-				System.out.println(request.getParameter("sortno"));
+				
 				if("0".equalsIgnoreCase(request.getParameter("sortno"))) {
 					shipstatus = 6;
 				}
@@ -55,8 +55,8 @@ public class ChangeRefundAction extends AbstractController {
 					shipstatus = 7;
 				}
 				
-				System.out.println(shipstatus);
 				
+				// 관리자가 승인 시 해당 건을 교환 및 환불 테이블에서 삭제하기(delete)
 				InterChRefundDAO icrdao =new ChRefundDAO();
 				int n = icrdao.deleteView(fk_odetailno,shipstatus);
 				

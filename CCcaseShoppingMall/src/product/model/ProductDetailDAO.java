@@ -354,27 +354,42 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "update tbl_pdetail set pname=?,pcolor=?,pqty=?,fk_snum=?,pcontent=?,pinputdate=?,doption=? "+
-						 "where pnum=? ";
+			// 스펙을 선택했을 경우
+			if(Integer.parseInt(pdetailmap.get("fk_snum"))!=-1) {
+				String sql = "update tbl_pdetail set pname=?,pcolor=?,pqty=?,fk_snum=?,pcontent=?,pinputdate=?,doption=? "+
+							 "where pnum=? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
+				pstmt.setString(2, pdetailmap.get("pcolor"));
+				pstmt.setInt(3, Integer.parseInt(pdetailmap.get("pqty")));
+				pstmt.setInt(4, Integer.parseInt(pdetailmap.get("fk_snum")));
+				pstmt.setString(5, pdetailmap.get("pcontent"));
+				pstmt.setString(6, pdetailmap.get("pinputdate"));
+				pstmt.setInt(7, Integer.parseInt(pdetailmap.get("doption")));
+				pstmt.setString(8, pdetailmap.get("pnum"));
+			}
+			else { // 스펙을 선택안했을 경우
+				
+				String sql = " update tbl_pdetail set pname=?,pcolor=?,pqty=?,pcontent=?,pinputdate=?,doption=? "+
+						 	 " where pnum=? ";
 			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
-			pstmt.setString(2, pdetailmap.get("pcolor"));
-			pstmt.setInt(3, Integer.parseInt(pdetailmap.get("pqty")));
-			pstmt.setInt(4, Integer.parseInt(pdetailmap.get("fk_snum")));
-			pstmt.setString(5, pdetailmap.get("pcontent"));
-			pstmt.setString(6, pdetailmap.get("pinputdate"));
-			pstmt.setInt(7, Integer.parseInt(pdetailmap.get("doption")));
-			pstmt.setString(8, pdetailmap.get("pnum"));
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pdetailmap.get("mname")+"-"+pdetailmap.get("modelname")+"-"+pdetailmap.get("productname"));
+				pstmt.setString(2, pdetailmap.get("pcolor"));
+				pstmt.setInt(3, Integer.parseInt(pdetailmap.get("pqty")));
+				pstmt.setString(4, pdetailmap.get("pcontent"));
+				pstmt.setString(5, pdetailmap.get("pinputdate"));
+				pstmt.setInt(6, Integer.parseInt(pdetailmap.get("doption")));
+				pstmt.setString(7, pdetailmap.get("pnum"));
+				
+			}
 			
 			n = pstmt.executeUpdate();
 			
 		} finally {
 			close();
 		}
-		
-		
-		
 		return n;
 	}
 	

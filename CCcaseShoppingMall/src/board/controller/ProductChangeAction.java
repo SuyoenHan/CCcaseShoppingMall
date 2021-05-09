@@ -61,7 +61,7 @@ public class ProductChangeAction extends AbstractController {
 			String whycontent = request.getParameter("whycontent");
 			
 			
-			// 주문테이블의 배송상태를=> 교환완료로 바꿔주기(update)
+			// 배송상태의 값인 배송완료를 => 교환처리중으로 바꿔주기(update)
 			InterOrderDAO iodao = new OrderDAO();
 			int n = iodao.updatestatus(odetailno);
 
