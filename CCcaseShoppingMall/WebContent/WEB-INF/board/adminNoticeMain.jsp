@@ -20,7 +20,7 @@
     	margin-right: 35px ;
 		color: #333;
 		width:70%;
-		height: 1200px;
+		height: 1000px;
 		overflow: visible;
 	}
 	
