@@ -105,12 +105,14 @@
 			<tr>
 				<td>제목</td>
 				<td>
-					<input type="text" id="rtitle" class="rqdInfo" name="rtitle"/>
+					<input type="hidden" name="odetailno" value="${odetailno}" />
+					<input type="text" id="rtitle" class="rqdInfo" name="rvtitle" />
+					
 			</tr>
 			<tr>
 				<td>작성자</td>
 				<td>
-					${sessionScope.loginuser.userid}
+					<input type="hidden" name="fk_userid" value="${sessionScope.loginuser.userid}">${sessionScope.loginuser.userid}
 				</td>
 			</tr>
 			<tr>
@@ -122,13 +124,13 @@
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					${requestScope.pdvo.pname}&nbsp;${requestScope.pdvo.pcolor}
+					<input type="hidden" name="fk_pname" value="${productInfo.productname}">${productInfo.productname}&nbsp;${productInfo.pcolor}
 				</td>
 			</tr>
 			<tr>
 				<td>제품만족도</td>
 				<td>
-					<select id="ratingType" name="ratingType" class="rqdInfo">
+					<select id="ratingType" name="satisfaction" class="rqdInfo">
 						<option value="choose">별점을 선택하세요.</option>
 						<option value="1">★☆☆☆☆</option>
 						<option value="2">★★☆☆☆</option>
@@ -148,9 +150,9 @@
 			<tr>
 				<td class="revImgName">첨부파일(선택)</td>
 				<td>
-					<div id="divfileattach"><input type="file" id="img1" /></div><br>
-					<div id="divfileattach"><input type="file" id="img2" /></div><br>
-					<div id="divfileattach"><input type="file" id="img3" /></div><br>
+					<div id="divfileattach"><input type="file" id="img1" name="reviewimage1"  /></div><br>
+					<div id="divfileattach"><input type="file" id="img2" name="reviewimage2"  /></div><br>
+					<div id="divfileattach"><input type="file" id="img3" name="reviewimage3"  /></div><br>
 				</td>
 			</tr>
 		</tbody>

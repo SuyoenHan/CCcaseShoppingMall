@@ -98,8 +98,14 @@
 		}
 		$("tr.qnaInfo").click(function(){
 		var qnano = $(this).children(".qnano").text();
-	
+		alert(qnano);
+		
+		if(qnano > "100" ){
 		location.href ="<%= request.getContextPath()%>/board/qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
+		}
+		else{
+			location.href ="<%= request.getContextPath()%>/board/reviewOneDetail.cc?reviewno="+qnano+"&goBackURL=${requestScope.goBackURL}";
+		}
 		});// end of $("tr.qnaInfo").click
 
 		
@@ -128,6 +134,7 @@
 		
 		
 	}
+	
 </script>
 
 <link rel="stylesheet" href="<%=ctxPath%>/css/style.css" />
@@ -173,7 +180,7 @@
 	    		<c:forEach var="all" items="${requestScope.allList}">
 	    			<tr class="qnaInfo">
 	    				<td class="qnano">${all.qnano}</td>
-	    				<td>
+	    				<td class="each">
 	    				<c:choose>
 								<c:when  test="${all.qstate eq 0}">상품리뷰</c:when>
 								<c:otherwise>Q&A</c:otherwise>
@@ -192,6 +199,7 @@
 	    	${requestScope.pageBar}
 	    </div>
 	    
+
 	   <table id="tblByreviewList" >
 	 <thead>
 	   <tr style="background: #6D919C; color:white;">
@@ -233,14 +241,14 @@
 	                  ${byreview.pdvo.pnum}
 	               </td>
 	               <td align="center"> <%-- 장바구니에서 해당 제품 삭제하기 --%> 
-	              <button style ="color:white; border:none; border-radius: 5px;background: #6D919C; width: 200px; height: 35px;"onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button>
+	              <button id="reviewWrite" style ="color:white; border:none; border-radius: 5px;background: #6D919C; width: 200px; height: 35px;"onclick="revieWirte('${byreview.odvo.odetailno}');"> 상품 리뷰 작성하기</button>
 	               </td>
 	            </tr>
 		   	  </c:forEach>
 	   	</c:if>	
 	    </tbody>
 	 </table>
-	    
+	    </form>
 	    
 	    
 </div>
