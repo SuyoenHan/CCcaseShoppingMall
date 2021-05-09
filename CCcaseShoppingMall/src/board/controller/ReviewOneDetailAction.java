@@ -50,6 +50,8 @@ public class ReviewOneDetailAction extends AbstractController {
 			rdao.updateViewCount(reviewno);
 		}
 		
+		
+		
 		// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/reviewOneDetail.jsp");
 

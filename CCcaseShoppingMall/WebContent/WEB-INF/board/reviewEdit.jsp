@@ -98,7 +98,7 @@
 <div id="rcontainer">
 <h3>고객리뷰</h3>
 
-<form name="reviewRegFrm" action="<%=ctxPath%>/board/reviewWrite.cc"
+<form name="reviewRegFrm" action="<%=ctxPath%>/board/reviewEdit.cc"
           method="post"
           enctype="multipart/form-data">
 	
@@ -107,31 +107,32 @@
 			<tr>
 				<td>제목</td>
 				<td>
-					<input type="text" id="rtitle" class="rqdInfo" name="rtitle" value="${requestScope.rvo.rvtitle}"/>
+					<input type="hidden" name="reviewno" value="${rvo.reviewno}" />
+					<input type="text" id="rvtitle" class="rqdInfo" name="rvtitle" value="${requestScope.rvo.rvtitle}"/>
 				</td>
 			</tr>
 			<tr>
 				<td>작성자</td>
 				<td>
-					${sessionScope.loginuser.userid}
+					<input type="text" name="fk_userid" value="${sessionScope.loginuser.userid}" readOnly />
 				</td>
 			</tr>
 			<tr>
 				<td>이메일</td>
 				<td>
-					${sessionScope.loginuser.email}
+					<input type="text" name="email" value="${sessionScope.loginuser.email}" readOnly />
 				</td>
 			</tr>
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					<%-- ${requestScope.pdvo.pname}&nbsp;${requestScope.pdvo.pcolor} --%>
+				   <input type="text" name="productname" value="${productInfo.productname}&nbsp;${productInfo.pcolor}" readOnly />
 				</td>
 			</tr>
 			<tr>
 				<td>제품만족도</td>
 				<td>
-					<select id="ratingType" name="ratingType" class="rqdInfo">
+					<select id="ratingType" name="satisfaction" class="rqdInfo">
 						<option value="choose">별점을 선택하세요.</option>
 						<option value="1">★☆☆☆☆</option>
 						<option value="2">★★☆☆☆</option>
@@ -150,7 +151,7 @@
 			<tr>
 				<td>글쓰기</td>
 				<td>
-				<textarea id="rcontent" name="rcontent" class="rqdInfo" rows="10" cols="100" placeholder="내용을 입력하세요."></textarea>
+				<textarea id="rcontent" name="rvcontent" class="rqdInfo" rows="10" cols="100" placeholder="내용을 입력하세요."></textarea>
 				</td>
 			</tr>
 			
@@ -158,9 +159,9 @@
 			<tr>
 				<td class="revImgName">첨부파일(선택)</td>
 				<td>
-					<div id="divfileattach"><input type="file" id="img1" /></div><br>
-					<div id="divfileattach"><input type="file" id="img2" /></div><br>
-					<div id="divfileattach"><input type="file" id="img3" /></div><br>
+					<div id="divfileattach"><input type="file" id="img1" name="reviewimage1" /></div><br>
+					<div id="divfileattach"><input type="file" id="img2" name="reviewimage2" /></div><br>
+					<div id="divfileattach"><input type="file" id="img3" name="reviewimage3" /></div><br>
 				</td>
 			</tr>
 		</tbody>

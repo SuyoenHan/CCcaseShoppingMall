@@ -236,10 +236,25 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		try {
 			conn = ds.getConnection();
-			
-			String sql = " insert into(reviewno, fk_userid, fk_odetailno, rvtitle, rvcontent, satisfaction, reviewimage1, reviewimage2, reviewimage3, fk_pname) "
-							+ " values(seq_review_reviewno.nextval,?,?,?,?,?,?,?,?,?) ";
+			String sql="";
 					
+			if(rvo.getReviewimage1()==null) {
+				sql = " insert into tbl_review (reviewno, fk_userid, fk_odetailno, rvtitle, rvcontent, satisfaction, fk_pname, rstate) "
+						+ " values(seq_review_reviewno.nextval,?,?,?,?,?,?, '0' ) ";
+			}
+			else if(rvo.getReviewimage2()==null) {
+				sql = " insert into tbl_review (reviewno, fk_userid, fk_odetailno, rvtitle, rvcontent, satisfaction, reviewimage1, fk_pname, rstate) "
+						   + " values(seq_review_reviewno.nextval,?,?,?,?,?,?,?, '0' ) ";
+			}
+			else if(rvo.getReviewimage3()==null) {
+				sql = " insert into tbl_review (reviewno, fk_userid, fk_odetailno, rvtitle, rvcontent, satisfaction, reviewimage1, reviewimage2,fk_pname,  rstate) "
+				    + " values(seq_review_reviewno.nextval,?,?,?,?,?,?,?,?, '0' ) ";
+			}
+			else{
+				sql = " insert into tbl_review (reviewno, fk_userid, fk_odetailno, rvtitle, rvcontent, satisfaction, reviewimage1, reviewimage2, reviewimage3, fk_pname,  rstate) "
+					    + " values(seq_review_reviewno.nextval,?,?,?,?,?,?,?,?,?, '0' ) ";
+			}
+				
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, rvo.getFk_userid());
@@ -247,10 +262,22 @@ public class ReviewDAO implements InterReviewDAO {
 			pstmt.setString(3,rvo.getRvtitle());
 			pstmt.setString(4, rvo.getRvcontent());
 			pstmt.setInt(5, rvo.getSatisfaction());
-			pstmt.setString(6, rvo.getReviewimage1());
-			pstmt.setString(7, rvo.getReviewimage2());
-			pstmt.setString(8, rvo.getReviewimage3());
-			pstmt.setString(9, rvo.getFk_pname());
+			
+			if(rvo.getReviewimage2()==null) {
+				pstmt.setString(6, rvo.getReviewimage1());
+				pstmt.setString(7, rvo.getFk_pname());
+			}
+			else if(rvo.getReviewimage3()==null) {
+				pstmt.setString(6, rvo.getReviewimage1());
+				pstmt.setString(7, rvo.getReviewimage2());
+				pstmt.setString(8, rvo.getFk_pname());
+			}
+			else if(!(rvo.getReviewimage1()==null && rvo.getReviewimage2()==null && rvo.getReviewimage3()==null)) {
+				pstmt.setString(6, rvo.getReviewimage1());
+				pstmt.setString(7, rvo.getReviewimage2());
+				pstmt.setString(8, rvo.getReviewimage3());
+				pstmt.setString(9, rvo.getFk_pname());
+			}
 			
 			n = pstmt.executeUpdate();
 			
@@ -265,33 +292,72 @@ public class ReviewDAO implements InterReviewDAO {
 	@Override
 	public int revEditUpdate(ReviewVO rvo) throws SQLException {
 		int n = 0;
-		
+
 		try {
 			conn = ds.getConnection();
-			
-			String sql = " update tbl_review set rvtitle = ? "
-																+ " , satisfaction = ? "
-																+ " , rupdatedate = sysdate "
-																+ " , rvcontent = ? "
-																+ " , reviewimage1 = ? "
-																+ " , reviewimage2 = ? "
-																+ " , reviewimage3 = ? "
-																+ " where reviewno = ? ";
-			
+			String sql="";
+					
+			if(rvo.getReviewimage1()==null) {
+				sql =  " update tbl_review set rvtitle = ? "
+									+ " , satisfaction = ? "
+									+ " , rupdatedate = sysdate "
+									+ " , rvcontent = ? "
+									+ " where reviewno = ? ";
+			}
+			else if(rvo.getReviewimage2()==null) {
+				sql = " update tbl_review set rvtitle = ? "
+										+ " , satisfaction = ? "
+										+ " , rupdatedate = sysdate "
+										+ " , rvcontent = ? "
+										+ " , reviewimage1 = ? "
+										+ " where reviewno = ? ";
+			}
+			else if(rvo.getReviewimage3()==null) {
+				sql =  " update tbl_review set rvtitle = ? "
+										+ " , satisfaction = ? "
+										+ " , rupdatedate = sysdate "
+										+ " , rvcontent = ? "
+										+ " , reviewimage1 = ? "
+										+ " , reviewimage2 = ? "
+										+ " where reviewno = ? ";
+			}
+			else{
+				sql = " update tbl_review set rvtitle = ? "
+										+ " , satisfaction = ? "
+										+ " , rupdatedate = sysdate "
+										+ " , rvcontent = ? "
+										+ " , reviewimage1 = ? "
+										+ " , reviewimage2 = ? "
+										+ " , reviewimage3 = ? "
+										+ " where reviewno = ? ";
+			}
+				
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, rvo.getRvtitle());
 			pstmt.setInt(2, rvo.getSatisfaction());
-			pstmt.setString(4, rvo.getRvcontent());
-			pstmt.setString(5, rvo.getReviewimage1());
-			pstmt.setString(6, rvo.getReviewimage2());
-			pstmt.setString(7, rvo.getReviewimage3());
-			pstmt.setInt(8, rvo.getReviewno());
+			pstmt.setString(3, rvo.getRvcontent());
+			
+			if(rvo.getReviewimage2()==null) {
+				pstmt.setString(4, rvo.getReviewimage1());
+				pstmt.setInt(5, rvo.getReviewno());
+			}
+			
+			else if(rvo.getReviewimage3()==null) {
+				pstmt.setString(4, rvo.getReviewimage1());
+				pstmt.setString(5, rvo.getReviewimage2());
+				pstmt.setInt(6, rvo.getReviewno());
+			}
+			else if(!(rvo.getReviewimage1()==null && rvo.getReviewimage2()==null && rvo.getReviewimage3()==null)) {
+				pstmt.setString(4, rvo.getReviewimage1());
+				pstmt.setString(5, rvo.getReviewimage2());
+				pstmt.setString(6, rvo.getReviewimage3());
+				pstmt.setInt(7, rvo.getReviewno());
+			}
+			else {
+				pstmt.setInt(4, rvo.getReviewno());
+			}
 			
 			n = pstmt.executeUpdate();
-			
-			if(n==1) {
-				conn.commit();
-			}
 			
 		} finally {
 			close();
@@ -819,7 +885,7 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select reviewno, fk_userid, rvtitle, to_char(rregisterdate,'yyyy-mm-dd') as rregisterdate, to_char(rupdatedate,'yyyy-mm-dd') as rupdatedate "
-							+ " , rviewcount, rvcontent, reviewimage1, reviewimage2, reviewimage3 "
+							+ " , rviewcount, rvcontent, reviewimage1, reviewimage2, reviewimage3, fk_odetailno "
 							+ " from tbl_review R "
 							+ " where reviewno = ? ";
 			
@@ -841,6 +907,7 @@ public class ReviewDAO implements InterReviewDAO {
 				rvo.setReviewimage1(rs.getString(8));
 				rvo.setReviewimage2(rs.getString(9));
 				rvo.setReviewimage3(rs.getString(10));
+				rvo.setFk_odetailno(rs.getString(11));
 			}
 			
 		} finally {
@@ -868,6 +935,8 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reviewno);
+			
+			rs=pstmt.executeQuery();
 			
 			if(rs.next()) {
 				

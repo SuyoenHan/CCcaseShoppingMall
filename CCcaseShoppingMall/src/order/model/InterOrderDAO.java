@@ -6,6 +6,10 @@ import java.util.Map;
 
 public interface InterOrderDAO {
 
+	
+	
+	////// 전승혜 시작  //////////////////////////
+	
 	// 나의 주문내역  더보기 페이징 방식으로 select 해오기 -3개월 내의
 	List<OrderVO> selectByOrderList(Map<String, String> paraMap) throws SQLException;
 
@@ -14,6 +18,15 @@ public interface InterOrderDAO {
 	
 	//배송 조회하기
 	List<OrderVO> shipStatusView(String orderno) throws SQLException;
+	
+	// 리뷰테이블  odetailno 존재여부파악을 위한 select 
+	int reviewExist(String odetailno) throws SQLException;
+	
+	/////////// 전승혜 끝 ////////////////////////////////
+	
+	
+	
+	
 	
 	/////////////////////////// 백원빈 시작 ///////////////////////////////
 	//교환 접수시 배송상태 변경해주는 메소드
@@ -62,6 +75,8 @@ public interface InterOrderDAO {
 	List<OrderVO> byreview(Map<String, String> paraMap) throws SQLException;
 	// 주문건수 불러오기 
 	int countOrder(String userid)throws SQLException;
+
+
 	
 	//###################조승진 끝########################//
 	

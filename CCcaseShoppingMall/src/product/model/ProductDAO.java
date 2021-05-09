@@ -468,6 +468,35 @@ public class ProductDAO implements InterProductDAO {
 		
 	} // end of public List<String> getProductId() throws SQLException {------
 	
+	
+	// pnum이 주어진 경우, 이에 해당하는 productname과 pcolor 반환 메소드
+	@Override
+	public Map<String,String> getProductnameByPnum(String pnum) throws SQLException {
+
+		Map<String,String> productInfo= new HashMap<>();
+	
+		try {
+			conn=ds.getConnection();
+			String sql= " select productname, pcolor from tbl_product join tbl_pdetail on productid = fk_productid where pnum= ? ";
+			
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				productInfo.put("productname", rs.getString(1));
+				productInfo.put("pcolor", rs.getString(2));
+			}
+			
+		}finally {
+			close();
+		}
+		return productInfo;
+	
+	} // end of public String getProductnameByPnum(String pnum) throws SQLException {
+
+	
 	// =========================== 한수연 끝 ======================================
 
 	
@@ -809,7 +838,6 @@ public class ProductDAO implements InterProductDAO {
 		
 		return n;
 	}
-
 
 
 
