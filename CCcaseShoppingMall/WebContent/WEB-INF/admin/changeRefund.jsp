@@ -88,9 +88,9 @@
 				    error: function(request, status, error){
 		               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		            } 
-				});
+				});// end of ajax
 				
-			}
+			} // end of if(bool){ 
 			else{
 				   alert(" 승인을 취소하셨습니다.");
 		    }
