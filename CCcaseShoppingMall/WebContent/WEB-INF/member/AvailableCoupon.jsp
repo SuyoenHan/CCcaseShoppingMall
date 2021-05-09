@@ -29,7 +29,16 @@
 		background-color: #4d4d4d;
 		color: white;
 	}
-
+	
+	div#myCouponList{
+		background-color: #6D919C;
+		
+	}
+	
+	 div#myCouponList:hover{
+		background-color: #CCF2F4;
+		transition: 1s;
+	}
 	
 
 </style>

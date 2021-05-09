@@ -54,6 +54,15 @@
 		padding: 5px;
 	}
 	
+	div#review{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#review:hover{
+     	background-color:#CCF2F4; 
+     }
+     
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
