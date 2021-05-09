@@ -88,8 +88,10 @@
 
 	$(document).ready(function(){
 		
-		func_height(); 
+		func_height();  //사이드바와 바디컨텐츠 높이 맞추기.
 		
+		$("sapn#totalOrderListCount").hide();
+		$("sapn#countOrderList").hide();
 		displayOrderList("1");
 		
 		// 주문목록 더보기 위하여 "더보기..." 버튼 클릭액션 이벤트 등록하기
@@ -103,29 +105,14 @@
 	       }
 	       else{
 	          displayOrderList($(this).val());        
-	          // displayHIT("9"); 
-	          // displayHIT("17");
-	          // displayHIT("25");
-	          // displayHIT("33");            
+	          // displayOrderList("5"); 
+	          // displayOrderList("9");
+	         
 	       }         
 	    });
 		
 		
 		
-		// 배송조회 버튼 클릭
-		$("button#shipstatusBtn").click(function(){
-			alert("배송확인");
-			<%-- var orderno =$(this).parent().parent().find("td#orderno").text();
-			
-			
-			//배송조회 페이지로 이동 시켜준다.
-			var frm = document.orderListFrm;
-			frm.action="<%=ctxPath%>/order/shipStatus.cc?orderno="+orderno;
-			frm.method="POST"; // 나중에 POST로 바꿔!?
-			frm.submit();   --%>
-			
-			
-		});
 		
 		
 		//상품평관리 클릭
@@ -255,19 +242,18 @@
 	               
 	               // >>> !!! 중요 !!! 더보기... 버튼의 value 속성에 값을 지정하기 <<< //  
 	               $("button#btnMoreOrderList").val(Number(start) + lenOrderList);
-	               // 더보기... 버튼의 value 값이  9  로 변경된다.
-	               // 더보기... 버튼의 value 값이 17  로 변경된다.
-	               // 더보기... 버튼의 value 값이 25  로 변경된다.
-	               // 더보기... 버튼의 value 값이 33  로 변경된다.
-	               // 더보기... 버튼의 value 값이 41  로 변경된다.
+	               // 더보기... 버튼의 value 값이  5  로 변경된다.
+	               // 더보기... 버튼의 value 값이 9  로 변경된다.
+	               // 더보기... 버튼의 value 값이 13  로 변경된다.
 	               
 	               
-	               // countHIT 에 지금까지 출력된 상품의 개수를 누적해서 기록한다.
+	               
+	               // countOrderList 에 지금까지 출력된 상품의 개수를 누적해서 기록한다.
 	               $("span#countOrderList").text(  Number($("span#countOrderList").text()) + json.length );
 	               
-	               // 더보기... 버튼을 계속해서 클릭하여 countHIT 값과 totalHITCount 값이 일치하는 경우 
+	               // 더보기... 버튼을 계속해서 클릭하여 countOrderListCount 값과 totalOrderListCount 값이 일치하는 경우 
 	               if( $("span#totalOrderListCount").text() == $("span#countOrderList").text() ) {
-	                  $("span#end").html("더이상 조회할 제품이 없습니다.");
+	              $("span#end").html("더이상 조회할 제품이 없습니다.");
 	                  $("button#btnMoreOrderList").text("처음으로");
 	                  $("span#countOrderList").text("0");
 	               }
@@ -395,12 +381,11 @@
 	  
 	
 	  
-	  <div style="margin: 20px 0;">
-	  <span id="end" style="font-size: 16pt; font-weight: bold; color: red;"></span><br/> 
+	  <div style="margin: 30px auto;">
+	  <span id="end" style="font-size: 15pt; font-weight: bold;  color:#008080;"></span><br/> 
 	  <button type="button" class="button"id="btnMoreOrderList" value="">더보기...</button>
 	  <span id="totalOrderListCount">${requestScope.totalOrderListCount}</span>
       <span id="countOrderList">0</span>
-      
 	</div>
  </div>
 </form>	
