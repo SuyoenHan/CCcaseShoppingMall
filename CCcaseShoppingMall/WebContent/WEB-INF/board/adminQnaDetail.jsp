@@ -155,7 +155,7 @@
 		<div id="collapse1" class="panel-collapse collapse">
     	 <div class="panel-body">		
     	 <form method="post" action="adminQnaReply.cc" name="qnaReplyForm" id="qnaReply">    	 	
-			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+			<table class="table table-striped" style="text-align: center; border: 0px" >
 				<thead>
 					<tr>
 						<th colspan="2" style="background-color: #eeeeee; text-align: center;">답글쓰기</th>
