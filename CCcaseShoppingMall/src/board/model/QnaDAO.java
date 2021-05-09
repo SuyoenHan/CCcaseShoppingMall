@@ -609,20 +609,21 @@ public class QnaDAO implements InterQnaDAO {
 		
 	      try {
 	         conn = ds.getConnection();
-	         String sql = "select rno,no,title,userid,registerdate,viewcount,state\n"+
-	        		 "from \n"+
-	        		 "(select rownum AS rno,no,title,userid,registerdate,viewcount,state\n"+
-	        		 "from(\n"+
-	        		 "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount,qstate AS state\n"+
-	        		 "from tbl_qna where fk_userid=? \n"+
-	        		 "union all\n"+
-	        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount ,rstate AS state\n"+
-	        		 "from tbl_review\n"+
-	        		 "where fk_userid=? \n"+
-	        		 "order by registerdate desc\n"+
-	        		 ")\n"+
-	        		 ")\n"+
-	        		 "where rno between ? and ?";
+	         String sql = "select rno,no,title,userid,registerdate,viewcount,state "+
+		        		 "from  "+
+		        		 "( "+
+		        		 "select rownum AS rno,no,title,userid,registerdate,viewcount,state "+
+				        		 "from( "+
+				        		 "select qnano as no, qtitle as title ,fk_userid as userid ,qregisterdate as registerdate, qviewcount as viewcount,qstate AS state  "+
+				        		 "from tbl_qna where fk_userid=? "+
+				        		 "union all "+
+				        		 "select reviewno as no, rvtitle as title ,fk_userid as userid ,rregisterdate as registerdate, rviewcount as viewcount ,rstate AS state "+
+				        		 "from tbl_review "+
+				        		 "where fk_userid=?  "+
+				        		 "order by registerdate desc "+
+				        		 ") "+
+		        		 ") "+
+		        		 "where rno between ? and ?";
 	         
 	         pstmt = conn.prepareStatement(sql);
 	         
