@@ -134,7 +134,7 @@ public class AdminDAO implements InterAdminDAO {
 		return n;
 	}
 
-	// 전일 총 판매액 메소드
+	// 전일 총 판매액(입금일 기준) 메소드
 	@Override
 	public List<Map<String,Integer>> getYesterProfitList() throws SQLException {
 		
@@ -200,7 +200,7 @@ public class AdminDAO implements InterAdminDAO {
 				
 				getTodayProfitList.add(tProfitMap);
 			}
-			
+		
 		} finally {
 			close();
 		}
