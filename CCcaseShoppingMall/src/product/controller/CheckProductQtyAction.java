@@ -57,7 +57,7 @@ public class CheckProductQtyAction extends AbstractController {
 				
 				for(int i=0;i<pnumArr.length;i++) {
 					int qty= pddao.getQtyByPnum(pnumArr[i]);
-					if(Integer.parseInt(cntArr[i])>qty) { // 주문수량보다 재고량이 더 많거나 같은 경우
+					if(Integer.parseInt(cntArr[i])>qty) { // 주문수량이 재고량보다 더 많은경우
 					    jsonobject.put("n", 1);
 						jsonobject.put("productname", productnameArr[i]);
 					    jsonobject.put("pcolor", pcolorArr[i]);
