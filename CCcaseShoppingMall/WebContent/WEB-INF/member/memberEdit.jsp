@@ -421,8 +421,9 @@ $("button#emailCheckButton").prop("disabled",true);
 		<tr>
 			<td style="width: 20%; font-weight: bold;">성명&nbsp;<span class="star">*</span></td>
 			<td style="width: 80%; text-align: left;">
-			    <input type="text" name="name" id="name" class="requiredInfo" value="${sessionScope.loginuser.name}"/> 
-				<span class="error">성명은 필수입력 사항입니다.</span>
+			    <input type="hidden" name="userid" value="${sessionScope.loginuser.userid}"/>
+                <input type="text" name="name" id="name" value="${sessionScope.loginuser.name}" class="requiredInfo" required /> 
+               <span class="error">성명은 필수입력 사항입니다.</span>
 			</td>
 		</tr>
 		<tr>
@@ -432,7 +433,7 @@ $("button#emailCheckButton").prop("disabled",true);
 			  <span class="emailEditBack"style="display: inline-block; width: 80px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="emailEditBack();">이메일변경 취소</span> 
 			  
 			    <div id="emailEditclick">
-				    <input type="text" name="email" id="email"class="requiredInfoEdit" placeholder="abc@def.com" />
+				    <input type="text" name="email" id="email" value="${sessionScope.loginuser.email}" class="requiredInfo" placeholder="abc@def.com" /> 
 				      <button type="button" id="emailCheckButton" style="display: inline-block; width: 120px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;"  onclick="isExistEmailCheck();">이메일중복확인</button>
 				    <span id="emailCheckResult"></span> 
 				    <span class="error">이메일 형식에 맞지 않습니다.</span>

@@ -51,7 +51,6 @@ public class MemberEditEndAction extends AbstractController {
 	                 MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 	                 
 	                 loginuser.setName(name);
-	                 loginuser.setPwd(pwd);
 	                 loginuser.setEmail(email);
 	                 loginuser.setMobile(mobile);
 	                 loginuser.setPostcode(postcode);
