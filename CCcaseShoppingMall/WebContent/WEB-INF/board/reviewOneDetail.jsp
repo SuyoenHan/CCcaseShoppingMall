@@ -83,14 +83,16 @@
 			goProdDetail();
 		});
 		
-		$(document).on("mouseover","#imgRev", function(){
-			var obj = document.getElementById("big");
-			var index = $(this).index();
-			obj.src = $(this).eq(index).src;
+		$("img#imgRev").click(function(){
+			
+			var imgPath = $(this).prop('src');
+			var bigImgPath = $("img#big").prop('src');
+			
+			$("img#big").prop('src', imgPath);
+			$(this).prop('src',bigImgPath);
+			
 		});
 	
-		
-		
 	}); // end of $(document).ready(function(){})--------------------------------------
 	
 	// Function Declaration
