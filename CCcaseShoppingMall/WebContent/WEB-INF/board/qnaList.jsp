@@ -195,7 +195,7 @@
 	      <button type="button"  onclick="goSearch();" style="margin-left: 10px; background: #6D919C; border:none; color:white; border-radius: 2px; height: 25px;">검색</button>
 	      
 	      <c:if test="${not empty sessionScope.loginuser.userid}">
-	      	<button type="button"  onclick="goWrite();" style="background: #6D919C; border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
+	      	<button type="button"  onclick="goWrite();" style="background: #6D919C; color: white; border:none; width: 100px; height: 40px; margin-left: 62%; border-radius: 5px;">글쓰기</button>
    		  </c:if>
     </form>
 	    

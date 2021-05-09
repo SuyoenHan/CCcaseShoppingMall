@@ -105,7 +105,7 @@
  				<label for="public">공개</label>&nbsp;&nbsp;
  				<input type="radio" id="qstatus2" name="qstatus" value="1" onclick="setPwd()">
  				<label for="private">비공개</label>
- 					<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" name="qnapwd" maxlength="10" required="required"></div>
+ 					<div id="qnaPwd">비밀번호&nbsp;&nbsp;<input type="password" id="qnapwd" name="qnapwd" maxlength="10"></div>
         	</td>
        	</tr>
 
