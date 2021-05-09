@@ -80,9 +80,11 @@ public class ProductDetailAction extends AbstractController {
 
 		
 		// 제품번호를 이용하여 상세정보페이지에서 필요한 정보 가져오기 
-		Map<String,String> onePInfo= pdao.getOnePInfo(productid);
+		// 제품명, 모델명, 대표이미지, 정가, 할인가, 할인율, 카테고리명
+		Map<String,String> onePInfo= pdao.getOnePInfo(productid); 
 		request.setAttribute("onePInfo", onePInfo); 
-		
+
+		// 제품상세번호, 색상, 제품상세소개, 배송옵션
 		List<Map<String, String>> onePDetailInfoList= pddao.getOnePDetailInfo(productid);
 		request.setAttribute("onePDetailInfoList", onePDetailInfoList);
 		
@@ -92,6 +94,8 @@ public class ProductDetailAction extends AbstractController {
 		for(Map<String, String> pDetailInfoMap : onePDetailInfoList) {
 			
 			pnum= pDetailInfoMap.get("pnum");
+			
+			// 제품상세별 이미지
 			List<Map<String, String>> imgFileByPnum= idao.selectImgFileByPnum(pnum);
 			
 			for(int i=0;i<imgFileByPnum.size();i++) {
@@ -99,14 +103,14 @@ public class ProductDetailAction extends AbstractController {
 				for(int j=0;j<imgFileByPnum.get(i).size();j++) {
 					String imgName= imgFileByPnum.get(i).get("imgplus"+(j+1));
 					
-					if(j==0) primePlusImgFile.add(imgName);
-					else  extraPlusImgFile.add(imgName);
+					if(j==0) primePlusImgFile.add(imgName); // 추가이미지1 (not null)
+					else  extraPlusImgFile.add(imgName); // 추가이미지 2, 추가이미지 3 (null허용)
 				}
 			}
 		} // end of for(Map<String, String> pDetailInfoMap : onePDetailInfoList) {---
 		
 		
-		for(int i=0;i<extraPlusImgFile.size();i++) {
+		for(int i=0;i<extraPlusImgFile.size();i++) { // 추가이미지2, 추가이미지 3이 null인 경우 삭제
 			if("noimage.png".equalsIgnoreCase(extraPlusImgFile.get(i))) {
 				extraPlusImgFile.remove(i);
 				i--;
