@@ -32,6 +32,10 @@ public interface InterProductDAO {
 	// 존재하는 productid 모두 조회
 	List<String> getProductId() throws SQLException; 
 	
+	// pnum이 주어진 경우, 이에 해당하는 productname과 pcolor 반환 메소드
+	Map<String,String> getProductnameByPnum(String pnum) throws SQLException;
+	
+	
 	// =========================== 한수연 끝 ======================================
 	
 	

@@ -23,9 +23,6 @@ public interface InterReviewDAO {
 	
 	// tbl_review 테이블에 리뷰정보 insert 하기
 	int reviewInsert(ReviewVO rvo) throws SQLException;
-
-	// 리뷰 수정 내용 업데이트 하기 
-	// int revEditOneView(String reviewno) throws SQLException;
 	
 	// 리뷰 글내용 수정하기(update)
 	int revEditUpdate(ReviewVO rvo) throws SQLException;
@@ -74,6 +71,15 @@ public interface InterReviewDAO {
 	
 	// 제품명과 제품색상 함께 알아오기
 	ProductDetailVO selectProdInfo(String odetailno) throws SQLException;
+
+	//리뷰 수정을 위해 하나의 리뷰를 select해오기
+	ReviewVO revEditOneView(String reviewno) throws SQLException;
+	
+	// 구매 제품 정보 가져오기
+	ProductDetailVO getProdInfo(String reviewno) throws SQLException;
+
+	
+
 	
 
 

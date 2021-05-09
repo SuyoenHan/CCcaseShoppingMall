@@ -43,7 +43,6 @@ public class FaqEditAction extends AbstractController {
 		else {
 			//post방식이라면 update해준다.
 			
-			
 			String faqno1 =request.getParameter("faqno");
 			String ftitle = request.getParameter("ftitle");
 	   	    String adminid = request.getParameter("adminid");

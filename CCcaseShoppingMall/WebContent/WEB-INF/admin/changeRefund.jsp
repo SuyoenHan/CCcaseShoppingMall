@@ -8,18 +8,37 @@
 
 <style type="text/css">
 	
+	table {
+		margin-top: 50px;
+		margin-left: 70px;
+		margin-bottom: 50px;
+	}
+	
 	th {
 		border:solid 1px black;
 		width: 120px;
 		font-size: 12pt;
 		font-weight: bolder;
 		text-align: center !important;
-		background-color: #cccccc;
+		background-color: #98B7C1;
 	}
 	
 	td {
 		border:solid 1px black;
 		text-align: center;
+	}
+	
+	tr:hover{
+		background-color: #C5D7DD;
+		cursor: pointer !important;
+	}
+	
+	span#memberRequest{
+		margin-left: 70px;
+	}
+	
+	div#contents{
+		margin-bottom: 30px;
 	}
 
 
@@ -105,6 +124,7 @@
 		</thead>
 		
 		<tbody>
+			
 			<c:forEach var="chRefundMap" items="${requestScope.chRefundList}">
 				<tr> 
 					<td>${chRefundMap.chRefundno}</td>
@@ -129,7 +149,7 @@
 	</table>
 	<c:if test="${not empty requestScope.message}">
 		<br>
-		<span style="color:red; font-size:15pt; font-weight: bolder;">${requestScope.message}</span>
+		<span id="memberRequest" style="color:red; font-size:15pt; font-weight: bolder;">${requestScope.message}</span>
 		<br>
 	</c:if>
 </div>

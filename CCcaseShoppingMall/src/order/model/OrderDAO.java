@@ -50,7 +50,7 @@ public class OrderDAO implements InterOrderDAO {
 	}
 	
 	
-
+/////////////   전승혜 시작  //////////////////////////////////////////////////////////////////////////////
 	//배송 조회하기
 	@Override
 	public List<OrderVO> shipStatusView(String orderno) throws SQLException {
@@ -233,6 +233,53 @@ public class OrderDAO implements InterOrderDAO {
 	      
 	      return totalCount;
 	}
+	
+	
+	
+	
+	
+	// 리뷰테이블  odetailno 존재여부파악을 위한 select 
+	@Override
+	public int reviewExist(String odetailno) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn= ds.getConnection();
+			
+			String sql = " select * "+
+					     " from tbl_review "+
+					     " where fk_odetailno =? ";
+			
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setString(1, odetailno);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				//review 테이블에 odetailno가 존재한다면
+				n = 1;
+				 
+			}
+			
+			
+		}finally {
+			close();
+		}
+		return n;
+	}
+
+	
+	
+	
+	
+	///////////////////////////////////전승혜 끝 /////////////////////////////////
+	
+	
+	
+	
+	
+	
 	
 	
 	////////////////////////// 백원빈 시작 ///////////////////////////////
@@ -1044,6 +1091,8 @@ public class OrderDAO implements InterOrderDAO {
 		return ocnt;
 	}
 	//###################조승진 종료########################//
+
+
 
 
 
