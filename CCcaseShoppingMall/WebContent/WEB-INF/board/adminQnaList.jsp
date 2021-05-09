@@ -9,12 +9,24 @@
 %>
 
 <jsp:include page="../adminheader.jsp" />
-<jsp:include page="../leftSide.jsp"/>
+<jsp:include page="../communityLeftSide.jsp"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 
 <style type="text/css">
 
+
+	div#qna{
+		background-color: #6d919c;
+		color: #fff;
+		font-weight: bold;
+	}
+	
+	a#qna{
+		text-decoration: none;
+		color: #fff;
+	}
+	
    div#content{
    		margin-left: 17%;
    		margin-top: 5%;

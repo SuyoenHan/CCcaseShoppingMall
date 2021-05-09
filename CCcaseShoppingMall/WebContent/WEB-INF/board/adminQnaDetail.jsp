@@ -14,6 +14,17 @@
  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
 <style type="text/css">
 
+	div#qna{
+		background-color: #6d919c;
+		color: #fff;
+		font-weight: bold;
+	}
+	
+	a#qna{
+		text-decoration: none;
+		color: #fff;
+	}
+
    div#content{
    		margin-left: 20%;
    		margin-top: 10%;
@@ -96,7 +107,7 @@
 	
   </script>
 	<jsp:include page="../adminheader.jsp" /> 
-	<jsp:include page="../leftSide.jsp"/>
+	<jsp:include page="../communityLeftSide.jsp"/>
 </head>
 <body> 
 	    
