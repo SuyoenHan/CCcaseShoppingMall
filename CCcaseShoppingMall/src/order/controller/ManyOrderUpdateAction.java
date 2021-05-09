@@ -40,6 +40,7 @@ public class ManyOrderUpdateAction extends AbstractController {
         	String qUsepoint = request.getParameter("qUsepoint");     //사용포인트
         	String finalamount = request.getParameter("finalamount"); // 총주문금액
         	String userid = mvo.getUserid();
+        	String cpno = request.getParameter("cpno");
         	
         	
         	if(pnum_es != null && odqty_es!= null && pdetailprice_es!= null && cartno_es !=null) {
@@ -71,6 +72,7 @@ public class ManyOrderUpdateAction extends AbstractController {
 	        	paraMap.put("qUsepoint", qUsepoint);
 	        	paraMap.put("finalamount", finalamount);
 	        	paraMap.put("fk_userid", userid);
+	        	paraMap.put("cpno", cpno);
 	        	
 	        	// 전표를 생성해주는 메소드 호출하기
 				InterOrderDAO iodao = new OrderDAO();
