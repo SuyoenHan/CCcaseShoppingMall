@@ -119,7 +119,6 @@
 				<td>5,000원</td>
 				<td>
 					<c:if test="${cvo.cpdiscount ne '30'}"><fmt:formatNumber value="${cvo.cpdiscount*100}" pattern="0"/><span>%</span></c:if>
-					<c:if test="${cvo.cpdiscount eq '30'}">무료배송(${cvo.cpdiscount*100})</c:if>
 				</td>
 				<td>${cvo.issuedate}</td>
 				<td>${cvo.expirationdate}</td><%-- 발행일로부터 14일 후 --%>
