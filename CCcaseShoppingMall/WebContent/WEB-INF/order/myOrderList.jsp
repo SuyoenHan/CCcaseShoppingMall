@@ -304,7 +304,7 @@
 						//배송조회 페이지로 이동 시켜준다.
 						var frm = document.orderListFrm;
 						frm.action="<%=ctxPath%>/order/shipStatus.cc?orderno="+orderno;
-						frm.method="POST"; // 나중에 POST로 바꿔!?
+						frm.method="POST"; 
 						frm.submit();   
 						
 						

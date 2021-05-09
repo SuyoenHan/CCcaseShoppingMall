@@ -94,7 +94,7 @@
 						bFlagRequiredInfo = true;
 						alert("제목과 글내용은 필수입력사항 입니다.");
 						$("input#ftitle").focus();
-						return false; // break 라는 뜻이다.
+						return false; // 종료
 					}
 					
 				});
