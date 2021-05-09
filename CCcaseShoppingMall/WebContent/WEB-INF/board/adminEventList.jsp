@@ -40,7 +40,7 @@
    		border: none;
    }
    
-   td{
+   tr#eventInfo > td{
    		width: 10%;
    		height: 35px;
    		text-align: center;

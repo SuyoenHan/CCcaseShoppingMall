@@ -29,15 +29,28 @@
 		background-color: #4d4d4d;
 		color: white;
 	}
-
+	
+	div#myCouponList{
+		background-color: #6D919C;
+		
+	}
+	
+	 div#myCouponList:hover{
+		background-color: #CCF2F4;
+		transition: 1s;
+	}
 	
 
 </style>
+
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.css" />
 
 <script type="text/javascript">
 	 
 
 	$(document).ready(function(){
+		
+		func_height();
 		
 		$("button#aval").click(function(){
 			location.href="<%= ctxPath%>/member/availableCoupon.cc"; <%-- 사용완료 쿠폰으로 이동--%>

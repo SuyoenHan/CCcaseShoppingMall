@@ -108,6 +108,7 @@
 			    var userChoice = $(this).val();  //내가 클릭한 곳의 value 1=가위, 2=바위, 3=보
 				// alert(userChoice);
 			
+			   
 			    /*== 자바스크립트에서 난수 발생시키기 ==//
 	      		  공식 :  Math.floor( Math.random()*(max-min+1) ) + min; 
 				*/

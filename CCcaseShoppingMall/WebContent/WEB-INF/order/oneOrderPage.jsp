@@ -607,7 +607,6 @@
                   <td rowspan="2"> <a href="<%= ctxPath%>/product/productDetail.cc?productid="${requestScope.para2Map.fk_productid} ><img src="<%= ctxPath%>/images/${requestScope.para2Map.pimage1}" width="80px" height="80px" style="border-radius: 20%; padding:5%;" /></a></td>
                         <td>${requestScope.para2Map.productname}</td>
                         <td style="text-decoration: line-through; font-size: 12px;"><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
-                        <td id="price"><fmt:formatNumber value="${requestScope.para2Map.price}" pattern="#,###,###" />원</td>
                         <td rowspan="2" style="vertical-align: middle;">${cnt}개</td>
                         <td rowspan="2" style="vertical-align: middle;">${requestScope.expectPoint}원</td>
                         <td rowspan="2" style="vertical-align: middle;">

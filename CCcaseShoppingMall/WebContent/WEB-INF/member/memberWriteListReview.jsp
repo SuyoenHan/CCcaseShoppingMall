@@ -143,6 +143,7 @@
 	<h3>게시물 관리</h3>
 	<hr>
 	<h4>게시물 분류</h4>
+	<input type="hidden" name="email" id="email" value="${(sessionScope.loginuser).email}" />
 	<input type="radio" name="main"  id="main" style="margin-left:20px;" OnClick="main('${(sessionScope.loginuser).userid}');">전체
 	<input type="radio" name="qna"  id="qna" style="margin-left:20px;" OnClick="qna('${(sessionScope.loginuser).userid}');">Q&A
 	 <input type="radio" name="review" id="review" style="margin-left:20px;" OnClick="review('${(sessionScope.loginuser).userid}');">리뷰

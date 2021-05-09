@@ -55,14 +55,11 @@
 
 	$(document).ready(function(){
 		
-		// leftside랑 길이맞추기
+		// leftside랑 길이 맞추기
 		func_height();
-		
-		// 자바스크립트에서 session에서 담아온 값이, null일경우 ""으로 나오는 이슈가있음. => "" 하니깐?
-		// 반대로 html 태그안에 바로 값을 넣어주면 0으로 잘나옴.
-		
-		// 문서를 자동으로 15초간격으로 새로고침 시키겠다.
-		// 문서로딩시 func_loopTimer() 함수 호출
+	
+		// 페이지 로딩시 setInterval() 함수 호출
+		// 페이지를 자동으로 10초간격으로 새로고침
 		
 		var refresh = setInterval(function(){
 			location.href="javascript:history.go(0)";
@@ -78,7 +75,7 @@
 	<div id="container">
 		<div class="container-row">
 			<div class="tdstatus">
-			<table class="salesQty adminHome" style="border: 1px solid #D5E2E2; margin-bottom:50px;">
+			<table class="salesQty adminHome" style="border: 1px sㅊolid #D5E2E2; margin-bottom:50px;">
 				<thead style="background-color: #D5E2E2;">
 					<tr>
 						<th colspan="2" style="text-align: center; font-weight: bold; font-size: 25px;">총 판매량</th>

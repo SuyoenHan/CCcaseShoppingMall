@@ -16,38 +16,43 @@
 
    div#content{
    		margin-left: 20%;
-   		margin-top: 5%;
-   		width:	80%;
+   		margin-top: 10%;
+   		width:	100%;
    }	
    
-   td{
-   		height: 30px;
+   .maincnt > thead > td,
+   .maincnt > tbody > td{
+   		height: 40px;
+   		padding: 5px;
    }
    
-   td.title{
-   		width: 20%;
+   .maincnt > td.title{
+   		width: 30%;
    }
-  
-  button {
-  		transition-duration: 0.4s;
-  }
-
-  button:hover {
-  		color: red;
-  }
-  
+   
+   #maintitle{
+   		margin-bottom: 10%;
+   }
+   
 	.prev_next {
 		margin: 5% 0 5% 0;
 	    width: 80%;
-	    border-top: 1px solid #444444;
+	    border-top: 1px solid lightgray;
 	    border-collapse: collapse;
 	}
 	
   .prev_next >  thead > tr > th, 
   .prev_next >  tbody > tr > td {
-	    border-bottom: 1px solid #444444;
+	    border-bottom: 1px solid lightgray;
 	    padding: 10px;
 	    text-align: center;
+  }
+  
+  .title{
+  		display: inline-block;
+  		font-weight: 600;
+  		font-size: 15px;
+  		width: 100px;
   }
 
   </style>
@@ -94,52 +99,42 @@
 	<jsp:include page="../leftSide.jsp"/>
 </head>
 <body> 
-	<div id="content" >
-	
-	<h2 style="margin: 20px;">QnA</h2>
 	    
 	    <!-- QNA 원글 부분 시작-->
-	    <form name="qnaDetailForm">
-	    <table style="width: 700px; border-color: lightgray;">
-
-	        <tr>
-	            <td class="title">제목</td>
-	            <td>${requestScope.qvo.qtitle}</td>        
-	        </tr>
-	        <tr>
-	            <td class="title">작성자</td>
-	            <td>${requestScope.qvo.fk_userid}</td>
-	        </tr>
-	         <tr>
-	            <td class="title">등록일</td>
-	            <td>${requestScope.qvo.qregisterdate}</td>
-	        </tr>
-			<tr>
-	            <td class="title">이메일</td>
-	            <td>${requestScope.qvo.email}</td>
-	        </tr>
-	        <tr>
-	            <td class="title">제품아이디</td>
-	            <td>${requestScope.qvo.fk_productid}</td>
-	        </tr>     
-	        <tr>
-	        	<td id="title">공개여부</td>
-	        	<td>
-	        		<c:choose>
-	        			<c:when test="${requestScope.qvo.qstatus eq '0'}">전체공개</c:when>
-	        			<c:when test="${requestScope.qvo.qstatus eq '1'}">비공개</c:when>
-	        		</c:choose>
-	        	</td>
-	       	</tr>
-	
-	        <tr>
-	            <td id="title">
-	               글내용
-	            </td>           
-	            <td>${requestScope.qvo.qcontent}</td>        
-	        </tr>	        
-		</table>
-		</form>
+		<div id="content" >
+		<h2 style="padding: 20px 0 20px 0; font-size: 30px; font-weight: bolder; color: #6D919C;">QnA</h2>
+		    
+		    <form name="qnaDetailForm">
+		    <div class="maincnt" style="width: 80%; border:1px solid lightgray; border-left: none; border-right: none;">
+		 		<header style="margin-bottom: 5%; ">
+		        	<div style="background-color: rgba(0,0,0,0.1);  color: #6D919C; font-size:25px; font-weight: 600; padding: 3% 0 3% 0; text-align: center;">
+		            	${requestScope.qvo.qtitle}       
+		        	</div>
+		        	<div style="text-align: right; background-color: #D8E4E4; padding: 1% 0 1% 0; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+			            <span class="title" style="font-weight: 600;">작성자 : ${requestScope.qvo.fk_userid}</span>&nbsp;&nbsp;
+			            <span style="color:gray;">${requestScope.qvo.qregisterdate}</span>&nbsp;&nbsp;
+			        </div>
+		 		</header>
+		        <main style="padding-left: 3%;">
+			        <div>
+			            <span class="title">제품아이디</span>
+			            <span>${requestScope.qvo.fk_productid}</span>
+			        </div>     
+			        <div>
+			        	<span class="title">공개여부</span>
+			        	<span>
+			        		<c:choose>
+			        			<c:when test="${requestScope.qvo.qstatus eq '0'}">전체공개</c:when>
+			        			<c:when test="${requestScope.qvo.qstatus eq '1'}">비공개</c:when>
+			        		</c:choose>
+			        	</span>
+			       	</div>
+					<br><br><br><br>         
+			        <div style="background-color: white; width: 700px; height: 300px;">${requestScope.qvo.qcontent}</div>        			        
+		        </main>
+			</div>
+			</form>
+		  	
 		<!-- QNA 원글 부분 끝-->
 		
 		<div style="display:inline-block;">
@@ -160,7 +155,7 @@
 		<div id="collapse1" class="panel-collapse collapse">
     	 <div class="panel-body">		
     	 <form method="post" action="adminQnaReply.cc" name="qnaReplyForm" id="qnaReply">    	 	
-			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+			<table class="table table-striped" style="text-align: center; border: 0px" >
 				<thead>
 					<tr>
 						<th colspan="2" style="background-color: #eeeeee; text-align: center;">답글쓰기</th>
@@ -216,7 +211,7 @@
   	<!-- 이전글, 다음글 조회 -->
 	<div>
 		<table class="prev_next">
-			<thead>
+			<thead style="background-color: #6D919C; color: lightgray;">
 				<tr>
 					<th>구분</th>
 					<th>글번호</th>
@@ -240,7 +235,7 @@
 					<td style="font-weight: bold;">다음글</td>
 					<c:choose>
 						<c:when test="${requestScope.nqna.qnano eq null}">
-							<td colspan="2" style="color: red; border-bottom: 1px solid #444444; padding: 10px; text-align: center;">
+							<td colspan="2" style="color: red; border-bottom: 1px solid lightgray; padding: 10px; text-align: center;">
 								 다음 글이 없습니다. 
 							</td>
 						</c:when>

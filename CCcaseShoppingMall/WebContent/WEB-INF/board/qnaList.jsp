@@ -19,6 +19,7 @@
    		margin-left: 17%;
    		margin-top: 5%;
    		width:	80%;
+   		margin-bottom: 20%;
    }	
    
    table#qnaTbl {
@@ -45,7 +46,8 @@
    		border: none;
    }
    
-   td{
+   table#qnaTbl > thead > tr > td,
+   table#qnaTbl > tbody > tr > td {
    		width: 10%;
    		height: 35px;
    		text-align: center;
@@ -195,7 +197,7 @@
 	      <button type="button"  onclick="goSearch();" style="margin-left: 10px; background: #6D919C; border:none; color:white; border-radius: 2px; height: 25px;">검색</button>
 	      
 	      <c:if test="${not empty sessionScope.loginuser.userid}">
-	      	<button type="button"  onclick="goWrite();" style="background: #6D919C; border:none; width: 100px; height: 40px; margin-left: 60%; border-radius: 5px;">글쓰기</button>
+	      	<button type="button"  onclick="goWrite();" style="background: #6D919C; color: white; border:none; width: 100px; height: 40px; margin-left: 62%; border-radius: 5px;">글쓰기</button>
    		  </c:if>
     </form>
 	    

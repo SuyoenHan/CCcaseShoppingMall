@@ -90,27 +90,26 @@ public class AdHomeAction extends AbstractController {
 		
 
 		// 총회원수 알아오기      
-		// 활동회원수   
-		// 휴먼회원수   
-		// 탈퇴회원수   
-		// 금일가입회원수
 		String sAllMemberCnt ="";
 		int allMemberCnt = adao.getCntMember(sAllMemberCnt);
 		session.setAttribute("allMemberCnt", allMemberCnt);
 		
+		// 활동회원수
 		String sActiveMemberCnt= " where idle = 0 ";
 		int activeMemberCnt = adao.getCntMember(sActiveMemberCnt);	
 		session.setAttribute("activeMemberCnt", activeMemberCnt);
 		
+		// 휴먼회원수  
 		String sHumanMemberCnt= " where idle = 1 ";
 		int humanMemberCnt = adao.getCntMember(sHumanMemberCnt);	
 		session.setAttribute("humanMemberCnt", humanMemberCnt);
 		
+		// 탈퇴회원수 
 		String sOutMemberCnt= " where status = 0 ";
 		int outMemberCnt = adao.getCntMember(sOutMemberCnt);	
 		session.setAttribute("outMemberCnt", outMemberCnt);
 		
-		
+		// 금일가입회원수
 		String sTodayRegisterCnt = " where registerday between sysdate-1 and sysdate ";
 		int todayRegisterCnt = adao.getCntMember(sTodayRegisterCnt);
 		session.setAttribute("todayRegisterCnt", todayRegisterCnt);

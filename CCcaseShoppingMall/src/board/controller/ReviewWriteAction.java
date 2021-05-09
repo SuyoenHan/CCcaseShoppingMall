@@ -1,7 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +11,15 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import board.model.*;
+import board.model.InterReviewDAO;
+import board.model.ReviewDAO;
+import board.model.ReviewVO;
 import common.controller.AbstractController;
-import member.model.*;
+import member.model.MemberVO;
+import order.model.InterODetailDAO;
+import order.model.ODetailDAO;
+import product.model.InterProductDAO;
+import product.model.ProductDAO;
 
 public class ReviewWriteAction extends AbstractController {
 
@@ -27,7 +33,7 @@ public class ReviewWriteAction extends AbstractController {
 		
 			String method = request.getMethod();
 		
-			if("GET".equalsIgnoreCase(method)) {
+			if(!"GET".equalsIgnoreCase(method)) {
 				
 				MultipartRequest mtrequest = null;
 				
@@ -35,7 +41,7 @@ public class ReviewWriteAction extends AbstractController {
 				ServletContext svlCtx = session.getServletContext();
 				String imagesDir = svlCtx.getRealPath("/images");
 				
-				imagesDir = "C:\\Users\\User\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images";
+				imagesDir = "C:\\Users\\SY HAN\\git\\CCcaseShoppingMall\\CCcaseShoppingMall\\WebContent\\images";
 				
 				try {
 					mtrequest = new MultipartRequest(request, imagesDir, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
@@ -49,24 +55,25 @@ public class ReviewWriteAction extends AbstractController {
 				
 				// cos.jar 라이브러리에서 제공하는 MultipartRequest 객체의 getFilesystemName("form에서의 첨부파일 name명") 메소드를 사용 한다. 
 				// 이때 업로드 된 파일이 없는 경우에는 null을 반환한다.		  
-				
+					String odetailno = mtrequest.getParameter("odetailno");
 					String rvtitle = mtrequest.getParameter("rvtitle");
 					String satisfaction = mtrequest.getParameter("satisfaction");
-					String reviewimage1 = mtrequest.getParameter("reviewimage1");
-					String reviewimage2 = mtrequest.getParameter("reviewimage2");
-					String reviewimage3 = mtrequest.getParameter("reviewimage3");
-				
-				
+					String reviewimage1 = mtrequest.getFilesystemName("reviewimage1");
+					// System.out.println(reviewimage1);
+					String reviewimage2 = mtrequest.getFilesystemName("reviewimage2");
+					String reviewimage3 = mtrequest.getFilesystemName("reviewimage3");
+					String fk_userid = mtrequest.getParameter("fk_userid");
+					String fk_pname = mtrequest.getParameter("fk_pname");
+					//System.out.println(reviewimage1);
+					
 				// !!!! 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어코드) 작성하기 !!!! //
-				String rvcontent = mtrequest.getParameter("rvcontent");
+				String rvcontent = mtrequest.getParameter("rcontent");
 				
 				rvcontent = rvcontent.replaceAll("<", "&lt;");
 				rvcontent = rvcontent.replaceAll(">","&gt;");
 				rvcontent = rvcontent.replaceAll("\r\n", "<br>");
-				
+	
 				InterReviewDAO rdao = new ReviewDAO();
-				
-				String fk_odetailno = request.getParameter("odetailno");
 				
 				ReviewVO rvo = new ReviewVO();
 				rvo.setRvtitle(rvtitle);
@@ -75,11 +82,14 @@ public class ReviewWriteAction extends AbstractController {
 				rvo.setReviewimage2(reviewimage2);
 				rvo.setReviewimage3(reviewimage3);
 				rvo.setRvcontent(rvcontent);
-				rvo.setFk_odetailno(fk_odetailno);
+				rvo.setFk_odetailno(odetailno);
+				rvo.setFk_userid(fk_userid);
+				rvo.setFk_pname(fk_pname);
+				
 				
 				// tbl_review 테이블에 제품정보 insert 하기
 				int n = rdao.reviewInsert(rvo);
-				
+		/*		
 				// === 추가이미지파일이 있다라면 tbl_product_imagefile 테이블에 제품의 추가이미지 파일명 insert 해주기 ===
 				int m = 1;
 				
@@ -94,12 +104,13 @@ public class ReviewWriteAction extends AbstractController {
 				for(int i=0; i<attachCount; i++) {
 					String attachFileName = mtrequest.getFilesystemName("attach"+i);
 					
-					m = rdao.review_imagefile_Insert(fk_odetailno, attachFileName);
+					m = rdao.review_imagefile_Insert(odetailno, attachFileName);
 					
 					if(m == 0) break;
 				}// end of for-------------------------------------
+		*/
 				
-				if(n*m == 1) {
+				if(n == 1) {
 					String message ="리뷰 등록이 완료되었습니다.";
 					String loc = request.getContextPath()+"/board/reviewList.cc";
 					
@@ -111,26 +122,23 @@ public class ReviewWriteAction extends AbstractController {
 				}
 				
 			}
-			else {	// POST 방식일때
+			else {	
 				
-				InterReviewDAO rdao = new ReviewDAO();
-				List<ReviewVO> revList = rdao.selectRevList();
-				request.setAttribute("revList", revList);
+				String odetailno = request.getParameter("odetailno");
+				request.setAttribute("odetailno", odetailno);
+				
+				InterODetailDAO oddao = new ODetailDAO();
+				String pnum= oddao.getPnumByOdetailNo(odetailno);
+				
+				InterProductDAO pdao= new ProductDAO();
+				Map<String,String> productInfo= pdao.getProductnameByPnum(pnum);
+				request.setAttribute("productInfo", productInfo);
 				
 				
-				super.setRedirect(false);
+				// super.setRedirect(false);
 				super.setViewPage("/WEB-INF/board/reviewWrite.jsp");	
 		}
-			
-		} else {
-			String message = "로그인 후 사용하세요.";
-			String loc = "javascript:history.back()";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-		}
+	}
+		
 	}
 }

@@ -50,8 +50,19 @@
 	
 	button#btnDetail {
 		border: none;
+		font-size: 8pt;
+		padding: 5px;
 	}
 	
+	div#review{
+		background-color: #6D919C;
+		color: white;
+	}
+ 
+   div#review:hover{
+     	background-color:#CCF2F4; 
+     }
+     
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -63,7 +74,7 @@
 	
 	$(document).ready(function(){
 		
-		goLikeCnt();
+		goLikeCnt("${reviewno}");
 		
 		goBackURL = "${requestScope.goBackURL}"	;
 		goBackURL = goBackURL.replace(/ /gi, "&");
@@ -72,14 +83,16 @@
 			goProdDetail();
 		});
 		
-		$(document).on("mouseover","#imgRev", function(){
-			var obj = document.getElementById("big");
-			var index = $(this).index();
-			obj.src = $(this).eq(index).src;
+		$("img#imgRev").click(function(){
+			
+			var imgPath = $(this).prop('src');
+			var bigImgPath = $("img#big").prop('src');
+			
+			$("img#big").prop('src', imgPath);
+			$(this).prop('src',bigImgPath);
+			
 		});
 	
-		
-		
 	}); // end of $(document).ready(function(){})--------------------------------------
 	
 	// Function Declaration
@@ -163,6 +176,11 @@
 		}
 	}
 	
+	
+	function goUpdateOneRev(reviewno) {
+		location.href="<%=ctxPath%>/board/reviewEdit.cc?reviewno="+reviewno;
+	}
+	
 </script>
 
 
@@ -188,7 +206,7 @@
 			<tbody>
 				<tr style="border:solid 1px gray; height:40px;">
 					<td style="padding: 10px;"><img src="../images/${requestScope.pvo.pimage1}" width="80px" height="80px">
-					<input type="hidden" id="productid" name="productid" value="${requestScope.pdvo.fk_productid}"/>
+					<input type="hidden" id="productid" name="productid" value="${requestScope.pdvo.fk_productid}" />
 					<input type="hidden" id="pnum" name="pnum" value="${requestScope.pdvo.pnum}" /></td>
 					<td style="padding: 10px; width: 650px;">
 						<c:if test="${requestScope.snum eq 1}">
@@ -200,6 +218,7 @@
 						<c:if test="${requestScope.snum eq -1}">
 							<span>-</span><br>   <%-- 신상품도 베스틑상품도 아닌경우 --%>
 						</c:if>
+						<input type="hidden" name="productname" value="${requestScope.pvo.productname}"/>
 						<span style="font-weight:bold;">${requestScope.pvo.productname}</span><br>
 						<span><fmt:formatNumber value="${requestScope.pvo.price}" pattern="#,###" />원</span>&nbsp;&nbsp;&nbsp;
 						<button id="btnDetail" type="button" onclick="goProdDetail()" style="">제품상세보기</button><br>
@@ -233,7 +252,7 @@
 			</span>
 		
 				<div id="revBox">
-					<input type="hidden" id="fk_userid" name="fk_userid" value="${requestScope.rvo.fk_userid}"/>
+					<input type="hidden" id="fk_userid" name="fk_userid" value="${requestScope.rvo.fk_userid}" />
 					<span style="font-weight:bold;">${requestScope.rvo.fk_userid}&nbsp;|&nbsp;</span>
 					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}">
 					<input type="hidden" id="rregisterdate" name="rregisterdate" value="${requestScope.rregisterdate}" />
@@ -249,14 +268,14 @@
 					<p>${requestScope.rvo.rvcontent}</p>
 				</div>
 				<div id="ddabong" >
-					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #000);" onclick="goAddlike(${requestScope.reviewno})"/>&nbsp;&nbsp;
+					<img src="<%=ctxPath%>/images/review/thumbsupicon.png" style="cursor:pointer; width: 60px; height:60px; margin: 20px; filter:drop-shadow(5px 5px 5px #b3b3b3);" onclick="goAddlike(${requestScope.reviewno})"/>&nbsp;&nbsp;
 					<span id="likeCnt" style="color:black; font-weight: bold; font-size:15pt;"></span>
 				</div>
 			
 				<div id="btnRevList" style="float:right;">
 					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewList.cc'">목록</button>
 				<c:if test="${sessionScope.loginuser.userid eq requestScope.rvo.fk_userid}">	
-					<button type="button" onclick="location.href='<%=ctxPath%>/board/reviewEdit.cc'">수정</button><%-- 로그인 후에 보여질지 결정 --%>
+					<button type="button" onclick="goUpdateOneRev(${requestScope.reviewno});">수정</button><%-- 로그인 후에 보여질지 결정 --%>
 					<input type="hidden" id="reviewno" name="reviewno" value="${requestScope.reviewno}"/>
 					<button type="button" onclick="goDelOneRev(${requestScope.reviewno});">삭제</button><%-- 로그인 후에 보여질지 결정 --%>
 				</c:if>	
