@@ -193,8 +193,8 @@ public class QnaDAO implements InterQnaDAO {
       try {
          conn = ds.getConnection();
          
-         String sql = " insert into tbl_qna (qnano, qtitle, fk_userid, email, qcontent, qstatus, qnapwd, fk_productid ) "+
-                        " values(seq_qna_qnano.nextval, ?, ?, ?, ?, ?, ?, ?) ";
+         String sql = " insert into tbl_qna (qnano, qtitle, fk_userid, email, qcontent, qstatus, qnapwd, fk_productid, qstate ) "+
+                        " values(seq_qna_qnano.nextval, ?, ?, ?, ?, ?, ?, ?, '1') ";
          
          pstmt = conn.prepareStatement(sql);
          
@@ -314,12 +314,9 @@ public class QnaDAO implements InterQnaDAO {
    // qnano로 이전 qna 글 불러오기	
 	@Override
 	public QnaVO prevQna(String qnano) throws SQLException {
-	      QnaVO qvo = null;
-	      
-	      try {
-	    	  
-		        conn = ds.getConnection();		
-		         
+	      QnaVO qvo = null;	      
+	      try {	    	  
+		        conn = ds.getConnection();				         
 				String sql = "select qnano, qtitle "+
 						            "from tbl_qna "+
 						            "where qnano in "+
@@ -327,21 +324,15 @@ public class QnaDAO implements InterQnaDAO {
 						            "    select max(qnano) "+
 						            "    from tbl_qna "+
 						            "    where qnano<? "+
-						            " ) ";
-				
-		       pstmt = conn.prepareStatement(sql);
-		         
-		       pstmt.setString(1, qnano);
-		         
+						            " ) ";				
+		       pstmt = conn.prepareStatement(sql);		         
+		       pstmt.setString(1, qnano);		         
 		       rs = pstmt.executeQuery();
 		         
-		       if(rs.next()) {
-		            
-		            qvo = new QnaVO();		
-		            
+		       if(rs.next()) {		            
+		            qvo = new QnaVO();				            
 		            qvo.setQnano(rs.getInt(1));
-		            qvo.setQtitle(rs.getString(2));
-		            
+		            qvo.setQtitle(rs.getString(2));		            
 		         }
 	      } finally {
 	         close();
@@ -352,11 +343,9 @@ public class QnaDAO implements InterQnaDAO {
 	// qnano로 다음 qna 글 불러오기	
 	@Override
 	public QnaVO nextQna(String qnano) throws SQLException {
-	      QnaVO qvo = null;
-	      
+	      QnaVO qvo = null;	      
 	      try {
-		         conn = ds.getConnection();
-		         
+		         conn = ds.getConnection();		         
 		         String sql = "select qnano, qtitle "+
 						            "from tbl_qna "+
 						            "where qnano in "+
@@ -364,18 +353,13 @@ public class QnaDAO implements InterQnaDAO {
 						            "    select min(qnano) "+
 						            "    from tbl_qna "+
 						            "    where qnano>? "+
-						            " ) ";
-		         
-		       pstmt = conn.prepareStatement(sql);
-		         
-		       pstmt.setString(1, qnano);
-		         
+						            " ) ";		         
+		       pstmt = conn.prepareStatement(sql);		         
+		       pstmt.setString(1, qnano);		         
 		       rs = pstmt.executeQuery();
 		         
-		       if(rs.next()) {
-		            
-		            qvo = new QnaVO();
-		            
+		       if(rs.next()) {		            
+		            qvo = new QnaVO();		            
 		            qvo.setQnano(rs.getInt(1));
 		            qvo.setQtitle(rs.getString(2));
 		         }
@@ -396,8 +380,8 @@ public class QnaDAO implements InterQnaDAO {
       try {
          conn = ds.getConnection();
          
-         String sql = " insert into tbl_qnacmt (cmtno, fk_qnano, fk_adminid, cmtcontent) "+
-                        " values(seq_qnacmt_cmtno.nextval, ?, ?, ?) ";
+         String sql = " insert into tbl_qnacmt (cmtno, fk_qnano, fk_adminid, cmtcontent, cmtstatus) "+
+                        	" values(seq_qnacmt_cmtno.nextval, ?, ?, ?, '1') ";
          
          pstmt = conn.prepareStatement(sql);
          
@@ -426,18 +410,17 @@ public class QnaDAO implements InterQnaDAO {
          conn = ds.getConnection();
          
          String sql = " select C.cmtno, C.fk_adminid, C.cmtregisterday, C.cmtcontent "+
-                        " from "+
-                        " ( "+
-                        "  select cmtno, fk_qnano, fk_adminid, cmtregisterday, cmtcontent "+
-                        "  from tbl_qnacmt "+
-                        "  where fk_qnano= ? "+
-                        " ) C JOIN tbl_qna Q "+
-                        " ON C.fk_qnano = Q.qnano ";
-         
+	                        " from "+
+	                        " ( "+
+	                        "  select cmtno, fk_qnano, fk_adminid, cmtregisterday, cmtcontent "+
+	                        "  from tbl_qnacmt "+
+	                        "  where fk_qnano= ? "+
+	                        " ) C JOIN tbl_qna Q "+
+	                        " ON C.fk_qnano = Q.qnano ";
+	         
          pstmt = conn.prepareStatement(sql);
          
-         pstmt.setString(1, fk_qnano);
-         
+         pstmt.setString(1, fk_qnano);         
          rs = pstmt.executeQuery();
          
          while(rs.next()) {
