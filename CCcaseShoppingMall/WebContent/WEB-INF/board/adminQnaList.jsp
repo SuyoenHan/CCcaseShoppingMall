@@ -44,7 +44,8 @@
    		border: none;
    }
    
-   td{
+   table#qnaTbl > thead > tr > td,
+   table#qnaTbl > tbody > tr > td {
    		width: 10%;
    		height: 35px;
    		text-align: center;
