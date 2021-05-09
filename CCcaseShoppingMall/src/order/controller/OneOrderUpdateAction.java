@@ -37,7 +37,7 @@ public class OneOrderUpdateAction extends AbstractController {
 			String odqty = request.getParameter("odqty");
 			String cartno = request.getParameter("cartno");
 			String pdetailprice = request.getParameter("pdetailprice");
-			
+			String cpno = request.getParameter("cpno");
 			
 			
 			// 0. 주문테이블에 입력되어야 할 주문전표를 채번(select)
@@ -62,7 +62,8 @@ public class OneOrderUpdateAction extends AbstractController {
 				para2Map.put("finalamount", finalamount);
 				para2Map.put("pnum", pnum);
 				para2Map.put("odqty", odqty);
-				para2Map.put("pdetailprice", pdetailprice);
+				para2Map.put("pdetailprice", pdetailprice);				
+				para2Map.put("cpno", cpno);
 				
 				// 전표를 생성해주는 메소드 호출하기
 				InterOrderDAO iodao = new OrderDAO();
@@ -110,6 +111,7 @@ public class OneOrderUpdateAction extends AbstractController {
 				para2Map.put("odqty", odqty);
 				para2Map.put("pdetailprice", pdetailprice);
 				para2Map.put("cartno", cartno);
+				para2Map.put("cpno", cpno);
 				
 				// 전표를 생성해주는 메소드 호출하기
 				InterOrderDAO iodao = new OrderDAO();
