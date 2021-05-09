@@ -309,10 +309,7 @@ public class FaqDAO implements InterFaqDAO {
 	          
 	          n = pstmt.executeUpdate();
 	          
-	          if(n==1) {
-				  conn.commit();
-			  }
-	          
+	        
 	          
 		}   finally {
 	         close();

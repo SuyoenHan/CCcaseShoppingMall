@@ -46,6 +46,7 @@ div#contents {
 	 width:80px;
 	 height:40px;
 	 margin-left: 35px ;
+	 margin-top: 35px;
 	 border:solid 1px #98B7C1;
      background-color: #98B7C1;
     
@@ -319,7 +320,7 @@ div#contents {
 									<div class="faqcontent">${fvo.fcontent}</div>
 								     
 								</tr>
-							
+								
 								<button type="button" class="button faqList" name="faqList" style="align:left; margin: 15px 0 20px 35;">목록</button>
 								<button type="button" class="button faqEdit" name="faqEdit" style="align:right;">수정</button>
 								<button type="button" class="button faqDel" name="faqDel" style="align:right;">삭제</button>
@@ -327,6 +328,8 @@ div#contents {
 							</table>
 						</td>
 					 </tr>
+					 
+					 
 					</c:forEach>
 				</tbody>
 			
