@@ -149,7 +149,8 @@
 			<tr>
 				<td>리뷰제품명</td>
 				<td>
-					<%-- ${requestScope.pdvo.pname}&nbsp;${requestScope.pdvo.pcolor} --%>
+					 ${requestScope.byreview.pvo.productname}
+
 				</td>
 			</tr>
 			<tr>

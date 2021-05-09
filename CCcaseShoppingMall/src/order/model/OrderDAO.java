@@ -950,18 +950,24 @@ public class OrderDAO implements InterOrderDAO {
 	      try {
 	          conn = ds.getConnection();
 
-				String sql = "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno,productid\n"+
-							" from "+
-							" ( "+
-							" select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno,P.productid"+
-							" from tbl_order O Left join tbl_odetail OD "+
-							"on O.orderno = OD.fk_orderno  "+
-							" left join tbl_pdetail PD "+
-							" on OD.fk_pnum = PD.pnum  "+
-							" left join tbl_product P  "+
-							" on PD.fk_productid = P.productid "+
-							"where O.fk_userid= ? and shipstatus=4 "+
-							")V ";
+	          String sql = "select *\n"+
+	        		  "from\n"+
+	        		  "(\n"+
+	        		  "select  pimage1 , modelname, productname,fk_userid,orderdate, shipstatus ,pnum ,odetailno,\n"+
+	        		  "(select count (*) from tbl_review W where W.fk_odetailno = v.odetailno) as cnt \n"+
+	        		  " from\n"+
+	        		  " ( \n"+
+	        		  " select O.orderno, pimage1 , P.modelname, P.productname,fk_userid, to_char(orderdate,'yyyy-mm-dd')as orderdate, shipstatus ,PD.pnum ,odetailno\n"+
+	        		  " from tbl_order O Left join tbl_odetail OD\n"+
+	        		  "on O.orderno = OD.fk_orderno \n"+
+	        		  " left join tbl_pdetail PD\n"+
+	        		  " on OD.fk_pnum = PD.pnum \n"+
+	        		  " left join tbl_product P \n"+
+	        		  " on PD.fk_productid = P.productid \n"+
+	        		  "where O.fk_userid= ? and shipstatus=4\n"+
+	        		  ") V \n"+
+	        		  ")\n"+
+	        		  "where cnt = 0 ;";
 	          
 	          pstmt = conn.prepareStatement(sql);
 	          pstmt.setString(1, paraMap.get("userid"));
