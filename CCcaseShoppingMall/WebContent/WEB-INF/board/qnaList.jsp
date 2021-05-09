@@ -19,6 +19,7 @@
    		margin-left: 17%;
    		margin-top: 5%;
    		width:	80%;
+   		margin-bottom: 20%;
    }	
    
    table#qnaTbl {
@@ -45,7 +46,8 @@
    		border: none;
    }
    
-   td{
+   table#qnaTbl > thead > tr > td,
+   table#qnaTbl > tbody > tr > td {
    		width: 10%;
    		height: 35px;
    		text-align: center;
