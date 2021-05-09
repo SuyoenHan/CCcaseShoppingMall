@@ -24,13 +24,13 @@ public class ReviewWriteAction extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String odetailno = request.getParameter("odetailno");
-		
 		if(loginuser != null ) {
 		
 			String method = request.getMethod();
 		
 			if(!"GET".equalsIgnoreCase(method)) {
+				
+				String odetailno = request.getParameter("odetailno");
 				
 				MultipartRequest mtrequest = null;
 				
@@ -114,13 +114,14 @@ public class ReviewWriteAction extends AbstractController {
 			}
 			else {	
 				
+				String odetailno = request.getParameter("odetailno");
+				
 				InterReviewDAO rdao = new ReviewDAO();
 				List<ReviewVO> revList = rdao.selectRevList(odetailno);
 				request.setAttribute("revList", revList);
 				
-				ProductDetailVO pdvo = rdao.selectProdInfo(odetailno);
+				ProductDetailVO pdvo = rdao.getProdInfo(odetailno);
 				request.setAttribute("pdvo", pdvo);
-				
 				
 				// super.setRedirect(false);
 				super.setViewPage("/WEB-INF/board/reviewWrite.jsp");	

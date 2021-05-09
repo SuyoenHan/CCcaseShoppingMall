@@ -202,6 +202,7 @@
 						<c:if test="${requestScope.snum eq -1}">
 							<span>-</span><br>   <%-- 신상품도 베스틑상품도 아닌경우 --%>
 						</c:if>
+						<input type="hidden" name="productname" value="${requestScope.pvo.productname}"/>
 						<span style="font-weight:bold;">${requestScope.pvo.productname}</span><br>
 						<span><fmt:formatNumber value="${requestScope.pvo.price}" pattern="#,###" />원</span>&nbsp;&nbsp;&nbsp;
 						<button id="btnDetail" type="button" onclick="goProdDetail()" style="">제품상세보기</button><br>

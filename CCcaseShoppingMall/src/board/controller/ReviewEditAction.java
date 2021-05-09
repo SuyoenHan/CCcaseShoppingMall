@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
+import product.model.ProductDetailVO;
 
 
 public class ReviewEditAction extends AbstractController {
@@ -16,21 +17,26 @@ public class ReviewEditAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		HttpSession session = request.getSession();
+		
 		String method = request.getMethod();
 		
 		if("POST".equalsIgnoreCase(method)) {
 			
 			String rvtitle = request.getParameter("rvtitle");
-			String rvcontent = request.getParameter("rvcontent");
-			String rregisterdate =request.getParameter("rregisterdate");
-			String fk_userid  =request.getParameter("fk_userid");
-			String reviewno = request.getParameter("reviewno");
 			String satisfaction = request.getParameter("satisfaction");
+			String rvcontent = request.getParameter("rvcontent");
+			
+			
+			ReviewVO rvo = new ReviewVO();
+			rvo.setRvtitle(rvtitle);
+			rvo.setSatisfaction(Integer.parseInt(satisfaction));
+			rvo.setRvcontent(rvcontent);
 			
 			InterReviewDAO rdao = new ReviewDAO();
 			
 			try {
-			int n = rdao.revEditOneView(reviewno);
+			int n = rdao.revEditUpdate(rvo);
 			
 			String message = "";
 			String loc = "";
@@ -38,7 +44,7 @@ public class ReviewEditAction extends AbstractController {
 			if(n==1) {
 				
 				message = "글을 성공적으로 수정하였습니다.";
-				loc="request.getContextPath()+board/reviewOneDetail.cc?reviewno="+reviewno;
+				loc="javascript:history.back()";
 				
 			}
 			else {
@@ -60,13 +66,23 @@ public class ReviewEditAction extends AbstractController {
 			}
 		}
 		else {
-			String message = "비정상적인 경로를 통해 들어왔습니다.!!";
-			String loc = "javascript:history.back()";
 			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			
-			super.setViewPage("/WEB-INF/msg.jsp");
+			String reviewno =  request.getParameter("reviewno");
+			InterReviewDAO rdao = new ReviewDAO();
+			
+			ReviewVO rvo  = rdao.revEditOneView(reviewno);
+			
+			ProductDetailVO pdvo = rdao.getProdInfo(reviewno);
+			
+			request.setAttribute("pdvo", pdvo);
+			request.setAttribute("rvo", rvo);
+			
+			// super.setRedirect(false);
+			super.setViewPage("/WEB-INF/board/reviewEdit.jsp");
+			
+			
 		}
 	}
 
