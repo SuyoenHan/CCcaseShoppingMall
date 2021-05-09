@@ -245,8 +245,9 @@ public class MemberDAO implements InterMemberDAO{
 			
 			try {
 				conn = ds.getConnection();
-				
-				String sql = "update tbl_member set mobile = ? "
+				String sql = "update tbl_member set name = ? "
+						   + "                    , email = ? " 
+						   + "                    , mobile = ? "
 						   + "                    , postcode = ? "
 						   + "                    , address = ? "
 						   + "                    , detailaddress = ? "
@@ -255,13 +256,14 @@ public class MemberDAO implements InterMemberDAO{
 				
 				pstmt = conn.prepareStatement(sql);
 				
-				
-				pstmt.setString(1, aes.encrypt(member.getMobile()) );
-				pstmt.setString(2, member.getPostcode() );
-				pstmt.setString(3, member.getAddress() );
-				pstmt.setString(4, member.getDetailaddress() );
-				pstmt.setString(5, member.getExtraaddress() );
-				pstmt.setString(6, member.getUserid() );
+				pstmt.setString(1, member.getName()); 
+				pstmt.setString(2, aes.encrypt(member.getEmail()) );
+				pstmt.setString(3, aes.encrypt(member.getMobile()) );
+				pstmt.setString(4, member.getPostcode() );
+				pstmt.setString(5, member.getAddress() );
+				pstmt.setString(6, member.getDetailaddress() );
+				pstmt.setString(7, member.getExtraaddress() );
+				pstmt.setString(8, member.getUserid() );
 							
 				n = pstmt.executeUpdate();
 				
