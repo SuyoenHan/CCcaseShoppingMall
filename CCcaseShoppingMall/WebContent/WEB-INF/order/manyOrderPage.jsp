@@ -495,8 +495,9 @@
 					
 		  var totalPrice="${requestScope.totalProPrice}"; // 총 상품가격
 	      var allShipfee="${requestScope.allShipfee}";    // 배송료	
-		  var qUsepoint= $("input#totalpoint").val();	
-		  var totalpoint ="${requestScope.allExpectPoint}";
+		  var qUsepoint= $("input#totalpoint").val();	  // 사용한 포인트
+		  var totalpoint ="${requestScope.allExpectPoint}";  // 적립예정포인트
+		  var cpno = $("select#coupon").val();
 		  
 	      // console.log("totalPrice :"+totalPrice);
 	      // console.log("allShipfee :"+allShipfee);
@@ -543,7 +544,8 @@
 		             "pnum_es":pnum_es,
 		             "odqty_es":odqty_es,
 		             "pdetailprice_es":pdetailprice_es,
-		             "cartno_es":cartno_es},
+		             "cartno_es":cartno_es,
+		             "cpno":cpno},
 		       dataType:"json",
 	           success:function(json){
 	              
