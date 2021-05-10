@@ -567,7 +567,7 @@ public class OrderDAO implements InterOrderDAO {
 				pstmt.setString(1, para2Map.get("orderno"));
 				pstmt.setString(2, para2Map.get("pnum"));
 				pstmt.setInt(3, Integer.parseInt(para2Map.get("odqty")));
-				pstmt.setInt(4, Integer.parseInt("1"));
+				pstmt.setInt(4, Integer.parseInt("0"));
 				pstmt.setInt(5, Integer.parseInt(para2Map.get("pdetailprice")));
 				
 				n2 = pstmt.executeUpdate();
@@ -702,7 +702,7 @@ public class OrderDAO implements InterOrderDAO {
 	  				pstmt.setString(1, (String)paraMap.get("orderno"));
 	  				pstmt.setString(2, pnumArr[i]);
 	  				pstmt.setString(3, odqtyArr[i]);
-	  				pstmt.setInt(4, 1);
+	  				pstmt.setInt(4, 0);
 	  				pstmt.setString(5, pdetailpriceArr[i]);
 	  				
 	  				pstmt.executeUpdate();

@@ -148,51 +148,57 @@
 		// 장바구니 아이콘 클릭시 장바구니에 담기
 		$("img.cart").click(function(){
 
-			var productid= $(this).parent().prev().find("input.linkInfo").val();
-			var productname=  $(this).parent().prev().find("div.productName").prop('id');
+			if("${loginuser}"!=""){
 			
-			$.ajax({
-				url: "<%=ctxPath%>/member/myCartInsert.cc",
-				type: "post",
-				data: {"productid":productid,"pnum":"-","pcnt":"1","userid":"${loginuser.userid}"},
-				dataType: "JSON",
-				success:function(json){
-		
-					if(json.n==1){
+				var productid= $(this).parent().prev().find("input.linkInfo").val();
+				var productname=  $(this).parent().prev().find("div.productName").prop('id');
+				
+				$.ajax({
+					url: "<%=ctxPath%>/member/myCartInsert.cc",
+					type: "post",
+					data: {"productid":productid,"pnum":"-","pcnt":"1","userid":"${loginuser.userid}"},
+					dataType: "JSON",
+					success:function(json){
+			
+						if(json.n==1){
+							
+							// 확인 또는 취소를 선택할 수 있는 있는 선택창
+							var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
+									           +"장바구니로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}
+						}
+						else if(json.n==2){
+							var result= confirm(json.message+"\n장바구니로 이동하시겠습니까?");
+							if(result){ // 확인버튼
+								location.href="<%=ctxPath%>/member/myCart.cc";
+								return;
+							}
+							else{ // 취소버튼
+								opener.location.reload(true);
+							}							
+						}
+						else{
+							alert(json.message);
+							opener.location.reload(true);
+						}
 						
-						// 확인 또는 취소를 선택할 수 있는 있는 선택창
-						var result= confirm("[ "+productname+" ] 을 "+json.message+"\n"
-								           +"장바구니로 이동하시겠습니까?");
-						if(result){ // 확인버튼
-							location.href="<%=ctxPath%>/member/myCart.cc";
-							return;
-						}
-						else{ // 취소버튼
-							opener.location.reload(true);
-						}
-					}
-					else if(json.n==2){
-						var result= confirm(json.message+"\n장바구니로 이동하시겠습니까?");
-						if(result){ // 확인버튼
-							location.href="<%=ctxPath%>/member/myCart.cc";
-							return;
-						}
-						else{ // 취소버튼
-							opener.location.reload(true);
-						}							
-					}
-					else{
-						alert(json.message);
-						opener.location.reload(true);
-					}
-					
-				},
-				error: function(request, status, error){
-			           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			    }
-			
-			});// end of $.ajax({
-			
+					},
+					error: function(request, status, error){
+				           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				    }
+				
+				});// end of $.ajax({
+			}
+			else{
+				alert("로그인 후 이용 가능합니다!");
+				opener.location.reload(true);
+			}				
 		}); // end of $("img.cart").click(function(){---------------------
 		
 			
