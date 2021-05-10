@@ -780,7 +780,7 @@ public class OrderDAO implements InterOrderDAO {
 											  " where cpno= ? ";
 										
 										pstmt = conn.prepareStatement(sql);
-										pstmt.setInt(1, (Integer)(paraMap.get("cpno")));
+										pstmt.setString(1, (String)(paraMap.get("cpno")));
 										
 										n6 = pstmt.executeUpdate();
 										

@@ -41,7 +41,7 @@
 		</div>
 		
 		<div class="comLeftSection" id="qna">
-			<a href="<%=ctxPath%>/board/qnaList.cc" class="comNav">Q&A</a>
+			<a href="<%=ctxPath%>/board/qnaList.cc" id="qna" class="comNav">Q&A</a>
 		</div>
 		
 		<div class="comLeftSection" id="event">

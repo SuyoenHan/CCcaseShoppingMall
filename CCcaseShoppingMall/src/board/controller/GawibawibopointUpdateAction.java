@@ -2,12 +2,16 @@ package board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
 import board.model.EventPartDAO;
 import board.model.InterEventPartDAO;
 import common.controller.AbstractController;
+import member.model.InterMemberDAO;
+import member.model.MemberDAO;
+import member.model.MemberVO;
 
 
 public class GawibawibopointUpdateAction extends AbstractController {
@@ -22,13 +26,20 @@ public class GawibawibopointUpdateAction extends AbstractController {
 			String userid = request.getParameter("userid");
 			
 			InterEventPartDAO epdao = new EventPartDAO();
+			InterMemberDAO mdao= new MemberDAO();
+			
+			HttpSession session= request.getSession();
+			MemberVO mvo= (MemberVO) session.getAttribute("loginuser");
 			
 			int n = epdao.updateUserPoint(userid);
+			int totalpoint= mdao.getTotalPoint(userid);
+			mvo.setTotalpoint(totalpoint);
 			
 			String msg = "";
 		      
 		      if(n==1) {
 		         msg = "당첨!! 축하드립니다~~ "+userid+"님 500point 적립!";
+		         
 		      }
 		      
 		      

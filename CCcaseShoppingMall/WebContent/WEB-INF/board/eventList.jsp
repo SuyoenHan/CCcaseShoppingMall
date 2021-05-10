@@ -130,7 +130,6 @@
 	              <th style="width:20%;">제목</th>
 	              <th>기간</th>
 	              <th>등록일</th>
-	              <th style="width:3%;">조회수</th>
 	           </tr>
 	        </thead>
 
@@ -141,7 +140,6 @@
 	    				<td style="width:20%;">${evo.title}</td>
 	    				<td>${evo.startdate} - <br> ${evo.enddate}</td>
 	    				<td>${evo.registerdate}</td>
-	    				<td class="viewcount"  style="width:3%;">${evo.viewcount}</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>
