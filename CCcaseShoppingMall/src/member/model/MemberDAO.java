@@ -633,7 +633,34 @@ public class MemberDAO implements InterMemberDAO{
 			}
 			return n;
 		}
+
 		
+		// ============ 한수연 시작====================
+		// userid의 totalPoint 알아오는 메소드
+		@Override
+		public int getTotalPoint(String userid) throws SQLException {
+
+			int totalPoint=0;
+		
+			try {
+				conn=ds.getConnection();
+				String sql= " select totalPoint from tbl_member where userid= ? ";
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				rs= pstmt.executeQuery();
+				
+				if(rs.next()) totalPoint=rs.getInt(1);
+				
+			}finally {
+				close();
+			}
+			
+			
+			return totalPoint;
+		
+		}
+		// ============ 한수연 끝====================
 
 
 

@@ -131,20 +131,20 @@
 			}
 		}); // end of $("div.productOuter").each(function(){---------
 			
-		var bestPShowStart= 1;    // 보여줄 베스트 이미지 시작순번
+		var bestPShowStart= 1;    // 현재보여지는 베스트 이미지 순번
 		var lastBCnt= ${pBestCnt}; // 마지막베스트제품 순번 
 		
-		$("div#bNext").click(function(event){
+		$("div#bNext").click(function(event){ // 오른쪽 화살표 이미지를 클릭하면
 				
 			if(bestPShowStart==(lastBCnt-3)){
 				return false;	// 이벤트 중지
 			}
 				
  			bestPShowStart++;
-			$(this).prev().find("div.productOuter").hide()
+			$(this).prev().find("div.productOuter").hide() // 베스트이미지 모두 숨김
 			
 			$(this).prev().find("div.productOuter").each(function(){
-				for(var j=bestPShowStart;j<=bestPShowStart+3;j++){
+				for(var j=bestPShowStart;j<=bestPShowStart+3;j++){ // 한번에 4개의 이미지만 보여줌
 					if("BEST"+j == $(this).prop("id")){
 						$(this).show()
 					}
@@ -155,7 +155,7 @@
 					
 		// ======= 베스트 상품 왼쪽 화살표 버튼 누를경우 이미지 하나씩 넘기기 작업	
 			
-		$("div#bPrev").click(function(event){
+		$("div#bPrev").click(function(event){ // 왼쪽 화살표 이미지를 클릭하면
 			
 			if(bestPShowStart<=1){
 				return false;  // 이벤트 중지
@@ -302,7 +302,7 @@
 				  },2000);
 
 		var bNextAuto= setInterval(function(){
-						$('div#bNext').trigger('click');//이벤트 발생
+						$('div#bNext').trigger('click');//이벤트 자동 발생
   				  },2000);
 		
 		var fNextAuto= setInterval(function(){

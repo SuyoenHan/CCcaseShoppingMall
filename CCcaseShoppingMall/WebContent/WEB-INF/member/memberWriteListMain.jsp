@@ -96,11 +96,12 @@
 			$("select#sizePerPage").val("${requestScope.sizePerPage}");
 			
 		}
+		
 		$("tr.qnaInfo").click(function(){
 		var qnano = $(this).children(".qnano").text();
-		alert(qnano);
+		var each = $(this).children(".each").text().trim();
 		
-		if(qnano > "100" ){
+		if(each=="Q&A"){
 		location.href ="<%= request.getContextPath()%>/board/qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
 		}
 		else{
@@ -181,7 +182,8 @@
 	    			<tr class="qnaInfo">
 	    				<td class="qnano">${all.qnano}</td>
 	    				<td class="each">
-	    				<c:choose>
+	    				<input type="hidden" id="qeach" var="${all.qstate}"/>
+	    				<c:choose >
 								<c:when  test="${all.qstate eq 0}">상품리뷰</c:when>
 								<c:otherwise>Q&A</c:otherwise>
 						</c:choose>
@@ -201,6 +203,8 @@
 	    
 
 	   <table id="tblByreviewList" >
+	   <h3>작성 가능한 리뷰</h3>
+		<hr>
 	 <thead>
 	   <tr style="background: #6D919C; color:white;">
 		  <th colspan="2" style="width:35%; text-align: center;">제품명</th>

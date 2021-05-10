@@ -63,8 +63,10 @@
 
 		<div id="footer" style="clear:both; margin-top: 50px; border-top: solid 2px #caceca;">
 			<div class="footerSection" style="border: solid 0px red; padding-top: 10px;">
-				<span style="font-size:20pt; font-weight: bold;"><br><br>CCcase</span><br>
-				COPYRIGHT &copy; CCcase ALL RIGHTS RESERVED<br><br><br><br><br>
+				<span style="font-size:20pt; font-weight: bold;"><br><br>CCcase</span><br><br>
+				COPYRIGHT &copy; CCcase ALL RIGHTS RESERVED<br>
+				COPYRIGHT &copy; DeepingCase ALL RIGHTS RESERVED<br>
+				COPYRIGHT &copy; Casetify ALL RIGHTS RESERVED<br><br>
 			</div>
 			<div class="footerSection" style="padding-left:50px; margin-left: 120px; border: solid 0px red; padding-top: 10px;">
 				<span style="font-weight: bold;">BANK INFO</span><br>

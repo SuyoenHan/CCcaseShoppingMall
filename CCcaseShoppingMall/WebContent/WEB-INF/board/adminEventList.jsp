@@ -9,7 +9,7 @@
 %>
 
 <jsp:include page="../adminheader.jsp" />
-<jsp:include page="../adminleftSide.jsp"/>
+<jsp:include page="../communityLeftSide.jsp"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 

@@ -38,7 +38,7 @@
    		border: solid 1px red;
    
    }
-   tr.qnaInfo:hover {
+   tr.reviewInfo:hover {
         background-color: #ecf2f9;
         cursor: pointer;
         transition: 2s;
@@ -95,10 +95,9 @@
 			$("select#sizePerPage").val("${requestScope.sizePerPage}");
 			
 		}
-		$("tr.qnaInfo").click(function(){
-		var qnano = $(this).children(".qnano").text();
-	
-		location.href ="<%= request.getContextPath()%>/board/qnaDetail.cc?qnano="+qnano+"&goBackURL=${requestScope.goBackURL}";
+		$("tr.reviewInfo").click(function(){
+			var qnano = $(this).children(".qnano").text();
+				location.href ="<%= request.getContextPath()%>/board/reviewOneDetail.cc?reviewno="+qnano+"&goBackURL=${requestScope.goBackURL}";
 		});// end of $("tr.qnaInfo").click
 
 		
@@ -188,6 +187,8 @@
 	    
 	  
      <table id="tblByreviewList" >
+     <h3>작성 가능한 리뷰</h3>
+		<hr>
 	 <thead>
 	   <tr style="background: #6D919C; color:white;">
 		  <th colspan="2" style="width:35%; text-align: center;">제품명</th>

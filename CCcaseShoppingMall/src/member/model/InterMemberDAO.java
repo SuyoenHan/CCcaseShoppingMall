@@ -47,4 +47,9 @@ public interface InterMemberDAO {
 	int memberdelete(String userid)throws SQLException;
 
 	
+	// ============== 한수연 시작================
+	// userid의 totalPoint 알아오는 메소드
+	int getTotalPoint(String userid) throws SQLException;
+	
+	// ============== 한수연 끝================
 }

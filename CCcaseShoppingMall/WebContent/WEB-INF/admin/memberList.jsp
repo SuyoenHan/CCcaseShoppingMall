@@ -14,7 +14,7 @@
         cursor: pointer;
    }
 
-	td {
+	table#memberTbl td, table#memberTbl th {
 		text-align: center;
 	}
 	
@@ -80,11 +80,12 @@
 		
 </script>
 
+<div style="margin-left: 300px;">
 <h2 style="margin:20px;">회원목록</h2>
 
 <form name="memberFrm">
 
-	<select id="searchType" name="searchType" style="margin-left:400px;">
+	<select id="searchType" name="searchType" style="margin-left:250px;">
 		<option value="choose">선택</option>	<%-- 첫화면/선택 안했을시 기본으로 보여지는 텍스트 --%>
 		<option value="name">회원명</option>
 		<option value="userid">아이디</option>
@@ -136,8 +137,8 @@
 	</tbody> 
 </table>
 
-	<div style="text-align:center; padding: 20px 0;">
+	<div style="margin-left:400px; padding: 20px 0;">
 			${requestScope.pageBar}
 	</div>
-
+</div>
 <jsp:include page="../footer.jsp" />

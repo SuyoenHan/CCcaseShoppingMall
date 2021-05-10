@@ -191,6 +191,8 @@
 	    
 	  
      <table id="tblByreviewList" >
+     <h3>작성 가능한 리뷰</h3>
+		<hr>
 	 <thead>
 	   <tr style="background: #6D919C; color:white;">
 		  <th colspan="2" style="width:35%; text-align: center;">제품명</th>
