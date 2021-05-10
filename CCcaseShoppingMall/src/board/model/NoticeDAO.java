@@ -319,7 +319,10 @@ public class NoticeDAO implements InterNoticeDAO {
 				  }
 		          
 		          
-			}   finally {
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
 		         close();
 		    }  
 			

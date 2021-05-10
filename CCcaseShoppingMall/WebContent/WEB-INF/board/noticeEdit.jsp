@@ -108,6 +108,8 @@
 					frm.action = "<%= ctxPath%>/board/noticeEdit.cc?noticeno="+${nvo.noticeno};
 					frm.method = "POST";
 					frm.submit();
+					window.close();
+					
 				}
 				
 			});

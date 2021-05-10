@@ -46,6 +46,7 @@
 		 width:80px;
 		 height:40px;
 		 margin-left: 35px ;
+		 margin-top: 35px ;
 		 border:solid 1px #98B7C1;
 	     background-color: #98B7C1;
 	}

@@ -92,9 +92,7 @@
 					var data = $(item).val().trim();
 					if(data == "") {
 						bFlagRequiredInfo = true;
-						alert("제목과 글내용은 필수입력사항 입니다.");
-						$("input#ftitle").focus();
-						return false; // 종료
+						
 					}
 					
 				});
@@ -103,11 +101,18 @@
 				
 				// 글제목 글내용 있을경우 FaqList에 POST방식으로 등록해준다.
 				if(!bFlagRequiredInfo) { 
-					alert("수정완료");
+					//alert("수정완료");
 					var frm = document.faqEdit;
 					frm.action = "<%= ctxPath%>/board/faqEdit.cc?faqno="+${fvo.faqno};
 					frm.method = "POST";
 					frm.submit();
+					//window.close();
+					
+				}
+				else{
+					alert("제목과 글내용은 필수입력사항 입니다.");
+					$("input#ftitle").focus();
+					return false; // 종료
 				}
 				
 			});
