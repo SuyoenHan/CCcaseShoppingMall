@@ -20,7 +20,7 @@
 	table.eachWishList{
 		margin-bottom:30px;
 		margin-left: 100px;
-		width: 90%;
+		width: 1200px;
 		text-align: center;
 	}
 	
@@ -314,17 +314,13 @@
 	 	$("td#totalDiscountPrice").html("<span style='color:red;'>"+totalDiscountPrice+" 원</span>");
 	 	$("td#finalPrice").text(finalPrice+" 원");
 		 	
-		 	
 		$("input:checkbox[name=checkList]").click(function(){
-		 
 			 totalPrice=0;
 			 dFee="-";
 			 totalDiscountPrice=0;
 			 finalPrice=0;
 			 
 		 	$("input:checkbox[name=checkList]:checked").each(function(index,item){
-		 		
-		 		
 		 		var cinputcnt= $(item).parent().parent().find("td.cinputcnt").prop('id');
 		 		cinputcnt= parseInt(cinputcnt)
 		 		totalPrice= totalPrice+(parseInt($(item).parent().parent().find("td.price").prop("id")))*cinputcnt;
@@ -337,7 +333,6 @@
 		 	});
 		 	
 		 	$("input:checkbox[name=checkList]:checked").each(function(index,item){
-		 		
 		 		var doption= $(item).parent().parent().parent().find("input.doption").val();
 		 		
 		 		if(doption=='색상에 따라 상이'){

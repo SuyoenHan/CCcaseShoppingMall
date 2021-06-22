@@ -55,7 +55,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-	var arrImg= ["cardGameImg1","cardGameImg2","cardGameImg3","cardGameImg4","cardGameImg5"];
+	var arrImg= ["cardGameImg1","cardGameImg2","cardGameImg3","cardGameImg4","cardGameImg5"]; // 기본배열
 	var arrNewImg=[];  // 랜덤으로 넣을 배열 
 	
 	
@@ -74,12 +74,11 @@
 	    
 	    var arrOld=[];
 	    for(var i=0;i<arrImg.length;i++){
-	    	arrOld[i]=-1;  // 배열 초기화
+	    	arrOld[i]=-1;  // 사용되지 않는 숫자로 배열 초기화 
 	    }
 	    
 	    var arrRndIndex=[];
 	    for(var i=0; i<arrImg.length; i++){
-	        // 공식 :  Math.floor( Math.random()*(max-min+1) ) + min;
 	    	var nRandom= Math.floor( Math.random()*(4-0+1) ) + 0; 
 	    	var bFlag= false;
 	    	for(var j=0;j<arrOld.length;j++){

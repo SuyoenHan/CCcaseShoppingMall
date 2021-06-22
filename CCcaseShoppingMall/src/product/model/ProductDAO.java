@@ -153,7 +153,8 @@ public class ProductDAO implements InterProductDAO {
 						"   select rownum as rno, productid, productname, modelname, pimage1, price, saleprice, salepercent "+
 						"   from " +
 						"   ( " +
-						"      select productid, productname, modelname, pimage1, price, price*(1-salepercent) as saleprice, salepercent*100 as salepercent "+
+						"      select productid, productname, modelname, pimage1, price, "+
+						"             price*(1-salepercent) as saleprice, salepercent*100 as salepercent "+
 						"      from tbl_product " ;
 						
 			

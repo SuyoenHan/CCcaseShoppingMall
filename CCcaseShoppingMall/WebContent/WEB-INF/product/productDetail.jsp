@@ -167,7 +167,7 @@
 					
 					var html="";
 					
-					if(json.dOption==-1){ // 존재하지 않는 pnum
+					if(json.dOption==-1){ // 존재하지 않는 pnum (productid만 존재)
 						html="<span>색상에 따라 상이</span>";
 					}
 					else if(json.dOption==0){ // 무료배송
@@ -233,7 +233,6 @@
 			
 			$("img#bigImg").prop('src',imgPath);
 			$(this).prop('src',bigImgPath);
-			
 		});
 		
 		

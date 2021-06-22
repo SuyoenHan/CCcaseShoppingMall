@@ -80,7 +80,7 @@ public class ProductListAction extends AbstractController {
 		// ********************* 제품 페이징바 구현
 		
 		String currentShowPageNo= request.getParameter("currentShowPageNo");  // 현재 페이지번호
-		String sizePerPage= "12";  // 한페이지당 보여줄 개수
+		String sizePerPage= "8";  // 한페이지당 보여줄 개수
 		
 		if(currentShowPageNo == null) {
 			currentShowPageNo="1";
@@ -97,13 +97,18 @@ public class ProductListAction extends AbstractController {
 		int totalPage = pdao.selectTotalPage(pageMap); // 총페이지 개수
 		
 		// get방식으로 url 조작하는 경우의 수 고려
-		if(Integer.parseInt(currentShowPageNo) > totalPage) {
+		try {
+			int ncurrentShowPage= Integer.parseInt(currentShowPageNo);
+			if(ncurrentShowPage > totalPage || ncurrentShowPage < 1) {
+				currentShowPageNo = "1";
+			}
+		} catch(NumberFormatException e) {
 			currentShowPageNo = "1";
-			pageMap.put("currentShowPageNo", currentShowPageNo);
 		}
+		pageMap.put("currentShowPageNo", currentShowPageNo);
 		
-		if(!"12".equals(sizePerPage)) {
-			sizePerPage="12";
+		if(!"8".equals(sizePerPage)) {
+			sizePerPage="8";
 			pageMap.put("sizePerPage", sizePerPage);
 		};
 		
@@ -115,7 +120,7 @@ public class ProductListAction extends AbstractController {
 		String pageBar= "";
 		int blockSize= 5;  // 토막당 보여지는 페이지 개수
 		int loop=1;
-		int pageNo= ((Integer.parseInt(currentShowPageNo)-1)/blockSize) * blockSize + 1;  // 페이지바에서 처음으로 보여지는 번호 (1,6,11..)
+		int pageNo= ((Integer.parseInt(currentShowPageNo)-1)/blockSize) * blockSize + 1;  
 		
 		if(modelName==null) {
 			modelName="";

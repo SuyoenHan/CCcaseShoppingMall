@@ -210,16 +210,12 @@
 	 	
 	 		
 	 	// 선택상품 장바구니에 담기 클릭 이벤트
-	 	
 	 	$("span#addCartSelected").click(function(){
 	 		
 			var checkcnt= $("input:checkbox[name=checkList]:checked").length;
-	 		if(checkcnt==0){
-	 			alert("선택된 항목이 없습니다.");
-	 		}
+	 		if(checkcnt==0){ alert("선택된 항목이 없습니다."); }
 	 		else{	
 			 	$("input:checkbox[name=checkList]:checked").each(function(index,item){
-
 		 			var productid= $(item).parent().parent().parent().find("input.productid").val();
 			 		var pnum=$(item).parent().prop('id'); // 색상 선택안한경우 pnum은 "-"
 					var pcnt= "1";
