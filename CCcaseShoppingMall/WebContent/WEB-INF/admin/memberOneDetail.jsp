@@ -112,7 +112,7 @@
 	
 	<div id="mvoInfo">
 		<ol>
-			<li><span class="myli">아이디 : </span>&nbsp;${mvo.userid}</li> <%-- 아래 choose로 나타나는 텍스트 앞에 공백이 하나씩 생겨서 삭제하는 방법을 모르겠네요. 그냥 다른것들에 공백줘서 맞췄습니다. 수정 가능합니다. --%>
+			<li><span class="myli">아이디 : </span>&nbsp;${mvo.userid}</li> 
 			<li><span class="myli">회원명 : </span>&nbsp;${mvo.name}</li>
 			<li><span class="myli">이메일 : </span>&nbsp;${mvo.email}</li>
 			<li><span class="myli">휴대폰 : </span>&nbsp;${fn:substring(mobile,0,3)}-${fn:substring(mobile,3,7)}-${fn:substring(mobile,7,11)}</li>
